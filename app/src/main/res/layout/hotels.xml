@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <include
+        android:id="@+id/hoteltool_bar"
+        layout="@layout/toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvHotels"
+        android:layout_below="@+id/hoteltool_bar"
+        android:layout_above="@+id/adViewHotel"
+        android:layout_gravity="center_horizontal" />
+    <com.sfuronlabs.ripon.tourbangla.view.ProgressWheel
+        android:id="@+id/pwHotels"
+        style="@style/ProgressBarStyle.Reverse"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewHotel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/hotels">
+    </com.google.android.gms.ads.AdView>
+
+</RelativeLayout>

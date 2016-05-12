@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="240dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/card_background_white"
+    android:minHeight="240dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:minHeight="100dp">
+
+        <ImageView
+            android:id="@+id/list_item_google_cards_travel_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/cd_main_image"
+            android:scaleType="centerCrop" />
+<!--
+        <com.sfuronlabs.ripon.tourbangla.font.RobotoTextView
+            android:id="@+id/list_item_google_cards_travel_category_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@android:color/transparent"
+            android:text="Best tours"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            app:typeface="robotoRegular"
+             />
+-->
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:background="@drawable/google_cards_background_bottom"
+        android:gravity="right"
+        android:orientation="vertical">
+        <com.sfuronlabs.ripon.tourbangla.font.RobotoTextView
+            android:id="@+id/list_item_google_cards_travel_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Eat at Joe"
+            android:textColor="@color/material_blue_grey_300"
+            android:textSize="24sp"
+            app:typeface="robotoRegular"
+             />
+<!--
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+
+            <com.sfuronlabs.ripon.tourbangla.font.RobotoTextView
+                android:id="@+id/list_item_google_cards_travel_explore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/transparent_button_selector"
+                android:padding="8dp"
+                android:text="EXPLORE"
+                android:textColor="@color/main_color_500"
+                android:textSize="14sp"
+                app:typeface="robotoMedium"
+                 />
+
+
+
+        </LinearLayout>
+-->
+    </LinearLayout>
+</LinearLayout>

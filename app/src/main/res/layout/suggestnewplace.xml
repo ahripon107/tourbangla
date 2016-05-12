@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/tool_barsuggestplace"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:orientation="vertical">
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                >
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+
+                    android:hint="Your Name"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                >
+                <EditText
+                    android:id="@+id/etSuggestedPlaceName"
+                    android:layout_width="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+
+                    android:hint="Place Name"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                >
+                <EditText
+                    android:id="@+id/etSuggestedPlaceAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+
+                    android:inputType="textMultiLine"
+                    android:hint="Address"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                >
+                <EditText
+                    android:id="@+id/etSuggestedPlaceDivision"
+                    android:layout_width="match_parent"
+                    android:inputType="textCapWords"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:hint="Division"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                >
+                <EditText
+                    android:id="@+id/etSuggestedPlaceDescription"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:inputType="textMultiLine"
+                    android:hint="Description"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                >
+                <EditText
+                    android:id="@+id/etSuggestedPlaceHowtogo"
+                    android:layout_width="match_parent"
+                    android:inputType="textMultiLine"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:hint="How to go"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                >
+                <EditText
+                    android:id="@+id/etSuggestedPlaceHotels"
+                    android:layout_width="match_parent"
+                    android:inputType="textMultiLine"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:hint="Hotels"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/tvPicSuggest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Picture Selected"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <Button
+                android:id="@+id/btnSelectPictureSuggest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/buttonshape"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@android:color/white"
+                android:text="Select Picture" />
+
+            <Button
+                android:id="@+id/btnDoneSuggest"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/buttonshape"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="Done" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
