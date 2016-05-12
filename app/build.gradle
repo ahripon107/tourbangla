@@ -47,4 +47,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-identity:8.3.0'
     compile 'com.google.android.gms:play-services-gcm:8.3.0'
     compile 'com.android.support:multidex:1.0.1'
+    compile files('libs/android-async-http-1.4.9.jar')
 }
