@@ -12,13 +12,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 
-import com.parse.ParseAnonymousUtils;
 import com.parse.ParseUser;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.sfuronlabs.ripon.tourbangla.fragment.AboutAppFragment;
+import com.sfuronlabs.ripon.tourbangla.fragment.FeedbackFragment;
+import com.sfuronlabs.ripon.tourbangla.fragment.FragmentDrawer;
+import com.sfuronlabs.ripon.tourbangla.fragment.FriendsFragment;
+import com.sfuronlabs.ripon.tourbangla.fragment.HomeFragment;
+import com.sfuronlabs.ripon.tourbangla.fragment.MessagesFragment;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener{
@@ -29,26 +33,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*if (ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser()))
-        {
-            Intent i = new Intent(MainActivity.this,LoginActivity.class);
-            startActivity(i);
-            finish();
-        }
-        else
-        {
-            ParseUser currentUser = ParseUser.getCurrentUser();
-            if (currentUser==null)
-            {
-                Intent i = new Intent(MainActivity.this,LoginActivity.class);
-                startActivity(i);
-                finish();
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(),"Welcome "+ParseUser.getCurrentUser().get("FullName").toString(),Toast.LENGTH_LONG).show();
-            }
-        }*/
+
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         adView = (AdView) findViewById(R.id.adView);
@@ -61,23 +46,19 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         displayView(0);
 
 
-        //AdRequest adRequest = new AdRequest.Builder().addTestDevice("D3FA0144AD5EA91460638306E4CB0FB2").build();
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("18D9D4FB40DF048C506091E42E0FDAFD").build();
         adView.loadAd(adRequest);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
 
@@ -87,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-            //finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -108,22 +88,18 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 subtitle = getString(R.string.title_home);
                 break;
             case 1:
-                fragment = new FriendsFragment();
-                subtitle = getString(R.string.title_friends);
-                break;
-            case 2:
                 fragment = new MessagesFragment();
                 subtitle = getString(R.string.title_messages);
                 break;
-            case 3:
+            case 2:
                 fragment = new VisitedPlacesFragment();
                 subtitle = getString(R.string.title_visitedplaces);
                 break;
-            case 4:
-                fragment = new AboutApp();
+            case 3:
+                fragment = new AboutAppFragment();
                 subtitle = getString(R.string.aboutapp);
                 break;
-            case 5:
+            case 4:
                 fragment = new FeedbackFragment();
                 subtitle = getString(R.string.givefeedback);
                 break;

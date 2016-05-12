@@ -1,7 +1,5 @@
 package com.sfuronlabs.ripon.tourbangla;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -26,8 +23,9 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.sfuronlabs.ripon.tourbangla.fragment.BlogDetails;
+import com.sfuronlabs.ripon.tourbangla.fragment.CommentAddComment;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,7 +78,7 @@ public class TourBlogDetailsActivity extends AppCompatActivity{
         Intent i = getIntent();
         int index = i.getExtras().getInt("index");
 
-        parseObject = TourBlog.retrievedObjects.get(index);
+        parseObject = TourBlogActivity.retrievedObjects.get(index);
         blogtitle = (String)parseObject.get("blogtitle");
         blogwriter = (String)parseObject.get("name");
         blogdetails = (String)parseObject.get("blogdetails");

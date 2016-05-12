@@ -55,8 +55,7 @@ public class SignupActivity extends Activity {
 
     }
 
-    public void signUp()
-    {
+    public void signUp() {
         String fullname = fullName.getText().toString().trim();
         String username = userName.getText().toString().trim();
         String Email = email.getText().toString().trim();
@@ -64,28 +63,23 @@ public class SignupActivity extends Activity {
         boolean validatioError= false;
 
         StringBuilder validatioErrorMessage = new StringBuilder();
-        if(fullname.length()==0)
-        {
+        if(fullname.length()==0) {
             validatioError = true;
             validatioErrorMessage.append("Please enter your full name");
         }
-        if (username.length()==0)
-        {
+        if (username.length()==0) {
             validatioError = true;
             validatioErrorMessage.append("Please enter your username");
         }
-        if (Email.length()==0)
-        {
+        if (Email.length()==0) {
             validatioError = true;
             validatioErrorMessage.append("Please enter your email");
         }
-        if (pass.length()==0)
-        {
+        if (pass.length()==0) {
             validatioError = true;
             validatioErrorMessage.append("Please enter your password");
         }
-        if (pass.length()<6)
-        {
+        if (pass.length()<6) {
             validatioError = true;
             validatioErrorMessage.append("Password must be atleast 6 character long");
         }
@@ -98,8 +92,7 @@ public class SignupActivity extends Activity {
             validatioError = true;
             validatioErrorMessage.append("Email address is not valid");
         }
-        if (validatioError)
-        {
+        if (validatioError) {
             Toast.makeText(getApplicationContext(),validatioErrorMessage.toString(),Toast.LENGTH_LONG).show();
             return;
         }
@@ -113,17 +106,11 @@ public class SignupActivity extends Activity {
             @Override
             public void done(ParseException e) {
                 dialog.dismiss();
-                if (e != null)
-                {
+                if (e != null) {
                     Toast.makeText(SignupActivity.this, e.getMessage(),
                             Toast.LENGTH_LONG).show();
                 }
-                else
-                {
-                    /*Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                            Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);*/
+                else {
                     finish();
                 }
             }

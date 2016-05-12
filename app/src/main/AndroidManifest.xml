@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FrontPage"
+            android:name=".FrontPageActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BrowseByDivision"
+            android:name=".BrowseByDivisionActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
@@ -57,7 +57,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BrowseByType"
+            android:name=".BrowseByTypeActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
@@ -97,7 +97,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TourBlog"
+            android:name=".TourBlogActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
@@ -117,7 +117,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SelectTourOperator"
+            android:name=".SelectTourOperatorActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
@@ -127,7 +127,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TourOperatorDetails"
+            android:name=".TourOperatorDetailsActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
@@ -137,7 +137,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Hotels"
+            android:name=".HotelsActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
@@ -147,7 +147,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewTourToTimeline"
+            android:name=".NewTourToTimelineActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
@@ -157,7 +157,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TourAllPhotos"
+            android:name=".TourAllPhotosActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
@@ -168,7 +168,7 @@
         </activity>
 
         <activity
-            android:name=".NewTourBlog"
+            android:name=".NewTourBlogActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
@@ -179,7 +179,7 @@
         </activity>
 
         <activity
-            android:name=".HotelDetails"
+            android:name=".HotelDetailsActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
@@ -190,7 +190,7 @@
         </activity>
 
         <activity
-            android:name=".SuggestNewPlace"
+            android:name=".SuggestNewPlaceActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>

@@ -2,19 +2,13 @@ package com.sfuronlabs.ripon.tourbangla;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.ListView;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.parse.ParseObject;
+import com.sfuronlabs.ripon.tourbangla.model.Place;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.locks.Lock;
 
 /**
  * Created by Ripon on 9/26/15.

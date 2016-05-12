@@ -1,14 +1,12 @@
 package com.sfuronlabs.ripon.tourbangla;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -17,26 +15,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.gson.Gson;
 import com.parse.FindCallback;
-import com.parse.ParseAnonymousUtils;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
+import com.sfuronlabs.ripon.tourbangla.fragment.CommentAddComment;
+import com.sfuronlabs.ripon.tourbangla.fragment.DescriptionFragment;
+import com.sfuronlabs.ripon.tourbangla.fragment.MessagesFragment;
+import com.sfuronlabs.ripon.tourbangla.model.Place;
 import com.sfuronlabs.ripon.tourbangla.view.cpb.CircularProgressButton;
 import com.squareup.picasso.Picasso;
 
@@ -109,7 +102,7 @@ public class NewPlaceDetailsActivity extends AppCompatActivity {
         Intent i = getIntent();
         index = i.getExtras().getInt("index");
 
-        selectedPlace = BrowseByDivision.finalplaces.get(index);
+        selectedPlace = BrowseByDivisionActivity.finalplaces.get(index);
         picture = selectedPlace.getPicture();
         selectedObject = selectedPlace.getParseObject();
 
@@ -278,8 +271,7 @@ public class NewPlaceDetailsActivity extends AppCompatActivity {
 
         });
 
-        //AdRequest adRequest = new AdRequest.Builder().addTestDevice("D3FA0144AD5EA91460638306E4CB0FB2").build();
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("18D9D4FB40DF048C506091E42E0FDAFD").build();
         adView.loadAd(adRequest);
     }
 
