@@ -18,6 +18,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -88,6 +91,29 @@ public class SuggestNewPlaceActivity extends AppCompatActivity {
                 description.getText().clear();
                 howtogo.getText().clear();
                 hotels.getText().clear();
+
+                AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+                RequestParams params = new RequestParams();
+                params.put("name",pname);
+                params.put("address",paddress);
+                params.put("division",pdivision);
+                params.put("description",pdescription);
+                params.put("howtogo",phowtogo);
+                params.put("hotels",photels);
+                params.put("key","bl905577");
+                asyncHttpClient.post("http://209.58.178.96/footballstreamlive/SuggestNewPlace.php", params, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int i, cz.msebera.android.httpclient.Header[] headers, byte[] bytes) {
+                        String res = bytes.toString();
+                        Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(int i, cz.msebera.android.httpclient.Header[] headers, byte[] bytes, Throwable throwable) {
+                        String res = bytes.toString();
+                        Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 Toast.makeText(getApplicationContext(), "Thank you for your suggestion.", Toast.LENGTH_LONG).show();
 

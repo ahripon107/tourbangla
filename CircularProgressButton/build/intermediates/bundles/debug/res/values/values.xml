@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/CircularProgressButton/res/values/colors.xml -->
-    <eat-comment/>
     <color name="cpb_blue">#ff0099cc</color>
     <color name="cpb_blue_dark">#ff00719b</color>
     <color name="cpb_green">#ff99cc00</color>
@@ -11,11 +9,7 @@
     <color name="cpb_red_dark">#ffcd3a3a</color>
     <color name="cpb_white">@android:color/white</color>
     <declare-styleable name="CircularProgressButton"><attr format="reference" name="cpb_selectorIdle"/><attr format="reference" name="cpb_selectorComplete"/><attr format="reference" name="cpb_selectorError"/><attr format="string" name="cpb_textComplete"/><attr format="string" name="cpb_textIdle"/><attr format="string" name="cpb_textError"/><attr format="string" name="cpb_textProgress"/><attr format="color" name="cpb_colorProgress"/><attr format="color" name="cpb_colorIndicator"/><attr format="color" name="cpb_colorIndicatorBackground"/><attr format="reference" name="cpb_iconError"/><attr format="reference" name="cpb_iconComplete"/><attr format="dimension" name="cpb_cornerRadius"/><attr format="dimension" name="cpb_paddingProgress"/></declare-styleable>
-    <!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/CircularProgressButton/res/values/dimen.xml -->
-    <eat-comment/>
     <dimen name="cpb_stroke_width">4dp</dimen>
-    <!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/CircularProgressButton/res/values/library_circularprogressbutton_strings.xml -->
-    <eat-comment/>
     <string name="define_circularprogressbutton">circularprogressbutton</string>
     <string name="library_circularprogressbutton_author">Dmytro Danylyk</string>
     <string name="library_circularprogressbutton_authorWebsite">http://dmytrodanylyk.com/</string>

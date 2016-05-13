@@ -4,6 +4,9 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+    }
     defaultConfig {
         applicationId "com.sfuronlabs.ripon.tourbangla"
         minSdkVersion 14
@@ -47,5 +50,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-identity:8.3.0'
     compile 'com.google.android.gms:play-services-gcm:8.3.0'
     compile 'com.android.support:multidex:1.0.1'
-    compile files('libs/android-async-http-1.4.9.jar')
+    compile 'com.loopj.android:android-async-http:1.4.9'
 }
