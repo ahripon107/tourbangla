@@ -1,8 +1,10 @@
-package com.sfuronlabs.ripon.tourbangla;
+package com.sfuronlabs.ripon.tourbangla.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.sfuronlabs.ripon.tourbangla.R;
 
 /**
  * Created by Ripon on 9/27/15.

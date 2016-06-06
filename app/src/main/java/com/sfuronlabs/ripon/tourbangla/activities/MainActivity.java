@@ -1,4 +1,4 @@
-package com.sfuronlabs.ripon.tourbangla;
+package com.sfuronlabs.ripon.tourbangla.activities;
 
 
 import android.content.Intent;
@@ -17,10 +17,11 @@ import android.view.View;
 import com.parse.ParseUser;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.sfuronlabs.ripon.tourbangla.R;
+import com.sfuronlabs.ripon.tourbangla.fragment.VisitedPlacesFragment;
 import com.sfuronlabs.ripon.tourbangla.fragment.AboutAppFragment;
 import com.sfuronlabs.ripon.tourbangla.fragment.FeedbackFragment;
 import com.sfuronlabs.ripon.tourbangla.fragment.FragmentDrawer;
-import com.sfuronlabs.ripon.tourbangla.fragment.FriendsFragment;
 import com.sfuronlabs.ripon.tourbangla.fragment.HomeFragment;
 import com.sfuronlabs.ripon.tourbangla.fragment.MessagesFragment;
 
@@ -115,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             fragmentTransaction.replace(R.id.container_body, fragment);
             fragmentTransaction.commit();
 
-            // set the toolbar title
             getSupportActionBar().setTitle(title);
         }
     }

@@ -5,7 +5,7 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".BrowseByDivisionActivity">
+    tools:context=".activities.BrowseByDivisionActivity">
 
     <include
         android:id="@+id/tool_bar"

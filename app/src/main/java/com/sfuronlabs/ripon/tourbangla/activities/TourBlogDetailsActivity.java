@@ -1,4 +1,4 @@
-package com.sfuronlabs.ripon.tourbangla;
+package com.sfuronlabs.ripon.tourbangla.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -23,6 +23,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.fragment.BlogDetails;
 import com.sfuronlabs.ripon.tourbangla.fragment.CommentAddComment;
 

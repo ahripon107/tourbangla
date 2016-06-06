@@ -22,14 +22,11 @@ import com.sfuronlabs.ripon.tourbangla.adapter.GridAdapter;
  */
 public class HomeFragment extends Fragment {
 
-
-
     String web[];
     String picname[];
     ListView view;
 
     public HomeFragment() {
-         //Required empty public constructor
         web = new String[6];
         picname = new String[6];
         web[0] = "Browse by division";
@@ -56,7 +53,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        GridAdapter gridAdapter = new GridAdapter(getActivity(),this.web,this.picname,
+        GridAdapter gridAdapter = new GridAdapter(getActivity(), this.web, this.picname,
                 "font/Amaranth-Bold.ttf");
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         view = (ListView) rootView.findViewById(R.id.gridviewselect);
@@ -65,18 +62,13 @@ public class HomeFragment extends Fragment {
         view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position==0)
-                {
+                if (position == 0) {
                     Intent i = new Intent("android.intent.action.BROWSEBYDIVISION");
                     startActivity(i);
-                }
-                else if (position==1)
-                {
+                } else if (position == 1) {
                     Intent i = new Intent("android.intent.action.BROWSEBYTYPE");
                     startActivity(i);
-                }
-                else if (position==2)
-                {
+                } else if (position == 2) {
                     AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
                     builderSingle.setIcon(R.drawable.ic_profile);
                     builderSingle.setTitle("Select One Name:-");
@@ -106,36 +98,26 @@ public class HomeFragment extends Fragment {
                                 public void onClick(DialogInterface dialog, int which) {
                                     String strName = arrayAdapter.getItem(which);
                                     Intent i = new Intent("android.intent.action.HOTELS");
-                                    i.putExtra("place",strName);
+                                    i.putExtra("place", strName);
                                     startActivity(i);
 
                                 }
                             });
                     builderSingle.show();
 
-                }
-                else if (position==3)
-                {
+                } else if (position == 3) {
                     Intent i = new Intent("android.intent.action.SELECTTOUROPERATOR");
                     startActivity(i);
-                }
-                else if (position==4)
-                {
+                } else if (position == 4) {
                     Intent i = new Intent("android.intent.action.TOURBLOG");
                     startActivity(i);
-                }
-                else if (position == 5)
-                {
+                } else if (position == 5) {
                     Intent i = new Intent("android.intent.action.SUGGESTNEWPLACE");
                     startActivity(i);
                 }
 
             }
         });
-
-
-
-        // Inflate the layout for this fragment
         return rootView;
     }
 
@@ -148,8 +130,4 @@ public class HomeFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
-
-
-
-
 }

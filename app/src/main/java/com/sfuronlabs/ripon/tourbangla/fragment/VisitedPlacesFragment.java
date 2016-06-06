@@ -1,4 +1,4 @@
-package com.sfuronlabs.ripon.tourbangla;
+package com.sfuronlabs.ripon.tourbangla.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -19,6 +19,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.sfuronlabs.ripon.tourbangla.R;
+import com.sfuronlabs.ripon.tourbangla.activities.BrowseByDivisionActivity;
 import com.sfuronlabs.ripon.tourbangla.adapter.GridAdapter;
 import com.sfuronlabs.ripon.tourbangla.model.Place;
 

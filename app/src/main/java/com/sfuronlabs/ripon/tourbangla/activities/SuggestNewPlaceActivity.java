@@ -1,37 +1,27 @@
-package com.sfuronlabs.ripon.tourbangla;
+package com.sfuronlabs.ripon.tourbangla.activities;
 
-import android.content.Intent;
-import android.content.res.Resources;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.SaveCallback;
+import com.sfuronlabs.ripon.tourbangla.FetchFromWeb;
+import com.sfuronlabs.ripon.tourbangla.R;
+import com.sfuronlabs.ripon.tourbangla.util.Constants;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by Ripon on 9/27/15.
@@ -52,9 +42,7 @@ public class SuggestNewPlaceActivity extends AppCompatActivity {
         description = (EditText) findViewById(R.id.etSuggestedPlaceDescription);
         howtogo = (EditText) findViewById(R.id.etSuggestedPlaceHowtogo);
         hotels = (EditText) findViewById(R.id.etSuggestedPlaceHotels);
-
         suggestDone = (Button) findViewById(R.id.btnDoneSuggest);
-
         toolbar = (Toolbar) findViewById(R.id.tool_barsuggestplace);
         setSupportActionBar(toolbar);
         setTitle("Suggest New Place");
@@ -73,7 +61,6 @@ public class SuggestNewPlaceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 final String pname = name.getText().toString().trim();
                 final String paddress = address.getText().toString().trim();
                 final String pdivision = division.getText().toString().trim();
@@ -85,42 +72,33 @@ public class SuggestNewPlaceActivity extends AppCompatActivity {
                     return;
                 }
 
-                name.getText().clear();
-                address.getText().clear();
-                division.getText().clear();
-                description.getText().clear();
-                howtogo.getText().clear();
-                hotels.getText().clear();
-
-                AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-                RequestParams params = new RequestParams();
-                params.put("name",pname);
-                params.put("address",paddress);
-                params.put("division",pdivision);
-                params.put("description",pdescription);
-                params.put("howtogo",phowtogo);
-                params.put("hotels",photels);
-                params.put("key","bl905577");
-                asyncHttpClient.post("http://209.58.178.96/footballstreamlive/SuggestNewPlace.php", params, new AsyncHttpResponseHandler() {
+                String url = "http://209.58.178.96/TourBangla/SuggestNewPlace.php?key=bl905577&hotels="+photels+"&howtogo="+phowtogo;
+                url = url + "&description="+pdescription+"&division="+pdivision+"&address="+paddress+"&name="+pname;
+                Log.d(Constants.TAG, url);
+                final ProgressDialog progressDialog = new ProgressDialog(SuggestNewPlaceActivity.this);
+                progressDialog.setMessage("Loading...");
+                progressDialog.show();
+                FetchFromWeb.get(url,null,new JsonHttpResponseHandler() {
                     @Override
-                    public void onSuccess(int i, cz.msebera.android.httpclient.Header[] headers, byte[] bytes) {
-                        String res = bytes.toString();
-                        Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        progressDialog.dismiss();
+                        name.getText().clear();
+                        address.getText().clear();
+                        division.getText().clear();
+                        description.getText().clear();
+                        howtogo.getText().clear();
+                        hotels.getText().clear();
+                        Toast.makeText(getApplicationContext(), "Thank you for your suggestion.", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
-                    public void onFailure(int i, cz.msebera.android.httpclient.Header[] headers, byte[] bytes, Throwable throwable) {
-                        String res = bytes.toString();
-                        Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        progressDialog.dismiss();
+                        Toast.makeText(SuggestNewPlaceActivity.this, "Failed "+statusCode, Toast.LENGTH_LONG).show();
                     }
                 });
-
-                Toast.makeText(getApplicationContext(), "Thank you for your suggestion.", Toast.LENGTH_LONG).show();
-
             }
 
         });
     }
-
-
 }

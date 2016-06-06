@@ -1,4 +1,4 @@
-package com.sfuronlabs.ripon.tourbangla;
+package com.sfuronlabs.ripon.tourbangla.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -21,6 +21,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.fragment.FriendsFragment;
 
 import java.io.BufferedInputStream;

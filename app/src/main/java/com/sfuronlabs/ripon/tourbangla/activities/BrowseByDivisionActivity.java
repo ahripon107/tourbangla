@@ -1,4 +1,4 @@
-package com.sfuronlabs.ripon.tourbangla;
+package com.sfuronlabs.ripon.tourbangla.activities;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -16,6 +16,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.adapter.ViewPagerAdapter;
 import com.sfuronlabs.ripon.tourbangla.model.Place;
 

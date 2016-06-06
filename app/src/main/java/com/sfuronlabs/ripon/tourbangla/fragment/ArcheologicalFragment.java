@@ -20,7 +20,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.sfuronlabs.ripon.tourbangla.BrowseByDivisionActivity;
+import com.sfuronlabs.ripon.tourbangla.activities.BrowseByDivisionActivity;
 import com.sfuronlabs.ripon.tourbangla.model.Place;
 import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.adapter.GoogleCardsTravelAdapter;

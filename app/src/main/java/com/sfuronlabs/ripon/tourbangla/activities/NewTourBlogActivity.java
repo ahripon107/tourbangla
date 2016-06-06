@@ -1,4 +1,4 @@
-package com.sfuronlabs.ripon.tourbangla;
+package com.sfuronlabs.ripon.tourbangla.activities;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -22,6 +22,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
+import com.sfuronlabs.ripon.tourbangla.R;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;

@@ -25,8 +25,8 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.sfuronlabs.ripon.tourbangla.LoginActivity;
-import com.sfuronlabs.ripon.tourbangla.NewTourToTimelineActivity;
+import com.sfuronlabs.ripon.tourbangla.activities.LoginActivity;
+import com.sfuronlabs.ripon.tourbangla.activities.NewTourToTimelineActivity;
 import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.model.TimelineDetails;
 

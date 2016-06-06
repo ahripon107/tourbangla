@@ -1,4 +1,4 @@
-package com.sfuronlabs.ripon.tourbangla;
+package com.sfuronlabs.ripon.tourbangla.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,36 +9,37 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.parse.ParseObject;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.fragment.DescriptionFragment;
 
 /**
- * Created by Ripon on 8/28/15.
+ * Created by Ripon on 9/21/15.
  */
-public class TourOperatorDetailsActivity extends AppCompatActivity {
+public class HotelDetailsActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private TabLayout mTabLayout;
     private ViewPager mPager;
-    private TourOperatorDetailsPagerAdapter mAdapter;
-    String name,address,places,others;
-    public String titles[] = {"ARRDESS","PLACES","OTHERS"};
+    private HotelDetailsPagerAdapter mAdapter;
+    String name,address,description,cost;
     AdView adView;
+    public String titles[] = {"ARRDESS","DESCRIPTION","COST"};
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tuoroperatordetails);
-        mToolbar = (Toolbar) findViewById(R.id.touroperatorapp_bar);
+        setContentView(R.layout.hoteldetails);
+        mToolbar = (Toolbar) findViewById(R.id.hotelapp_bar);
         setSupportActionBar(mToolbar);
+        adView = (AdView) findViewById(R.id.adViewHotelDetails);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        adView = (AdView) findViewById(R.id.adViewTourOperatorDetails);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,47 +47,44 @@ public class TourOperatorDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
-
         Intent i = getIntent();
         String str = i.getExtras().getString("namet");
         int index = i.getExtras().getInt("index");
-        ParseObject selectedObject = SelectTourOperatorActivity.allOperators.get(index);
+        ParseObject selectedObject = HotelsActivity.allHotels.get(index);
 
-        setTitle(str);
         name = (String) selectedObject.get("name");
         address = (String) selectedObject.get("address");
-        places = (String) selectedObject.get("places");
-        others = (String) selectedObject.get("others");
-        mAdapter = new TourOperatorDetailsPagerAdapter(getSupportFragmentManager(), titles, name, address, places, others);
+        description = (String) selectedObject.get("description");
+        cost = (String) selectedObject.get("cost");
 
-        mTabLayout = (TabLayout) findViewById(R.id.touroperatortab_layout);
+        mAdapter = new HotelDetailsPagerAdapter(getSupportFragmentManager(), titles, name, address, description, cost);
+
+        mTabLayout = (TabLayout) findViewById(R.id.hoteltab_layout);
 
 
-        mPager = (ViewPager) findViewById(R.id.touroperatorpager);
+        mPager = (ViewPager) findViewById(R.id.hotelpager);
         mPager.setAdapter(mAdapter);
         mTabLayout.setTabsFromPagerAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mPager);
         //mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        Log.d("here", "complete");
 
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("18D9D4FB40DF048C506091E42E0FDAFD").build();
         adView.loadAd(adRequest);
-
     }
 }
 
-class TourOperatorDetailsPagerAdapter extends FragmentStatePagerAdapter {
+class HotelDetailsPagerAdapter extends FragmentStatePagerAdapter {
 
     String[] titles;
-    String name, address, places, others;
+    String name, address, description, cost;
 
-    public TourOperatorDetailsPagerAdapter(FragmentManager fm,String[] titles,String name, String address, String places, String others) {
+    public HotelDetailsPagerAdapter(FragmentManager fm,String[] titles,String name, String address, String description, String cost) {
 
         super(fm);
         this.name = name;
         this.address = address;
-        this.places = places;
-        this.others = others;
+        this.description = description;
+        this.cost = cost;
         this.titles = titles;
     }
 
@@ -99,12 +97,12 @@ class TourOperatorDetailsPagerAdapter extends FragmentStatePagerAdapter {
         }
         else if (position==1)
         {
-            DescriptionFragment descriptionFragment = DescriptionFragment.newInstanceOfDescriptionFragment(places);
+            DescriptionFragment descriptionFragment = DescriptionFragment.newInstanceOfDescriptionFragment(description);
             return descriptionFragment;
         }
         else
         {
-            DescriptionFragment descriptionFragment = DescriptionFragment.newInstanceOfDescriptionFragment(others);
+            DescriptionFragment descriptionFragment = DescriptionFragment.newInstanceOfDescriptionFragment(cost);
             return descriptionFragment;
         }
 

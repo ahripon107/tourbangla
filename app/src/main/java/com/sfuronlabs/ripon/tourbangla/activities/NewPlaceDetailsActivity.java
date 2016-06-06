@@ -1,4 +1,4 @@
-package com.sfuronlabs.ripon.tourbangla;
+package com.sfuronlabs.ripon.tourbangla.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -26,6 +26,8 @@ import com.google.gson.Gson;
 import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.sfuronlabs.ripon.tourbangla.R;
+import com.sfuronlabs.ripon.tourbangla.SharedPreference;
 import com.sfuronlabs.ripon.tourbangla.fragment.CommentAddComment;
 import com.sfuronlabs.ripon.tourbangla.fragment.DescriptionFragment;
 import com.sfuronlabs.ripon.tourbangla.fragment.MessagesFragment;
