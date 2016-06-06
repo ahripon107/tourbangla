@@ -6,4 +6,4 @@
             android:width="@dimen/cpb_stroke_width"
             android:color="@color/cpb_blue"/>
     <solid android:color="@color/cpb_blue"/>
-</shape><!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/CircularProgressButton/res/drawable/cpb_background.xml --><!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/CircularProgressButton/build/intermediates/bundles/debug/res/drawable/cpb_background.xml -->
+</shape>

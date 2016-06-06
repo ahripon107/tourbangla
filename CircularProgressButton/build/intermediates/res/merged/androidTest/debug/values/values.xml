@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/CircularProgressButton/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
-    <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
     <attr format="boolean" name="isLightTheme"/>
@@ -31,8 +29,6 @@
     <color name="bright_foreground_material_light">@android:color/black</color>
     <color name="button_material_dark">#ff5a595b</color>
     <color name="button_material_light">#ffd6d7d7</color>
-    <!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/CircularProgressButton/build/intermediates/bundles/debug/res/values/values.xml -->
-    <eat-comment/>
     <color name="cpb_blue">#ff0099cc</color>
     <color name="cpb_blue_dark">#ff00719b</color>
     <color name="cpb_green">#ff99cc00</color>
@@ -41,8 +37,6 @@
     <color name="cpb_red">#ffff4444</color>
     <color name="cpb_red_dark">#ffcd3a3a</color>
     <color name="cpb_white">@android:color/white</color>
-    <!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/CircularProgressButton/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
-    <eat-comment/>
     <color name="dim_foreground_disabled_material_dark">#80bebebe</color>
     <color name="dim_foreground_disabled_material_light">#80323232</color>
     <color name="dim_foreground_material_dark">#ffbebebe</color>
@@ -171,11 +165,7 @@
     <dimen name="abc_text_size_subtitle_material_toolbar">16dp</dimen>
     <dimen name="abc_text_size_title_material">20sp</dimen>
     <dimen name="abc_text_size_title_material_toolbar">20dp</dimen>
-    <!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/CircularProgressButton/build/intermediates/bundles/debug/res/values/values.xml -->
-    <eat-comment/>
     <dimen name="cpb_stroke_width">4dp</dimen>
-    <!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/CircularProgressButton/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
-    <eat-comment/>
     <item name="dialog_fixed_height_major" type="dimen">80%</item>
     <item name="dialog_fixed_height_minor" type="dimen">100%</item>
     <item name="dialog_fixed_width_major" type="dimen">320dp</item>
@@ -220,8 +210,6 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
-    <!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/CircularProgressButton/build/intermediates/bundles/debug/res/values/values.xml -->
-    <eat-comment/>
     <string name="define_circularprogressbutton">circularprogressbutton</string>
     <string name="library_circularprogressbutton_author">Dmytro Danylyk</string>
     <string name="library_circularprogressbutton_authorWebsite">http://dmytrodanylyk.com/</string>
@@ -232,8 +220,6 @@
     <string name="library_circularprogressbutton_libraryWebsite">http://dmytrodanylyk.com/pages/portfolio/circular-progress-button.html</string>
     <string name="library_circularprogressbutton_licenseId">mit</string>
     <string name="library_circularprogressbutton_repositoryLink">https://github.com/dmytrodanylyk/circular-progress-button</string>
-    <!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/CircularProgressButton/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
-    <eat-comment/>
     <string name="status_bar_notification_info_overflow">999+</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>

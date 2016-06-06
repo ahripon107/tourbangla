@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/colayout"
-    tools:context="com.sfuronlabs.ripon.tourbangla.TourOperatorDetails">
+    tools:context=".activities.TourOperatorDetailsActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/touroperatorapp_bar"

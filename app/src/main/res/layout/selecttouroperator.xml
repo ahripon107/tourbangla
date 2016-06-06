@@ -4,7 +4,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    tools:context="com.sfuronlabs.ripon.tourbangla.SelectTourOperator">
+    tools:context=".activities.SelectTourOperatorActivity">
 
     <include
         android:id="@+id/toolbar2"

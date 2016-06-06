@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    tools:context="com.sfuronlabs.ripon.tourbangla.TourBlog">
+    tools:context=".activities.TourBlogActivity">
 
     <include
         android:id="@+id/toolbarTourBlog"

@@ -15,4 +15,4 @@
         android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</FrameLayout><!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/NotBoringActionBar/res/layout/view_kenburns.xml --><!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/NotBoringActionBar/build/intermediates/bundles/debug/res/layout/view_kenburns.xml -->
+</FrameLayout>

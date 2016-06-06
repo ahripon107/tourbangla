@@ -6,7 +6,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/relativeLayoutforslideshow"
-    tools:context="com.sfuronlabs.ripon.tourbangla.TourAllPhotos">
+    tools:context=".activities.TourAllPhotosActivity">
 
     <include
         android:id="@+id/tool_barallphotos"

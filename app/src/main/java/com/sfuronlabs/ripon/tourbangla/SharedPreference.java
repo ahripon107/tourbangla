@@ -2,19 +2,13 @@ package com.sfuronlabs.ripon.tourbangla;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.ListView;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.parse.ParseObject;
+import com.sfuronlabs.ripon.tourbangla.model.Place;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.locks.Lock;
 
 /**
  * Created by Ripon on 9/26/15.
@@ -40,15 +34,14 @@ public class SharedPreference {
         Gson gson = new Gson();
         String jsonFavorites = gson.toJson(favorites);
         editor.putString(FAVORITES, jsonFavorites);
-        editor.commit();
-        //editor.apply();
+        editor.apply();
     }
 
     public void addFavorite(Context context, Place product) {
         List<Place> favorites = getFavorites(context);
         if (favorites == null)
             favorites = new ArrayList<Place>();
-        Place place = new Place(product.getId(),product.getName(),product.getDescription(),product.getHowtogo(),product.getLattitude(),product.getLongitude(),product.getHotel(),product.getOthers(),product.getPicture(),product.getAddress(),product.getType(),product.getDistrict(),product.getParseObject().getObjectId());
+        Place place = new Place(product.getId(), product.getName(), product.getDescription(), product.getHowtogo(), product.getLattitude(), product.getLongitude(), product.getHotel(), product.getOthers(), product.getPicture(), product.getAddress(), product.getType(), product.getDistrict(), product.getParseObject().getObjectId());
         favorites.add(place);
         saveFavorites(context, favorites);
     }
@@ -56,16 +49,13 @@ public class SharedPreference {
     public void removeFavorite(Context context, Place product) {
         ArrayList<Place> favorites = getFavorites(context);
         if (favorites != null) {
-            Place place = new Place(product.getId(),product.getName(),product.getDescription(),product.getHowtogo(),product.getLattitude(),product.getLongitude(),product.getHotel(),product.getOthers(),product.getPicture(),product.getAddress(),product.getType(),product.getDistrict(),product.getParseObject().getObjectId());
-            for (int i=0;i<favorites.size();i++)
-            {
-                if (favorites.get(i).toString().equals(place.toString()))
-                {
+            Place place = new Place(product.getId(), product.getName(), product.getDescription(), product.getHowtogo(), product.getLattitude(), product.getLongitude(), product.getHotel(), product.getOthers(), product.getPicture(), product.getAddress(), product.getType(), product.getDistrict(), product.getParseObject().getObjectId());
+            for (int i = 0; i < favorites.size(); i++) {
+                if (favorites.get(i).toString().equals(place.toString())) {
                     favorites.remove(i);
                     break;
                 }
             }
-
             saveFavorites(context, favorites);
         }
     }
@@ -89,18 +79,15 @@ public class SharedPreference {
 
         return (ArrayList<Place>) favorites;
     }
-    public boolean containsObject(Context context, Place place)
-    {
-        List<Place> favorites=getFavorites(context);
-        if (favorites != null)
-        {
-            for (int i=0;i<favorites.size();i++)
-            {
+
+    public boolean containsObject(Context context, Place place) {
+        List<Place> favorites = getFavorites(context);
+        if (favorites != null) {
+            for (int i = 0; i < favorites.size(); i++) {
                 if (place.toString().equals(favorites.get(i).toString()))
                     return true;
             }
         }
-
         return false;
     }
 

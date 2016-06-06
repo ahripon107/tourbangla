@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
-    <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
     <attr format="boolean" name="isLightTheme"/>
@@ -165,12 +163,8 @@
     <item name="dialog_fixed_width_minor" type="dimen">320dp</item>
     <item format="float" name="disabled_alpha_material_dark" type="dimen">0.30</item>
     <item format="float" name="disabled_alpha_material_light" type="dimen">0.26</item>
-    <!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/res/values/dimens.xml -->
-    <eat-comment/>
     <dimen name="flet_hint_text_padding_horizontal">13dp</dimen>
     <dimen name="flet_hint_text_size">11sp</dimen>
-    <!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
-    <eat-comment/>
     <item format="float" name="highlight_alpha_material_colored" type="dimen">0.26</item>
     <item format="float" name="highlight_alpha_material_dark" type="dimen">0.20</item>
     <item format="float" name="highlight_alpha_material_light" type="dimen">0.12</item>

@@ -6,7 +6,7 @@
     android:padding="10dip"
     android:orientation="horizontal">
 
-    <com.sfuronlabs.ripon.tourbangla.RoundedImageView
+    <com.sfuronlabs.ripon.tourbangla.view.RoundedImageView
         android:id="@+id/picture"
         android:layout_width="0dp"
         android:layout_height="100dp"

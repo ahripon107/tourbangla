@@ -5,4 +5,4 @@
     android:layout_height="@dimen/header_height"
     android:orientation="vertical">
 
-</LinearLayout><!-- From: file:/Users/Ripon/AndroidStudioProjects/TourBangla/NotBoringActionBar/res/layout/view_header_placeholder.xml -->
+</LinearLayout>
