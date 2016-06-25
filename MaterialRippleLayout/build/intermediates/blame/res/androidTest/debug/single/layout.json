@@ -72,12 +72,12 @@
         "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/MaterialRippleLayout/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/support_simple_spinner_dropdown_item.xml"
     },
     {
-        "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/MaterialRippleLayout/build/intermediates/res/merged/androidTest/debug/layout/notification_template_part_time.xml",
-        "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/MaterialRippleLayout/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/notification_template_part_time.xml"
-    },
-    {
         "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/MaterialRippleLayout/build/intermediates/res/merged/androidTest/debug/layout/abc_screen_simple_overlay_action_mode.xml",
         "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/MaterialRippleLayout/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_screen_simple_overlay_action_mode.xml"
+    },
+    {
+        "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/MaterialRippleLayout/build/intermediates/res/merged/androidTest/debug/layout/notification_template_part_time.xml",
+        "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/MaterialRippleLayout/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/notification_template_part_time.xml"
     },
     {
         "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/MaterialRippleLayout/build/intermediates/res/merged/androidTest/debug/layout/abc_action_menu_item_layout.xml",

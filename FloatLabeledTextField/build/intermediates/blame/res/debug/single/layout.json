@@ -40,12 +40,12 @@
         "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_action_bar_title_item.xml"
     },
     {
-        "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/res/merged/debug/layout/abc_expanded_menu_layout.xml",
-        "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_expanded_menu_layout.xml"
-    },
-    {
         "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/res/merged/debug/layout/abc_action_menu_item_layout.xml",
         "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_action_menu_item_layout.xml"
+    },
+    {
+        "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/res/merged/debug/layout/abc_expanded_menu_layout.xml",
+        "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/layout/abc_expanded_menu_layout.xml"
     },
     {
         "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/res/merged/debug/layout/abc_list_menu_item_radio.xml",
