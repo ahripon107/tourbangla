@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/Ripon/AndroidStudioProjects/TourBangla/NotBoringActionBar/src/main/jniLibs"/></dataSet><dataSet config="debug"><source path="/Users/Ripon/AndroidStudioProjects/TourBangla/NotBoringActionBar/build-types/debug/jniLibs"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="/home/amin/AndroidStudioProjects/tourbangla/NotBoringActionBar/src/main/jniLibs"/></dataSet><dataSet config="debug"><source path="/home/amin/AndroidStudioProjects/tourbangla/NotBoringActionBar/build-types/debug/jniLibs"/></dataSet></merger>

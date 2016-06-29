@@ -18,6 +18,7 @@ import com.parse.ParseQuery;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.sfuronlabs.ripon.tourbangla.R;
@@ -40,6 +41,7 @@ public class TourBlogActivity extends AppCompatActivity {
     Toolbar toolbar;
     FloatingActionButton fabNewBlog;
     AdView adView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,13 +70,10 @@ public class TourBlogActivity extends AppCompatActivity {
         });
         ParseQuery<ParseObject> query = ParseQuery.getQuery("BlogPosts");
         query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
-        //final ProgressDialog dialog = ProgressDialog.show(TourBlog.this, "Loading", "Please wait...", true);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(final List<ParseObject> parseObjects, com.parse.ParseException e) {
-                //dialog.dismiss();
-                if (progressWheel.isSpinning())
-                {
+                if (progressWheel.isSpinning()) {
                     progressWheel.stopSpinning();
                     progressWheel.setVisibility(View.INVISIBLE);
                 }
@@ -86,7 +85,7 @@ public class TourBlogActivity extends AppCompatActivity {
 
 
                 } else {
-                    Toast.makeText(getApplicationContext(),"Error occured",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error occured", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -103,10 +102,9 @@ public class TourBlogActivity extends AppCompatActivity {
         fabNewBlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                        Intent i = new Intent(TourBlogActivity.this, NewTourBlogActivity.class);
-                        startActivity(i);
-                    }
-
+                Intent i = new Intent(TourBlogActivity.this, NewTourBlogActivity.class);
+                startActivity(i);
+            }
 
 
         });

@@ -14,6 +14,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.sfuronlabs.ripon.tourbangla.R;
@@ -33,8 +34,8 @@ public class BrowseByDivisionActivity extends AppCompatActivity {
     public static ArrayList<Place> finalplaces;
     public static ArrayList<ParseObject> objects;
 
-    CharSequence Titles[]={"DHAKA","CHITTAGONG","RAJSHAHI","KHULNA","BARISAL","SYLHET","RANGPUR"};
-    int Numboftabs =7;
+    CharSequence Titles[] = {"DHAKA", "CHITTAGONG", "RAJSHAHI", "KHULNA", "BARISAL", "SYLHET", "RANGPUR"};
+    int Numboftabs = 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class BrowseByDivisionActivity extends AppCompatActivity {
             }
         });
         setTitle("Browse By Division");
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
 
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
@@ -80,8 +81,7 @@ public class BrowseByDivisionActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if (id == R.id.logout)
-        {
+        if (id == R.id.logout) {
             ParseUser.logOut();
             Intent intent = new Intent(BrowseByDivisionActivity.this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

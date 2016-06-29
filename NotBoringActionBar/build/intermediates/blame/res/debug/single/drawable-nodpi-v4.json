@@ -6,5 +6,13 @@
     {
         "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/NotBoringActionBar/build/intermediates/res/merged/debug/drawable-nodpi-v4/picture1.jpg",
         "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/NotBoringActionBar/res/drawable-nodpi/picture1.jpg"
+    },
+    {
+        "merged": "/home/amin/AndroidStudioProjects/tourbangla/NotBoringActionBar/build/intermediates/res/merged/debug/drawable-nodpi-v4/picture1.jpg",
+        "source": "/home/amin/AndroidStudioProjects/tourbangla/NotBoringActionBar/res/drawable-nodpi/picture1.jpg"
+    },
+    {
+        "merged": "/home/amin/AndroidStudioProjects/tourbangla/NotBoringActionBar/build/intermediates/res/merged/debug/drawable-nodpi-v4/picture0.jpg",
+        "source": "/home/amin/AndroidStudioProjects/tourbangla/NotBoringActionBar/res/drawable-nodpi/picture0.jpg"
     }
 ]

@@ -35,8 +35,8 @@ import java.io.IOException;
  * Created by Ripon on 9/21/15.
  */
 public class NewTourBlogActivity extends AppCompatActivity {
-    EditText title,details,tags,writername;
-    Button selectimage,done1;
+    EditText title, details, tags, writername;
+    Button selectimage, done1;
     File selectedFile;
     private Uri mImageCaptureUri;
     TextView selectedPicture;
@@ -84,16 +84,14 @@ public class NewTourBlogActivity extends AppCompatActivity {
                 final String blogTags = tags.getText().toString().trim();
                 final String blogWriterName = writername.getText().toString().trim();
 
-                if (blogTitle.length()== 0 || blogDetails.length() == 0 || blogTags.length()==0 || blogWriterName.length()==0)
-                {
-                    Toast.makeText(NewTourBlogActivity.this,"Please give input correctly",Toast.LENGTH_LONG).show();
+                if (blogTitle.length() == 0 || blogDetails.length() == 0 || blogTags.length() == 0 || blogWriterName.length() == 0) {
+                    Toast.makeText(NewTourBlogActivity.this, "Please give input correctly", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 byte[] bytes;
 
-                if (selectedFile!=null)
-                {
+                if (selectedFile != null) {
                     int size = (int) selectedFile.length();
 
                     bytes = new byte[size];
@@ -101,20 +99,13 @@ public class NewTourBlogActivity extends AppCompatActivity {
                         BufferedInputStream buf = new BufferedInputStream(new FileInputStream(selectedFile));
                         buf.read(bytes, 0, bytes.length);
                         buf.close();
-                    } catch (FileNotFoundException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                }
-
-                else
-                {
+                } else {
                     Resources res = getResources();
                     Drawable drawable = res.getDrawable(R.drawable.noimage);
-                    Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+                    Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     bytes = stream.toByteArray();
@@ -126,7 +117,7 @@ public class NewTourBlogActivity extends AppCompatActivity {
                 writername.getText().clear();
                 selectedPicture.setText("No Picture Selected");
 
-                final ParseFile file = new ParseFile("pic.jpg",bytes);
+                final ParseFile file = new ParseFile("pic.jpg", bytes);
                 file.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -134,8 +125,6 @@ public class NewTourBlogActivity extends AppCompatActivity {
                         parseObject.put("blogdetails", blogDetails);
                         parseObject.put("blogtitle", blogTitle);
                         parseObject.put("tags", blogTags);
-                        //parseObject.put("username", ParseUser.getCurrentUser().getUsername());
-                        //parseObject.put("name", (String) ParseUser.getCurrentUser().get("FullName"));
                         parseObject.put("username", "username");
                         parseObject.put("name", blogWriterName);
 
@@ -144,8 +133,7 @@ public class NewTourBlogActivity extends AppCompatActivity {
                     }
                 });
 
-                Toast.makeText(NewTourBlogActivity.this,"Your post will be added",Toast.LENGTH_LONG).show();
-                //finish();
+                Toast.makeText(NewTourBlogActivity.this, "Your post will be added", Toast.LENGTH_LONG).show();;
 
             }
         });
@@ -154,10 +142,10 @@ public class NewTourBlogActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(resultCode == RESULT_OK) {
-            String path     = "";
+        if (resultCode == RESULT_OK) {
+            String path = "";
 
-            switch(requestCode) {
+            switch (requestCode) {
 
                 case 1:
 
@@ -178,12 +166,11 @@ public class NewTourBlogActivity extends AppCompatActivity {
     public String getRealPathFromURI(Uri contentUri) {
         String path;
         boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-        if (isKitKat)
-        {
+        if (isKitKat) {
             Cursor cursor = getContentResolver().query(contentUri, null, null, null, null);
             cursor.moveToFirst();
             String document_id = cursor.getString(0);
-            document_id = document_id.substring(document_id.lastIndexOf(":")+1);
+            document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
             cursor.close();
 
             cursor = getContentResolver().query(
@@ -192,14 +179,11 @@ public class NewTourBlogActivity extends AppCompatActivity {
             cursor.moveToFirst();
             path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
             cursor.close();
-        }
-        else
-        {
-            String[] projection = { MediaStore.Images.Media.DATA };
+        } else {
+            String[] projection = {MediaStore.Images.Media.DATA};
 
             Cursor cursor = getContentResolver().query(contentUri, projection, null, null, null);
             cursor.moveToFirst();
-
 
 
             int columnIndex = cursor.getColumnIndex(projection[0]);

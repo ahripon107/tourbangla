@@ -8,6 +8,14 @@
         "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/switch_thumb_material_light.xml"
     },
     {
+        "merged": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/abc_primary_text_material_dark.xml",
+        "source": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/abc_primary_text_material_dark.xml"
+    },
+    {
+        "merged": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/abc_secondary_text_material_dark.xml",
+        "source": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/abc_secondary_text_material_dark.xml"
+    },
+    {
         "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/switch_thumb_material_dark.xml",
         "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/switch_thumb_material_dark.xml"
     },
@@ -20,16 +28,44 @@
         "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/abc_primary_text_disable_only_material_light.xml"
     },
     {
+        "merged": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/abc_primary_text_material_light.xml",
+        "source": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/abc_primary_text_material_light.xml"
+    },
+    {
+        "merged": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/switch_thumb_material_light.xml",
+        "source": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/switch_thumb_material_light.xml"
+    },
+    {
+        "merged": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/abc_secondary_text_material_light.xml",
+        "source": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/abc_secondary_text_material_light.xml"
+    },
+    {
+        "merged": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/abc_primary_text_disable_only_material_dark.xml",
+        "source": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/abc_primary_text_disable_only_material_dark.xml"
+    },
+    {
+        "merged": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/abc_primary_text_disable_only_material_light.xml",
+        "source": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/abc_primary_text_disable_only_material_light.xml"
+    },
+    {
         "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/abc_primary_text_material_dark.xml",
         "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/abc_primary_text_material_dark.xml"
+    },
+    {
+        "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/abc_primary_text_disable_only_material_dark.xml",
+        "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/abc_primary_text_disable_only_material_dark.xml"
+    },
+    {
+        "merged": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/switch_thumb_material_dark.xml",
+        "source": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/switch_thumb_material_dark.xml"
     },
     {
         "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/abc_primary_text_material_light.xml",
         "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/abc_primary_text_material_light.xml"
     },
     {
-        "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/abc_primary_text_disable_only_material_dark.xml",
-        "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/abc_primary_text_disable_only_material_dark.xml"
+        "merged": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/abc_search_url_text.xml",
+        "source": "/home/amin/AndroidStudioProjects/tourbangla/FloatLabeledTextField/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/color/abc_search_url_text.xml"
     },
     {
         "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/FloatLabeledTextField/build/intermediates/res/merged/androidTest/debug/color/abc_search_url_text.xml",
