@@ -21,9 +21,7 @@ public class SingleTourOperator extends BaseAdapter {
     private String[] web;
     Typeface tf;
 
-    public SingleTourOperator(Activity paramActivity,String[] paramArrayOfString)
-    {
-        //super(paramActivity, R.layout.griditem, paramArrayOfString);
+    public SingleTourOperator(Activity paramActivity, String[] paramArrayOfString) {
         this.context = paramActivity;
         this.web = paramArrayOfString;
         this.tf = Typeface.createFromAsset(paramActivity.getAssets(),
@@ -48,16 +46,12 @@ public class SingleTourOperator extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View localView = convertView;
-        if (localView == null)
-        {
-            localView = this.context.getLayoutInflater().inflate(R.layout.singletouroperator, null, true);
-
+        if (localView == null) {
+            localView = this.context.getLayoutInflater().inflate(R.layout.singletouroperator, parent, false);
         }
         TextView localTextView = (TextView) localView.findViewById(R.id.tvSingleTourOperator);
         localTextView.setTypeface(tf);
         localTextView.setText(this.web[position]);
-        //localTextView.setTextColor(Color.GREEN);
-
         return localView;
     }
 }

@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * Created by Ripon on 8/27/15.
  */
-public class TourBlogDetailsActivity extends AppCompatActivity{
+public class TourBlogDetailsActivity extends AppCompatActivity {
 
     private CoordinatorLayout mCoordinator;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
@@ -41,7 +41,7 @@ public class TourBlogDetailsActivity extends AppCompatActivity{
     private ViewPager mPager;
     private MyPagerAdapter mAdapter;
     private TabLayout mTabLayout;
-    private CharSequence Titles[] = {"Post Details","Comments"};
+    private CharSequence Titles[] = {"Post Details", "Comments"};
     private int NoOfTabs = 2;
 
     ImageView imageView;
@@ -55,8 +55,7 @@ public class TourBlogDetailsActivity extends AppCompatActivity{
     ArrayList<CharSequence> comments;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.blogpostdetails);
         names = new ArrayList<>();
@@ -80,9 +79,9 @@ public class TourBlogDetailsActivity extends AppCompatActivity{
         int index = i.getExtras().getInt("index");
 
         parseObject = TourBlogActivity.retrievedObjects.get(index);
-        blogtitle = (String)parseObject.get("blogtitle");
-        blogwriter = (String)parseObject.get("name");
-        blogdetails = (String)parseObject.get("blogdetails");
+        blogtitle = (String) parseObject.get("blogtitle");
+        blogwriter = (String) parseObject.get("name");
+        blogdetails = (String) parseObject.get("blogdetails");
         ParseQuery<ParseObject> query = ParseQuery.getQuery("CommentOfBlogPost");
         query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         query.whereEqualTo("post", parseObject);
@@ -90,12 +89,10 @@ public class TourBlogDetailsActivity extends AppCompatActivity{
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
-                if (e==null)
-                {
-                    for (int x=0;x<list.size();x++)
-                    {
-                        names.add((String)list.get(x).get("commenter"));
-                        comments.add((String)list.get(x).get("comment"));
+                if (e == null) {
+                    for (int x = 0; x < list.size(); x++) {
+                        names.add((String) list.get(x).get("commenter"));
+                        comments.add((String) list.get(x).get("comment"));
                     }
                     ParseFile parseFile = (ParseFile) parseObject.get("picture");
                     parseFile.getDataInBackground(new GetDataCallback() {
@@ -123,10 +120,8 @@ public class TourBlogDetailsActivity extends AppCompatActivity{
                     mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBarPlus1);
                     mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBarPlus1);
 
-                }
-                else
-                {
-                    Toast.makeText(TourBlogDetailsActivity.this,"Error occured",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(TourBlogDetailsActivity.this, "Error occured", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -145,7 +140,7 @@ class MyPagerAdapter extends FragmentStatePagerAdapter {
     ArrayList<CharSequence> names;
     ArrayList<CharSequence> comments;
 
-    public MyPagerAdapter(FragmentManager fm,CharSequence[] Titles,int NoOfTabs,String blogtitle,String blogwriter, String blogdetails,ArrayList<CharSequence> names,ArrayList<CharSequence> comments) {
+    public MyPagerAdapter(FragmentManager fm, CharSequence[] Titles, int NoOfTabs, String blogtitle, String blogwriter, String blogdetails, ArrayList<CharSequence> names, ArrayList<CharSequence> comments) {
         super(fm);
         this.Titles = Titles;
         this.NoOfTabs = NoOfTabs;
@@ -160,21 +155,11 @@ class MyPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        if (position == 0)
-        {
-            BlogDetails blogDetails =  BlogDetails.newInstanceofBlogDetails(blogtitle,blogwriter,blogdetails);
-            return blogDetails;
+        if (position == 0) {
+            return BlogDetails.newInstanceofBlogDetails(blogtitle, blogwriter, blogdetails);
+        } else {
+            return CommentAddComment.NewInstanceofCommentAddComment(names, comments, blogdetails, 2);
         }
-        else
-        {
-            CommentAddComment commentAddComment = CommentAddComment.NewInstanceofCommentAddComment(names,comments,blogdetails,2);
-
-            return commentAddComment;
-        }
-
-
-        /*NewPlaceDetailsActivity.MyFragment myFragment = NewPlaceDetailsActivity.MyFragment.newInstance(position);
-        return myFragment;*/
     }
 
     @Override

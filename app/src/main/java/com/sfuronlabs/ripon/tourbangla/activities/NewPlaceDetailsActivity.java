@@ -30,7 +30,7 @@ import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.SharedPreference;
 import com.sfuronlabs.ripon.tourbangla.fragment.CommentAddComment;
 import com.sfuronlabs.ripon.tourbangla.fragment.DescriptionFragment;
-import com.sfuronlabs.ripon.tourbangla.fragment.MessagesFragment;
+import com.sfuronlabs.ripon.tourbangla.fragment.WishListFragment;
 import com.sfuronlabs.ripon.tourbangla.model.Place;
 import com.sfuronlabs.ripon.tourbangla.view.cpb.CircularProgressButton;
 import com.squareup.picasso.Picasso;
@@ -165,13 +165,13 @@ public class NewPlaceDetailsActivity extends AppCompatActivity {
                         if (addToFavourite.getText().toString().equals("ADD TO WISHLIST")) {
                             sharedPreference.addFavorite(NewPlaceDetailsActivity.this, selectedPlace);
                             favourites = sharedPreference.getFavorites(NewPlaceDetailsActivity.this);
-                            MessagesFragment.wishlist = (ArrayList) favourites;
+                            WishListFragment.wishlist = (ArrayList) favourites;
                             new FalseProgress(addToFavourite).execute(100);
                             addToFavourite.setText("REMOVE FROM WISHLIST");
                         } else {
                             sharedPreference.removeFavorite(NewPlaceDetailsActivity.this, selectedPlace);
                             favourites = sharedPreference.getFavorites(NewPlaceDetailsActivity.this);
-                            MessagesFragment.wishlist = (ArrayList) favourites;
+                            WishListFragment.wishlist = (ArrayList) favourites;
                             new FalseProgress(addToFavourite).execute(100);
                             addToFavourite.setText("ADD TO WISHLIST");
 
