@@ -26,21 +26,20 @@ import com.sfuronlabs.ripon.tourbangla.fragment.HomeFragment;
 import com.sfuronlabs.ripon.tourbangla.fragment.MessagesFragment;
 
 
-public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener{
+public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
-    private Toolbar mToolbar;
-    private FragmentDrawer drawerFragment;
     AdView adView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         adView = (AdView) findViewById(R.id.adView);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        drawerFragment = (FragmentDrawer)
+        FragmentDrawer drawerFragment = (FragmentDrawer)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
@@ -62,9 +61,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
         int id = item.getItemId();
 
-
-        if (id == R.id.logout)
-        {
+        if (id == R.id.logout) {
             ParseUser.logOut();
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -73,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onDrawerItemSelected(View view, int position) {
         displayView(position);

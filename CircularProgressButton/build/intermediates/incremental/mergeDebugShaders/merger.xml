@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/Ripon/AndroidStudioProjects/TourBangla/CircularProgressButton/src/main/shaders"/></dataSet><dataSet config="debug"><source path="/Users/Ripon/AndroidStudioProjects/TourBangla/CircularProgressButton/build-types/debug/shaders"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="/home/amin/AndroidStudioProjects/tourbangla/CircularProgressButton/src/main/shaders"/></dataSet><dataSet config="debug"><source path="/home/amin/AndroidStudioProjects/tourbangla/CircularProgressButton/build-types/debug/shaders"/></dataSet></merger>

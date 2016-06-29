@@ -39,8 +39,7 @@ public class VisitedPlacesFragment extends Fragment {
     ArrayList<Place> allPlaces;
     GridAdapter gridAdapter;
 
-    public VisitedPlacesFragment()
-    {
+    public VisitedPlacesFragment() {
 
     }
 
@@ -55,15 +54,14 @@ public class VisitedPlacesFragment extends Fragment {
         super.onResume();
         allPlaces = new ArrayList<>();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("rating", Context.MODE_PRIVATE);
-        Map<String,?> elements = sharedPreferences.getAll();
-        for(Map.Entry<String,?> entry : elements.entrySet()){
-            String string =  entry.getValue().toString();
+        Map<String, ?> elements = sharedPreferences.getAll();
+        for (Map.Entry<String, ?> entry : elements.entrySet()) {
+            String string = entry.getValue().toString();
             Gson gson = new Gson();
-            Place place = gson.fromJson(string,Place.class);
+            Place place = gson.fromJson(string, Place.class);
             allPlaces.add(place);
         }
-        if (allPlaces != null)
-        {
+        if (allPlaces != null) {
             BrowseByDivisionActivity.finalplaces = allPlaces;
             web = new String[allPlaces.size()];
             picname = new String[allPlaces.size()];
@@ -88,15 +86,14 @@ public class VisitedPlacesFragment extends Fragment {
 
         allPlaces = new ArrayList<>();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("rating", Context.MODE_PRIVATE);
-        Map<String,?> elements = sharedPreferences.getAll();
-        for(Map.Entry<String,?> entry : elements.entrySet()){
-            String string =  entry.getValue().toString();
+        Map<String, ?> elements = sharedPreferences.getAll();
+        for (Map.Entry<String, ?> entry : elements.entrySet()) {
+            String string = entry.getValue().toString();
             Gson gson = new Gson();
-            Place place = gson.fromJson(string,Place.class);
+            Place place = gson.fromJson(string, Place.class);
             allPlaces.add(place);
         }
-        if (allPlaces != null)
-        {
+        if (allPlaces != null) {
             BrowseByDivisionActivity.finalplaces = allPlaces;
             web = new String[allPlaces.size()];
             picname = new String[allPlaces.size()];
@@ -128,15 +125,12 @@ public class VisitedPlacesFragment extends Fragment {
                     @Override
                     public void done(List<ParseObject> list, ParseException e) {
                         dialog.dismiss();
-                        if (e == null)
-                        {
-                            Place place = new Place(product.getId(),product.getName(),product.getDescription(),product.getHowtogo(),product.getLattitude(),product.getLongitude(),product.getHotel(),product.getOthers(),product.getPicture(),product.getAddress(),product.getType(),product.getDistrict(),list.get(0));
-                            BrowseByDivisionActivity.finalplaces.set(position,place);
+                        if (e == null) {
+                            Place place = new Place(product.getId(), product.getName(), product.getDescription(), product.getHowtogo(), product.getLattitude(), product.getLongitude(), product.getHotel(), product.getOthers(), product.getPicture(), product.getAddress(), product.getType(), product.getDistrict(), list.get(0));
+                            BrowseByDivisionActivity.finalplaces.set(position, place);
                             startActivity(i);
-                        }
-                        else
-                        {
-                            Toast.makeText(getActivity(),"Error occured",Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), "Error occured", Toast.LENGTH_LONG).show();
                         }
 
                     }

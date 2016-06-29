@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +36,7 @@ import java.util.List;
 /**
  * Created by Ripon on 6/12/15.
  */
-public class DhakaFragment extends Fragment implements OnDismissCallback{
+public class DhakaFragment extends Fragment {
 
     ProgressWheel progressWheel;
 
@@ -42,11 +44,9 @@ public class DhakaFragment extends Fragment implements OnDismissCallback{
     private GoogleCardsTravelAdapter mGoogleCardsAdapter;
     ArrayList<DummyModel> data;
 
-    ListView view;
+    RecyclerView recyclerView;
     FloatingActionButton floatingActionButton;
-    String[] web;
-    int counter =0;
-    String[] picname;
+
     public DhakaFragment() {
         BrowseByDivisionActivity.finalplaces = new ArrayList<Place>();
         BrowseByDivisionActivity.objects = new ArrayList<>();
@@ -70,44 +70,28 @@ public class DhakaFragment extends Fragment implements OnDismissCallback{
         progressWheel.spin();
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
 
-        view = (ListView) rootView.findViewById(R.id.gridview);
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.gridview);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        recyclerView.setLayoutManager(linearLayoutManager);
         mGoogleCardsAdapter = new GoogleCardsTravelAdapter(getActivity(), data);
-        view.setAdapter(mGoogleCardsAdapter);
+        recyclerView.setAdapter(mGoogleCardsAdapter);
 
-
-        /*SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(
-                new SwipeDismissAdapter(mGoogleCardsAdapter, this));
-        swingBottomInAnimationAdapter.setAbsListView(view);
-
-        assert swingBottomInAnimationAdapter.getViewAnimator() != null;
-        swingBottomInAnimationAdapter.getViewAnimator().setInitialDelayMillis(
-                INITIAL_DELAY_MILLIS);*/
-
-        view.setClipToPadding(false);
-        view.setDivider(null);
+        recyclerView.setClipToPadding(false);
+        //recyclerView.setDivider(null);
         Resources r = getResources();
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 8, r.getDisplayMetrics());
-        view.setDividerHeight(px);
-        view.setFadingEdgeLength(0);
+        //recyclerView.setDividerHeight(px);
+        recyclerView.setFadingEdgeLength(0);
         //view.setFitsSystemWindows(true);
         px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12,
                 r.getDisplayMetrics());
-        view.setPadding(px, px, px, px);
-        view.setScrollBarStyle(ListView.SCROLLBARS_OUTSIDE_OVERLAY);
+        recyclerView.setPadding(px, px, px, px);
+        recyclerView.setScrollBarStyle(ListView.SCROLLBARS_OUTSIDE_OVERLAY);
 
-
-        view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Intent i = new Intent("android.intent.action.PLACEDETAILS");
-                Intent i = new Intent("android.intent.action.NEWPLACEDETAILSACTIVITY");
-                i.putExtra("index", position);
-                startActivity(i);
-                return;
-
-            }
-        });
         floatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.fabDhaka);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,17 +130,9 @@ public class DhakaFragment extends Fragment implements OnDismissCallback{
                                 DummyModel model = new DummyModel((int) list.get(i).get("id"),"http://vpn.gd/tourbangla/"+(String)list.get(i).get("picture")+".jpg",(String) list.get(i).get("name"),R.string.fontello_heart_empty);
                                 data.add(model);
                             }
-                            web = new String[BrowseByDivisionActivity.finalplaces.size()];
-                            picname = new String[BrowseByDivisionActivity.finalplaces.size()];
 
-                            for (int j = 0; j < BrowseByDivisionActivity.finalplaces.size(); j++) {
-                                web[j] = BrowseByDivisionActivity.finalplaces.get(j).getName();
-                                picname[j] = BrowseByDivisionActivity.finalplaces.get(j).getPicture();
-                            }
                             mGoogleCardsAdapter.notifyDataSetChanged();
-                            //GridAdapter gridAdapter = new GridAdapter(getActivity(),
-                              //      web, picname, "font/Amaranth-Bold.ttf");
-                            //view.setAdapter(gridAdapter);
+
                         }
                         else
                         {
@@ -176,17 +152,13 @@ public class DhakaFragment extends Fragment implements OnDismissCallback{
         {
             BrowseByDivisionActivity.finalplaces.clear();
             BrowseByDivisionActivity.objects.clear();
-
             ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceTable");
-            //query.whereEqualTo("district", "DHAKA");
             query.whereEqualTo("district", getArguments().getString("distname"));
-
             query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-            //final ProgressDialog dialog = ProgressDialog.show(getActivity(), "Loading", "Please wait...", true);
             query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(final List<ParseObject> list, ParseException e) {
-                    //dialog.dismiss();
+
                     if (progressWheel.isSpinning())
                     {
                         progressWheel.stopSpinning();
@@ -205,18 +177,8 @@ public class DhakaFragment extends Fragment implements OnDismissCallback{
                             DummyModel model = new DummyModel((int) list.get(i).get("id"),"http://vpn.gd/tourbangla/"+(String)list.get(i).get("picture")+".jpg",(String) list.get(i).get("name"),R.string.fontello_heart_empty);
                             data.add(model);
                         }
-                        web = new String[BrowseByDivisionActivity.finalplaces.size()];
-                        picname = new String[BrowseByDivisionActivity.finalplaces.size()];
 
-
-                        for (int j = 0; j < BrowseByDivisionActivity.finalplaces.size(); j++) {
-                            web[j] = BrowseByDivisionActivity.finalplaces.get(j).getName();
-                            picname[j] = BrowseByDivisionActivity.finalplaces.get(j).getPicture();
-                        }
                         mGoogleCardsAdapter.notifyDataSetChanged();
-                        //GridAdapter gridAdapter = new GridAdapter(getActivity(),
-                          //      web, picname, "font/Amaranth-Bold.ttf");
-
                     }
                     else
                     {
@@ -228,13 +190,4 @@ public class DhakaFragment extends Fragment implements OnDismissCallback{
         }
         else {  }
     }
-
-    @Override
-    public void onDismiss(@NonNull final ViewGroup listView,
-                          @NonNull final int[] reverseSortedPositions) {
-        for (int position : reverseSortedPositions) {
-            mGoogleCardsAdapter.remove(mGoogleCardsAdapter.getItem(position));
-        }
-    }
-
 }

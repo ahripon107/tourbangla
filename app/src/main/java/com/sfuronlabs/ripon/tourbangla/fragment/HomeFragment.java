@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,10 @@ import android.widget.ListView;
 
 import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.adapter.GridAdapter;
+import com.sfuronlabs.ripon.tourbangla.adapter.HomeFragmentRecyclerAdapter;
+import com.sfuronlabs.ripon.tourbangla.model.HomeFragmentElement;
+
+import java.util.ArrayList;
 
 /**
  * Created by Ripon on 6/11/15.
@@ -24,9 +30,17 @@ public class HomeFragment extends Fragment {
 
     String web[];
     String picname[];
-    ListView view;
+    RecyclerView recyclerView;
+    ArrayList<HomeFragmentElement> elements;
 
     public HomeFragment() {
+        elements = new ArrayList<>();
+        elements.add(new HomeFragmentElement("Browse By Division","image","Browse By Division"));
+        elements.add(new HomeFragmentElement("Browse by type","image","Browse by type"));
+        elements.add(new HomeFragmentElement("Hotels","image","Hotels"));
+        elements.add(new HomeFragmentElement("Tour operators","image","Tour operators"));
+        elements.add(new HomeFragmentElement("Tour Blog","image","Tour Blog"));
+        elements.add(new HomeFragmentElement("Suggest New Place","image","Suggest New Place"));
         web = new String[6];
         picname = new String[6];
         web[0] = "Browse by division";
@@ -53,13 +67,17 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        GridAdapter gridAdapter = new GridAdapter(getActivity(), this.web, this.picname,
-                "font/Amaranth-Bold.ttf");
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        view = (ListView) rootView.findViewById(R.id.gridviewselect);
-        view.setAdapter(gridAdapter);
+        HomeFragmentRecyclerAdapter adapter = new HomeFragmentRecyclerAdapter(getContext(),elements);
 
-        view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerviewselect);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        recyclerView.setAdapter(adapter);
+        /*view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
@@ -117,7 +135,7 @@ public class HomeFragment extends Fragment {
                 }
 
             }
-        });
+        });*/
         return rootView;
     }
 

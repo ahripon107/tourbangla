@@ -2,5 +2,9 @@
     {
         "merged": "/Users/Ripon/AndroidStudioProjects/TourBangla/StickyListHeaders/build/intermediates/res/merged/debug/drawable-v23/abc_control_background_material.xml",
         "source": "/Users/Ripon/AndroidStudioProjects/TourBangla/StickyListHeaders/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-v23/abc_control_background_material.xml"
+    },
+    {
+        "merged": "/home/amin/AndroidStudioProjects/tourbangla/StickyListHeaders/build/intermediates/res/merged/debug/drawable-v23/abc_control_background_material.xml",
+        "source": "/home/amin/AndroidStudioProjects/tourbangla/StickyListHeaders/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-v23/abc_control_background_material.xml"
     }
 ]

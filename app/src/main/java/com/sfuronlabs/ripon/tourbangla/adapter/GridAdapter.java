@@ -22,17 +22,17 @@ public class GridAdapter extends BaseAdapter {
     private String[] web;
     private String[] picname;
 
-    public GridAdapter(Activity paramActivity,String[] paramArrayOfString,
-                       String[] pics, String paramString)
-    {
+    public GridAdapter(Activity paramActivity, String[] paramArrayOfString,
+                       String[] pics, String paramString) {
         //super(paramActivity, R.layout.griditem, paramArrayOfString);
         this.context = paramActivity;
         this.web = paramArrayOfString;
         //this.imageId = paramArrayOfInteger;
         this.picname = pics;
         //this.tf = Typeface.createFromAsset(paramActivity.getAssets(),
-               // paramString);
+        // paramString);
     }
+
     @Override
     public int getCount() {
         return web.length;
@@ -51,8 +51,7 @@ public class GridAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View localView = convertView;
-        if (localView == null)
-        {
+        if (localView == null) {
             localView = this.context.getLayoutInflater().inflate(R.layout.griditem, null, true);
 
         }
@@ -60,10 +59,10 @@ public class GridAdapter extends BaseAdapter {
         //localTextView.setTypeface(this.tf, 1);
         ImageView localImageView = (ImageView) localView.findViewById(R.id.picture);
         localTextView.setText(this.web[position]);
-        Typeface tf = Typeface.createFromAsset(context.getAssets(),"font/solaimanlipi.ttf");
+        Typeface tf = Typeface.createFromAsset(context.getAssets(), "font/solaimanlipi.ttf");
         localTextView.setTypeface(tf);
         //localImageView.setImageResource(this.imageId[position].intValue());
-        Picasso.with(context).load("http://vpn.gd/tourbangla/"+this.picname[position]+".jpg").placeholder(R.drawable.noimage).into(localImageView);
+        Picasso.with(context).load("http://vpn.gd/tourbangla/" + this.picname[position] + ".jpg").placeholder(R.drawable.noimage).into(localImageView);
 
         return localView;
     }

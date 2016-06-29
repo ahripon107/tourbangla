@@ -7,55 +7,33 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sfuronlabs.ripon.tourbangla.R;
+import com.sfuronlabs.ripon.tourbangla.util.ViewHolder;
 
 import java.util.ArrayList;
 
 /**
  * Created by Ripon on 8/27/15.
  */
-public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
     private ArrayList<CharSequence> names;
-    private  ArrayList<CharSequence> comments;
-
-    public class ViewHolder extends RecyclerView.ViewHolder
-    {
-
-        TextView commenter;
-        TextView comment;
-        public ViewHolder(View v)
-        {
-            super(v);
-            commenter = (TextView) v.findViewById(R.id.tvName);
-            comment = (TextView) v.findViewById(R.id.tvComment);
-        }
-    }
+    private ArrayList<CharSequence> comments;
 
     public CommentAdapter(ArrayList<CharSequence> names, ArrayList<CharSequence> comments) {
-
         this.names = names;
         this.comments = comments;
-
     }
 
-
-
-
     @Override
-    public CommentAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.singlecomment, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new CommentViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        TextView commenter = holder.commenter;
-        TextView comment = holder.comment;
-
-        commenter.setText("মন্তব্য করেছেন:  "+names.get(position));
-        comment.setText(comments.get(position));
-
+    public void onBindViewHolder(CommentViewHolder holder, int position) {
+        holder.commenter.setText("মন্তব্য করেছেন:  " + names.get(position));
+        holder.comment.setText(comments.get(position));
     }
 
     @Override
@@ -63,9 +41,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         return names.size();
     }
 
+    public static class CommentViewHolder extends RecyclerView.ViewHolder {
 
+        TextView commenter;
+        TextView comment;
 
-
-
-
+        public CommentViewHolder(View v) {
+            super(v);
+            commenter = ViewHolder.get(v,R.id.tvName);
+            comment = ViewHolder.get(v,R.id.tvComment);
+        }
+    }
 }
