@@ -112,7 +112,6 @@ public class VisitedPlacesFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                //Intent i = new Intent("android.intent.action.PLACEDETAILS");
                 final Intent i = new Intent("android.intent.action.NEWPLACEDETAILSACTIVITY");
                 i.putExtra("index", position);
                 final Place product = allPlaces.get(position);
@@ -138,7 +137,6 @@ public class VisitedPlacesFragment extends Fragment {
 
             }
         });
-        // Inflate the layout for this fragment
         return rootView;
     }
 

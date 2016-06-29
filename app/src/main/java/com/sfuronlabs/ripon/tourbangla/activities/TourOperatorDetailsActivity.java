@@ -27,8 +27,8 @@ public class TourOperatorDetailsActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager mPager;
     private TourOperatorDetailsPagerAdapter mAdapter;
-    String name,address,places,others;
-    public String titles[] = {"ARRDESS","PLACES","OTHERS"};
+    String name, address, places, others;
+    public String titles[] = {"ARRDESS", "PLACES", "OTHERS"};
     AdView adView;
 
     @Override
@@ -67,7 +67,7 @@ public class TourOperatorDetailsActivity extends AppCompatActivity {
         mPager.setAdapter(mAdapter);
         mTabLayout.setTabsFromPagerAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mPager);
-        //mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+
         Log.d("here", "complete");
 
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("18D9D4FB40DF048C506091E42E0FDAFD").build();
@@ -81,7 +81,7 @@ class TourOperatorDetailsPagerAdapter extends FragmentStatePagerAdapter {
     String[] titles;
     String name, address, places, others;
 
-    public TourOperatorDetailsPagerAdapter(FragmentManager fm,String[] titles,String name, String address, String places, String others) {
+    public TourOperatorDetailsPagerAdapter(FragmentManager fm, String[] titles, String name, String address, String places, String others) {
 
         super(fm);
         this.name = name;
@@ -93,20 +93,12 @@ class TourOperatorDetailsPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (position == 0)
-        {
-            DescriptionFragment descriptionFragment = DescriptionFragment.newInstanceOfDescriptionFragment(address);
-            return descriptionFragment;
-        }
-        else if (position==1)
-        {
-            DescriptionFragment descriptionFragment = DescriptionFragment.newInstanceOfDescriptionFragment(places);
-            return descriptionFragment;
-        }
-        else
-        {
-            DescriptionFragment descriptionFragment = DescriptionFragment.newInstanceOfDescriptionFragment(others);
-            return descriptionFragment;
+        if (position == 0) {
+            return DescriptionFragment.newInstanceOfDescriptionFragment(address);
+        } else if (position == 1) {
+            return DescriptionFragment.newInstanceOfDescriptionFragment(places);
+        } else {
+            return DescriptionFragment.newInstanceOfDescriptionFragment(others);
         }
 
     }

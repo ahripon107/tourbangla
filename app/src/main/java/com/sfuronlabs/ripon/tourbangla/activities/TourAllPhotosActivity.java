@@ -23,7 +23,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.adapter.ImageSlideshowAdapter;
-import com.sfuronlabs.ripon.tourbangla.fragment.FriendsFragment;
+
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -99,9 +99,9 @@ public class TourAllPhotosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ParseObject parseObject = FriendsFragment.allTours.get(index);
-                parseObject.deleteInBackground();
-                FriendsFragment.allTours.remove(index);
+                //ParseObject parseObject = FriendsFragment.allTours.get(index);
+                //parseObject.deleteInBackground();
+                //FriendsFragment.allTours.remove(index);
                 for (int c=0;c<allPictures.size();c++)
                 {
                     ParseObject p = allPictures.get(c);
@@ -115,7 +115,7 @@ public class TourAllPhotosActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         Toast.makeText(TourAllPhotosActivity.this,"Your images are loading, please wait",Toast.LENGTH_LONG).show();
         ParseQuery<ParseObject> parseObjectParseQuery = ParseQuery.getQuery("TourPicture");
-        parseObjectParseQuery.whereEqualTo("relatedtour",FriendsFragment.allTours.get(index));
+        //parseObjectParseQuery.whereEqualTo("relatedtour",FriendsFragment.allTours.get(index));
         parseObjectParseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
@@ -187,7 +187,7 @@ public class TourAllPhotosActivity extends AppCompatActivity {
                         @Override
                         public void done(ParseException e) {
                             ParseObject parseObject1 = new ParseObject("TourPicture");
-                            parseObject1.put("relatedtour", FriendsFragment.allTours.get(index));
+                            //parseObject1.put("relatedtour", FriendsFragment.allTours.get(index));
                             parseObject1.put("picture", file);
                             parseObject1.put("username", ParseUser.getCurrentUser());
                             parseObject1.saveInBackground();

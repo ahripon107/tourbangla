@@ -22,7 +22,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sfuronlabs.ripon.tourbangla.R;
-import com.sfuronlabs.ripon.tourbangla.fragment.FriendsFragment;
+
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -166,7 +166,7 @@ public class NewTourToTimelineActivity extends AppCompatActivity {
                 parseObject.put("enddate",endt);
                 parseObject.put("userinfo", ParseUser.getCurrentUser());
                 parseObject.saveInBackground();
-                FriendsFragment.allTours.add(parseObject);
+
                 /*byte[] data = new byte[(int) selectedFile.length()];
                 try {
                     data = IOUtil.readFile(selectedFile);

@@ -23,7 +23,7 @@ import com.sfuronlabs.ripon.tourbangla.fragment.AboutAppFragment;
 import com.sfuronlabs.ripon.tourbangla.fragment.FeedbackFragment;
 import com.sfuronlabs.ripon.tourbangla.fragment.FragmentDrawer;
 import com.sfuronlabs.ripon.tourbangla.fragment.HomeFragment;
-import com.sfuronlabs.ripon.tourbangla.fragment.MessagesFragment;
+import com.sfuronlabs.ripon.tourbangla.fragment.WishListFragment;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 subtitle = getString(R.string.title_home);
                 break;
             case 1:
-                fragment = new MessagesFragment();
+                fragment = new WishListFragment();
                 subtitle = getString(R.string.title_messages);
                 break;
             case 2:

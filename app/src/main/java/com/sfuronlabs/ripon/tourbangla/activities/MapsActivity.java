@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sfuronlabs.ripon.tourbangla.R;
 
-public class MapsActivity extends Fragment {
+public class MapsActivity extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
@@ -30,9 +31,7 @@ public class MapsActivity extends Fragment {
         View v = inflater.inflate(R.layout.activity_maps,null,false);
         //setUpMapIfNeeded();
             // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map123))
-                    .getMap();
-            // Check if we were successful in obtaining the map.
+            ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map123)).getMapAsync(this);
             if (mMap != null) {
                 setUpMap();
             }
@@ -87,8 +86,8 @@ public class MapsActivity extends Fragment {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map123))
-                    .getMap();
+            ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map123)).getMapAsync(this);
+
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
@@ -107,5 +106,10 @@ public class MapsActivity extends Fragment {
         String longi = getArguments().getString("longi");
         mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(lat), Double.parseDouble(longi))).title("Marker"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(lat), Double.parseDouble(longi)),14.0f));
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.mMap = googleMap;
     }
 }

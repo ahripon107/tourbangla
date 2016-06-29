@@ -13,32 +13,28 @@ import com.sfuronlabs.ripon.tourbangla.R;
 /**
  * Created by Ripon on 8/26/15.
  */
-public  class DescriptionFragment extends Fragment {
+public class DescriptionFragment extends Fragment {
 
     Typeface tf;
 
-
     public DescriptionFragment() {
-
-
     }
 
     public static DescriptionFragment newInstanceOfDescriptionFragment(String text) {
-            DescriptionFragment myFragment = new DescriptionFragment();
-            Bundle arguments = new Bundle();
-            arguments.putString("description", text);
-
-            myFragment.setArguments(arguments);
-            return myFragment;
+        DescriptionFragment myFragment = new DescriptionFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString("description", text);
+        myFragment.setArguments(arguments);
+        return myFragment;
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        inflater = (LayoutInflater)getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.placedescription,null,false);
+        inflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.placedescription, null, false);
         TextView textView = (TextView) v.findViewById(R.id.placedescription);
-        tf = Typeface.createFromAsset(getActivity().getAssets(),"font/solaimanlipi.ttf");
+        tf = Typeface.createFromAsset(getActivity().getAssets(), "font/solaimanlipi.ttf");
         textView.setTypeface(tf);
         textView.setText(getArguments().getString("description"));
         return v;
