@@ -18,6 +18,7 @@ import com.parse.ParseUser;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.sfuronlabs.ripon.tourbangla.R;
+import com.sfuronlabs.ripon.tourbangla.RoboAppCompatActivity;
 import com.sfuronlabs.ripon.tourbangla.fragment.VisitedPlacesFragment;
 import com.sfuronlabs.ripon.tourbangla.fragment.AboutAppFragment;
 import com.sfuronlabs.ripon.tourbangla.fragment.FeedbackFragment;
@@ -25,28 +26,32 @@ import com.sfuronlabs.ripon.tourbangla.fragment.FragmentDrawer;
 import com.sfuronlabs.ripon.tourbangla.fragment.HomeFragment;
 import com.sfuronlabs.ripon.tourbangla.fragment.WishListFragment;
 
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
 
-public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
+@ContentView(R.layout.activity_main)
+public class MainActivity extends RoboAppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
+    @InjectView(R.id.adView)
     AdView adView;
+
+    @InjectView(R.id.toolbar)
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        adView = (AdView) findViewById(R.id.adView);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         FragmentDrawer drawerFragment = (FragmentDrawer)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
         displayView(0);
 
-
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("18D9D4FB40DF048C506091E42E0FDAFD").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
         adView.loadAd(adRequest);
     }
 
@@ -117,6 +122,4 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             getSupportActionBar().setTitle(title);
         }
     }
-
-
 }

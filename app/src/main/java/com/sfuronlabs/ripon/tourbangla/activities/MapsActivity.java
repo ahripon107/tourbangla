@@ -17,24 +17,21 @@ import com.sfuronlabs.ripon.tourbangla.R;
 
 public class MapsActivity extends Fragment implements OnMapReadyCallback {
 
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private GoogleMap mMap;
 
-    public MapsActivity()
-    {
+    public MapsActivity() {
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        inflater = (LayoutInflater)getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
 
-        View v = inflater.inflate(R.layout.activity_maps,null,false);
-        //setUpMapIfNeeded();
-            // Try to obtain the map from the SupportMapFragment.
-            ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map123)).getMapAsync(this);
-            if (mMap != null) {
-                setUpMap();
-            }
+        View v = inflater.inflate(R.layout.activity_maps, container, false);
+        ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map123)).getMapAsync(this);
+        if (mMap != null) {
+            setUpMap();
+        }
 
         return v;
     }
@@ -42,15 +39,13 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
     @Override
     public void onResume() {
         super.onResume();
-        //setUpMapIfNeeded();
     }
 
-    public static MapsActivity NewInstanceOfMapsActivity(String lat,String longi)
-    {
+    public static MapsActivity NewInstanceOfMapsActivity(String lat, String longi) {
         MapsActivity myFragment = new MapsActivity();
         Bundle arguments = new Bundle();
         arguments.putString("lat", lat);
-        arguments.putString("longi",longi);
+        arguments.putString("longi", longi);
 
         myFragment.setArguments(arguments);
         return myFragment;
@@ -61,7 +56,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
         super.onDestroyView();
         SupportMapFragment mapFragment = ((SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map123));
 
-        if(mapFragment != null) {
+        if (mapFragment != null) {
             FragmentManager fM = getFragmentManager();
             fM.beginTransaction().remove(mapFragment).commit();
         }
@@ -105,7 +100,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
         String lat = getArguments().getString("lat");
         String longi = getArguments().getString("longi");
         mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(lat), Double.parseDouble(longi))).title("Marker"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(lat), Double.parseDouble(longi)),14.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(lat), Double.parseDouble(longi)), 14.0f));
     }
 
     @Override

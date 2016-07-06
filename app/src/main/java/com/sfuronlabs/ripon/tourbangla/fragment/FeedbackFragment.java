@@ -59,11 +59,10 @@ public class FeedbackFragment extends Fragment {
                     new FalseProgress(send).execute(-1);
                     return;
                 }
-                //Toast.makeText(getActivity(), "Thank you for your feedback", Toast.LENGTH_LONG).show();
                 new FalseProgress(send).execute(100);
                 title.getText().clear();
                 details.getText().clear();
-                String url = "http://209.58.178.96/TourBangla/feedback.php?key=bl905577&title="+t+"&details="+d;
+                String url = "http://apisea.xyz/TourBangla/feedback.php?key=bl905577&title="+t+"&details="+d;
                 Log.d(Constants.TAG, url);
                 final ProgressDialog progressDialog = new ProgressDialog(getContext());
                 progressDialog.setMessage("Loading...");
@@ -82,10 +81,6 @@ public class FeedbackFragment extends Fragment {
                         Toast.makeText(getContext(), "Failed "+statusCode, Toast.LENGTH_LONG).show();
                     }
                 });
-                /*ParseObject parseObject = new ParseObject("Feedback");
-                parseObject.put("title", t);
-                parseObject.put("details", d);
-                parseObject.saveInBackground();*/
             }
 
 

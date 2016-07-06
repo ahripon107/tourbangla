@@ -151,4 +151,186 @@
     <!-- For Update -->
     <string name="confirm_exit">Press Back button again to exit</string>
 
+    <string name="iloveit">I love it</string>
+    <string name="ilikeit">I like it</string>
+    <string name="itsok">Its OK</string>
+    <string name="dontlike">I dont like it</string>
+    <string name="hateit">I hate it</string>
+
+    <string-array name="dhaka_districts">
+        <item>Dhaka</item>
+        <item>Gazipur</item>
+        <item>Gopalganj</item>
+        <item>Kishoreganj</item>
+        <item>Madaripur</item>
+        <item>Manikganj</item>
+        <item>Munshiganj</item>
+        <item>Narayanganj</item>
+        <item>Rajbari</item>
+        <item>Shariatpur</item>
+        <item>Faridpur</item>
+        <item>Tangail</item>
+        <item>Narsingdi</item>
+    </string-array>
+
+    <string-array name="chittagong_districts">
+        <item>Chittagong</item>
+        <item>Bandarban</item>
+        <item>Chadpur</item>
+        <item>Brahmanbaria </item>
+        <item>Comilla</item>
+        <item>Coxs Bazar </item>
+        <item>Feni</item>
+        <item>Khagrachhari</item>
+        <item>Laksmipur</item>
+        <item>Noakhali</item>
+        <item>Rangamati</item>
+    </string-array>
+
+    <string-array name="rajshahi_districts">
+        <item>Joypurhat</item>
+        <item>Bogra</item>
+        <item>Naogaon</item>
+        <item>Natore</item>
+        <item>Nawabganj</item>
+        <item>Pabna</item>
+        <item>Sirajganj</item>
+        <item>Rajshahi</item>
+    </string-array>
+    
+    <string-array name="rangpur_districts">
+        <item>Dinajpur</item>
+        <item>Gaibandha</item>
+        <item>Kurigram</item>
+        <item>Lalmonirhat</item>
+        <item>Nilphamari</item>
+        <item>Panchagarh</item>
+        <item>Rangpur</item>
+        <item>Thakurgaon</item>
+    </string-array>
+    
+    <string-array name="mymensingh_districts">
+        <item>Netrokona</item>
+        <item>Sherpur</item>
+        <item>Jamalpur</item>
+        <item>Mymensingh</item>
+    </string-array>
+    
+    <string-array name="barisal_districts">
+        <item>Barguna</item>
+        <item>Barisal</item>
+        <item>Vola</item>
+        <item>Jhalokati</item>
+        <item>Patuakhali</item>
+        <item>Pirojpur</item>
+    </string-array>
+    
+    <string-array name="khulna_districts">
+        <item>Bagerhat</item>
+        <item>Chuadanga</item>
+        <item>Jessore</item>
+        <item>Jhenaida</item>
+        <item>Khulna</item>
+        <item>Kushtia</item>
+        <item>Magura</item>
+        <item>Meherpur</item>
+        <item>Satkhira</item>
+        <item>Narail</item>
+    </string-array>
+    
+    <string-array name="sylhet_districts">
+        <item>Habiganj</item>
+        <item>Moulvibazar</item>
+        <item>Sunamganj</item>
+        <item>Sylhet</item>
+    </string-array>
+
+    <string-array name="dhaka_districts_bangla">
+        <item>ঢাকা</item>
+        <item>গাজীপুর</item>
+        <item>গোপালগঞ্জ</item>
+        <item>কিশোরগঞ্জ</item>
+        <item>মাদারীপুর</item>
+        <item>মানিকগঞ্জ</item>
+        <item>নারায়াঙ্গঞ্জ</item>
+        <item>মুন্সীগঞ্জi</item>
+        <item>রাজবাড়ী</item>
+        <item>শরীয়তপুর</item>
+        <item>ফরিদপুর</item>
+        <item>টাঙ্গাইল</item>
+        <item>নরসিংদী</item>
+    </string-array>
+
+    <string-array name="chittagong_districts_bangla">
+        <item>চট্টগ্রাম</item>
+        <item>বান্দরবান</item>
+        <item>চাঁদপুর</item>
+        <item>ব্রাহ্মণবাড়িয়া</item>
+        <item>কুমিল্লা</item>
+        <item>কক্সবাজার</item>
+        <item>ফেনী</item>
+        <item>খাগড়াছড়ি</item>
+        <item>লক্ষ্মীপুর</item>
+        <item>নোয়াখালী</item>
+        <item>রাঙামাটি</item>
+    </string-array>
+
+    <string-array name="rajshahi_districts_bangla">
+        <item>জয়পুরহাট</item>
+        <item>বগুড়া</item>
+        <item>নওগাঁ</item>
+        <item>নাটোর</item>
+        <item>নবাবগঞ্জ</item>
+        <item>পাবনা</item>
+        <item>সিরাজগঞ্জ</item>
+        <item>রাজশাহী</item>
+    </string-array>
+
+
+    <string-array name="rangpur_districts_bangla">
+        <item>দিনাজপুর</item>
+        <item>গাইবান্ধা</item>
+        <item>কুড়িগ্রাম</item>
+        <item>লালমনিরহাট</item>
+        <item>নীলফামারী</item>
+        <item>পঞ্চগড়</item>
+        <item>রংপুর</item>
+        <item>ঠাকুরগাঁও</item>
+    </string-array>
+
+    <string-array name="mymensingh_districts_bangla">
+        <item>নেত্রকোনা</item>
+        <item>শেরপুর</item>
+        <item>জামালপুর</item>
+        <item>ময়মন্সিহ</item>
+    </string-array>
+
+    <string-array name="barisal_districts_bangla">
+        <item>বরগুনা</item>
+        <item>বরিশাল</item>
+        <item>ভোলা</item>
+        <item>ঝালকাঠি</item>
+        <item>পটুয়াখালী</item>
+        <item>পিরোজপুর</item>
+    </string-array>
+
+    <string-array name="khulna_districts_bangla">
+        <item>বাগেরহাট</item>
+        <item>চুয়াডাঙ্গা</item>
+        <item>যশোর</item>
+        <item>ঝিনাইদাহ</item>
+        <item>খুলনা</item>
+        <item>কুষ্টিয়া</item>
+        <item>মাগুরা</item>
+        <item>মেহেরপুর</item>
+        <item>সাতক্ষীরা</item>
+        <item>নড়াইল</item>
+    </string-array>
+
+    <string-array name="sylhet_districts_bangla">
+        <item>হবিগঞ্জ</item>
+        <item>মৌলভীবাজার</item>
+        <item>সুনামগঞ্জ</item>
+        <item>সিলেট</item>
+    </string-array>
 </resources>

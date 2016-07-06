@@ -16,34 +16,49 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.sfuronlabs.ripon.tourbangla.FetchFromWeb;
 import com.sfuronlabs.ripon.tourbangla.R;
+import com.sfuronlabs.ripon.tourbangla.RoboAppCompatActivity;
 import com.sfuronlabs.ripon.tourbangla.util.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
 
 /**
  * Created by Ripon on 9/27/15.
  */
-public class SuggestNewPlaceActivity extends AppCompatActivity {
-    EditText name, address, division, description, howtogo, hotels;
+@ContentView(R.layout.suggestnewplace)
+public class SuggestNewPlaceActivity extends RoboAppCompatActivity {
+    @InjectView(R.id.etSuggestedPlaceName)
+    EditText name;
+
+    @InjectView(R.id.etSuggestedPlaceAddress)
+    EditText address;
+
+    @InjectView(R.id.etSuggestedPlaceDivision)
+    EditText division;
+
+    @InjectView(R.id.etSuggestedPlaceDescription)
+    EditText description;
+
+    @InjectView(R.id.etSuggestedPlaceHowtogo)
+    EditText howtogo;
+
+    @InjectView(R.id.etSuggestedPlaceHotels)
+    EditText hotels;
+
+    @InjectView(R.id.btnDoneSuggest)
     Button suggestDone;
+
+    @InjectView(R.id.tool_barsuggestplace)
     Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.suggestnewplace);
 
-        name = (EditText) findViewById(R.id.etSuggestedPlaceName);
-        address = (EditText) findViewById(R.id.etSuggestedPlaceAddress);
-        division = (EditText) findViewById(R.id.etSuggestedPlaceDivision);
-        description = (EditText) findViewById(R.id.etSuggestedPlaceDescription);
-        howtogo = (EditText) findViewById(R.id.etSuggestedPlaceHowtogo);
-        hotels = (EditText) findViewById(R.id.etSuggestedPlaceHotels);
-        suggestDone = (Button) findViewById(R.id.btnDoneSuggest);
-        toolbar = (Toolbar) findViewById(R.id.tool_barsuggestplace);
         setSupportActionBar(toolbar);
         setTitle("Suggest New Place");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -72,7 +87,7 @@ public class SuggestNewPlaceActivity extends AppCompatActivity {
                     return;
                 }
 
-                String url = "http://209.58.178.96/TourBangla/SuggestNewPlace.php?key=bl905577&hotels="+photels+"&howtogo="+phowtogo;
+                String url = "http://apisea.xyz/TourBangla/SuggestNewPlace.php?key=bl905577&hotels="+photels+"&howtogo="+phowtogo;
                 url = url + "&description="+pdescription+"&division="+pdivision+"&address="+paddress+"&name="+pname;
                 Log.d(Constants.TAG, url);
                 final ProgressDialog progressDialog = new ProgressDialog(SuggestNewPlaceActivity.this);

@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sfuronlabs.ripon.tourbangla.R;
+import com.sfuronlabs.ripon.tourbangla.activities.DivisionListActivity;
 import com.sfuronlabs.ripon.tourbangla.model.HomeFragmentElement;
 import com.sfuronlabs.ripon.tourbangla.util.ViewHolder;
 
@@ -48,12 +49,9 @@ public class HomeFragmentRecyclerAdapter extends RecyclerView.Adapter<HomeFragme
             @Override
             public void onClick(View v) {
                 if (position == 0) {
-                    Intent i = new Intent("android.intent.action.BROWSEBYDIVISION");
+                    Intent i = new Intent(context, DivisionListActivity.class);
                     context.startActivity(i);
-                } else if (position == 1) {
-                    Intent i = new Intent("android.intent.action.BROWSEBYTYPE");
-                    context.startActivity(i);
-                } else if (position == 2) {
+                }  else if (position == 1) {
                     AlertDialog.Builder builderSingle = new AlertDialog.Builder(context);
                     builderSingle.setIcon(R.drawable.ic_profile);
                     builderSingle.setTitle("Select One Name:-");
@@ -90,13 +88,13 @@ public class HomeFragmentRecyclerAdapter extends RecyclerView.Adapter<HomeFragme
                             });
                     builderSingle.show();
 
-                } else if (position == 3) {
+                } else if (position == 2) {
                     Intent i = new Intent("android.intent.action.SELECTTOUROPERATOR");
                     context.startActivity(i);
-                } else if (position == 4) {
+                } else if (position == 3) {
                     Intent i = new Intent("android.intent.action.TOURBLOG");
                     context.startActivity(i);
-                } else if (position == 5) {
+                } else if (position == 4) {
                     Intent i = new Intent("android.intent.action.SUGGESTNEWPLACE");
                     context.startActivity(i);
                 }

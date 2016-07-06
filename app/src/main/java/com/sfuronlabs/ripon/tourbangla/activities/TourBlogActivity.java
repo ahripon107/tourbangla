@@ -22,42 +22,53 @@ import java.util.List;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.sfuronlabs.ripon.tourbangla.R;
+import com.sfuronlabs.ripon.tourbangla.RoboAppCompatActivity;
 import com.sfuronlabs.ripon.tourbangla.adapter.TourBlogListStyle;
 import com.sfuronlabs.ripon.tourbangla.view.ProgressWheel;
+
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
 
 /**
  * Created by Ripon on 7/21/15.
  */
-public class TourBlogActivity extends AppCompatActivity {
+@ContentView(R.layout.tourblog)
+public class TourBlogActivity extends RoboAppCompatActivity {
+
+    @InjectView(R.id.pwTourBlog)
     ProgressWheel progressWheel;
 
+    @InjectView(R.id.lvAllBlogPosts)
     ListView allBlogPosts;
+
+    @InjectView(R.id.toolbarTourBlog)
+    Toolbar toolbar;
+
+    @InjectView(R.id.fabAddNewBlog)
+    FloatingActionButton fabNewBlog;
+
+    @InjectView(R.id.adViewTourBlog)
+    AdView adView;
+
     TourBlogListStyle style;
     ArrayList<String> posts;
     ArrayList<String> writers;
     ArrayList<String> tags;
     ArrayList<File> picture;
     public static ArrayList<ParseObject> retrievedObjects;
-    Toolbar toolbar;
-    FloatingActionButton fabNewBlog;
-    AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tourblog);
-        allBlogPosts = (ListView) findViewById(R.id.lvAllBlogPosts);
-        progressWheel = (ProgressWheel) findViewById(R.id.pwTourBlog);
+
         progressWheel.spin();
         posts = new ArrayList<>();
         writers = new ArrayList<>();
         tags = new ArrayList<>();
         picture = new ArrayList<>();
-        retrievedObjects = new ArrayList<>();
-        fabNewBlog = (FloatingActionButton) findViewById(R.id.fabAddNewBlog);
-        adView = (AdView) findViewById(R.id.adViewTourBlog);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbarTourBlog);
+        retrievedObjects = new ArrayList<>();
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -109,7 +120,7 @@ public class TourBlogActivity extends AppCompatActivity {
 
         });
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("18D9D4FB40DF048C506091E42E0FDAFD").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
         adView.loadAd(adRequest);
     }
 }

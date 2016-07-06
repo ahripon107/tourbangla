@@ -27,6 +27,7 @@ import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.sfuronlabs.ripon.tourbangla.R;
+import com.sfuronlabs.ripon.tourbangla.RoboAppCompatActivity;
 import com.sfuronlabs.ripon.tourbangla.SharedPreference;
 import com.sfuronlabs.ripon.tourbangla.fragment.CommentAddComment;
 import com.sfuronlabs.ripon.tourbangla.fragment.DescriptionFragment;
@@ -37,53 +38,64 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
+
 /**
  * Created by Ripon on 8/22/15.
  */
-public class NewPlaceDetailsActivity extends AppCompatActivity {
+@ContentView(R.layout.newplacedetails)
+public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
 
-    // Need this to link with the Snackbar
+    @InjectView(R.id.root_coordinator)
     private CoordinatorLayout mCoordinator;
-    //Need this to set the title of the app bar
+
+    @InjectView(R.id.collapsing_toolbar_layout)
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
+
+    @InjectView(R.id.app_bar)
     private Toolbar mToolbar;
+
+    @InjectView(R.id.view_pager)
     private ViewPager mPager;
-    private YourPagerAdapter mAdapter;
+
+    @InjectView(R.id.tab_layout)
     private TabLayout mTabLayout;
-    private CharSequence Titles[] = {"DESCRIPTION", "HOW TO GO", "HOTELS", "OTHER INFO", "COMMENTS", "MAPS"};
-    private int NoOfTabs = 6;
-    private Place selectedPlace;
+
+    @InjectView(R.id.placeimage)
     ImageView imageView;
-    private String picture;
-    ArrayList<CharSequence> names;
-    ArrayList<CharSequence> comments;
-    int counter;
-    CircularProgressButton addToFavourite, beenThere;
+
+    @InjectView(R.id.btnAddToFavourite)
+    CircularProgressButton addToFavourite;
+
+    @InjectView(R.id.btnBeenThere)
+    CircularProgressButton beenThere;
+
+    @InjectView(R.id.adViewPlaceDetails)
+    AdView adView;
+
+    private CharSequence Titles[] = {"DESCRIPTION", "HOW TO GO", "HOTELS", "OTHER INFO", "COMMENTS", "MAPS"};
+    private Place selectedPlace;
     SharedPreference sharedPreference;
     List<Place> favourites;
     ParseObject selectedObject;
     int index;
-    AdView adView;
+    ArrayList<CharSequence> names;
+    ArrayList<CharSequence> comments;
+    int counter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.newplacedetails);
         names = new ArrayList<>();
         comments = new ArrayList<>();
-        imageView = (ImageView) findViewById(R.id.placeimage);
-        mCoordinator = (CoordinatorLayout) findViewById(R.id.root_coordinator);
-        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
         counter = 0;
-        addToFavourite = (CircularProgressButton) findViewById(R.id.btnAddToFavourite);
-        beenThere = (CircularProgressButton) findViewById(R.id.btnBeenThere);
         sharedPreference = new SharedPreference();
-        mToolbar = (Toolbar) findViewById(R.id.app_bar);
-        adView = (AdView) findViewById(R.id.adViewPlaceDetails);
-
         setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -105,7 +117,7 @@ public class NewPlaceDetailsActivity extends AppCompatActivity {
         index = i.getExtras().getInt("index");
 
         selectedPlace = BrowseByDivisionActivity.finalplaces.get(index);
-        picture = selectedPlace.getPicture();
+        String picture = selectedPlace.getPicture();
         selectedObject = selectedPlace.getParseObject();
 
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("CommentOnPlace");
@@ -113,8 +125,6 @@ public class NewPlaceDetailsActivity extends AppCompatActivity {
         query1.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
 
         query1.findInBackground(new FindCallback<ParseObject>() {
-
-
             @Override
             public void done(List<ParseObject> list1, com.parse.ParseException e) {
 
@@ -134,20 +144,12 @@ public class NewPlaceDetailsActivity extends AppCompatActivity {
             }
         });
         Picasso.with(getApplicationContext()).load("http://vpn.gd/tourbangla/" + picture + ".jpg").into(imageView);
-
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        mAdapter = new YourPagerAdapter(getSupportFragmentManager(), Titles, NoOfTabs, selectedPlace, names, comments, selectedObject);
-        mPager = (ViewPager) findViewById(R.id.view_pager);
+        int noOfTabs = 6;
+        YourPagerAdapter mAdapter = new YourPagerAdapter(getSupportFragmentManager(), Titles, noOfTabs, selectedPlace, names, comments, selectedObject);
         mPager.setAdapter(mAdapter);
-        //Notice how the Tab Layout links with the Pager Adapter
         mTabLayout.setTabsFromPagerAdapter(mAdapter);
 
-        //Notice how The Tab Layout adn View Pager object are linked
         mTabLayout.setupWithViewPager(mPager);
-        //mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-
-        //Notice how the title is set on the Collapsing Toolbar Layout instead of the Toolbar
-        //mCollapsingToolbarLayout.setTitle(getResources().getString(R.string.title_activity_fourth));
         mCollapsingToolbarLayout.setTitle(selectedPlace.getName() + " , " + selectedPlace.getAddress());
         mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
         mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
@@ -162,26 +164,20 @@ public class NewPlaceDetailsActivity extends AppCompatActivity {
         addToFavourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                        if (addToFavourite.getText().toString().equals("ADD TO WISHLIST")) {
-                            sharedPreference.addFavorite(NewPlaceDetailsActivity.this, selectedPlace);
-                            favourites = sharedPreference.getFavorites(NewPlaceDetailsActivity.this);
-                            WishListFragment.wishlist = (ArrayList) favourites;
-                            new FalseProgress(addToFavourite).execute(100);
-                            addToFavourite.setText("REMOVE FROM WISHLIST");
-                        } else {
-                            sharedPreference.removeFavorite(NewPlaceDetailsActivity.this, selectedPlace);
-                            favourites = sharedPreference.getFavorites(NewPlaceDetailsActivity.this);
-                            WishListFragment.wishlist = (ArrayList) favourites;
-                            new FalseProgress(addToFavourite).execute(100);
-                            addToFavourite.setText("ADD TO WISHLIST");
-
-
-                        }
-                    }
-
-
-
-
+                if (addToFavourite.getText().toString().equals("ADD TO WISHLIST")) {
+                    sharedPreference.addFavorite(NewPlaceDetailsActivity.this, selectedPlace);
+                    favourites = sharedPreference.getFavorites(NewPlaceDetailsActivity.this);
+                    WishListFragment.wishlist = (ArrayList) favourites;
+                    new FalseProgress(addToFavourite).execute(100);
+                    addToFavourite.setText("REMOVE FROM WISHLIST");
+                } else {
+                    sharedPreference.removeFavorite(NewPlaceDetailsActivity.this, selectedPlace);
+                    favourites = sharedPreference.getFavorites(NewPlaceDetailsActivity.this);
+                    WishListFragment.wishlist = (ArrayList) favourites;
+                    new FalseProgress(addToFavourite).execute(100);
+                    addToFavourite.setText("ADD TO WISHLIST");
+                }
+            }
         });
         beenThere.setText("I'VE VISITED THERE");
         final SharedPreferences sharedPreferences = this.getSharedPreferences("rating", Context.MODE_PRIVATE);
@@ -192,15 +188,15 @@ public class NewPlaceDetailsActivity extends AppCompatActivity {
             Place place = gson.fromJson(string, Place.class);
             int rating = place.getRating();
             if (rating == 5)
-                beenThere.setText("I love it");
+                beenThere.setText(R.string.iloveit);
             else if (rating == 4)
-                beenThere.setText("I like it");
+                beenThere.setText(R.string.ilikeit);
             else if (rating == 3)
-                beenThere.setText("Its ok");
+                beenThere.setText(R.string.itsok);
             else if (rating == 2)
-                beenThere.setText("I dont like it");
+                beenThere.setText(R.string.dontlike);
             else if (rating == 1)
-                beenThere.setText("I hate it");
+                beenThere.setText(R.string.hateit);
 
 
         }
@@ -209,71 +205,67 @@ public class NewPlaceDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                        final SharedPreferences.Editor editor;
-                        editor = sharedPreferences.edit();
+                final SharedPreferences.Editor editor;
+                editor = sharedPreferences.edit();
 
-                        AlertDialog.Builder builderSingle = new AlertDialog.Builder(NewPlaceDetailsActivity.this);
-                        builderSingle.setIcon(R.drawable.ic_profile);
-                        builderSingle.setTitle("Rate the place:-");
-                        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                                NewPlaceDetailsActivity.this,
-                                android.R.layout.select_dialog_singlechoice);
-                        arrayAdapter.add("I love it");
-                        arrayAdapter.add("I like it");
-                        arrayAdapter.add("Its ok");
-                        arrayAdapter.add("I dont like it");
-                        arrayAdapter.add("I hate it");
-                        arrayAdapter.add("I've not visited there");
-                        builderSingle.setNegativeButton("cancel",
-                                new DialogInterface.OnClickListener() {
+                AlertDialog.Builder builderSingle = new AlertDialog.Builder(NewPlaceDetailsActivity.this);
+                builderSingle.setIcon(R.drawable.ic_profile);
+                builderSingle.setTitle("Rate the place:-");
+                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                        NewPlaceDetailsActivity.this,
+                        android.R.layout.select_dialog_singlechoice);
+                arrayAdapter.add("I love it");
+                arrayAdapter.add("I like it");
+                arrayAdapter.add("Its ok");
+                arrayAdapter.add("I dont like it");
+                arrayAdapter.add("I hate it");
+                arrayAdapter.add("I've not visited there");
+                builderSingle.setNegativeButton("cancel",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
 
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
+                builderSingle.setAdapter(arrayAdapter,
+                        new DialogInterface.OnClickListener() {
 
-                        builderSingle.setAdapter(arrayAdapter,
-                                new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (sharedPreferences.contains(selectedPlace.getName())) {
+                                    editor.remove(selectedPlace.getName()).apply();
+                                }
+                                Place product = selectedPlace;
+                                Place place = new Place(product.getId(), product.getName(), product.getDescription(), product.getHowtogo(), product.getLattitude(), product.getLongitude(), product.getHotel(), product.getOthers(), product.getPicture(), product.getAddress(), product.getType(), product.getDistrict(), product.getParseObject().getObjectId(), 5 - which);
+                                Gson gson = new Gson();
+                                String string = gson.toJson(place);
+                                if (which != 5) {
+                                    editor.putString(selectedPlace.getName(), string).apply();
+                                }
+                                new FalseProgress(beenThere).execute(100);
 
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (sharedPreferences.contains(selectedPlace.getName())) {
-                                            editor.remove(selectedPlace.getName()).commit();
-                                        }
-                                        Place product = selectedPlace;
-                                        Place place = new Place(product.getId(), product.getName(), product.getDescription(), product.getHowtogo(), product.getLattitude(), product.getLongitude(), product.getHotel(), product.getOthers(), product.getPicture(), product.getAddress(), product.getType(), product.getDistrict(), product.getParseObject().getObjectId(), 5 - which);
-                                        Gson gson = new Gson();
-                                        String string = gson.toJson(place);
-                                        if (which != 5) {
-                                            editor.putString(selectedPlace.getName(), string).commit();
-                                        }
-                                        new FalseProgress(beenThere).execute(100);
-
-                                        if (which == 0)
-                                            beenThere.setText("I love it");
-                                        else if (which == 1)
-                                            beenThere.setText("I like it");
-                                        else if (which == 2)
-                                            beenThere.setText("Its ok");
-                                        else if (which == 3)
-                                            beenThere.setText("I dont like it");
-                                        else if (which == 4)
-                                            beenThere.setText("I hate it");
-                                        else
-                                            beenThere.setText("I'VE VISITED THERE");
-                                    }
-                                });
-                        builderSingle.show();
-                    }
-
-
-
+                                if (which == 0)
+                                    beenThere.setText(R.string.iloveit);
+                                else if (which == 1)
+                                    beenThere.setText(R.string.ilikeit);
+                                else if (which == 2)
+                                    beenThere.setText(R.string.itsok);
+                                else if (which == 3)
+                                    beenThere.setText(R.string.dontlike);
+                                else if (which == 4)
+                                    beenThere.setText(R.string.hateit);
+                                else
+                                    beenThere.setText("I'VE VISITED THERE");
+                            }
+                        });
+                builderSingle.show();
+            }
 
 
         });
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("18D9D4FB40DF048C506091E42E0FDAFD").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
         adView.loadAd(adRequest);
     }
 
@@ -344,28 +336,18 @@ class YourPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
 
         if (position == 0) {
-            DescriptionFragment tab1 = DescriptionFragment.newInstanceOfDescriptionFragment(SelectedPlace.getDescription());
-
-            return tab1;
+            return DescriptionFragment.newInstanceOfDescriptionFragment(SelectedPlace.getDescription());
         } else if (position == 1) {
-            DescriptionFragment tab2 = DescriptionFragment.newInstanceOfDescriptionFragment(SelectedPlace.getHowtogo());
-            return tab2;
+            return DescriptionFragment.newInstanceOfDescriptionFragment(SelectedPlace.getHowtogo());
         } else if (position == 2) {
-            DescriptionFragment tab3 = DescriptionFragment.newInstanceOfDescriptionFragment(SelectedPlace.getHotel());
-            return tab3;
+            return DescriptionFragment.newInstanceOfDescriptionFragment(SelectedPlace.getHotel());
         } else if (position == 3) {
-            DescriptionFragment tab4 = DescriptionFragment.newInstanceOfDescriptionFragment(SelectedPlace.getOthers());
-            return tab4;
+            return DescriptionFragment.newInstanceOfDescriptionFragment(SelectedPlace.getOthers());
         } else if (position == 4) {
-            CommentAddComment tab5 = CommentAddComment.NewInstanceofCommentAddComment(names, comments, parseObject.getObjectId(), 1);
-            return tab5;
+            return CommentAddComment.NewInstanceofCommentAddComment(names, comments, parseObject.getObjectId(), 1);
         } else {
-            MapsActivity tab6 = MapsActivity.NewInstanceOfMapsActivity(SelectedPlace.getLattitude(), SelectedPlace.getLongitude());
-            return tab6;
+            return MapsActivity.NewInstanceOfMapsActivity(SelectedPlace.getLattitude(), SelectedPlace.getLongitude());
         }
-
-        /*NewPlaceDetailsActivity.MyFragment myFragment = NewPlaceDetailsActivity.MyFragment.newInstance(position);
-        return myFragment;*/
     }
 
     @Override

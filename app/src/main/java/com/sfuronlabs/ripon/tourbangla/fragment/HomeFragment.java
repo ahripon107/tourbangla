@@ -28,15 +28,12 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends Fragment {
 
-    String web[];
-    String picname[];
     RecyclerView recyclerView;
     ArrayList<HomeFragmentElement> elements;
 
     public HomeFragment() {
         elements = new ArrayList<>();
         elements.add(new HomeFragmentElement("Browse By Division","image","Browse By Division"));
-        elements.add(new HomeFragmentElement("Browse by type","image","Browse by type"));
         elements.add(new HomeFragmentElement("Hotels","image","Hotels"));
         elements.add(new HomeFragmentElement("Tour operators","image","Tour operators"));
         elements.add(new HomeFragmentElement("Tour Blog","image","Tour Blog"));
