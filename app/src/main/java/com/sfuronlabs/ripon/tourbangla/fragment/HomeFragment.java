@@ -38,6 +38,7 @@ public class HomeFragment extends Fragment {
         elements.add(new HomeFragmentElement("Tour operators","image","Tour operators"));
         elements.add(new HomeFragmentElement("Tour Blog","image","Tour Blog"));
         elements.add(new HomeFragmentElement("Suggest New Place","image","Suggest New Place"));
+        elements.add(new HomeFragmentElement("Tour offers","image","Tour offers"));
     }
 
     @Override
