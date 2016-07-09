@@ -13,18 +13,18 @@
         android:id="@+id/tourOfferCardContainer"
         android:orientation="vertical">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
+            android:paddingLeft="5dp"
+            android:textColor="@color/cpb_blue_dark"
             android:id="@+id/tourOfferTitle"
-            android:layout_weight="1"
             android:layout_gravity="center"/>
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
+            android:layout_height="wrap_content"
             android:maxHeight="40dp"
             android:layout_margin="10dp"
             android:id="@+id/tourOfferImage"
@@ -32,12 +32,14 @@
             android:contentDescription="Browse" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:paddingLeft="5dp"
+            android:textColor="@color/cpb_green"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Large Text"
-            android:id="@+id/tourOfferSummary"
-            android:layout_weight="1" />
+            android:id="@+id/tourOfferSummary" />
 
         <Button
             android:layout_width="wrap_content"

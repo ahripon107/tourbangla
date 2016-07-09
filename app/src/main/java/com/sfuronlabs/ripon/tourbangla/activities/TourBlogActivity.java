@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -21,11 +25,20 @@ import java.util.List;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.sfuronlabs.ripon.tourbangla.FetchFromWeb;
 import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.RoboAppCompatActivity;
 import com.sfuronlabs.ripon.tourbangla.adapter.TourBlogListStyle;
+import com.sfuronlabs.ripon.tourbangla.adapter.TourBlogRecyclerAdapter;
+import com.sfuronlabs.ripon.tourbangla.model.BlogPost;
+import com.sfuronlabs.ripon.tourbangla.util.Constants;
 import com.sfuronlabs.ripon.tourbangla.view.ProgressWheel;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
@@ -38,8 +51,8 @@ public class TourBlogActivity extends RoboAppCompatActivity {
     @InjectView(R.id.pwTourBlog)
     ProgressWheel progressWheel;
 
-    @InjectView(R.id.lvAllBlogPosts)
-    ListView allBlogPosts;
+    @InjectView(R.id.rvAllBlogPosts)
+    RecyclerView recyclerView;
 
     @InjectView(R.id.toolbarTourBlog)
     Toolbar toolbar;
@@ -50,24 +63,17 @@ public class TourBlogActivity extends RoboAppCompatActivity {
     @InjectView(R.id.adViewTourBlog)
     AdView adView;
 
-    TourBlogListStyle style;
-    ArrayList<String> posts;
-    ArrayList<String> writers;
-    ArrayList<String> tags;
-    ArrayList<File> picture;
-    public static ArrayList<ParseObject> retrievedObjects;
+    TourBlogRecyclerAdapter tourBlogRecyclerAdapter;
+    ArrayList<BlogPost> blogPosts;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        progressWheel.spin();
-        posts = new ArrayList<>();
-        writers = new ArrayList<>();
-        tags = new ArrayList<>();
-        picture = new ArrayList<>();
+        blogPosts = new ArrayList<>();
 
-        retrievedObjects = new ArrayList<>();
+
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -79,34 +85,54 @@ public class TourBlogActivity extends RoboAppCompatActivity {
                 finish();
             }
         });
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("BlogPosts");
-        query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
-        query.findInBackground(new FindCallback<ParseObject>() {
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(TourBlogActivity.this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        tourBlogRecyclerAdapter = new TourBlogRecyclerAdapter(TourBlogActivity.this, blogPosts);
+        recyclerView.setAdapter(tourBlogRecyclerAdapter);
+
+        progressWheel.setVisibility(View.VISIBLE);
+        progressWheel.spin();
+
+        String url = Constants.FETCH_BLOG_POSTS_URL;
+        Log.d(Constants.TAG, url);
+
+        FetchFromWeb.get(url,null,new JsonHttpResponseHandler() {
             @Override
-            public void done(final List<ParseObject> parseObjects, com.parse.ParseException e) {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 if (progressWheel.isSpinning()) {
                     progressWheel.stopSpinning();
                     progressWheel.setVisibility(View.INVISIBLE);
                 }
-                if (e == null) {
-                    retrievedObjects = (ArrayList) parseObjects;
-
-                    style = new TourBlogListStyle(TourBlogActivity.this, parseObjects, "font/solaimanlipi.ttf");
-                    allBlogPosts.setAdapter(style);
-
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Error occured", Toast.LENGTH_SHORT).show();
+                try {
+                    JSONArray jsonArray = response.getJSONArray("content");
+                    for (int i=0;i<jsonArray.length();i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int id = jsonObject.getInt("id");
+                        String title = jsonObject.getString("title");
+                        String name = jsonObject.getString("name");
+                        String details = jsonObject.getString("details");
+                        String tags = jsonObject.getString("tags");
+                        String image = jsonObject.getString("image");
+                        BlogPost blogPost = new BlogPost(id,name,title,details,tags,image);
+                        blogPosts.add(blogPost);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+                tourBlogRecyclerAdapter.notifyDataSetChanged();
+                Log.d(Constants.TAG, response.toString());
             }
-        });
 
-        allBlogPosts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(TourBlogActivity.this, TourBlogDetailsActivity.class);
-                i.putExtra("index", position);
-                startActivity(i);
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                if (progressWheel.isSpinning()) {
+                    progressWheel.stopSpinning();
+                    progressWheel.setVisibility(View.INVISIBLE);
+                }
+                Toast.makeText(TourBlogActivity.this, statusCode+" failed", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -116,8 +142,6 @@ public class TourBlogActivity extends RoboAppCompatActivity {
                 Intent i = new Intent(TourBlogActivity.this, NewTourBlogActivity.class);
                 startActivity(i);
             }
-
-
         });
 
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();

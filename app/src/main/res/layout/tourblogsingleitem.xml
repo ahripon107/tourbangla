@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
+    android:id="@+id/blogPostContainer"
     android:orientation="horizontal">
 
     <com.sfuronlabs.ripon.tourbangla.view.RoundedImageView
@@ -28,10 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20.0dip"
-
-
             android:text="Title"
-
             android:textSize="20.0sp" />
 
         <TextView

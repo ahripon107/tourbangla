@@ -14,18 +14,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.gson.Gson;
-import com.parse.FindCallback;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
+import com.sfuronlabs.ripon.tourbangla.PlaceAccessHelper;
 import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.RoboAppCompatActivity;
 import com.sfuronlabs.ripon.tourbangla.SharedPreference;
@@ -82,18 +79,15 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
     private Place selectedPlace;
     SharedPreference sharedPreference;
     List<Place> favourites;
-    ParseObject selectedObject;
-    int index;
-    ArrayList<CharSequence> names;
-    ArrayList<CharSequence> comments;
+
+    int id;
     int counter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        names = new ArrayList<>();
-        comments = new ArrayList<>();
+
         counter = 0;
         sharedPreference = new SharedPreference();
         setSupportActionBar(mToolbar);
@@ -114,43 +108,20 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
         });
 
         Intent i = getIntent();
-        index = i.getExtras().getInt("index");
+        id = i.getExtras().getInt("id");
 
-        selectedPlace = BrowseByDivisionActivity.finalplaces.get(index);
+        selectedPlace = PlaceAccessHelper.getPlace(id);
         String picture = selectedPlace.getPicture();
-        selectedObject = selectedPlace.getParseObject();
 
-        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("CommentOnPlace");
-        query1.whereEqualTo("post", selectedObject);
-        query1.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
 
-        query1.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list1, com.parse.ParseException e) {
-
-                if (e == null) {
-                    counter++;
-
-                    for (int i = 0; i < list1.size(); i++) {
-                        if (counter > 1) break;
-
-                        names.add((CharSequence) list1.get(i).get("commenter"));
-                        comments.add((CharSequence) list1.get(i).get("comment"));
-                    }
-                } else {
-                    Toast.makeText(NewPlaceDetailsActivity.this, "Error occured", Toast.LENGTH_LONG).show();
-                }
-
-            }
-        });
         Picasso.with(getApplicationContext()).load("http://vpn.gd/tourbangla/" + picture + ".jpg").into(imageView);
         int noOfTabs = 6;
-        YourPagerAdapter mAdapter = new YourPagerAdapter(getSupportFragmentManager(), Titles, noOfTabs, selectedPlace, names, comments, selectedObject);
+        YourPagerAdapter mAdapter = new YourPagerAdapter(getSupportFragmentManager(), Titles, noOfTabs, selectedPlace);
         mPager.setAdapter(mAdapter);
         mTabLayout.setTabsFromPagerAdapter(mAdapter);
 
         mTabLayout.setupWithViewPager(mPager);
-        mCollapsingToolbarLayout.setTitle(selectedPlace.getName() + " , " + selectedPlace.getAddress());
+        mCollapsingToolbarLayout.setTitle(selectedPlace.getName());
         mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
         mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
         mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBarPlus1);
@@ -237,7 +208,7 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
                                     editor.remove(selectedPlace.getName()).apply();
                                 }
                                 Place product = selectedPlace;
-                                Place place = new Place(product.getId(), product.getName(), product.getDescription(), product.getHowtogo(), product.getLattitude(), product.getLongitude(), product.getHotel(), product.getOthers(), product.getPicture(), product.getAddress(), product.getType(), product.getDistrict(), product.getParseObject().getObjectId(), 5 - which);
+                                Place place = new Place(product.getId(), product.getName(), product.getDescription(), product.getHowtogo(), product.getLattitude(), product.getLongitude(), product.getHotel(), product.getOthers(), product.getPicture(), product.getDivision(), product.getDistrict(), 5 - which);
                                 Gson gson = new Gson();
                                 String string = gson.toJson(place);
                                 if (which != 5) {
@@ -319,17 +290,12 @@ class YourPagerAdapter extends FragmentStatePagerAdapter {
     CharSequence[] Titles;
     int NoOfTabs;
     private Place SelectedPlace;
-    ArrayList<CharSequence> names, comments;
-    ParseObject parseObject;
 
-    public YourPagerAdapter(FragmentManager fm, CharSequence[] Titles, int NoOfTabs, Place selectedPlace, ArrayList<CharSequence> names, ArrayList<CharSequence> comments, ParseObject parseObject) {
+    public YourPagerAdapter(FragmentManager fm, CharSequence[] Titles, int NoOfTabs, Place selectedPlace) {
         super(fm);
         this.Titles = Titles;
         this.NoOfTabs = NoOfTabs;
         this.SelectedPlace = selectedPlace;
-        this.names = names;
-        this.comments = comments;
-        this.parseObject = parseObject;
     }
 
     @Override
@@ -344,7 +310,7 @@ class YourPagerAdapter extends FragmentStatePagerAdapter {
         } else if (position == 3) {
             return DescriptionFragment.newInstanceOfDescriptionFragment(SelectedPlace.getOthers());
         } else if (position == 4) {
-            return CommentAddComment.NewInstanceofCommentAddComment(names, comments, parseObject.getObjectId(), 1);
+            return CommentAddComment.NewInstanceofCommentAddComment(SelectedPlace.getId(), 1);
         } else {
             return MapsActivity.NewInstanceOfMapsActivity(SelectedPlace.getLattitude(), SelectedPlace.getLongitude());
         }

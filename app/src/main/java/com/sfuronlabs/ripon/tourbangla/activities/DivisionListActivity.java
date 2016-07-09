@@ -2,6 +2,7 @@ package com.sfuronlabs.ripon.tourbangla.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,20 +34,15 @@ public class DivisionListActivity extends RoboAppCompatActivity {
     @InjectView(R.id.divisionListBar)
     Toolbar toolbar;
 
-    ArrayList<String> divisions;
+    String[] divisions;
+    String[] divisionsBangla;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        divisions = new ArrayList<>();
-        divisions.add("Dhaka");
-        divisions.add("Chittagong");
-        divisions.add("Rangpur");
-        divisions.add("Rajshahi");
-        divisions.add("Khulna");
-        divisions.add("Sylhet");
-        divisions.add("Barisal");
-        divisions.add("Mymensingh");
+        divisions = getResources().getStringArray(R.array.division_list);
+        divisionsBangla = getResources().getStringArray(R.array.division_list_bangla);
+
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,18 +61,22 @@ public class DivisionListActivity extends RoboAppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         recyclerView.setLayoutManager(linearLayoutManager);
-        DivisionListRecyclerAdapter adapter = new DivisionListRecyclerAdapter(DivisionListActivity.this,divisions);
+        DivisionListRecyclerAdapter adapter = new DivisionListRecyclerAdapter(DivisionListActivity.this,divisions,divisionsBangla);
         recyclerView.setAdapter(adapter);
     }
 }
 
 class DivisionListRecyclerAdapter extends RecyclerView.Adapter<DivisionListRecyclerAdapter.DivisionListViewHolder> {
     Context context;
-    ArrayList<String> divisions;
+    String[] divisions;
+    String[] divisionsBangla;
+    Typeface tf;
 
-    DivisionListRecyclerAdapter(Context context,ArrayList<String> divisions) {
+    DivisionListRecyclerAdapter(Context context,String[] divisions,String[] divisionsBangla) {
         this.context = context;
         this.divisions = divisions;
+        this.divisionsBangla = divisionsBangla;
+        tf = Typeface.createFromAsset(context.getAssets(),"font/solaimanlipi.ttf");
     }
 
     @Override
@@ -86,13 +86,15 @@ class DivisionListRecyclerAdapter extends RecyclerView.Adapter<DivisionListRecyc
     }
 
     @Override
-    public void onBindViewHolder(DivisionListViewHolder holder, final int position) {
-        holder.textView.setText(divisions.get(position));
+    public void onBindViewHolder(final DivisionListViewHolder holder, int position) {
+        holder.textView.setTypeface(tf);
+        holder.textView.setText(divisionsBangla[holder.getAdapterPosition()]);
+        holder.textView2.setText(divisions[holder.getAdapterPosition()]);
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DistrictListActivity.class);
-                intent.putExtra("divisionName",divisions.get(position));
+                intent.putExtra("divisionName",divisions[holder.getAdapterPosition()]);
                 context.startActivity(intent);
             }
         });
@@ -100,17 +102,19 @@ class DivisionListRecyclerAdapter extends RecyclerView.Adapter<DivisionListRecyc
 
     @Override
     public int getItemCount() {
-        return divisions.size();
+        return divisions.length;
     }
 
     static class DivisionListViewHolder extends RecyclerView.ViewHolder {
 
         TextView textView;
+        TextView textView2;
         LinearLayout linearLayout;
 
         public DivisionListViewHolder(View itemView) {
             super(itemView);
             textView = ViewHolder.get(itemView, R.id.text1);
+            textView2 = ViewHolder.get(itemView,R.id.text2);
             linearLayout = ViewHolder.get(itemView, R.id.division_list_item_container);
         }
     }

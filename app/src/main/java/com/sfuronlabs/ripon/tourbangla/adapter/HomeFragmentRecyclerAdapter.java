@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.activities.DivisionListActivity;
+import com.sfuronlabs.ripon.tourbangla.activities.TourOperatorOffersListActivity;
 import com.sfuronlabs.ripon.tourbangla.model.HomeFragmentElement;
 import com.sfuronlabs.ripon.tourbangla.util.ViewHolder;
 
@@ -97,6 +98,9 @@ public class HomeFragmentRecyclerAdapter extends RecyclerView.Adapter<HomeFragme
                 } else if (position == 4) {
                     Intent i = new Intent("android.intent.action.SUGGESTNEWPLACE");
                     context.startActivity(i);
+                } else if (position == 5) {
+                    Intent intent = new Intent(context, TourOperatorOffersListActivity.class);
+                    context.startActivity(intent);
                 }
             }
         });

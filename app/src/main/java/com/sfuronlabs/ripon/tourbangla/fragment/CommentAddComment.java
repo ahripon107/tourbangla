@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,39 +15,45 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.sfuronlabs.ripon.tourbangla.FetchFromWeb;
 import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.adapter.CommentAdapter;
+import com.sfuronlabs.ripon.tourbangla.util.Constants;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by Ripon on 8/27/15.
  */
 public class CommentAddComment extends Fragment {
-    ParseObject selectedObject;
     ArrayList<CharSequence> names;
     ArrayList<CharSequence> comments1;
-    RecyclerView.Adapter mAdapter;
+    CommentAdapter commentAdapter;
+    String url;
 
     public CommentAddComment() {
 
     }
 
-    public static CommentAddComment NewInstanceofCommentAddComment(ArrayList<CharSequence> names, ArrayList<CharSequence> comments, String blogDetails, int number) {
+    public static CommentAddComment NewInstanceofCommentAddComment(int id, int number) {
         CommentAddComment commentAddComment = new CommentAddComment();
 
         Bundle arguments = new Bundle();
 
-
-        arguments.putCharSequenceArrayList("names", names);
-        arguments.putCharSequenceArrayList("comments", comments);
-        arguments.putCharSequence("details", blogDetails);
         arguments.putInt("number", number);
+        arguments.putInt("id",id);
         commentAddComment.setArguments(arguments);
 
         return commentAddComment;
@@ -57,34 +64,47 @@ public class CommentAddComment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         inflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.commentandaddcomment, container, false);
-        RecyclerView comments = (RecyclerView) v.findViewById(R.id.rvComments);
-        comments.setHasFixedSize(true);
+        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.rvComments);
+        recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        comments.setLayoutManager(mLayoutManager);
-        names = getArguments().getCharSequenceArrayList("names");
-        comments1 = getArguments().getCharSequenceArrayList("comments");
-        mAdapter = new CommentAdapter(names, comments1);
-        comments.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(mLayoutManager);
+        names = new ArrayList<>();
+        comments1 = new ArrayList<>();
+        commentAdapter = new CommentAdapter(getContext(),names, comments1);
+        recyclerView.setAdapter(commentAdapter);
 
-        Button sendComment = (Button) v.findViewById(R.id.btnSubmitComment);
-        ParseQuery<ParseObject> query;
         if (getArguments().get("number") == 2) {
-            query = ParseQuery.getQuery("BlogPosts");
-            query.whereEqualTo("blogdetails", getArguments().get("details"));
-
+            url = "http://apisea.xyz/TourBangla/BlogPostComments.php?key=bl905577&id="+getArguments().getInt("id");
         } else {
-            query = ParseQuery.getQuery("PlaceTable");
-            query.whereEqualTo("objectId", getArguments().get("details"));
+            url = "http://apisea.xyz/TourBangla/PlaceComments.php?key=bl905577&id="+getArguments().getInt("id");
         }
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                if (e == null) {
-                    selectedObject = list.get(0);
-                }
+        Log.d(Constants.TAG, url);
 
+        FetchFromWeb.get(url,null,new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("content");
+                    for (int i=0;i<jsonArray.length();i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        names.add(jsonObject.getString("name"));
+                        comments1.add(jsonObject.getString("comment"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                commentAdapter.notifyDataSetChanged();
+                Log.d(Constants.TAG, response.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getContext(), statusCode+"failed", Toast.LENGTH_LONG).show();
             }
         });
+
+        Button sendComment = (Button) v.findViewById(R.id.btnSubmitComment);
+
         sendComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,21 +128,29 @@ public class CommentAddComment extends Fragment {
                                 }
                                 writeComment.getText().clear();
                                 yourName.getText().clear();
-                                //names.add((String) ParseUser.getCurrentUser().get("FullName"));
                                 names.add(name);
 
                                 comments1.add(comment);
-                                mAdapter.notifyDataSetChanged();
-                                ParseObject commnt;
+                                commentAdapter.notifyDataSetChanged();
+
                                 if (getArguments().get("number") == 2) {
-                                    commnt = new ParseObject("CommentOfBlogPost");
+                                    url = "http://apisea.xyz/TourBangla/InsertBlogPostComment.php?key=bl905577&id="+getArguments().getInt("id")+"&name="+name+"&comment="+comment;
                                 } else {
-                                    commnt = new ParseObject("CommentOnPlace");
+                                    url = "http://apisea.xyz/TourBangla/InsertPlaceComment.php?key=bl905577&id="+getArguments().getInt("id")+"&name="+name+"&comment="+comment;
                                 }
-                                commnt.put("comment", comment);
-                                commnt.put("commenter", name);
-                                commnt.put("post", selectedObject);
-                                commnt.saveInBackground();
+                                FetchFromWeb.get(url,null,new JsonHttpResponseHandler() {
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                        Toast.makeText(getContext(), statusCode+"success", Toast.LENGTH_LONG).show();
+
+                                        Log.d(Constants.TAG, response.toString());
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                        Toast.makeText(getContext(), statusCode+"failed", Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             }
 
 

@@ -1,5 +1,7 @@
 package com.sfuronlabs.ripon.tourbangla.adapter;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +20,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     private ArrayList<CharSequence> names;
     private ArrayList<CharSequence> comments;
+    Context context;
+    Typeface tf;
 
-    public CommentAdapter(ArrayList<CharSequence> names, ArrayList<CharSequence> comments) {
+    public CommentAdapter(Context context,ArrayList<CharSequence> names, ArrayList<CharSequence> comments) {
         this.names = names;
         this.comments = comments;
+        this.context = context;
+        tf = Typeface.createFromAsset(context.getAssets(), "font/solaimanlipi.ttf");
     }
 
     @Override
@@ -32,6 +38,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
+        holder.comment.setTypeface(tf);
+        holder.commenter.setTypeface(tf);
         holder.commenter.setText("মন্তব্য করেছেন:  " + names.get(position));
         holder.comment.setText(comments.get(position));
     }

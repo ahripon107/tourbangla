@@ -333,4 +333,26 @@
         <item>সুনামগঞ্জ</item>
         <item>সিলেট</item>
     </string-array>
+
+    <string-array name="division_list">
+        <item>Dhaka</item>
+        <item>Chittagong</item>
+        <item>Rangpur</item>
+        <item>Rajshahi</item>
+        <item>Khulna</item>
+        <item>Sylhet</item>
+        <item>Barisal</item>
+        <item>Mymensingh</item>
+    </string-array>
+
+    <string-array name="division_list_bangla">
+        <item>ঢাকা</item>
+        <item>চট্টগ্রাম</item>
+        <item>রংপুর</item>
+        <item>রাজশাহী</item>
+        <item>খুলনা</item>
+        <item>সিলেট</item>
+        <item>বরিশাল</item>
+        <item>ময়মনসিংহ</item>
+    </string-array>
 </resources>

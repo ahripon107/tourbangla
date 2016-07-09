@@ -1,37 +1,23 @@
 package com.sfuronlabs.ripon.tourbangla.activities;
 
-import android.content.Intent;
-import android.content.res.Resources;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
+
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.SaveCallback;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.sfuronlabs.ripon.tourbangla.FetchFromWeb;
 import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.RoboAppCompatActivity;
+import com.sfuronlabs.ripon.tourbangla.util.Constants;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import org.json.JSONObject;
 
+import cz.msebera.android.httpclient.Header;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
@@ -69,6 +55,7 @@ public class NewTourBlogActivity extends RoboAppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 finish();
@@ -93,7 +80,20 @@ public class NewTourBlogActivity extends RoboAppCompatActivity {
                 tags.getText().clear();
                 writername.getText().clear();
 
-                Toast.makeText(NewTourBlogActivity.this, "Your post will be added", Toast.LENGTH_LONG).show();;
+                String url = "http://apisea.xyz/TourBangla/InsertBlogPost.php?key=bl905577&title=" + blogTitle + "&details=" + blogDetails + "&tags=" + blogTags + "&name=" + blogWriterName;
+                Log.d(Constants.TAG, url);
+
+                FetchFromWeb.get(url, null, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        Toast.makeText(NewTourBlogActivity.this,"success",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Toast.makeText(NewTourBlogActivity.this,"failure",Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

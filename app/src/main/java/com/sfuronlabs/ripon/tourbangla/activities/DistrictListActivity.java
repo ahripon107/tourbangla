@@ -2,6 +2,7 @@ package com.sfuronlabs.ripon.tourbangla.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -104,12 +105,14 @@ class DistrictListRecyclerAdapter extends RecyclerView.Adapter<DistrictListRecyc
     Context context;
     String[] districts,districtsBangla;
     String divisionName;
+    Typeface tf;
 
     DistrictListRecyclerAdapter(Context context,String[] districts,String[] districtsBangla,String divisionName) {
         this.context = context;
         this.districts = districts;
         this.districtsBangla = districtsBangla;
         this.divisionName = divisionName;
+        tf = Typeface.createFromAsset(context.getAssets(), "font/solaimanlipi.ttf");
     }
 
     @Override
@@ -119,15 +122,16 @@ class DistrictListRecyclerAdapter extends RecyclerView.Adapter<DistrictListRecyc
     }
 
     @Override
-    public void onBindViewHolder(DistrictListViewHolder holder, final int position) {
-        holder.textView1.setText(districtsBangla[position]);
+    public void onBindViewHolder(final DistrictListViewHolder holder, int position) {
+        holder.textView1.setTypeface(tf);
+        holder.textView1.setText(districtsBangla[holder.getAdapterPosition()]);
         holder.textView2.setText(districts[position]);
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, BrowseByDivisionActivity.class);
                 intent.putExtra("divisionName",divisionName);
-                intent.putExtra("districtName",districts[position]);
+                intent.putExtra("districtName",districts[holder.getAdapterPosition()]);
                 context.startActivity(intent);
             }
         });

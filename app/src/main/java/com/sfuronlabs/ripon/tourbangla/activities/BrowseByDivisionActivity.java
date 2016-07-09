@@ -14,22 +14,17 @@ import android.widget.Toast;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.sfuronlabs.ripon.tourbangla.FetchFromWeb;
+import com.sfuronlabs.ripon.tourbangla.PlaceAccessHelper;
 import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.RoboAppCompatActivity;
 import com.sfuronlabs.ripon.tourbangla.adapter.GoogleCardsTravelAdapter;
-import com.sfuronlabs.ripon.tourbangla.model.DummyModel;
 import com.sfuronlabs.ripon.tourbangla.model.Place;
 import com.sfuronlabs.ripon.tourbangla.util.Constants;
 import com.sfuronlabs.ripon.tourbangla.view.ProgressWheel;
@@ -60,35 +55,33 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
     @InjectView(R.id.pwDhaka)
     ProgressWheel progressWheel;
 
-    public static ArrayList<Place> finalplaces;
-    public static ArrayList<ParseObject> objects;
+    public ArrayList<Place> places;
 
     private GoogleCardsTravelAdapter mGoogleCardsAdapter;
-    ArrayList<DummyModel> data;
+    ArrayList<Place> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        finalplaces = new ArrayList<>();
-        objects = new ArrayList<>();
         data = new ArrayList<>();
-        progressWheel.spin();
+        places = new ArrayList<>();
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
         setTitle("Browse By Division");
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(BrowseByDivisionActivity.this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
         recyclerView.setLayoutManager(linearLayoutManager);
+
         mGoogleCardsAdapter = new GoogleCardsTravelAdapter(BrowseByDivisionActivity.this, data);
         recyclerView.setAdapter(mGoogleCardsAdapter);
 
@@ -98,59 +91,54 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(BrowseByDivisionActivity.this));
         data.clear();
         mGoogleCardsAdapter.notifyDataSetChanged();
-        String divisionName = getIntent().getStringExtra("divisionName");
-        String districtName = getIntent().getStringExtra("districtName");
+        final String divisionName = getIntent().getStringExtra("divisionName");
+        final String districtName = getIntent().getStringExtra("districtName");
+        Log.d(Constants.TAG, divisionName);
+        Log.d(Constants.TAG, districtName);
 
-        String url = "http://apisea.xyz/TourBangla/FetchPlaces.php?key=bl905577";
+        String url = Constants.FETCH_PLACES_URL;
         Log.d(Constants.TAG, url);
 
         FetchFromWeb.get(url,null,new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Toast.makeText(BrowseByDivisionActivity.this, statusCode+"success", Toast.LENGTH_LONG).show();
-
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                if (progressWheel.isSpinning()) {
+                    progressWheel.stopSpinning();
+                    progressWheel.setVisibility(View.INVISIBLE);
+                }
+                try {
+                    JSONArray jsonArray = response.getJSONArray("content");
+                    for (int i=0;i<jsonArray.length();i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        Place place = new Place(jsonObject.getInt("id"), jsonObject.getString("name")
+                                , jsonObject.getString("description"), jsonObject.getString("howtogo"),
+                                jsonObject.getString("lattitude"), jsonObject.getString("longitude"),
+                                jsonObject.getString("hotel"), jsonObject.getString("others"),
+                                jsonObject.getString("picture"), jsonObject.getString("district"),
+                                jsonObject.getString("division"));
+                        places.add(place);
+                        if (place.getDivision().equals(divisionName.toUpperCase())) {
+                            data.add(place);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                PlaceAccessHelper.populate(places);
+                mGoogleCardsAdapter.notifyDataSetChanged();
                 Log.d(Constants.TAG, response.toString());
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(BrowseByDivisionActivity.this, statusCode+"failed", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceTable");
-
-        query.whereEqualTo("district", divisionName.toUpperCase());
-
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(final List<ParseObject> list, ParseException e) {
-
                 if (progressWheel.isSpinning()) {
                     progressWheel.stopSpinning();
                     progressWheel.setVisibility(View.INVISIBLE);
                 }
-                if (e == null) {
-                    BrowseByDivisionActivity.objects = (ArrayList) list;
-
-                    for (int i = 0; i < list.size(); i++) {
-                        BrowseByDivisionActivity.finalplaces.add(new Place((int) list.get(i).get("id"), (String) list.get(i).get("name")
-                                , (String) list.get(i).get("description"), (String) list.get(i).get("howtogo"),
-                                (String) list.get(i).get("lattitude"), (String) list.get(i).get("longitude"),
-                                (String) list.get(i).get("hotel"), (String) list.get(i).get("others"),
-                                (String) list.get(i).get("picture"), (String) list.get(i).get("address"),
-                                (String) list.get(i).get("placetype"), (String) list.get(i).get("district"), list.get(i)));
-                        DummyModel model = new DummyModel((int) list.get(i).get("id"), "http://vpn.gd/tourbangla/" + (String) list.get(i).get("picture") + ".jpg", (String) list.get(i).get("name"), R.string.fontello_heart_empty);
-                        data.add(model);
-                    }
-
-                    mGoogleCardsAdapter.notifyDataSetChanged();
-
-                } else {
-                    Toast.makeText(BrowseByDivisionActivity.this, "Error occured", Toast.LENGTH_LONG).show();
-                }
+                Toast.makeText(BrowseByDivisionActivity.this, statusCode+"failed", Toast.LENGTH_LONG).show();
             }
         });
+
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
         adView.loadAd(adRequest);
 
