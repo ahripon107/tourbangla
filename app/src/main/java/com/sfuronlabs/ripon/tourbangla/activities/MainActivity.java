@@ -43,7 +43,7 @@ public class MainActivity extends RoboAppCompatActivity implements FragmentDrawe
         super.onCreate(savedInstanceState);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         FragmentDrawer drawerFragment = (FragmentDrawer)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);

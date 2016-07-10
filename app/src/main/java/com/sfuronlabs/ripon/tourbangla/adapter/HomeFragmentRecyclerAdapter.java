@@ -1,10 +1,12 @@
 package com.sfuronlabs.ripon.tourbangla.adapter;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +15,31 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.sfuronlabs.ripon.tourbangla.FetchFromWeb;
+import com.sfuronlabs.ripon.tourbangla.FileProcessor;
+import com.sfuronlabs.ripon.tourbangla.PlaceAccessHelper;
 import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.activities.DivisionListActivity;
+import com.sfuronlabs.ripon.tourbangla.activities.SelectTourOperatorActivity;
+import com.sfuronlabs.ripon.tourbangla.activities.SuggestNewPlaceActivity;
+import com.sfuronlabs.ripon.tourbangla.activities.TourBlogActivity;
 import com.sfuronlabs.ripon.tourbangla.activities.TourOperatorOffersListActivity;
 import com.sfuronlabs.ripon.tourbangla.model.HomeFragmentElement;
+import com.sfuronlabs.ripon.tourbangla.model.Place;
+import com.sfuronlabs.ripon.tourbangla.util.Constants;
 import com.sfuronlabs.ripon.tourbangla.util.ViewHolder;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.util.ArrayList;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by amin on 6/27/16.
@@ -50,8 +69,48 @@ public class HomeFragmentRecyclerAdapter extends RecyclerView.Adapter<HomeFragme
             @Override
             public void onClick(View v) {
                 if (position == 0) {
-                    Intent i = new Intent(context, DivisionListActivity.class);
-                    context.startActivity(i);
+                    boolean exists = false;
+                    String[] files = context.fileList();
+                    for (String file : files) {
+                        if (file.equals("data.txt")) {
+                            exists = true;
+                            break;
+                        } else {
+                            exists = false;
+                        }
+                    }
+
+                    if (!exists) {
+                        String url = Constants.FETCH_PLACES_URL;
+                        Log.d(Constants.TAG, url);
+                        final ProgressDialog progressDialog = new ProgressDialog(context);
+                        progressDialog.setMessage("Please wait...this may take a while...");
+                        progressDialog.setTitle("Loading data");
+                        progressDialog.show();
+
+                        FetchFromWeb.get(url,null,new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                progressDialog.dismiss();
+                                FileProcessor fileProcessor = new FileProcessor(context);
+                                fileProcessor.writeToFile(response.toString());
+                                Intent i = new Intent(context, DivisionListActivity.class);
+                                context.startActivity(i);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                progressDialog.dismiss();
+                                Toast.makeText(context, statusCode+"failed", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        FileProcessor fileProcessor = new FileProcessor(context);
+                        fileProcessor.readFileAndProcess();
+                        Intent i = new Intent(context, DivisionListActivity.class);
+                        context.startActivity(i);
+                    }
+
                 }  else if (position == 1) {
                     AlertDialog.Builder builderSingle = new AlertDialog.Builder(context);
                     builderSingle.setIcon(R.drawable.ic_profile);
@@ -90,13 +149,13 @@ public class HomeFragmentRecyclerAdapter extends RecyclerView.Adapter<HomeFragme
                     builderSingle.show();
 
                 } else if (position == 2) {
-                    Intent i = new Intent("android.intent.action.SELECTTOUROPERATOR");
+                    Intent i = new Intent(context, SelectTourOperatorActivity.class);
                     context.startActivity(i);
                 } else if (position == 3) {
-                    Intent i = new Intent("android.intent.action.TOURBLOG");
+                    Intent i = new Intent(context, TourBlogActivity.class);
                     context.startActivity(i);
                 } else if (position == 4) {
-                    Intent i = new Intent("android.intent.action.SUGGESTNEWPLACE");
+                    Intent i = new Intent(context, SuggestNewPlaceActivity.class);
                     context.startActivity(i);
                 } else if (position == 5) {
                     Intent intent = new Intent(context, TourOperatorOffersListActivity.class);

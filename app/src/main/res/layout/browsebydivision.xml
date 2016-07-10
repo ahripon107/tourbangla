@@ -29,13 +29,14 @@
         android:layout_below="@id/tool_bar"
         android:layout_above="@id/adViewDivision" />
 
+
     <com.sfuronlabs.ripon.tourbangla.view.ProgressWheel
         android:id="@+id/pwDhaka"
         style="@style/ProgressBarStyle.Reverse"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:visibility="gone"
         android:layout_centerInParent="true" />
-
 
 
 </RelativeLayout>
