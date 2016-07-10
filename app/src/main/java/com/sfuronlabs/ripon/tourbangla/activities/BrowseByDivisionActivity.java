@@ -69,21 +69,24 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
             }
         });
 
+        String divisionName = getIntent().getStringExtra("divisionName");
+        String districtName = getIntent().getStringExtra("districtName");
+        Log.d(Constants.TAG, divisionName);
+        Log.d(Constants.TAG, districtName);
+
         setTitle("Browse By Division");
+        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(BrowseByDivisionActivity.this));
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(BrowseByDivisionActivity.this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        mGoogleCardsAdapter = new GoogleCardsTravelAdapter(BrowseByDivisionActivity.this, PlaceAccessHelper.places);
+        mGoogleCardsAdapter = new GoogleCardsTravelAdapter(BrowseByDivisionActivity.this, PlaceAccessHelper.getPlacesOfDistrict(districtName));
         recyclerView.setAdapter(mGoogleCardsAdapter);
 
-        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(BrowseByDivisionActivity.this));
 
-        mGoogleCardsAdapter.notifyDataSetChanged();
-        final String divisionName = getIntent().getStringExtra("divisionName");
-        final String districtName = getIntent().getStringExtra("districtName");
-        Log.d(Constants.TAG, divisionName);
-        Log.d(Constants.TAG, districtName);
+
+        //mGoogleCardsAdapter.notifyDataSetChanged();
 
 
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();

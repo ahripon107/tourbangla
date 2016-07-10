@@ -4,7 +4,7 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="4dp"
+    card_view:cardCornerRadius="10dp"
     android:layout_margin="10dp">
 
     <LinearLayout
@@ -12,30 +12,33 @@
         android:layout_height="wrap_content"
         android:id="@+id/tourOfferCardContainer"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:paddingLeft="5dp"
-            android:textColor="@color/cpb_blue_dark"
-            android:id="@+id/tourOfferTitle"
-            android:layout_gravity="center"/>
+
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxHeight="40dp"
-            android:layout_margin="10dp"
             android:id="@+id/tourOfferImage"
             android:src="@drawable/noimage"
+            android:scaleType="fitXY"
             android:contentDescription="Browse" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:layout_margin="10dp"
+            android:textColor="@color/cpb_blue_dark"
+            android:id="@+id/tourOfferTitle"
+            android:background="@drawable/border"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:textStyle="italic"
-            android:paddingLeft="5dp"
+            android:layout_margin="10dp"
             android:textColor="@color/cpb_green"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Large Text"
@@ -47,6 +50,8 @@
             android:layout_weight="1"
             android:text="Offer Details"
             android:id="@+id/tourOfferDetails"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_gravity="right" />
 
 
