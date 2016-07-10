@@ -61,6 +61,8 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
         offers = new ArrayList<>();
 
         setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        setTitle("Tour Offers");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -70,7 +72,7 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
                 finish();
             }
         });
-        setTitle("Tour Offers");
+
         adapter = new TourOperatorOfferRecyclerAdapter(TourOperatorOffersListActivity.this,offers);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(TourOperatorOffersListActivity.this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
