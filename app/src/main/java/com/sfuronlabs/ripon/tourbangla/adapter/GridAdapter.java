@@ -56,12 +56,10 @@ public class GridAdapter extends BaseAdapter {
 
         }
         TextView localTextView = (TextView) localView.findViewById(R.id.textdescription);
-        //localTextView.setTypeface(this.tf, 1);
         ImageView localImageView = (ImageView) localView.findViewById(R.id.picture);
         localTextView.setText(this.web[position]);
         Typeface tf = Typeface.createFromAsset(context.getAssets(), "font/solaimanlipi.ttf");
         localTextView.setTypeface(tf);
-        //localImageView.setImageResource(this.imageId[position].intValue());
         Picasso.with(context).load("http://vpn.gd/tourbangla/" + this.picname[position] + ".jpg").placeholder(R.drawable.noimage).into(localImageView);
 
         return localView;

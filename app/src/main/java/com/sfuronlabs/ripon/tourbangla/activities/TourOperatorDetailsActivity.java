@@ -16,30 +16,40 @@ import com.parse.ParseObject;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.sfuronlabs.ripon.tourbangla.R;
+import com.sfuronlabs.ripon.tourbangla.RoboAppCompatActivity;
 import com.sfuronlabs.ripon.tourbangla.fragment.DescriptionFragment;
+
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
 
 /**
  * Created by Ripon on 8/28/15.
  */
-public class TourOperatorDetailsActivity extends AppCompatActivity {
+@ContentView(R.layout.tuoroperatordetails)
+public class TourOperatorDetailsActivity extends RoboAppCompatActivity {
 
+    @InjectView(R.id.touroperatorapp_bar)
     private Toolbar mToolbar;
+
+    @InjectView(R.id.touroperatortab_layout)
     private TabLayout mTabLayout;
+
+    @InjectView(R.id.touroperatorpager)
     private ViewPager mPager;
+
+    @InjectView(R.id.adViewTourOperatorDetails)
+    AdView adView;
+
     private TourOperatorDetailsPagerAdapter mAdapter;
     String name, address, places, others;
     public String titles[] = {"ARRDESS", "PLACES", "OTHERS"};
-    AdView adView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tuoroperatordetails);
-        mToolbar = (Toolbar) findViewById(R.id.touroperatorapp_bar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        adView = (AdView) findViewById(R.id.adViewTourOperatorDetails);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,17 +70,13 @@ public class TourOperatorDetailsActivity extends AppCompatActivity {
         others = (String) selectedObject.get("others");
         mAdapter = new TourOperatorDetailsPagerAdapter(getSupportFragmentManager(), titles, name, address, places, others);
 
-        mTabLayout = (TabLayout) findViewById(R.id.touroperatortab_layout);
-
-
-        mPager = (ViewPager) findViewById(R.id.touroperatorpager);
         mPager.setAdapter(mAdapter);
         mTabLayout.setTabsFromPagerAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mPager);
 
         Log.d("here", "complete");
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("18D9D4FB40DF048C506091E42E0FDAFD").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
         adView.loadAd(adRequest);
 
     }

@@ -17,10 +17,10 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.sfuronlabs.ripon.tourbangla.activities.BrowseByDivisionActivity;
-import com.sfuronlabs.ripon.tourbangla.model.Place;
 import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.SharedPreference;
 import com.sfuronlabs.ripon.tourbangla.adapter.GridAdapter;
+import com.sfuronlabs.ripon.tourbangla.model.Place;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,6 @@ public class WishListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        int done = 0, p;
 
         allPlaces = wishlist;
         if (allPlaces.size() == wishlist.size()) {
@@ -77,7 +76,7 @@ public class WishListFragment extends Fragment {
         wishlist = new ArrayList<>();
         allPlaces = sharedPreference.getFavorites(getActivity());
         if (allPlaces != null) {
-            BrowseByDivisionActivity.finalplaces = allPlaces;
+
             wishlist = allPlaces;
             web = new String[allPlaces.size()];
             picname = new String[allPlaces.size()];
@@ -95,30 +94,9 @@ public class WishListFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                final Intent i = new Intent("android.intent.action.NEWPLACEDETAILSACTIVITY");
-                i.putExtra("index", position);
-                final Place product = allPlaces.get(position);
-                final String objectId = allPlaces.get(position).getObjectId();
-                ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("PlaceTable");
-                parseQuery.whereEqualTo("name", allPlaces.get(position).getName());
-                final ProgressDialog dialog = ProgressDialog.show(getActivity(), "Loading", "Please wait...", true);
-                parseQuery.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> list, ParseException e) {
-                        dialog.dismiss();
-                        if (e == null) {
-                            Place place = new Place(product.getId(), product.getName(), product.getDescription(), product.getHowtogo(), product.getLattitude(), product.getLongitude(), product.getHotel(), product.getOthers(), product.getPicture(), product.getAddress(), product.getType(), product.getDistrict(), list.get(0));
-                            BrowseByDivisionActivity.finalplaces.set(position, place);
-                            startActivity(i);
-                            return;
-                        } else {
-                            Toast.makeText(getActivity(), "Error occured", Toast.LENGTH_LONG).show();
-                        }
-
-                    }
-                });
-
-
+                Intent i = new Intent("android.intent.action.NEWPLACEDETAILSACTIVITY");
+                i.putExtra("id", allPlaces.get(position).getId());
+                startActivity(i);
             }
         });
         return rootView;

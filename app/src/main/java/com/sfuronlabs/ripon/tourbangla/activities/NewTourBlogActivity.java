@@ -1,198 +1,101 @@
 package com.sfuronlabs.ripon.tourbangla.activities;
 
-import android.content.Intent;
-import android.content.res.Resources;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
+
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.SaveCallback;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.sfuronlabs.ripon.tourbangla.FetchFromWeb;
 import com.sfuronlabs.ripon.tourbangla.R;
+import com.sfuronlabs.ripon.tourbangla.RoboAppCompatActivity;
+import com.sfuronlabs.ripon.tourbangla.util.Constants;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
 
 /**
  * Created by Ripon on 9/21/15.
  */
-public class NewTourBlogActivity extends AppCompatActivity {
-    EditText title, details, tags, writername;
-    Button selectimage, done1;
-    File selectedFile;
-    private Uri mImageCaptureUri;
-    TextView selectedPicture;
+@ContentView(R.layout.newtourblog)
+public class NewTourBlogActivity extends RoboAppCompatActivity {
+
+    @InjectView(R.id.etBlogTitle)
+    EditText title;
+
+    @InjectView(R.id.etBlogDetails)
+    EditText details;
+
+    @InjectView(R.id.etTags)
+    EditText tags;
+
+    @InjectView(R.id.etBlogWriterName)
+    EditText writername;
+
+    @InjectView(R.id.btnDone)
+    Button done1;
+
+    @InjectView(R.id.tool_barnewblog)
     Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.newtourblog);
-        title = (EditText) findViewById(R.id.etBlogTitle);
-        details = (EditText) findViewById(R.id.etBlogDetails);
-        tags = (EditText) findViewById(R.id.etTags);
-        writername = (EditText) findViewById(R.id.etBlogWriterName);
-        selectimage = (Button) findViewById(R.id.btnSelectPicture);
-        done1 = (Button) findViewById(R.id.btnDone);
-        selectedPicture = (TextView) findViewById(R.id.tvPic);
-        toolbar = (Toolbar) findViewById(R.id.tool_barnewblog);
+
         setSupportActionBar(toolbar);
         setTitle("New Tour Blog");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
-        selectimage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, 1);
-            }
-        });
-
         done1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String blogTitle = title.getText().toString().trim();
-                final String blogDetails = details.getText().toString().trim();
-                final String blogTags = tags.getText().toString().trim();
-                final String blogWriterName = writername.getText().toString().trim();
+                String blogTitle = title.getText().toString().trim();
+                String blogDetails = details.getText().toString().trim();
+                String blogTags = tags.getText().toString().trim();
+                String blogWriterName = writername.getText().toString().trim();
 
                 if (blogTitle.length() == 0 || blogDetails.length() == 0 || blogTags.length() == 0 || blogWriterName.length() == 0) {
                     Toast.makeText(NewTourBlogActivity.this, "Please give input correctly", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                byte[] bytes;
-
-                if (selectedFile != null) {
-                    int size = (int) selectedFile.length();
-
-                    bytes = new byte[size];
-                    try {
-                        BufferedInputStream buf = new BufferedInputStream(new FileInputStream(selectedFile));
-                        buf.read(bytes, 0, bytes.length);
-                        buf.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Resources res = getResources();
-                    Drawable drawable = res.getDrawable(R.drawable.noimage);
-                    Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                    bytes = stream.toByteArray();
-                }
-
                 title.getText().clear();
                 details.getText().clear();
                 tags.getText().clear();
                 writername.getText().clear();
-                selectedPicture.setText("No Picture Selected");
 
-                final ParseFile file = new ParseFile("pic.jpg", bytes);
-                file.saveInBackground(new SaveCallback() {
+                String url = "http://apisea.xyz/TourBangla/InsertBlogPost.php?key=bl905577&title=" + blogTitle + "&details=" + blogDetails + "&tags=" + blogTags + "&name=" + blogWriterName;
+                Log.d(Constants.TAG, url);
+
+                FetchFromWeb.get(url, null, new JsonHttpResponseHandler() {
                     @Override
-                    public void done(ParseException e) {
-                        ParseObject parseObject = new ParseObject("BlogPosts");
-                        parseObject.put("blogdetails", blogDetails);
-                        parseObject.put("blogtitle", blogTitle);
-                        parseObject.put("tags", blogTags);
-                        parseObject.put("username", "username");
-                        parseObject.put("name", blogWriterName);
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        Toast.makeText(NewTourBlogActivity.this,"success",Toast.LENGTH_SHORT).show();
+                    }
 
-                        parseObject.put("picture", file);
-                        parseObject.saveInBackground();
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Toast.makeText(NewTourBlogActivity.this,"failure",Toast.LENGTH_SHORT).show();
                     }
                 });
-
-                Toast.makeText(NewTourBlogActivity.this, "Your post will be added", Toast.LENGTH_LONG).show();;
-
             }
         });
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (resultCode == RESULT_OK) {
-            String path = "";
-
-            switch (requestCode) {
-
-                case 1:
-
-                    mImageCaptureUri = data.getData();
-                    path = getRealPathFromURI(mImageCaptureUri); //from Gallery
-
-                    if (path == null)
-                        path = mImageCaptureUri.getPath(); //from File Manager
-                    selectedFile = new File(path);
-                    selectedPicture.setText(selectedFile.getPath());
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    public String getRealPathFromURI(Uri contentUri) {
-        String path;
-        boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-        if (isKitKat) {
-            Cursor cursor = getContentResolver().query(contentUri, null, null, null, null);
-            cursor.moveToFirst();
-            String document_id = cursor.getString(0);
-            document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
-            cursor.close();
-
-            cursor = getContentResolver().query(
-                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
-            cursor.moveToFirst();
-            path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-            cursor.close();
-        } else {
-            String[] projection = {MediaStore.Images.Media.DATA};
-
-            Cursor cursor = getContentResolver().query(contentUri, projection, null, null, null);
-            cursor.moveToFirst();
-
-
-            int columnIndex = cursor.getColumnIndex(projection[0]);
-            path = cursor.getString(columnIndex); // returns null
-            cursor.close();
-        }
-
-        return path;
-    }
-
 
 }

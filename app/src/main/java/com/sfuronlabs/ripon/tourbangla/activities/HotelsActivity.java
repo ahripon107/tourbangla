@@ -19,18 +19,30 @@ import java.util.List;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.sfuronlabs.ripon.tourbangla.R;
+import com.sfuronlabs.ripon.tourbangla.RoboAppCompatActivity;
 import com.sfuronlabs.ripon.tourbangla.adapter.HotelListStyle;
 import com.sfuronlabs.ripon.tourbangla.view.ProgressWheel;
+
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
 
 /**
  * Created by Ripon on 8/29/15.
  */
-public class HotelsActivity extends AppCompatActivity {
+@ContentView(R.layout.hotels)
+public class HotelsActivity extends RoboAppCompatActivity {
+
+    @InjectView(R.id.pwHotels)
     ProgressWheel progressWheel;
 
+    @InjectView(R.id.lvHotels)
     ListView hotels;
     String[] names;
+
+    @InjectView(R.id.hoteltool_bar)
     Toolbar toolbar;
+
+    @InjectView(R.id.adViewHotel)
     AdView adView;
 
     public static ArrayList<ParseObject> allHotels;
@@ -39,11 +51,11 @@ public class HotelsActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hotels);
-        toolbar = (Toolbar) findViewById(R.id.hoteltool_bar);
-        progressWheel = (ProgressWheel) findViewById(R.id.pwHotels);
+        //toolbar = (Toolbar) findViewById(R.id.hoteltool_bar);
+        //progressWheel = (ProgressWheel) findViewById(R.id.pwHotels);
         progressWheel.spin();
         setSupportActionBar(toolbar);
-        adView = (AdView) findViewById(R.id.adViewHotel);
+        //adView = (AdView) findViewById(R.id.adViewHotel);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -53,7 +65,7 @@ public class HotelsActivity extends AppCompatActivity {
                 finish();
             }
         });
-        hotels = (ListView) findViewById(R.id.lvHotels);
+        //hotels = (ListView) findViewById(R.id.lvHotels);
         Intent i = getIntent();
         final String str = i.getExtras().getString("place");
         setTitle("Hotels of "+str);
@@ -100,8 +112,7 @@ public class HotelsActivity extends AppCompatActivity {
             }
         });
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("18D9D4FB40DF048C506091E42E0FDAFD").build();
-        //AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
         adView.loadAd(adRequest);
     }
 }

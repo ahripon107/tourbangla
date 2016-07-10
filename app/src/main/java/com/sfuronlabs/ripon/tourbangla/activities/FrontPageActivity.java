@@ -20,17 +20,13 @@ public class FrontPageActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                // TODO Auto-generated method stub
                 try {
                     Thread.sleep(2000);
 
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 } finally {
                     Intent intent1 = new Intent(FrontPageActivity.this,MainActivity.class);
-
-                    //Intent intent = new Intent("android.intent.action.CHOOSESUBJECT");
                     startActivity(intent1);
 
                 }
