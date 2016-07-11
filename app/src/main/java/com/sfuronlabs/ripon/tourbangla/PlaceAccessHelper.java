@@ -18,4 +18,14 @@ public class PlaceAccessHelper {
     public static Place getPlace(int id) {
         return places.get(id-1);
     }
+
+    public static ArrayList<Place> getPlacesOfDistrict(String district) {
+        ArrayList<Place> p = new ArrayList<>();
+        for (Place place: places) {
+            if (place.getDistrict().toUpperCase().equals(district.toUpperCase())) {
+                p.add(place);
+            }
+        }
+        return p;
+    }
 }

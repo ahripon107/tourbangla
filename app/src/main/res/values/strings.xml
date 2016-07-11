@@ -179,9 +179,9 @@
         <item>Chadpur</item>
         <item>Brahmanbaria </item>
         <item>Comilla</item>
-        <item>Coxs Bazar </item>
+        <item>CoxsBazar </item>
         <item>Feni</item>
-        <item>Khagrachhari</item>
+        <item>Khagrachari</item>
         <item>Laksmipur</item>
         <item>Noakhali</item>
         <item>Rangamati</item>
@@ -252,8 +252,8 @@
         <item>কিশোরগঞ্জ</item>
         <item>মাদারীপুর</item>
         <item>মানিকগঞ্জ</item>
-        <item>নারায়াঙ্গঞ্জ</item>
-        <item>মুন্সীগঞ্জi</item>
+        <item>মুন্সীগঞ্জ</item>
+        <item>নারায়াণগঞ্জ</item>
         <item>রাজবাড়ী</item>
         <item>শরীয়তপুর</item>
         <item>ফরিদপুর</item>
@@ -302,7 +302,7 @@
         <item>নেত্রকোনা</item>
         <item>শেরপুর</item>
         <item>জামালপুর</item>
-        <item>ময়মন্সিহ</item>
+        <item>ময়মনসিংহ</item>
     </string-array>
 
     <string-array name="barisal_districts_bangla">

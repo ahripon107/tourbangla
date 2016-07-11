@@ -2,6 +2,7 @@ package com.sfuronlabs.ripon.tourbangla.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,12 +26,14 @@ public class GoogleCardsTravelAdapter extends RecyclerView.Adapter<GoogleCardsTr
     private LayoutInflater mInflater;
     Context con;
     List<Place> items;
+    Typeface tf;
 
     public GoogleCardsTravelAdapter(Context context, List<Place> items) {
         con = context;
         this.items = items;
         mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        tf = Typeface.createFromAsset(context.getAssets(),"font/solaimanlipi.ttf");
     }
 
     @Override
@@ -42,8 +45,10 @@ public class GoogleCardsTravelAdapter extends RecyclerView.Adapter<GoogleCardsTr
     @Override
     public void onBindViewHolder(PlaceCardViewHolder holder, int position) {
         final Place place = items.get(holder.getAdapterPosition());
+        holder.title.setTypeface(tf);
         ImageUtil.displayImage(holder.imageView, "http://apisea.xyz/TourBangla/images/" + place.getPicture() + ".jpg", null);
         holder.title.setText(place.getName());
+
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
