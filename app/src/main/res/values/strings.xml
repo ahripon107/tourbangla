@@ -22,10 +22,8 @@
     <string name="nav_item_home">Home</string>
     <string name="nav_item_wishlist">My Wishlist</string>
 
-    <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_home</item>
-
         <item>@string/nav_item_wishlist</item>
         <item>@string/title_visitedplaces</item>
         <item>@string/aboutapp</item>

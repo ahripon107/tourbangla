@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,7 +40,7 @@ import cz.msebera.android.httpclient.Header;
  */
 public class CommentAddComment extends Fragment {
     ArrayList<CharSequence> names;
-    ArrayList<CharSequence> comments1;
+    ArrayList<CharSequence> comments;
     CommentAdapter commentAdapter;
     String url;
 
@@ -69,8 +70,8 @@ public class CommentAddComment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         names = new ArrayList<>();
-        comments1 = new ArrayList<>();
-        commentAdapter = new CommentAdapter(getContext(),names, comments1);
+        comments = new ArrayList<>();
+        commentAdapter = new CommentAdapter(getContext(),names, comments);
         recyclerView.setAdapter(commentAdapter);
 
         if (getArguments().get("number") == 2) {
@@ -88,7 +89,7 @@ public class CommentAddComment extends Fragment {
                     for (int i=0;i<jsonArray.length();i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         names.add(jsonObject.getString("name"));
-                        comments1.add(jsonObject.getString("comment"));
+                        comments.add(jsonObject.getString("comment"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -103,7 +104,7 @@ public class CommentAddComment extends Fragment {
             }
         });
 
-        Button sendComment = (Button) v.findViewById(R.id.btnSubmitComment);
+        FloatingActionButton sendComment = (FloatingActionButton) v.findViewById(R.id.btnSubmitComment);
 
         sendComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +131,7 @@ public class CommentAddComment extends Fragment {
                                 yourName.getText().clear();
                                 names.add(name);
 
-                                comments1.add(comment);
+                                comments.add(comment);
                                 commentAdapter.notifyDataSetChanged();
 
                                 if (getArguments().get("number") == 2) {
@@ -163,7 +164,6 @@ public class CommentAddComment extends Fragment {
                         });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
-
             }
         });
         return v;

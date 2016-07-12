@@ -4,16 +4,15 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         >
 
         <LinearLayout
             android:id="@+id/linearlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btnSubmitComment"
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
@@ -23,22 +22,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
-
-
                  />
         </LinearLayout>
 
-
-        <Button
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnSubmitComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_margin="10dp"
-            android:layout_gravity="center_horizontal"
-
-            android:background="@drawable/buttonshape"
-            android:text="Add New Comment" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
