@@ -19,10 +19,10 @@ public class HotelListStyle extends ArrayAdapter<String> {
     private final Activity context;
 
     Typeface tf;
-    private  String[] hotelNames;
+    private String[] hotelNames;
 
     public HotelListStyle(Activity paramActivity,
-                            String[] hotelNames) {
+                          String[] hotelNames) {
         super(paramActivity, R.layout.singlehotel);
         this.context = paramActivity;
         this.hotelNames = hotelNames;
@@ -39,8 +39,7 @@ public class HotelListStyle extends ArrayAdapter<String> {
     @Override
     public View getView(int paramInt, View paramView, ViewGroup paramViewGroup) {
         View localView = paramView;
-        if (localView == null)
-        {
+        if (localView == null) {
             localView = this.context.getLayoutInflater().inflate(R.layout.singlehotel, null, true);
         }
 

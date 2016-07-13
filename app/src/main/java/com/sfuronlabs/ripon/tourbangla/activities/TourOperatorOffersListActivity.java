@@ -89,7 +89,7 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
         adView.loadAd(adRequest);
 
-        String url = "http://apisea.xyz/TourBangla/tourOperatorOffer.php?key=bl905577";
+        String url = Constants.TOUR_OPERATOR_OFFER_URL;
         Log.d(Constants.TAG, url);
 
         FetchFromWeb.get(url,null,new JsonHttpResponseHandler() {

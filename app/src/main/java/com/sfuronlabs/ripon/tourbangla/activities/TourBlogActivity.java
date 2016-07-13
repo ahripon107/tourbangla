@@ -73,8 +73,6 @@ public class TourBlogActivity extends RoboAppCompatActivity {
 
         blogPosts = new ArrayList<>();
 
-
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

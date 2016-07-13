@@ -18,7 +18,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="72dp"
-
         android:textSize="14sp"
         android:text="ttuut"
         android:textStyle="bold" />

@@ -26,7 +26,7 @@ public class FrontPageActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-                    Intent intent1 = new Intent(FrontPageActivity.this,MainActivity.class);
+                    Intent intent1 = new Intent(FrontPageActivity.this, MainActivity.class);
                     startActivity(intent1);
 
                 }

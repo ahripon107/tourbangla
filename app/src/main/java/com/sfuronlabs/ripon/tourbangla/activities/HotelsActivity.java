@@ -51,11 +51,9 @@ public class HotelsActivity extends RoboAppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hotels);
-        //toolbar = (Toolbar) findViewById(R.id.hoteltool_bar);
-        //progressWheel = (ProgressWheel) findViewById(R.id.pwHotels);
         progressWheel.spin();
         setSupportActionBar(toolbar);
-        //adView = (AdView) findViewById(R.id.adViewHotel);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -65,14 +63,14 @@ public class HotelsActivity extends RoboAppCompatActivity {
                 finish();
             }
         });
-        //hotels = (ListView) findViewById(R.id.lvHotels);
+
         Intent i = getIntent();
         final String str = i.getExtras().getString("place");
         setTitle("Hotels of "+str);
         Toast.makeText(getApplicationContext(),str,Toast.LENGTH_LONG).show();
         ParseQuery<ParseObject> parseObjectParseQuery = ParseQuery.getQuery("Hotel");
         parseObjectParseQuery.whereEqualTo("division", str);
-        //final ProgressDialog dialog = ProgressDialog.show(Hotels.this, "Loading", "Please wait...", true);
+
         parseObjectParseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
@@ -81,7 +79,6 @@ public class HotelsActivity extends RoboAppCompatActivity {
                     progressWheel.stopSpinning();
                     progressWheel.setVisibility(View.INVISIBLE);
                 }
-                //dialog.dismiss();
                 if (e==null)
                 {
                     names = new String[list.size()];

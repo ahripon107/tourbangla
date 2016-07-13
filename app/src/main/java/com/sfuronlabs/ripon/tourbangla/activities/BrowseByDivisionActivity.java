@@ -84,11 +84,6 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
         mGoogleCardsAdapter = new GoogleCardsTravelAdapter(BrowseByDivisionActivity.this, PlaceAccessHelper.getPlacesOfDistrict(districtName));
         recyclerView.setAdapter(mGoogleCardsAdapter);
 
-
-
-        //mGoogleCardsAdapter.notifyDataSetChanged();
-
-
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
         adView.loadAd(adRequest);
 
