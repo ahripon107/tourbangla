@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
 
     public HomeFragment() {
         elements = new ArrayList<>();
-        elements.add(new HomeFragmentElement("Browse By Division","image","Browse By Division"));
+        elements.add(new HomeFragmentElement("Explore Bangladesh","image","Explore Places"));
         elements.add(new HomeFragmentElement("Hotels","image","Hotels"));
         elements.add(new HomeFragmentElement("Tour operators","image","Tour operators"));
         elements.add(new HomeFragmentElement("Tour Blog","image","Tour Blog"));

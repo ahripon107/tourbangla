@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import com.sfuronlabs.ripon.tourbangla.activities.SuggestNewPlaceActivity;
 import com.sfuronlabs.ripon.tourbangla.activities.TourBlogActivity;
 import com.sfuronlabs.ripon.tourbangla.activities.TourOperatorOffersListActivity;
 import com.sfuronlabs.ripon.tourbangla.model.HomeFragmentElement;
+import com.sfuronlabs.ripon.tourbangla.model.HomeFragmentImage;
 import com.sfuronlabs.ripon.tourbangla.model.Place;
 import com.sfuronlabs.ripon.tourbangla.util.Constants;
 import com.sfuronlabs.ripon.tourbangla.util.ViewHolder;
@@ -48,9 +50,51 @@ public class HomeFragmentRecyclerAdapter extends RecyclerView.Adapter<HomeFragme
 
     ArrayList<HomeFragmentElement> elements;
     Context context;
-    public HomeFragmentRecyclerAdapter(Context context, ArrayList<HomeFragmentElement> elements) {
+    ArrayList<HomeFragmentImage> homeFragmentImages1,homeFragmentImages2;
+    SlideShowViewPagerAdapter slideShowViewPagerAdapter1,slideShowViewPagerAdapter2;
+    public HomeFragmentRecyclerAdapter(final Context context, ArrayList<HomeFragmentElement> elements) {
         this.elements = elements;
         this.context = context;
+        this.homeFragmentImages1 = new ArrayList<>();
+        this.homeFragmentImages2 = new ArrayList<>();
+        this.slideShowViewPagerAdapter1 = new SlideShowViewPagerAdapter(context,homeFragmentImages1);
+        this.slideShowViewPagerAdapter2 = new SlideShowViewPagerAdapter(context,homeFragmentImages2);
+
+        String url = Constants.FRONT_PAGE_IMAGE_LIST_URL;
+        Log.d(Constants.TAG, url);
+
+        FetchFromWeb.get(url,null,new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                try {
+                    JSONArray jsonArray = response.getJSONArray("content");
+                    for (int i=0;i<jsonArray.length();i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int id = jsonObject.getInt("id");
+                        String category = jsonObject.getString("category");
+                        String imagename = jsonObject.getString("imagename");
+                        HomeFragmentImage homeFragmentImage = new HomeFragmentImage(id,category,imagename);
+                        if (category.equals("browseplace")) {
+                            homeFragmentImages1.add(homeFragmentImage);
+                        } else if (category.equals("touroffer")) {
+                            homeFragmentImages2.add(homeFragmentImage);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                slideShowViewPagerAdapter1.notifyDataSetChanged();
+                slideShowViewPagerAdapter2.notifyDataSetChanged();
+                Log.d(Constants.TAG, response.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(context, statusCode+"failed", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     @Override
@@ -60,11 +104,18 @@ public class HomeFragmentRecyclerAdapter extends RecyclerView.Adapter<HomeFragme
     }
 
     @Override
-    public void onBindViewHolder(HomeFragmentViewHolder holder, final int position) {
+    public void onBindViewHolder(final HomeFragmentViewHolder holder, final int position) {
 
         HomeFragmentElement element = elements.get(position);
         holder.title.setText(element.getTitle());
         holder.button.setText(element.getButtonText());
+        if (position == 0) {
+            slideShowViewPagerAdapter1.setImageCategoty("browseplace");
+            holder.viewPagerImageSlideShow.setAdapter(slideShowViewPagerAdapter1);
+        } else if (position == 5) {
+            slideShowViewPagerAdapter2.setImageCategoty("touroffer");
+            holder.viewPagerImageSlideShow.setAdapter(slideShowViewPagerAdapter2);
+        }
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,7 +225,7 @@ public class HomeFragmentRecyclerAdapter extends RecyclerView.Adapter<HomeFragme
 
         protected TextView title;
         protected Button button;
-        protected ImageView imageView;
+        protected ViewPager viewPagerImageSlideShow;
         protected LinearLayout linearLayout;
 
         public HomeFragmentViewHolder(View itemView) {
@@ -182,8 +233,9 @@ public class HomeFragmentRecyclerAdapter extends RecyclerView.Adapter<HomeFragme
 
             title = ViewHolder.get(itemView, R.id.tourTitle);
             button = ViewHolder.get(itemView, R.id.button2);
-            imageView = ViewHolder.get(itemView,R.id.imageView);
+
             linearLayout = ViewHolder.get(itemView,R.id.cardcontainer);
+            viewPagerImageSlideShow = ViewHolder.get(itemView,R.id.viewPagerImageSlideShow);
         }
     }
 }
