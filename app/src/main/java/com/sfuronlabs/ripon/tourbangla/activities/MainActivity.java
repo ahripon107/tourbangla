@@ -9,14 +9,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.parse.ParseUser;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.sfuronlabs.ripon.tourbangla.FetchFromWeb;
 import com.sfuronlabs.ripon.tourbangla.R;
 import com.sfuronlabs.ripon.tourbangla.RoboAppCompatActivity;
 import com.sfuronlabs.ripon.tourbangla.fragment.VisitedPlacesFragment;
@@ -25,7 +29,14 @@ import com.sfuronlabs.ripon.tourbangla.fragment.FeedbackFragment;
 import com.sfuronlabs.ripon.tourbangla.fragment.FragmentDrawer;
 import com.sfuronlabs.ripon.tourbangla.fragment.HomeFragment;
 import com.sfuronlabs.ripon.tourbangla.fragment.WishListFragment;
+import com.sfuronlabs.ripon.tourbangla.model.TourOperatorOffer;
+import com.sfuronlabs.ripon.tourbangla.util.Constants;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
@@ -44,6 +55,7 @@ public class MainActivity extends RoboAppCompatActivity implements FragmentDrawe
 
         setSupportActionBar(mToolbar);
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         FragmentDrawer drawerFragment = (FragmentDrawer)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);

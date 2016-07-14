@@ -7,32 +7,35 @@
     card_view:cardCornerRadius="4dp"
     android:layout_margin="10dp">
 
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/cardcontainer"
         android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+            <android.support.v4.view.ViewPager
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+
+                android:id="@+id/viewPagerImageSlideShow">
+
+            </android.support.v4.view.ViewPager>
+        </LinearLayout>
+
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
             android:id="@+id/tourTitle"
             android:layout_weight="1"
-            android:layout_gravity="center"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:layout_margin="10dp"
-            android:id="@+id/imageView"
-            android:src="@drawable/noimage"
-            android:contentDescription="Browse" />
-
+            android:gravity="center"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="0dp"
