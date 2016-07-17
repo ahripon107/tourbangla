@@ -30,7 +30,7 @@
         android:layout_above="@id/adViewDivision" />
 
 
-    <com.sfuronlabs.ripon.tourbangla.view.ProgressWheel
+    <com.androidfragmant.tourxyz.banglatourism.view.ProgressWheel
         android:id="@+id/pwDhaka"
         style="@style/ProgressBarStyle.Reverse"
         android:layout_width="60dp"

@@ -35,11 +35,10 @@
             android:layout_margin="16dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-
             android:src="@drawable/ic_mode_edit_black_24dp"
             app:borderWidth="0dp"
             app:fabSize="normal" />
-        <com.sfuronlabs.ripon.tourbangla.view.ProgressWheel
+        <com.androidfragmant.tourxyz.banglatourism.view.ProgressWheel
             android:id="@+id/pwTourBlog"
             style="@style/ProgressBarStyle.Reverse"
             android:layout_width="60dp"

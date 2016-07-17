@@ -2,72 +2,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <LinearLayout
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="5dp">
+
+        <EditText
+            android:id="@+id/etFeedbackTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:orientation="vertical">
+            android:hint="Title"
+            android:inputType="textCapWords"
+
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </android.support.design.widget.TextInputLayout>
 
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="5dp">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                >
-                <EditText
-                    android:id="@+id/etFeedbackTitle"
-                    android:layout_width="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
+        <EditText
+            android:id="@+id/etFeedbackDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
 
-                    android:hint="Title"/>
+            android:hint="Details"
 
-            </android.support.design.widget.TextInputLayout>
-
-
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                >
-                <EditText
-                    android:id="@+id/etFeedbackDetails"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-
-                    android:inputType="textMultiLine"
-                    android:hint="Details"/>
-            </android.support.design.widget.TextInputLayout>
+            android:inputType="textMultiLine"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </android.support.design.widget.TextInputLayout>
 
 
+    <com.androidfragmant.tourxyz.banglatourism.view.cpb.CircularProgressButton
+        android:id="@+id/btnSend"
+        style="@style/CircularProgressBarStyle.2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="ADD TO WISHLIST" />
 
 
-            <com.sfuronlabs.ripon.tourbangla.view.cpb.CircularProgressButton
-                android:id="@+id/btnSend"
-                style="@style/CircularProgressBarStyle.2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:text="ADD TO WISHLIST" />
-
-
-
-
-
-        </LinearLayout>
-    </ScrollView>
 </LinearLayout>

@@ -21,12 +21,18 @@
             <android.support.v4.view.ViewPager
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-
                 android:id="@+id/viewPagerImageSlideShow">
-
             </android.support.v4.view.ViewPager>
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/layoutDots"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:orientation="horizontal"></LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -35,7 +41,11 @@
             android:text="Large Text"
             android:id="@+id/tourTitle"
             android:layout_weight="1"
-            android:gravity="center"/>
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textStyle="italic"
+            android:textColor="@color/colorAccent"
+            android:layout_marginLeft="3dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="0dp"

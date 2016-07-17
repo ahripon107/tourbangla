@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    tools:context=".activities.ForumPostListActivity">
+
+    <include
+        android:id="@+id/toolbar2"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclerViewForumPostList"
+        android:layout_gravity="center_horizontal"
+        android:horizontalSpacing="5dip"
+        android:layout_below="@+id/toolbar2"
+        android:layout_above="@+id/adViewTourOperator"
+
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="5dip"/>
+    <com.androidfragmant.tourxyz.banglatourism.view.ProgressWheel
+        android:id="@+id/pwTourOperator"
+        style="@style/ProgressBarStyle.Reverse"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewTourOperator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/touroperator">
+    </com.google.android.gms.ads.AdView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabAddNewForumPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_mode_edit_black_24dp"
+        app:borderWidth="0dp"
+        android:layout_above="@id/adViewTourOperator"
+        app:fabSize="normal" />
+</RelativeLayout>

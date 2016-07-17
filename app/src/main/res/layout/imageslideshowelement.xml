@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/imgSlideShow"
-        android:scaleType="fitXY"/>
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="demo text"/>
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter" />
+
+    <TextView
+        android:id="@+id/tvText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/imgSlideShow"
+        android:gravity="right"
+        android:textSize="20sp"
+        android:layout_margin="10dp"
+        android:textColor="@color/LightBlue"
+        android:text="demo text" />
+
 </RelativeLayout>
