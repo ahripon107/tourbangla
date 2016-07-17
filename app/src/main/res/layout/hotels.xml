@@ -20,7 +20,7 @@
         android:layout_below="@+id/hoteltool_bar"
         android:layout_above="@+id/adViewHotel"
         android:layout_gravity="center_horizontal" />
-    <com.sfuronlabs.ripon.tourbangla.view.ProgressWheel
+    <com.androidfragmant.tourxyz.banglatourism.view.ProgressWheel
         android:id="@+id/pwHotels"
         style="@style/ProgressBarStyle.Reverse"
         android:layout_width="60dp"

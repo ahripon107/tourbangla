@@ -7,7 +7,7 @@
     android:id="@+id/blogPostContainer"
     android:orientation="horizontal">
 
-    <com.sfuronlabs.ripon.tourbangla.view.RoundedImageView
+    <com.androidfragmant.tourxyz.banglatourism.view.RoundedImageView
         android:id="@+id/imgBlogPost"
         android:layout_width="0dp"
         android:layout_height="100dp"
@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20.0dip"
             android:text="Title"
+            android:textColor="@color/Green"
             android:textSize="20.0sp" />
 
         <TextView
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20.0dip"
             android:layout_marginTop="5.0dip"
-
+            android:textColor="@color/Blue"
             android:text="Writer"
 
             android:textSize="15.0sp"
@@ -50,6 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20.0dip"
             android:text="Tags"
+            android:textColor="@color/Orange"
             android:textSize="15.0sp"
             android:textStyle="italic" />
     </LinearLayout>

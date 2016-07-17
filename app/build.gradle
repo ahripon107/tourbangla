@@ -6,11 +6,11 @@ android {
 
 
     defaultConfig {
-        applicationId "com.sfuronlabs.ripon.tourbangla"
-        minSdkVersion 14
-        targetSdkVersion 23
-        versionCode 4
-        versionName "1.1.0"
+        applicationId "com.androidfragmant.tourxyz.banglatourism"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
         multiDexEnabled true
 
     }
@@ -19,6 +19,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+}
+repositories {
+    mavenCentral()
+    maven {
+        url "http://maven.batch.com/release"
     }
 }
 
@@ -52,4 +58,8 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'org.roboguice:roboguice:2.0'
     compile 'com.google.android.gms:play-services-auth:9.2.0'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'com.batch.android:batch-sdk:1.5.3'
+    compile 'org.greenrobot:eventbus:3.0.0'
+
 }

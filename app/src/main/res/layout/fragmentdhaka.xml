@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:stretchMode="columnWidth" />
 
-    <com.sfuronlabs.ripon.tourbangla.view.ProgressWheel
+    <com.androidfragmant.tourxyz.banglatourism.view.ProgressWheel
         android:id="@+id/pwDhaka"
         style="@style/ProgressBarStyle.Reverse"
         android:layout_width="60dp"

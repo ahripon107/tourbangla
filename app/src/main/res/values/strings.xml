@@ -16,30 +16,38 @@
     <string name="touroperatordetails">ca-app-pub-9201945236996508/9258048872</string>
     <string name="tourblog">ca-app-pub-9201945236996508/4688248477</string>
 
+    <string name="facebook_app_id">258793617834681</string>
+
     <string name="cd_background_image">background image</string>
     <string name="cd_main_image">main image</string>
 
     <string name="nav_item_home">Home</string>
     <string name="nav_item_wishlist">My Wishlist</string>
 
-    <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_home</item>
-
         <item>@string/nav_item_wishlist</item>
         <item>@string/title_visitedplaces</item>
         <item>@string/aboutapp</item>
         <item>@string/givefeedback</item>
+        <item>@string/suggestplace</item>
+        <item>@string/updatedatabase</item>
+        <item>@string/rateus</item>
+        <item>@string/update</item>
+
     </string-array>
 
     <string name="title_messages">My Wishlist</string>
-    <string name="title_friends">Tour Timeline</string>
     <string name="title_home">Home</string>
     <string name="title_wishlist">My Wishlist</string>
     <string name="title_visitedplaces">My Visited Places</string>
     <string name="title_activity_maps">Map</string>
     <string name="aboutapp">About App</string>
     <string name="givefeedback">Give Feedback</string>
+    <string name="suggestplace">Suggest New Place</string>
+    <string name="rateus">Rate Us</string>
+    <string name="update">Update App</string>
+    <string name="updatedatabase">Update Database</string>
 
     <!-- Fontello icons -->
     <string name="fontello_logo">&#xe802;</string>

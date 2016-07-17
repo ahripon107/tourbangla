@@ -43,7 +43,7 @@
             android:orientation="horizontal">
 
 
-            <com.sfuronlabs.ripon.tourbangla.view.cpb.CircularProgressButton
+            <com.androidfragmant.tourxyz.banglatourism.view.cpb.CircularProgressButton
                 android:id="@+id/btnAddToFavourite"
                 style="@style/CircularProgressBarStyle.2"
                 android:layout_width="0dp"
@@ -53,7 +53,7 @@
 
                 android:text="ADD TO WISHLIST" />
 
-            <com.sfuronlabs.ripon.tourbangla.view.cpb.CircularProgressButton
+            <com.androidfragmant.tourxyz.banglatourism.view.cpb.CircularProgressButton
                 android:id="@+id/btnBeenThere"
                 android:layout_width="0dp"
                 style="@style/CircularProgressBarStyle.2"
