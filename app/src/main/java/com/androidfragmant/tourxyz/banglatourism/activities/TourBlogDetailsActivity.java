@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.parse.ParseObject;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.fragment.BlogDetails;

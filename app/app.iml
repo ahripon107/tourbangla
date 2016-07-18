@@ -156,7 +156,8 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-support" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/reload-dex" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/multi-dex" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/pre-dexed" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/restart-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
@@ -173,12 +174,11 @@
     <orderEntry type="library" exported="" name="play-services-base-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="bolts-applinks-1.4.0" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-23.4.0" level="project" />
-    <orderEntry type="library" exported="" name="Parse-1.9.4" level="project" />
     <orderEntry type="library" exported="" name="play-services-maps-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="design-23.2.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-common-9.2.0" level="project" />
-    <orderEntry type="library" exported="" name="firebase-iid-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="aopalliance-1.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-iid-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="listviewanimations_lib-manipulation_3.1.0" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
     <orderEntry type="library" exported="" name="facebook-android-sdk-4.14.0" level="project" />
@@ -190,8 +190,8 @@
     <orderEntry type="library" exported="" name="guice-3.0-no_aop" level="project" />
     <orderEntry type="library" exported="" name="support-vector-drawable-23.2.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-vision-9.2.0" level="project" />
+    <orderEntry type="library" exported="" name="universal-image-loader-1.9.5" level="project" />
     <orderEntry type="library" exported="" name="firebase-database-9.2.0" level="project" />
-    <orderEntry type="library" exported="" name="universal-image-loader-1.9.4" level="project" />
     <orderEntry type="library" exported="" name="support-v4-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-auth-base-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-auth-module-9.2.0" level="project" />
@@ -209,7 +209,6 @@
     <orderEntry type="library" exported="" name="play-services-appinvite-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-ads-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-tagmanager-api-9.2.0" level="project" />
-    <orderEntry type="library" exported="" name="bolts-android-1.1.4" level="project" />
     <orderEntry type="library" exported="" name="firebase-messaging-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-safetynet-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-games-9.2.0" level="project" />
@@ -221,12 +220,12 @@
     <orderEntry type="library" exported="" name="play-services-cast-framework-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-places-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-analytics-impl-9.2.0" level="project" />
-    <orderEntry type="library" exported="" name="kenburnsview-1.0.6" level="project" />
     <orderEntry type="library" exported="" name="firebase-analytics-impl-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-23.2.0" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-23.2.0" level="project" />
     <orderEntry type="library" exported="" name="cglib-2.2.1-v20090111" level="project" />
     <orderEntry type="library" exported="" name="httpclient-4.3.6" level="project" />
+    <orderEntry type="library" exported="" name="kenburnsview-1.0.7" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.2.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-auth-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="eventbus-3.0.0" level="project" />
@@ -235,7 +234,6 @@
     <orderEntry type="library" exported="" name="play-services-panorama-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-location-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.9" level="project" />
-    <orderEntry type="library" exported="" name="1_android-async-http-1.4.9" level="project" />
     <orderEntry type="library" exported="" name="play-services-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-tagmanager-9.2.0" level="project" />
     <orderEntry type="library" exported="" name="listviewanimations_lib-core-slh_3.1.0" level="project" />

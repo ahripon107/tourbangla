@@ -6,11 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,16 +19,13 @@ import android.widget.Toast;
 
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.adapter.CommentAdapter;
-import com.androidfragmant.tourxyz.banglatourism.model.ForumPost;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.parse.ParseObject;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
-import com.androidfragmant.tourxyz.banglatourism.fragment.DescriptionFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;

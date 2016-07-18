@@ -22,13 +22,8 @@ import com.androidfragmant.tourxyz.banglatourism.model.ForumPost;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;

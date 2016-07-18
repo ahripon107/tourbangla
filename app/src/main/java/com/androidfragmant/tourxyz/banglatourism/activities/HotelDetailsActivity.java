@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.parse.ParseObject;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.androidfragmant.tourxyz.banglatourism.R;
@@ -63,12 +62,7 @@ public class HotelDetailsActivity extends RoboAppCompatActivity {
         Intent i = getIntent();
         String str = i.getExtras().getString("namet");
         int index = i.getExtras().getInt("index");
-        ParseObject selectedObject = HotelsActivity.allHotels.get(index);
 
-        name = (String) selectedObject.get("name");
-        address = (String) selectedObject.get("address");
-        description = (String) selectedObject.get("description");
-        cost = (String) selectedObject.get("cost");
 
         mAdapter = new HotelDetailsPagerAdapter(getSupportFragmentManager(), titles, name, address, description, cost);
 
