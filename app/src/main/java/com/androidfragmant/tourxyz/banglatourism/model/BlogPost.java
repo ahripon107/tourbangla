@@ -1,9 +1,11 @@
 package com.androidfragmant.tourxyz.banglatourism.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Ripon on 7/7/16.
  */
-public class BlogPost {
+public class BlogPost implements Serializable {
 
     private int id;
     private String name;

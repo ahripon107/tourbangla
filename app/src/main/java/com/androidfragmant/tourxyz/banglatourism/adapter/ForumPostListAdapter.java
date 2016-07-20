@@ -53,9 +53,7 @@ public class ForumPostListAdapter extends RecyclerView.Adapter<ForumPostListAdap
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context,ForumPostDetailsActivity.class);
-                i.putExtra("id",forumPosts.get(position).getId());
-                i.putExtra("name", forumPosts.get(position).getName());
-                i.putExtra("question", forumPosts.get(position).getQuestion());
+                i.putExtra("forumpost",forumPosts.get(position));
                 context.startActivity(i);
             }
         });

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.adapter.CommentAdapter;
+import com.androidfragmant.tourxyz.banglatourism.model.ForumPost;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -95,9 +96,10 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
         recyclerView.setAdapter(commentAdapter);
 
         Intent i = getIntent();
-        nameString = i.getExtras().getString("name");
-        questionString = i.getExtras().getString("question");
-        final int id = i.getExtras().getInt("id");
+        ForumPost forumPost = (ForumPost) i.getSerializableExtra("forumpost");
+        nameString = forumPost.getName();
+        questionString = forumPost.getQuestion();
+        final int id = forumPost.getId();
         setTitle(questionString);
 
         askedBy.setTypeface(tf);
@@ -120,7 +122,6 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                     JSONArray jsonArray = response.getJSONArray("content");
                     for (int i=0;i<jsonArray.length();i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        int id = jsonObject.getInt("id");
                         String name = jsonObject.getString("name");
                         String comment = jsonObject.getString("comment");
                         names.add(name);
@@ -188,7 +189,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                                     @Override
                                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                         progressDialog.dismiss();
-                                        Toast.makeText(ForumPostDetailsActivity.this, "failed", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(ForumPostDetailsActivity.this, "Failed", Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }

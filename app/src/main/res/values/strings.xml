@@ -16,6 +16,8 @@
     <string name="touroperatordetails">ca-app-pub-9201945236996508/9258048872</string>
     <string name="tourblog">ca-app-pub-9201945236996508/4688248477</string>
 
+    <string name="google_map_api_key">AIzaSyDPnbpcTfF90yrIQA0MBN2VVwRld-tMY7o</string>
+
     <string name="facebook_app_id">258793617834681</string>
 
     <string name="cd_background_image">background image</string>
@@ -164,6 +166,8 @@
     <string name="itsok">Its OK</string>
     <string name="dontlike">I dont like it</string>
     <string name="hateit">I hate it</string>
+    <string name="addtowishlist">ADD TO WISHLIST</string>
+    <string name="removefromwishlist">REMOVE FROM WISHLIST</string>
 
     <string-array name="dhaka_districts">
         <item>Dhaka</item>
