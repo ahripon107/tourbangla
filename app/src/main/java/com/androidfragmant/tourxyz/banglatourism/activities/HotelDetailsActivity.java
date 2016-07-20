@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.parse.ParseObject;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.androidfragmant.tourxyz.banglatourism.R;
@@ -63,12 +62,7 @@ public class HotelDetailsActivity extends RoboAppCompatActivity {
         Intent i = getIntent();
         String str = i.getExtras().getString("namet");
         int index = i.getExtras().getInt("index");
-        ParseObject selectedObject = HotelsActivity.allHotels.get(index);
 
-        name = (String) selectedObject.get("name");
-        address = (String) selectedObject.get("address");
-        description = (String) selectedObject.get("description");
-        cost = (String) selectedObject.get("cost");
 
         mAdapter = new HotelDetailsPagerAdapter(getSupportFragmentManager(), titles, name, address, description, cost);
 
@@ -84,42 +78,43 @@ public class HotelDetailsActivity extends RoboAppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
         adView.loadAd(adRequest);
     }
-}
 
-class HotelDetailsPagerAdapter extends FragmentStatePagerAdapter {
+    public class HotelDetailsPagerAdapter extends FragmentStatePagerAdapter {
 
-    String[] titles;
-    String name, address, description, cost;
+        String[] titles;
+        String name, address, description, cost;
 
-    public HotelDetailsPagerAdapter(FragmentManager fm, String[] titles, String name, String address, String description, String cost) {
+        public HotelDetailsPagerAdapter(FragmentManager fm, String[] titles, String name, String address, String description, String cost) {
 
-        super(fm);
-        this.name = name;
-        this.address = address;
-        this.description = description;
-        this.cost = cost;
-        this.titles = titles;
-    }
-
-    @Override
-    public Fragment getItem(int position) {
-        if (position == 0) {
-            return DescriptionFragment.newInstanceOfDescriptionFragment(address);
-        } else if (position == 1) {
-            return DescriptionFragment.newInstanceOfDescriptionFragment(description);
-        } else {
-            return DescriptionFragment.newInstanceOfDescriptionFragment(cost);
+            super(fm);
+            this.name = name;
+            this.address = address;
+            this.description = description;
+            this.cost = cost;
+            this.titles = titles;
         }
 
-    }
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                return DescriptionFragment.newInstanceOfDescriptionFragment(address);
+            } else if (position == 1) {
+                return DescriptionFragment.newInstanceOfDescriptionFragment(description);
+            } else {
+                return DescriptionFragment.newInstanceOfDescriptionFragment(cost);
+            }
 
-    @Override
-    public int getCount() {
-        return 3;
-    }
+        }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return titles[position];
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
+        }
     }
 }
+

@@ -11,14 +11,13 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.parse.ParseObject;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.fragment.BlogDetails;
 import com.androidfragmant.tourxyz.banglatourism.fragment.CommentAddComment;
+import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
 import com.squareup.picasso.Picasso;
 
 import roboguice.inject.ContentView;
@@ -49,13 +48,6 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
     ImageView imageView;
 
     private CharSequence Titles[] = {"Post Details", "Comments"};
-    private int NoOfTabs = 2;
-    private MyPagerAdapter mAdapter;
-
-    String blogtitle;
-    String blogwriter;
-    String blogdetails;
-    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,17 +66,12 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
 
 
         Intent i = getIntent();
-        blogwriter = i.getStringExtra("name");
-        blogtitle = i.getStringExtra("title");
-        blogdetails = i.getStringExtra("details");
-        String image = i.getStringExtra("image");
-        id = i.getExtras().getInt("id");
-        Picasso.with(TourBlogDetailsActivity.this).load(image).into(imageView);
+        BlogPost blogPost = (BlogPost) i.getSerializableExtra("post");
+        Picasso.with(TourBlogDetailsActivity.this).load(blogPost.getImage()).into(imageView);
 
-        setTitle(blogtitle);
-        mAdapter = new MyPagerAdapter(getSupportFragmentManager(), Titles, NoOfTabs, blogtitle, blogwriter, blogdetails, id);
+        setTitle(blogPost.getTitle());
+        MyPagerAdapter mAdapter = new MyPagerAdapter(getSupportFragmentManager(), Titles, blogPost);
         mPager.setAdapter(mAdapter);
-        mTabLayout.setTabsFromPagerAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mPager);
 
         mCollapsingToolbarLayout.setTitle("Tour Blog");
@@ -92,47 +79,36 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
         mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
         mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBarPlus1);
         mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBarPlus1);
-
-
     }
 
-}
+    private class MyPagerAdapter extends FragmentStatePagerAdapter {
+        CharSequence[] Titles;
+        BlogPost blogPost;
 
-class MyPagerAdapter extends FragmentStatePagerAdapter {
-    CharSequence[] Titles;
-    int NoOfTabs;
-    String blogtitle;
-    String blogwriter;
-    String blogdetails;
-    int id;
+        public MyPagerAdapter(FragmentManager fm, CharSequence[] Titles, BlogPost blogPost) {
+            super(fm);
+            this.Titles = Titles;
+            this.blogPost = blogPost;
+        }
 
-    public MyPagerAdapter(FragmentManager fm, CharSequence[] Titles, int NoOfTabs, String blogtitle, String blogwriter, String blogdetails, int id) {
-        super(fm);
-        this.Titles = Titles;
-        this.NoOfTabs = NoOfTabs;
-        this.blogtitle = blogtitle;
-        this.blogwriter = blogwriter;
-        this.blogdetails = blogdetails;
-        this.id = id;
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                return BlogDetails.newInstanceofBlogDetails(blogPost.getTitle(), blogPost.getName(), blogPost.getDetails());
+            } else {
+                return CommentAddComment.NewInstanceofCommentAddComment(blogPost.getId(), 2);
+            }
+        }
 
-    }
+        @Override
+        public int getCount() {
+            return Titles.length;
+        }
 
-    @Override
-    public Fragment getItem(int position) {
-        if (position == 0) {
-            return BlogDetails.newInstanceofBlogDetails(blogtitle, blogwriter, blogdetails);
-        } else {
-            return CommentAddComment.NewInstanceofCommentAddComment(id, 2);
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return Titles[position];
         }
     }
-
-    @Override
-    public int getCount() {
-        return 2;
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return Titles[position];
-    }
 }
+

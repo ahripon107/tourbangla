@@ -3,10 +3,12 @@ package com.androidfragmant.tourxyz.banglatourism.fragment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -101,6 +103,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         String longi = getArguments().getString("longi");
         mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(lat), Double.parseDouble(longi))).title("Marker"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(lat), Double.parseDouble(longi)), 14.0f));
+        Log.d(Constants.TAG, lat+" "+longi);
     }
 
     @Override

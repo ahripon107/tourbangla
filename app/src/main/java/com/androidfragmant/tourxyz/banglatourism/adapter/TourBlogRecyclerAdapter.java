@@ -52,6 +52,7 @@ public class TourBlogRecyclerAdapter extends RecyclerView.Adapter<TourBlogRecycl
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, TourBlogDetailsActivity.class);
+                i.putExtra("post",blogPost);
                 i.putExtra("name", blogPost.getName());
                 i.putExtra("title",blogPost.getTitle());
                 i.putExtra("details",blogPost.getDetails());

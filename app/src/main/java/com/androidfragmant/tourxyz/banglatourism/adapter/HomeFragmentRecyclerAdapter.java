@@ -3,9 +3,11 @@ package com.androidfragmant.tourxyz.banglatourism.adapter;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -94,7 +96,6 @@ public class HomeFragmentRecyclerAdapter extends RecyclerView.Adapter<HomeFragme
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Toast.makeText(context, statusCode+"failed", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -190,7 +191,7 @@ public class HomeFragmentRecyclerAdapter extends RecyclerView.Adapter<HomeFragme
                             @Override
                             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 progressDialog.dismiss();
-                                Toast.makeText(context, statusCode + "failed", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, statusCode + "Failed", Toast.LENGTH_LONG).show();
                             }
                         });
                     } else {
@@ -279,7 +280,7 @@ public class HomeFragmentRecyclerAdapter extends RecyclerView.Adapter<HomeFragme
 
             linearLayout = ViewHolder.get(itemView,R.id.cardcontainer);
             viewPagerImageSlideShow = ViewHolder.get(itemView,R.id.viewPagerImageSlideShow);
-            dotsLayout = (LinearLayout) ViewHolder.get(itemView,R.id.layoutDots);
+            dotsLayout = ViewHolder.get(itemView,R.id.layoutDots);
         }
     }
 }

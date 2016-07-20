@@ -8,9 +8,6 @@ import com.batch.android.Batch;
 import com.batch.android.Config;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.parse.Parse;
-import com.parse.ParseACL;
-import com.parse.ParseUser;
 
 /**
  * Created by Ripon on 7/20/15.

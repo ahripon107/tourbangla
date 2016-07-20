@@ -6,11 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -28,12 +23,10 @@ import com.androidfragmant.tourxyz.banglatourism.model.ForumPost;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.parse.ParseObject;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
-import com.androidfragmant.tourxyz.banglatourism.fragment.DescriptionFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -103,9 +96,10 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
         recyclerView.setAdapter(commentAdapter);
 
         Intent i = getIntent();
-        nameString = i.getExtras().getString("name");
-        questionString = i.getExtras().getString("question");
-        final int id = i.getExtras().getInt("id");
+        ForumPost forumPost = (ForumPost) i.getSerializableExtra("forumpost");
+        nameString = forumPost.getName();
+        questionString = forumPost.getQuestion();
+        final int id = forumPost.getId();
         setTitle(questionString);
 
         askedBy.setTypeface(tf);
@@ -128,7 +122,6 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                     JSONArray jsonArray = response.getJSONArray("content");
                     for (int i=0;i<jsonArray.length();i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        int id = jsonObject.getInt("id");
                         String name = jsonObject.getString("name");
                         String comment = jsonObject.getString("comment");
                         names.add(name);
@@ -196,7 +189,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                                     @Override
                                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                         progressDialog.dismiss();
-                                        Toast.makeText(ForumPostDetailsActivity.this, "failed", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(ForumPostDetailsActivity.this, "Failed", Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }

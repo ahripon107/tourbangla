@@ -12,7 +12,6 @@ import android.view.View;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.parse.ParseUser;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
