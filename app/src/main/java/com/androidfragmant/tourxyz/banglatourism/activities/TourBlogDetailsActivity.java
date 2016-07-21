@@ -74,7 +74,7 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
         mPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mPager);
 
-        mCollapsingToolbarLayout.setTitle("Tour Blog");
+        mCollapsingToolbarLayout.setTitle(blogPost.getTitle());
         mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
         mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
         mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBarPlus1);

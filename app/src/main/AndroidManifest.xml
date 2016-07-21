@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.androidfragmant.tourxyz.banglatourism" >
+    package="com.androidfragmant.tourxyz.banglatourism">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -16,27 +16,28 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-    <permission android:name="${applicationId}.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
-    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE"/>
+    <permission
+        android:name="${applicationId}.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
 
+    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
-        android:name="com.androidfragmant.tourxyz.banglatourism.ParseApplication"
+        android:name=".ParseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/MyMaterialTheme" >
+        android:theme="@style/MyMaterialTheme">
         <activity
-            android:name="com.androidfragmant.tourxyz.banglatourism.activities.MainActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN1" />
 
@@ -44,9 +45,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.androidfragmant.tourxyz.banglatourism.activities.FrontPageActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:name=".activities.FrontPageActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,9 +55,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.androidfragmant.tourxyz.banglatourism.activities.BrowseByDivisionActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:name=".activities.BrowseByDivisionActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.BROWSEBYDIVISION" />
 
@@ -64,9 +65,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.androidfragmant.tourxyz.banglatourism.activities.NewPlaceDetailsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:name=".activities.NewPlaceDetailsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.NEWPLACEDETAILSACTIVITY" />
 
@@ -74,9 +75,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.androidfragmant.tourxyz.banglatourism.activities.TourBlogActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:name=".activities.TourBlogActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.TOURBLOG" />
 
@@ -84,9 +85,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.androidfragmant.tourxyz.banglatourism.activities.TourBlogDetailsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:name=".activities.TourBlogDetailsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.TOURBLOGDETAILSACTIVITY" />
 
@@ -95,8 +96,8 @@
         </activity>
         <activity
             android:name=".activities.ForumPostListActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SELECTTOUROPERATOR" />
 
@@ -105,8 +106,8 @@
         </activity>
         <activity
             android:name=".activities.ForumPostDetailsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.TOUROPERATORDETAILS" />
 
@@ -114,110 +115,126 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.androidfragmant.tourxyz.banglatourism.activities.HotelsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:name=".activities.HotelsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.HOTELS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.androidfragmant.tourxyz.banglatourism.activities.NewTourBlogActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:name=".activities.NewTourBlogActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.NEWTOURBLOG" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.androidfragmant.tourxyz.banglatourism.activities.HotelDetailsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:name=".activities.HotelDetailsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.HOTELDETAILS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.androidfragmant.tourxyz.banglatourism.activities.DivisionListActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:name=".activities.DivisionListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.DIVISIONLISTACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.androidfragmant.tourxyz.banglatourism.activities.TourOperatorOffersListActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:name=".activities.TourOperatorOffersListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.TOUROPERATOROFFERSLISTACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.androidfragmant.tourxyz.banglatourism.activities.TourOfferDetailsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:name=".activities.TourOfferDetailsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.TOUROFFERDETAILSACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.androidfragmant.tourxyz.banglatourism.activities.DistrictListActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:name=".activities.DistrictListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.DISTRICTLISTACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
-
-        <provider android:authorities="com.facebook.app.FacebookContentProvider"
+        <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:exported="true"/>
+            android:authorities="com.facebook.app.FacebookContentProvider"
+            android:exported="true" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_map_api_key" />
 
         <service android:name="com.batch.android.BatchPushService" />
-        <receiver android:name="com.batch.android.BatchPushReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+
+        <receiver
+            android:name="com.batch.android.BatchPushReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
+            </intent-filter>
+        </receiver>
 
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
     </application>
 

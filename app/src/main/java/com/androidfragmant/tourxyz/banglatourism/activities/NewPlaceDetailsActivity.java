@@ -26,6 +26,7 @@ import android.widget.ImageView;
 
 import com.androidfragmant.tourxyz.banglatourism.fragment.MapsFragment;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.androidfragmant.tourxyz.banglatourism.util.FalseProgress;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -80,7 +81,7 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
     @InjectView(R.id.adViewPlaceDetails)
     AdView adView;
 
-    private CharSequence Titles[] = {"DESCRIPTION", "HOW TO GO", "HOTELS", "OTHER INFO", "COMMENTS", "MAPS"};
+    private CharSequence Titles[] = {"DESCRIPTION", "HOW TO GO", "HOTELS", "OTHER INFO", "COMMENTS"};
     private Place selectedPlace;
 
     List<Place> favourites;
@@ -102,12 +103,12 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SupportMapFragment mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map123));
+                /*SupportMapFragment mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map123));
 
                 if (mapFragment != null) {
                     FragmentManager fM = getSupportFragmentManager();
                     fM.beginTransaction().remove(mapFragment).commit();
-                }
+                }*/
                 finish();
             }
         });
@@ -117,13 +118,13 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
 
         selectedPlace = PlaceAccessHelper.getPlace(id);
         String picture = selectedPlace.getPicture();
+        Log.d(Constants.TAG, picture);
 
 
-        Picasso.with(getApplicationContext()).load("http://vpn.gd/banglatourism/" + picture + ".jpg").into(imageView);
-        int noOfTabs = 6;
+        Picasso.with(getApplicationContext()).load( picture ).into(imageView);
+        int noOfTabs = 5;
         YourPagerAdapter mAdapter = new YourPagerAdapter(getSupportFragmentManager(), Titles, noOfTabs, selectedPlace);
         mPager.setAdapter(mAdapter);
-        mTabLayout.setTabsFromPagerAdapter(mAdapter);
 
         mTabLayout.setupWithViewPager(mPager);
         mCollapsingToolbarLayout.setTitle(selectedPlace.getName());
@@ -132,12 +133,12 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
         mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBarPlus1);
         mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBarPlus1);
 
-        addToFavourite.setText("ADD TO WISHLIST");
+        addToFavourite.setText(R.string.addtowishlist);
         SharedPreferences sharedPreferenc = this.getSharedPreferences("wishlist", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editr = sharedPreferenc.edit();
         if (sharedPreferenc.contains(selectedPlace.getName())) {
             Log.d(Constants.TAG, "exist");
-            addToFavourite.setText("REMOVE FROM WISHLIST");
+            addToFavourite.setText(R.string.removefromwishlist);
         }
 
         addToFavourite.setOnClickListener(new View.OnClickListener() {
@@ -148,11 +149,11 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
                     String string = gson.toJson(selectedPlace);
                     editr.putString(selectedPlace.getName(), string).apply();
                     new FalseProgress(addToFavourite).execute(100);
-                    addToFavourite.setText("REMOVE FROM WISHLIST");
+                    addToFavourite.setText(R.string.removefromwishlist);
                 } else {
                     editr.remove(selectedPlace.getName()).apply();
                     new FalseProgress(addToFavourite).execute(100);
-                    addToFavourite.setText("ADD TO WISHLIST");
+                    addToFavourite.setText(R.string.addtowishlist);
                 }
             }
         });
@@ -275,16 +276,11 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
                     String appPackageName = getPackageName();
                     ShareLinkContent linkContent;
                     String aURL = "https://play.google.com/store/apps/details?id=" + appPackageName;
-                    if(aURL == null)
-                    {
-                        linkContent = new ShareLinkContent.Builder().build();
-                    }
-                    else
-                    {
-                        linkContent = new ShareLinkContent.Builder()
+
+                    linkContent = new ShareLinkContent.Builder()
                                 .setContentUrl(Uri.parse(aURL))
                                 .build();
-                    }
+
 
                     shareDialog.show(linkContent);
                 }
@@ -294,38 +290,7 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
         }
     }
 
-    private class FalseProgress extends AsyncTask<Integer, Integer, Integer> {
 
-        private CircularProgressButton cpb;
-
-        public FalseProgress(CircularProgressButton cpb) {
-            this.cpb = cpb;
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... params) {
-            for (int progress = 0; progress < 100; progress += 5) {
-                publishProgress(progress);
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            return params[0];
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            cpb.setProgress(result);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            int progress = values[0];
-            cpb.setProgress(progress);
-        }
-    }
 }
 
 class YourPagerAdapter extends FragmentStatePagerAdapter {
@@ -351,16 +316,14 @@ class YourPagerAdapter extends FragmentStatePagerAdapter {
             return DescriptionFragment.newInstanceOfDescriptionFragment(SelectedPlace.getHotel());
         } else if (position == 3) {
             return DescriptionFragment.newInstanceOfDescriptionFragment(SelectedPlace.getOthers());
-        } else if (position == 4) {
-            return CommentAddComment.NewInstanceofCommentAddComment(SelectedPlace.getId(), 1);
         } else {
-            return MapsFragment.NewInstanceOfMapsActivity(SelectedPlace.getLattitude(), SelectedPlace.getLongitude());
+            return CommentAddComment.NewInstanceofCommentAddComment(SelectedPlace.getId(), 1);
         }
     }
 
     @Override
     public int getCount() {
-        return 6;
+        return Titles.length;
     }
 
     @Override

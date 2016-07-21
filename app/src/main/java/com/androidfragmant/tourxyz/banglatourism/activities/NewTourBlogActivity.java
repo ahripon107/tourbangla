@@ -132,6 +132,8 @@ public class NewTourBlogActivity extends RoboAppCompatActivity {
                     bytes = stream.toByteArray();
                 }
                 final String encodedImage = Base64.encodeToString(bytes, Base64.DEFAULT);
+                Log.d(Constants.TAG, encodedImage.getBytes().length+"");
+                Log.d(Constants.TAG, bytes.length+"");
 
                 RequestParams params = new RequestParams();
 

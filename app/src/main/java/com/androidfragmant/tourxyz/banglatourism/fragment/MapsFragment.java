@@ -29,11 +29,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         inflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
 
-        View v = inflater.inflate(R.layout.activity_maps, container, false);
-        ((SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map123)).getMapAsync(this);
-        if (mMap != null) {
-            setUpMap();
-        }
+        View v = inflater.inflate(R.layout.activity_maps2, container, false);
+        ((SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
 
         return v;
     }
@@ -79,7 +76,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
      * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
      * method in {@link #onResume()} to guarantee that it will be called.
      */
-    private void setUpMapIfNeeded() {
+    /*private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
@@ -90,7 +87,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 setUpMap();
             }
         }
-    }
+    }*/
 
     /**
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
@@ -98,16 +95,21 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
      * <p/>
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
-    private void setUpMap() {
+    /*private void setUpMap() {
         String lat = getArguments().getString("lat");
         String longi = getArguments().getString("longi");
         mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(lat), Double.parseDouble(longi))).title("Marker"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(lat), Double.parseDouble(longi)), 14.0f));
         Log.d(Constants.TAG, lat+" "+longi);
-    }
+    }*/
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
+        String lat = getArguments().getString("lat");
+        String longi = getArguments().getString("longi");
+        mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(lat), Double.parseDouble(longi))).title("Marker"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(lat), Double.parseDouble(longi)), 14.0f));
+        Log.d(Constants.TAG, lat+" "+longi);
     }
 }

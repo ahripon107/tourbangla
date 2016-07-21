@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.androidfragmant.tourxyz.banglatourism.util.FalseProgress;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
@@ -73,7 +74,7 @@ public class FeedbackFragment extends Fragment {
                         title.getText().clear();
                         details.getText().clear();
                         new FalseProgress(send).execute(100);
-                        Toast.makeText(getContext(), "Thank you for your suggestion.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Thank you for your feedback.", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -90,36 +91,4 @@ public class FeedbackFragment extends Fragment {
         return rootView;
     }
 
-    private class FalseProgress extends AsyncTask<Integer, Integer, Integer> {
-
-        private CircularProgressButton cpb;
-
-        public FalseProgress(CircularProgressButton cpb) {
-            this.cpb = cpb;
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... params) {
-            for (int progress = 0; progress < 100; progress += 5) {
-                publishProgress(progress);
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            return params[0];
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            cpb.setProgress(result);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            int progress = values[0];
-            cpb.setProgress(progress);
-        }
-    }
 }

@@ -44,7 +44,7 @@ public class TourOperatorOfferRecyclerAdapter extends RecyclerView.Adapter<TourO
         holder.offerTitle.setText(offer.getTitle());
         holder.offerTitle.setTypeface(tf);
         holder.offerSummary.setText(offer.getSummary());
-        Picasso.with(context).load("http://apisea.xyz/TourBangla/images/" + offers.get(position).getImageName() + ".jpg").into(holder.offerImage);
+        Picasso.with(context).load(offers.get(position).getImageName()).into(holder.offerImage);
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

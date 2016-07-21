@@ -22,13 +22,13 @@ import java.util.List;
 /**
  * Created by Ripon on 10/1/15.
  */
-public class GoogleCardsTravelAdapter extends RecyclerView.Adapter<GoogleCardsTravelAdapter.PlaceCardViewHolder> {
+public class PlaceRecyclerAdapter extends RecyclerView.Adapter<PlaceRecyclerAdapter.PlaceCardViewHolder> {
     private LayoutInflater mInflater;
     Context con;
     List<Place> items;
     Typeface tf;
 
-    public GoogleCardsTravelAdapter(Context context, List<Place> items) {
+    public PlaceRecyclerAdapter(Context context, List<Place> items) {
         con = context;
         this.items = items;
         mInflater = (LayoutInflater) context
@@ -38,7 +38,7 @@ public class GoogleCardsTravelAdapter extends RecyclerView.Adapter<GoogleCardsTr
 
     @Override
     public PlaceCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.list_item_google_cards_travel,parent,false);
+        View view = mInflater.inflate(R.layout.list_item_place,parent,false);
         return new PlaceCardViewHolder(view);
     }
 
@@ -46,7 +46,7 @@ public class GoogleCardsTravelAdapter extends RecyclerView.Adapter<GoogleCardsTr
     public void onBindViewHolder(PlaceCardViewHolder holder, int position) {
         final Place place = items.get(holder.getAdapterPosition());
         holder.title.setTypeface(tf);
-        ImageUtil.displayImage(holder.imageView, "http://apisea.xyz/TourBangla/images/" + place.getPicture() + ".jpg", null);
+        ImageUtil.displayImage(holder.imageView, place.getPicture(), null);
         holder.title.setText(place.getName());
 
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {

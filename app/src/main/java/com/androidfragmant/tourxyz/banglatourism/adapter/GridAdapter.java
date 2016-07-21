@@ -53,7 +53,7 @@ public class GridAdapter extends BaseAdapter {
         localTextView.setText(this.web[position]);
         Typeface tf = Typeface.createFromAsset(context.getAssets(), "font/solaimanlipi.ttf");
         localTextView.setTypeface(tf);
-        Picasso.with(context).load("http://apisea.xyz/TourBangla/images/" + this.picname[position] + ".jpg").placeholder(R.drawable.noimage).into(localImageView);
+        Picasso.with(context).load( this.picname[position] ).placeholder(R.drawable.noimage).into(localImageView);
 
         return localView;
     }
