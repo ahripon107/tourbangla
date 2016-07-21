@@ -6,17 +6,17 @@
     <string name="action_search">Search</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="adidmainactivity">ca-app-pub-9201945236996508/8538195271</string>
-    <string name="browsebydivision">ca-app-pub-9201945236996508/9596126076</string>
+    <string name="adidmainactivity">ca-app-pub-9201945236996508/2660811272</string>
+    <string name="browsebydivision">ca-app-pub-9201945236996508/4137544477</string>
+
     <string name="browsebytype">ca-app-pub-9201945236996508/4188720873</string>
+
     <string name="placedetails">ca-app-pub-9201945236996508/7142187274</string>
     <string name="hotels">ca-app-pub-9201945236996508/1095653677</string>
     <string name="touroperator">ca-app-pub-9201945236996508/2432786074</string>
     <string name="hoteldetails">ca-app-pub-9201945236996508/4827849276</string>
     <string name="touroperatordetails">ca-app-pub-9201945236996508/9258048872</string>
     <string name="tourblog">ca-app-pub-9201945236996508/4688248477</string>
-
-    <string name="google_map_api_key">AIzaSyDPnbpcTfF90yrIQA0MBN2VVwRld-tMY7o</string>
 
     <string name="facebook_app_id">258793617834681</string>
 
@@ -127,7 +127,6 @@
     <string name="material_icon_unfold_more">&#xeb2f;</string>
 
 
-
     <!-- TextView related strings -->
     <string name="typography1">Typography I</string>
     <string name="typography2">Typography II</string>
@@ -209,7 +208,7 @@
         <item>Sirajganj</item>
         <item>Rajshahi</item>
     </string-array>
-    
+
     <string-array name="rangpur_districts">
         <item>Dinajpur</item>
         <item>Gaibandha</item>
@@ -220,14 +219,14 @@
         <item>Rangpur</item>
         <item>Thakurgaon</item>
     </string-array>
-    
+
     <string-array name="mymensingh_districts">
         <item>Netrokona</item>
         <item>Sherpur</item>
         <item>Jamalpur</item>
         <item>Mymensingh</item>
     </string-array>
-    
+
     <string-array name="barisal_districts">
         <item>Barguna</item>
         <item>Barisal</item>
@@ -236,7 +235,7 @@
         <item>Patuakhali</item>
         <item>Pirojpur</item>
     </string-array>
-    
+
     <string-array name="khulna_districts">
         <item>Bagerhat</item>
         <item>Chuadanga</item>
@@ -249,7 +248,7 @@
         <item>Satkhira</item>
         <item>Narail</item>
     </string-array>
-    
+
     <string-array name="sylhet_districts">
         <item>Habiganj</item>
         <item>Moulvibazar</item>

@@ -1,13 +1,10 @@
 package com.androidfragmant.tourxyz.banglatourism.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -18,7 +15,7 @@ import com.google.android.gms.ads.AdView;
 import com.androidfragmant.tourxyz.banglatourism.PlaceAccessHelper;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
-import com.androidfragmant.tourxyz.banglatourism.adapter.GoogleCardsTravelAdapter;
+import com.androidfragmant.tourxyz.banglatourism.adapter.PlaceRecyclerAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 
 import roboguice.inject.ContentView;
@@ -39,7 +36,7 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
     @InjectView(R.id.gridview)
     RecyclerView recyclerView;
 
-    private GoogleCardsTravelAdapter mGoogleCardsAdapter;
+    private PlaceRecyclerAdapter mGoogleCardsAdapter;
 
 
     @Override
@@ -68,7 +65,7 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        mGoogleCardsAdapter = new GoogleCardsTravelAdapter(BrowseByDivisionActivity.this, PlaceAccessHelper.getPlacesOfDistrict(districtName));
+        mGoogleCardsAdapter = new PlaceRecyclerAdapter(BrowseByDivisionActivity.this, PlaceAccessHelper.getPlacesOfDistrict(districtName));
         recyclerView.setAdapter(mGoogleCardsAdapter);
 
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();

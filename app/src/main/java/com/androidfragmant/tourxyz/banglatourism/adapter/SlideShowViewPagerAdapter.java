@@ -49,7 +49,7 @@ public class SlideShowViewPagerAdapter extends PagerAdapter {
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imgSlideShow);
         TextView tvText = (TextView) itemView.findViewById(R.id.tvText);
         if (this.category.equals(homeFragmentImages.get(position).getCategory())) {
-            Picasso.with(mContext).load("http://apisea.xyz/TourBangla/images/" + homeFragmentImages.get(position).getImagename() + ".jpg").resize(350, 250).into(imageView);
+            Picasso.with(mContext).load(homeFragmentImages.get(position).getImagename()).resize(350, 250).into(imageView);
         }
         container.addView(itemView);
 

@@ -263,7 +263,7 @@ public class HomeFragmentRecyclerAdapter extends RecyclerView.Adapter<HomeFragme
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public static class HomeFragmentViewHolder extends RecyclerView.ViewHolder {
+    static class HomeFragmentViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView title;
         protected Button button;
