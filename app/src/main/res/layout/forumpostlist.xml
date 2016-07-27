@@ -41,7 +41,7 @@
 
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/touroperator">
+        ads:adUnitId="@string/forumpostlist">
     </com.google.android.gms.ads.AdView>
 
     <android.support.design.widget.FloatingActionButton

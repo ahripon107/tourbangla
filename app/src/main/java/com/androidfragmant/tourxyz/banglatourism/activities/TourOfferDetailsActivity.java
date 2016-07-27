@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -18,6 +20,9 @@ import roboguice.inject.InjectView;
  */
 @ContentView(R.layout.tourofferdetails)
 public class TourOfferDetailsActivity extends RoboAppCompatActivity {
+
+    @InjectView(R.id.adViewTourOfferDetails)
+    AdView adView;
 
     @InjectView(R.id.tvOfferDetails)
     TextView details;
@@ -48,5 +53,8 @@ public class TourOfferDetailsActivity extends RoboAppCompatActivity {
         String detailsText = intent.getStringExtra("details");
         details.setTypeface(tf);
         details.setText(detailsText);
+
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
+        adView.loadAd(adRequest);
     }
 }

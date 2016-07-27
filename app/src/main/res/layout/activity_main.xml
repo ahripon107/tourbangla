@@ -26,13 +26,6 @@
             android:orientation="vertical">
 
 
-            <FrameLayout
-                android:id="@+id/container_body"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_above="@+id/adView"
-                 />
-
             <com.google.android.gms.ads.AdView
                 android:id="@+id/adView"
                 android:layout_width="fill_parent"
@@ -43,6 +36,14 @@
                 ads:adSize="BANNER"
                 ads:adUnitId="@string/adidmainactivity">
             </com.google.android.gms.ads.AdView>
+            <FrameLayout
+                android:id="@+id/container_body"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_above="@id/adView"
+                 />
+
+
 
         </RelativeLayout>
 

@@ -145,7 +145,7 @@
                     android:textColor="@android:color/white"
                     android:background="@drawable/raised_selector"
                     android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                    android:text="SELECT PICTURE"/>
+                    android:text="SELECT PICTURE (OPTIONAL)"/>
 
             </com.dd.ShadowLayout>
 

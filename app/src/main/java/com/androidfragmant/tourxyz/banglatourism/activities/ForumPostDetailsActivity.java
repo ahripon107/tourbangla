@@ -56,7 +56,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
     @InjectView(R.id.forumPostCommentList)
     private RecyclerView recyclerView;
 
-    @InjectView(R.id.adViewTourOperatorDetails)
+    @InjectView(R.id.adViewForumPostDetails)
     AdView adView;
 
     @InjectView(R.id.btnAnswer)

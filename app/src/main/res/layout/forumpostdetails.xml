@@ -73,11 +73,11 @@
 
     </android.support.v7.widget.RecyclerView>
     <com.google.android.gms.ads.AdView
-        android:id="@+id/adViewTourOperatorDetails"
+        android:id="@+id/adViewForumPostDetails"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/touroperatordetails">
+        ads:adUnitId="@string/forumpostdetails">
     </com.google.android.gms.ads.AdView>
 </RelativeLayout>

@@ -41,7 +41,6 @@
                 android:textSize="15sp"
                 android:textStyle="italic"
                 android:textColor="@color/cpb_blue"
-                android:text="fd"
                 android:gravity="center_vertical"
 
                 />

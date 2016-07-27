@@ -34,14 +34,4 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         />
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adViewHotelDetails"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_gravity="bottom"
-
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/hoteldetails">
-    </com.google.android.gms.ads.AdView>
 </LinearLayout>

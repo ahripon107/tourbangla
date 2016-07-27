@@ -37,8 +37,6 @@ public class HotelDetailsActivity extends RoboAppCompatActivity {
     private HotelDetailsPagerAdapter mAdapter;
     String name, address, description, cost;
 
-    @InjectView(R.id.adViewHotelDetails)
-    AdView adView;
 
     public String titles[] = {"ARRDESS", "DESCRIPTION", "COST"};
 
@@ -75,8 +73,6 @@ public class HotelDetailsActivity extends RoboAppCompatActivity {
         mTabLayout.setupWithViewPager(mPager);
         //mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
-        adView.loadAd(adRequest);
     }
 
     public class HotelDetailsPagerAdapter extends FragmentStatePagerAdapter {

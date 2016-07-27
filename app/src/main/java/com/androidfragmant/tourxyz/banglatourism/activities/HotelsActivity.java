@@ -33,8 +33,6 @@ public class HotelsActivity extends RoboAppCompatActivity {
     @InjectView(R.id.hoteltool_bar)
     Toolbar toolbar;
 
-    @InjectView(R.id.adViewHotel)
-    AdView adView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,8 +56,5 @@ public class HotelsActivity extends RoboAppCompatActivity {
         setTitle("Hotels of "+str);
         Toast.makeText(getApplicationContext(),str,Toast.LENGTH_LONG).show();
 
-
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
-        adView.loadAd(adRequest);
     }
 }
