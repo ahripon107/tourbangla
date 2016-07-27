@@ -91,45 +91,7 @@ public class ForumPostListActivity extends RoboAppCompatActivity {
         forumPostListAdapter = new ForumPostListAdapter(ForumPostListActivity.this, forumPosts);
         recyclerView.setAdapter(forumPostListAdapter);
 
-        String url = Constants.FETCH_FORUM_POSTS_URL;
-        Log.d(Constants.TAG, url);
-
-        FetchFromWeb.get(url, null, new JsonHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                if (progressWheel.isSpinning()) {
-                    progressWheel.stopSpinning();
-                    progressWheel.setVisibility(View.INVISIBLE);
-                }
-
-                try {
-                    JSONArray jsonArray = response.getJSONArray("content");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        int id = jsonObject.getInt("id");
-                        String name = jsonObject.getString("name");
-                        String question = jsonObject.getString("question");
-                        ForumPost forumPost = new ForumPost(id, name, question);
-                        forumPosts.add(forumPost);
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                forumPostListAdapter.notifyDataSetChanged();
-                Log.d(Constants.TAG, response.toString());
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                if (progressWheel.isSpinning()) {
-                    progressWheel.stopSpinning();
-                    progressWheel.setVisibility(View.INVISIBLE);
-                }
-                Toast.makeText(ForumPostListActivity.this, statusCode + "failure", Toast.LENGTH_SHORT).show();
-            }
-        });
+        fetchContents();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,7 +132,7 @@ public class ForumPostListActivity extends RoboAppCompatActivity {
                                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                         progressDialog.dismiss();
                                         Toast.makeText(ForumPostListActivity.this, "Successfully Posted", Toast.LENGTH_LONG).show();
-
+                                        fetchContents();
                                         Log.d(Constants.TAG, response.toString());
                                     }
 
@@ -197,5 +159,53 @@ public class ForumPostListActivity extends RoboAppCompatActivity {
 
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
         adView.loadAd(adRequest);
+    }
+
+    public void fetchContents() {
+        progressWheel.setVisibility(View.VISIBLE);
+        progressWheel.spin();
+
+
+        String url = Constants.FETCH_FORUM_POSTS_URL;
+        Log.d(Constants.TAG, url);
+
+        FetchFromWeb.get(url, null, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                forumPosts.clear();
+                if (progressWheel.isSpinning()) {
+                    progressWheel.stopSpinning();
+                    progressWheel.setVisibility(View.INVISIBLE);
+                }
+
+                try {
+                    JSONArray jsonArray = response.getJSONArray("content");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int id = jsonObject.getInt("id");
+                        String name = jsonObject.getString("name");
+                        String question = jsonObject.getString("question");
+                        ForumPost forumPost = new ForumPost(id, name, question);
+                        forumPosts.add(forumPost);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                forumPostListAdapter.notifyDataSetChanged();
+                Log.d(Constants.TAG, response.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                if (progressWheel.isSpinning()) {
+                    progressWheel.stopSpinning();
+                    progressWheel.setVisibility(View.INVISIBLE);
+                }
+                Toast.makeText(ForumPostListActivity.this, statusCode + "failure", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

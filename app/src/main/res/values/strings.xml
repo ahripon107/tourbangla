@@ -128,16 +128,7 @@
 
 
     <!-- TextView related strings -->
-    <string name="typography1">Typography I</string>
-    <string name="typography2">Typography II</string>
-    <string name="typography3">Typography III</string>
     <string name="material_design">Material design</string>
-    <string name="material_design_variation">Material design variation</string>
-    <string name="all_set_by_google_instructions_of_material_design">All set by Google instructions of Material Design</string>
-    <string name="lorem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
-    <string name="lorem_ipsum_short">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</string>
-    <string name="thiner_and_lighter_version">Thiner and lighter version of Material design</string>
-    <string name="thicker_and_darker_version">Thicker and darker version of Material design</string>
     <string name="number_of_images">%d image(s)</string>
     <string name="new_york">New York</string>
     <string name="username">Username</string>
@@ -146,8 +137,6 @@
     <string name="country">Country</string>
     <string name="city">City</string>
     <string name="welcome">Welcome!</string>
-    <string name="undo_deletion">UNDO DELETION</string>
-    <string name="undo_deletion_travel">WOOHOO! &#160;&#160;\nI\'VE MADE IT!</string>
     <string name="download">DOWNLOAD</string>
     <string name="done">DONE</string>
     <string name="error">ERROR</string>
