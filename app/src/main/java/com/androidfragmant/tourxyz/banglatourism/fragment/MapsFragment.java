@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+/*
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -102,7 +102,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(lat), Double.parseDouble(longi)), 14.0f));
         Log.d(Constants.TAG, lat+" "+longi);
     }*/
-
+/*
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
@@ -113,3 +113,4 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         Log.d(Constants.TAG, lat+" "+longi);
     }
 }
+*/

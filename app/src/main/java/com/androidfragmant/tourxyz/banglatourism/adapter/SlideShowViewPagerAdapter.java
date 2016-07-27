@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.model.HomeFragmentImage;
+import com.androidfragmant.tourxyz.banglatourism.util.ImageUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -30,6 +33,7 @@ public class SlideShowViewPagerAdapter extends PagerAdapter {
         this.homeFragmentImages = homeFragmentImages;
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context));
     }
 
     @Override
@@ -49,7 +53,8 @@ public class SlideShowViewPagerAdapter extends PagerAdapter {
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imgSlideShow);
         TextView tvText = (TextView) itemView.findViewById(R.id.tvText);
         if (this.category.equals(homeFragmentImages.get(position).getCategory())) {
-            Picasso.with(mContext).load(homeFragmentImages.get(position).getImagename()).resize(350, 250).into(imageView);
+            ImageUtil.displayImage(imageView, homeFragmentImages.get(position).getImagename(), null);
+            //Picasso.with(mContext).load(homeFragmentImages.get(position).getImagename()).into(imageView);
         }
         container.addView(itemView);
 

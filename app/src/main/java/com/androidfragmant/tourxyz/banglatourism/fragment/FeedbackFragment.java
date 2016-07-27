@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -44,7 +45,7 @@ public class FeedbackFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragmentfeedback, container, false);
         final EditText title = (EditText) rootView.findViewById(R.id.etFeedbackTitle);
         final EditText details = (EditText) rootView.findViewById(R.id.etFeedbackDetails);
-        final CircularProgressButton send = (CircularProgressButton) rootView.findViewById(R.id.btnSend);
+        final Button send = (Button) rootView.findViewById(R.id.btnSend);
         send.setText("SEND");
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +54,6 @@ public class FeedbackFragment extends Fragment {
                 String d = details.getText().toString().trim();
                 if (t.length() == 0 || d.length() == 0) {
                     Toast.makeText(getActivity(), "Please give input correctly", Toast.LENGTH_LONG).show();
-                    new FalseProgress(send).execute(-1);
                     return;
                 }
 
@@ -73,14 +73,12 @@ public class FeedbackFragment extends Fragment {
                         progressDialog.dismiss();
                         title.getText().clear();
                         details.getText().clear();
-                        new FalseProgress(send).execute(100);
                         Toast.makeText(getContext(), "Thank you for your feedback.", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         progressDialog.dismiss();
-                        new FalseProgress(send).execute(-1);
                         Toast.makeText(getContext(), "Failed "+statusCode, Toast.LENGTH_LONG).show();
                     }
                 });

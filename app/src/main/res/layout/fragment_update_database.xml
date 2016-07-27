@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -15,10 +16,28 @@
         android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal" />
 
-    <Button
+    <com.dd.ShadowLayout
+        android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Update Database"
-        android:id="@+id/btnUpdateDatabase"
-        android:layout_gravity="center_horizontal" />
+        app:sl_cornerRadius="2dp"
+        app:sl_dx="5dp"
+        app:sl_dy="5dp"
+        app:sl_shadowColor="#AA000000"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="88dp"
+            android:minHeight="36dp"
+            android:padding="4dp"
+            android:id="@+id/btnUpdateDatabase"
+            android:textColor="@android:color/white"
+            android:background="@drawable/raised_selector"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:text="Update Database"/>
+
+    </com.dd.ShadowLayout>
+
 </LinearLayout>

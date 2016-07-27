@@ -24,12 +24,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-import com.androidfragmant.tourxyz.banglatourism.fragment.MapsFragment;
+
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.FalseProgress;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
-import com.google.android.gms.maps.SupportMapFragment;
+
 import com.google.gson.Gson;
 import com.androidfragmant.tourxyz.banglatourism.PlaceAccessHelper;
 import com.androidfragmant.tourxyz.banglatourism.R;
@@ -250,12 +250,12 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        SupportMapFragment mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map123));
+        /*SupportMapFragment mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map123));
 
         if (mapFragment != null) {
             FragmentManager fM = getSupportFragmentManager();
             fM.beginTransaction().remove(mapFragment).commit();
-        }
+        }*/
         finish();
     }
 

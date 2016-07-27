@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -42,14 +43,29 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
     </android.support.design.widget.TextInputLayout>
 
-
-    <com.androidfragmant.tourxyz.banglatourism.view.cpb.CircularProgressButton
-        android:id="@+id/btnSend"
-        style="@style/CircularProgressBarStyle.2"
+    <com.dd.ShadowLayout
+        android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="ADD TO WISHLIST" />
+        app:sl_cornerRadius="2dp"
+        app:sl_dx="5dp"
+        app:sl_dy="5dp"
+        app:sl_shadowColor="#AA000000"
+        android:layout_gravity="right">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="88dp"
+            android:minHeight="36dp"
+            android:padding="4dp"
+            android:id="@+id/btnSend"
+            android:textColor="@android:color/white"
+            android:background="@drawable/raised_selector"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:text="SEND FEEDBACK"/>
+
+    </com.dd.ShadowLayout>
 
 
 </LinearLayout>
