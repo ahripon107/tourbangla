@@ -27,7 +27,7 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         elements = new ArrayList<>();
         elements.add(new HomeFragmentElement("Explore amazing tourist spots of beautiful Bangladesh!","image","Explore Places"));
-        elements.add(new HomeFragmentElement("Explore amazing offers from tour operators and hotels!","image","Tour offers"));
+        elements.add(new HomeFragmentElement("Explore offers from tour operators and hotels!","image","Tour offers"));
         elements.add(new HomeFragmentElement("Want to share your's and read other's tour experience? Explore Tour Blog!","image","Tour Blog"));
         elements.add(new HomeFragmentElement("Want to know anything about a place? Ask in Forum!","image","Forum"));
 
