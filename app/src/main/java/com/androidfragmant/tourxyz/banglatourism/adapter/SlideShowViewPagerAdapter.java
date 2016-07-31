@@ -1,6 +1,7 @@
 package com.androidfragmant.tourxyz.banglatourism.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,13 +28,14 @@ public class SlideShowViewPagerAdapter extends PagerAdapter {
     LayoutInflater mLayoutInflater;
     ArrayList<HomeFragmentImage> homeFragmentImages;
     String category;
-
+    Typeface tf;
 
     public SlideShowViewPagerAdapter(Context context,ArrayList<HomeFragmentImage> homeFragmentImages) {
         this.homeFragmentImages = homeFragmentImages;
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context));
+        tf = Typeface.createFromAsset(context.getAssets(),"font/solaimanlipi.ttf");
     }
 
     @Override
@@ -57,7 +59,7 @@ public class SlideShowViewPagerAdapter extends PagerAdapter {
             //Picasso.with(mContext).load(homeFragmentImages.get(position).getImagename()).into(imageView);
         }
         container.addView(itemView);
-
+        tvText.setTypeface(tf);
         tvText.setText(homeFragmentImages.get(position).getText());
         return itemView;
     }
