@@ -50,6 +50,7 @@ public class TourOperatorOfferRecyclerAdapter extends RecyclerView.Adapter<TourO
             public void onClick(View v) {
                 Intent intent = new Intent(context, TourOfferDetailsActivity.class);
                 intent.putExtra("details",offer.getDetails());
+                intent.putExtra("link",offer.getLink());
                 context.startActivity(intent);
             }
         });
@@ -62,10 +63,10 @@ public class TourOperatorOfferRecyclerAdapter extends RecyclerView.Adapter<TourO
 
     static class TourOperatorOfferViewHolder extends RecyclerView.ViewHolder {
 
-        TextView offerTitle;
-        TextView offerSummary;
-        Button button;
-        ImageView offerImage;
+        protected TextView offerTitle;
+        protected TextView offerSummary;
+        protected Button button;
+        protected ImageView offerImage;
 
         public TourOperatorOfferViewHolder(View itemView) {
             super(itemView);

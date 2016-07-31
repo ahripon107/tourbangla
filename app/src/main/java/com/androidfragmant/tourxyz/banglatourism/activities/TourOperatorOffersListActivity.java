@@ -57,7 +57,6 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
         offers = new ArrayList<>();
 
         setSupportActionBar(toolbar);
-        assert getSupportActionBar() != null;
         setTitle("Tour Offers");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -104,8 +103,9 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
                         String summary = jsonObject.getString("summary");
                         String details = jsonObject.getString("details");
                         String imageName = jsonObject.getString("imageName");
+                        String link = jsonObject.getString("link");
                         TourOperatorOffer operatorOffer = new TourOperatorOffer(title,summary
-                                ,details,imageName);
+                                ,details,imageName,link);
                         offers.add(operatorOffer);
                     }
                 } catch (JSONException e) {
@@ -121,7 +121,7 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
                     progressWheel.stopSpinning();
                     progressWheel.setVisibility(View.INVISIBLE);
                 }
-                Toast.makeText(TourOperatorOffersListActivity.this, statusCode+"failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(TourOperatorOffersListActivity.this, statusCode+"Failed loading...Please try again...", Toast.LENGTH_LONG).show();
             }
         });
     }

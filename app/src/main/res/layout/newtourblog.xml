@@ -123,7 +123,7 @@
                 android:text="No Picture Selected"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textSize="17sp" />
 
             <com.dd.ShadowLayout
                 android:layout_margin="5dp"

@@ -97,6 +97,7 @@ public class TourBlogActivity extends RoboAppCompatActivity {
 
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
         adView.loadAd(adRequest);
+        loadPosts();
 
         EventBus.getDefault().register(this);
     }
@@ -105,11 +106,16 @@ public class TourBlogActivity extends RoboAppCompatActivity {
     public void onMessageEvent(BlogPost blogPost) {
         //blogPosts.add(0,blogPost);
         //tourBlogRecyclerAdapter.notifyDataSetChanged();
+        loadPosts();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+    }
+
+    public void loadPosts() {
         progressWheel.setVisibility(View.VISIBLE);
         progressWheel.spin();
 

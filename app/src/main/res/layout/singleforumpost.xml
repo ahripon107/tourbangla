@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Large Text"
         android:layout_margin="5dp"
-        android:textColor="@color/Green"
-        android:textSize="20sp" />
+        android:textSize="17sp" />
 
     <TextView
         android:layout_width="match_parent"

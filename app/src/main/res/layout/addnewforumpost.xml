@@ -16,7 +16,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_height="wrap_content"
             android:inputType="textCapWords"
-
+            android:maxLength="40"
             android:hint="Your Name"/>
 
     </android.support.design.widget.TextInputLayout>
@@ -32,9 +32,9 @@
             android:layout_width="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_height="wrap_content"
-            android:inputType="textCapWords"
-
-            android:hint="Post Details"/>
+            android:inputType="textMultiLine"
+            android:maxLength="300"
+            android:hint="Post Details (300 char max)"/>
 
     </android.support.design.widget.TextInputLayout>
 

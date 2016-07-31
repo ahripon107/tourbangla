@@ -9,12 +9,14 @@ public class TourOperatorOffer {
     private String summary;
     private String details;
     private String imageName;
+    private String link;
 
-    public TourOperatorOffer(String title, String summary, String details, String imageName) {
+    public TourOperatorOffer(String title, String summary, String details, String imageName, String link) {
         this.title = title;
         this.summary = summary;
         this.details = details;
         this.imageName = imageName;
+        this.link = link;
     }
 
     public String getTitle() {
@@ -49,6 +51,14 @@ public class TourOperatorOffer {
         this.imageName = imageName;
     }
 
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
     @Override
     public String toString() {
         return "TourOperatorOffer{" +
@@ -56,6 +66,7 @@ public class TourOperatorOffer {
                 ", summary='" + summary + '\'' +
                 ", details='" + details + '\'' +
                 ", imageName='" + imageName + '\'' +
+                ", link='" + link + '\'' +
                 '}';
     }
 }

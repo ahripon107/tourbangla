@@ -34,4 +34,6 @@ public class Constants {
     public static final String SUGGEST_NEW_PLACE_URL = "http://apisea.xyz/TourBangla/apis/v1/SuggestNewPlace.php";
 
     public static final String WISHLIST_PREFERENCE_KEY = "wishlist";
+
+    public static final String SOLAIMAN_LIPI_FONT = "font/solaimanlipi.ttf";
 }

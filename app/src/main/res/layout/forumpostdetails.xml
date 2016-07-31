@@ -24,9 +24,8 @@
         android:text="Question"
         android:id="@+id/tvQuestion"
         android:layout_margin="7dp"
-        android:textColor="@color/Green"
         android:layout_below="@id/touroperatorapp_bar"
-        android:textSize="20sp"/>
+        android:textSize="17sp"/>
 
     <TextView
         android:layout_width="match_parent"
