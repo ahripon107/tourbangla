@@ -47,13 +47,10 @@ public class CommentAddComment extends Fragment {
 
     public static CommentAddComment NewInstanceofCommentAddComment(int id, int number) {
         CommentAddComment commentAddComment = new CommentAddComment();
-
         Bundle arguments = new Bundle();
-
         arguments.putInt("number", number);
-        arguments.putInt("id",id);
+        arguments.putInt("id", id);
         commentAddComment.setArguments(arguments);
-
         return commentAddComment;
     }
 
@@ -68,27 +65,27 @@ public class CommentAddComment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         names = new ArrayList<>();
         comments = new ArrayList<>();
-        commentAdapter = new CommentAdapter(getContext(),names, comments);
+        commentAdapter = new CommentAdapter(getContext(), names, comments);
         recyclerView.setAdapter(commentAdapter);
 
         RequestParams requestParams = new RequestParams();
         if (getArguments().get("number") == 2) {
-            requestParams.add("key","bl905577");
-            requestParams.add("id",getArguments().getInt("id")+"");
+            requestParams.add(Constants.KEY, Constants.KEY_VALUE);
+            requestParams.add("id", getArguments().getInt("id") + "");
             url = Constants.FETCH_BLOG_POST_COMMENTS_URL;
         } else {
-            requestParams.add("key","bl905577");
-            requestParams.add("id",getArguments().getInt("id")+"");
+            requestParams.add(Constants.KEY, Constants.KEY_VALUE);
+            requestParams.add("id", getArguments().getInt("id") + "");
             url = Constants.FETCH_PLACE_COMMENTS_URL;
         }
         Log.d(Constants.TAG, url);
 
-        FetchFromWeb.get(url,requestParams,new JsonHttpResponseHandler() {
+        FetchFromWeb.get(url, requestParams, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     JSONArray jsonArray = response.getJSONArray("content");
-                    for (int i=0;i<jsonArray.length();i++) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         names.add(jsonObject.getString("name"));
                         comments.add(jsonObject.getString("comment"));
@@ -102,7 +99,7 @@ public class CommentAddComment extends Fragment {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(getContext(), statusCode+"failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), statusCode + "Failed", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -134,28 +131,28 @@ public class CommentAddComment extends Fragment {
 
                                 RequestParams params = new RequestParams();
                                 if (getArguments().get("number") == 2) {
-                                    params.put("key","bl905577");
-                                    params.put("id",getArguments().getInt("id"));
-                                    params.put("name",name);
-                                    params.put("comment",comment);
+                                    params.put("key", "bl905577");
+                                    params.put("id", getArguments().getInt("id"));
+                                    params.put("name", name);
+                                    params.put("comment", comment);
                                     url = Constants.INSERT_BLOG_POST_COMMENT_URL;
                                 } else {
-                                    params.put("key","bl905577");
-                                    params.put("id",getArguments().getInt("id"));
-                                    params.put("name",name);
-                                    params.put("comment",comment);
+                                    params.put("key", "bl905577");
+                                    params.put("id", getArguments().getInt("id"));
+                                    params.put("name", name);
+                                    params.put("comment", comment);
                                     url = Constants.INSERT_PLACE_COMMENT_URL;
                                 }
                                 final ProgressDialog progressDialog = new ProgressDialog(getActivity());
                                 progressDialog.setMessage("Posting comment..Please wait...");
                                 progressDialog.show();
-                                FetchFromWeb.post(url,params,new JsonHttpResponseHandler() {
+                                FetchFromWeb.post(url, params, new JsonHttpResponseHandler() {
                                     @Override
                                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                         progressDialog.dismiss();
                                         Toast.makeText(getContext(), "Comment successfully posted", Toast.LENGTH_LONG).show();
-                                        names.add(0,name);
-                                        comments.add(0,comment);
+                                        names.add(0, name);
+                                        comments.add(0, comment);
                                         commentAdapter.notifyDataSetChanged();
                                         Log.d(Constants.TAG, response.toString());
                                     }
@@ -163,7 +160,7 @@ public class CommentAddComment extends Fragment {
                                     @Override
                                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                         progressDialog.dismiss();
-                                        Toast.makeText(getContext(), "failed", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(), "Failed", Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }

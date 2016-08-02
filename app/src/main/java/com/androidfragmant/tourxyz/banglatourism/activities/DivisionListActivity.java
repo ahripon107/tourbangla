@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 
 import roboguice.inject.ContentView;
@@ -41,7 +42,6 @@ public class DivisionListActivity extends RoboAppCompatActivity {
         divisions = getResources().getStringArray(R.array.division_list);
         divisionsBangla = getResources().getStringArray(R.array.division_list_bangla);
 
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -58,7 +58,7 @@ public class DivisionListActivity extends RoboAppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        DivisionListRecyclerAdapter adapter = new DivisionListRecyclerAdapter(DivisionListActivity.this,divisions,divisionsBangla);
+        DivisionListRecyclerAdapter adapter = new DivisionListRecyclerAdapter(DivisionListActivity.this, divisions, divisionsBangla);
         recyclerView.setAdapter(adapter);
     }
 }
@@ -69,11 +69,11 @@ class DivisionListRecyclerAdapter extends RecyclerView.Adapter<DivisionListRecyc
     String[] divisionsBangla;
     Typeface tf;
 
-    DivisionListRecyclerAdapter(Context context,String[] divisions,String[] divisionsBangla) {
+    DivisionListRecyclerAdapter(Context context, String[] divisions, String[] divisionsBangla) {
         this.context = context;
         this.divisions = divisions;
         this.divisionsBangla = divisionsBangla;
-        tf = Typeface.createFromAsset(context.getAssets(),"font/solaimanlipi.ttf");
+        tf = Typeface.createFromAsset(context.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
     }
 
     @Override
@@ -91,7 +91,7 @@ class DivisionListRecyclerAdapter extends RecyclerView.Adapter<DivisionListRecyc
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DistrictListActivity.class);
-                intent.putExtra("divisionName",divisions[holder.getAdapterPosition()]);
+                intent.putExtra(Constants.DIVISION_NAME, divisions[holder.getAdapterPosition()]);
                 context.startActivity(intent);
             }
         });
@@ -104,14 +104,14 @@ class DivisionListRecyclerAdapter extends RecyclerView.Adapter<DivisionListRecyc
 
     static class DivisionListViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView;
-        TextView textView2;
-        LinearLayout linearLayout;
+        protected TextView textView;
+        protected TextView textView2;
+        protected LinearLayout linearLayout;
 
         public DivisionListViewHolder(View itemView) {
             super(itemView);
             textView = ViewHolder.get(itemView, R.id.text1);
-            textView2 = ViewHolder.get(itemView,R.id.text2);
+            textView2 = ViewHolder.get(itemView, R.id.text2);
             linearLayout = ViewHolder.get(itemView, R.id.division_list_item_container);
         }
     }

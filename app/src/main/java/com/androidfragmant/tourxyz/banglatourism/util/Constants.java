@@ -5,7 +5,11 @@ package com.androidfragmant.tourxyz.banglatourism.util;
  */
 public class Constants {
     public static final String TAG = "tourxyz";
+    public static final String KEY = "key";
+    public static final String KEY_VALUE = "bl905577";
     public static final String DESCRIPTION = "description";
+    public static final String DIVISION_NAME = "divisionName";
+    public static final String DISTRICT_NAME = "districtName";
 
     public static final String TOUR_OPERATOR_OFFER_URL = "http://apisea.xyz/TourBangla/apis/v1/tourOperatorOffer.php?key=bl905577";
     public static final String FRONT_PAGE_IMAGE_LIST_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchHomeFragmentImageList.php?key=bl905577";
@@ -36,4 +40,6 @@ public class Constants {
     public static final String WISHLIST_PREFERENCE_KEY = "wishlist";
 
     public static final String SOLAIMAN_LIPI_FONT = "font/solaimanlipi.ttf";
+
+    public static final String ONE_PLUS_TEST_DEVICE = "7D3F3DF2A7214E839DBE70BE2132D5B9";
 }

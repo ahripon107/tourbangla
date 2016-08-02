@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.activities.TourBlogDetailsActivity;
 import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.squareup.picasso.Picasso;
 
@@ -23,15 +24,16 @@ import java.util.ArrayList;
  * Created by Ripon on 7/6/16.
  */
 public class TourBlogRecyclerAdapter extends RecyclerView.Adapter<TourBlogRecyclerAdapter.TourBlogViewHolder> {
-
     Context context;
     ArrayList<BlogPost> blogPosts;
     Typeface tf;
+
     public TourBlogRecyclerAdapter(Context context, ArrayList<BlogPost> blogPosts) {
         this.context = context;
         this.blogPosts = blogPosts;
-        tf = Typeface.createFromAsset(context.getAssets(), "font/solaimanlipi.ttf");
+        tf = Typeface.createFromAsset(context.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
     }
+
     @Override
     public TourBlogViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tourblogsingleitem,parent,false);
@@ -70,10 +72,9 @@ public class TourBlogRecyclerAdapter extends RecyclerView.Adapter<TourBlogRecycl
     }
 
     static class TourBlogViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView imageView;
-        TextView title,name,tags;
-        LinearLayout linearLayout;
+        protected ImageView imageView;
+        protected TextView title,name,tags;
+        protected LinearLayout linearLayout;
 
         public TourBlogViewHolder(View itemView) {
             super(itemView);

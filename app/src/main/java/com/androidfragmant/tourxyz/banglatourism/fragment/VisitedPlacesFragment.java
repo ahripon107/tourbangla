@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.androidfragmant.tourxyz.banglatourism.activities.NewPlaceDetailsActivity;
 import com.google.gson.Gson;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.adapter.GridAdapter;
@@ -25,20 +26,12 @@ import java.util.Map;
  */
 public class VisitedPlacesFragment extends Fragment {
     ListView listView;
-
     String[] web = new String[0];
     String[] picname = new String[0];
     ArrayList<Place> allPlaces;
     GridAdapter gridAdapter;
 
     public VisitedPlacesFragment() {
-
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -54,20 +47,16 @@ public class VisitedPlacesFragment extends Fragment {
             allPlaces.add(place);
         }
         if (allPlaces != null) {
-
             web = new String[allPlaces.size()];
             picname = new String[allPlaces.size()];
-
             for (int j = 0; j < allPlaces.size(); j++) {
                 web[j] = allPlaces.get(j).getName();
                 picname[j] = allPlaces.get(j).getPicture();
             }
         }
-
         gridAdapter = new GridAdapter(getActivity(),
-                web, picname, "font/Amaranth-Bold.ttf");
+                web, picname);
         listView.setAdapter(gridAdapter);
-
     }
 
     @Override
@@ -97,28 +86,17 @@ public class VisitedPlacesFragment extends Fragment {
         }
 
         gridAdapter = new GridAdapter(getActivity(),
-                web, picname, "font/Amaranth-Bold.ttf");
+                web, picname);
         listView.setAdapter(gridAdapter);
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                Intent i = new Intent("android.intent.action.NEWPLACEDETAILSACTIVITY");
+                Intent i = new Intent(getActivity(),NewPlaceDetailsActivity.class);
                 i.putExtra("id", allPlaces.get(position).getId());
                 startActivity(i);
             }
         });
         return rootView;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 }

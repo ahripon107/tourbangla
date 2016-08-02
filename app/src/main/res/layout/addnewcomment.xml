@@ -16,7 +16,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_height="wrap_content"
             android:inputType="textCapWords"
-
+            android:maxLength="50"
             android:hint="Your Name"/>
 
     </android.support.design.widget.TextInputLayout>

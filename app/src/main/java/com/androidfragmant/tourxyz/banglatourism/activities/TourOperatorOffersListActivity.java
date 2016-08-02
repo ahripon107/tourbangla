@@ -55,12 +55,10 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         offers = new ArrayList<>();
-
         setSupportActionBar(toolbar);
         setTitle("Tour Offers");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +79,7 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
         offers.clear();
         adapter.notifyDataSetChanged();
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);
 
         String url = Constants.TOUR_OPERATOR_OFFER_URL;

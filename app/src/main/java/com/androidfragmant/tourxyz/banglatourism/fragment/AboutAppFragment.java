@@ -17,12 +17,6 @@ import com.androidfragmant.tourxyz.banglatourism.R;
 public class AboutAppFragment extends Fragment {
 
     public AboutAppFragment() {
-
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Nullable

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 
 import roboguice.inject.ContentView;
@@ -39,44 +40,41 @@ public class DistrictListActivity extends RoboAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        Intent intent = getIntent();
-        String divisionName = intent.getStringExtra("divisionName");
+        String divisionName = getIntent().getStringExtra(Constants.DIVISION_NAME);
 
         switch (divisionName) {
-            case "Dhaka" :
+            case "Dhaka":
                 districts = getResources().getStringArray(R.array.dhaka_districts);
                 districtsBangla = getResources().getStringArray(R.array.dhaka_districts_bangla);
                 break;
-            case "Chittagong" :
+            case "Chittagong":
                 districts = getResources().getStringArray(R.array.chittagong_districts);
                 districtsBangla = getResources().getStringArray(R.array.chittagong_districts_bangla);
                 break;
-            case "Rajshahi" :
+            case "Rajshahi":
                 districts = getResources().getStringArray(R.array.rajshahi_districts);
                 districtsBangla = getResources().getStringArray(R.array.rajshahi_districts_bangla);
                 break;
-            case "Rangpur" :
+            case "Rangpur":
                 districts = getResources().getStringArray(R.array.rangpur_districts);
                 districtsBangla = getResources().getStringArray(R.array.rangpur_districts_bangla);
                 break;
-            case "Barisal" :
+            case "Barisal":
                 districts = getResources().getStringArray(R.array.barisal_districts);
                 districtsBangla = getResources().getStringArray(R.array.barisal_districts_bangla);
                 break;
-            case "Mymensingh" :
+            case "Mymensingh":
                 districts = getResources().getStringArray(R.array.mymensingh_districts);
                 districtsBangla = getResources().getStringArray(R.array.mymensingh_districts_bangla);
                 break;
-            case "Sylhet" :
+            case "Sylhet":
                 districts = getResources().getStringArray(R.array.sylhet_districts);
                 districtsBangla = getResources().getStringArray(R.array.sylhet_districts_bangla);
                 break;
-            case "Khulna" :
+            case "Khulna":
                 districts = getResources().getStringArray(R.array.khulna_districts);
                 districtsBangla = getResources().getStringArray(R.array.khulna_districts_bangla);
                 break;
-
         }
 
         setSupportActionBar(toolbar);
@@ -91,28 +89,27 @@ public class DistrictListActivity extends RoboAppCompatActivity {
         });
         setTitle("Select District");
 
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DistrictListActivity.this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
         recyclerView.setLayoutManager(linearLayoutManager);
-        DistrictListRecyclerAdapter adapter = new DistrictListRecyclerAdapter(DistrictListActivity.this,districts,districtsBangla,divisionName);
+
+        DistrictListRecyclerAdapter adapter = new DistrictListRecyclerAdapter(DistrictListActivity.this, districts, districtsBangla, divisionName);
         recyclerView.setAdapter(adapter);
     }
 }
 
 class DistrictListRecyclerAdapter extends RecyclerView.Adapter<DistrictListRecyclerAdapter.DistrictListViewHolder> {
     Context context;
-    String[] districts,districtsBangla;
+    String[] districts, districtsBangla;
     String divisionName;
     Typeface tf;
 
-    DistrictListRecyclerAdapter(Context context,String[] districts,String[] districtsBangla,String divisionName) {
+    DistrictListRecyclerAdapter(Context context, String[] districts, String[] districtsBangla, String divisionName) {
         this.context = context;
         this.districts = districts;
         this.districtsBangla = districtsBangla;
         this.divisionName = divisionName;
-        tf = Typeface.createFromAsset(context.getAssets(), "font/solaimanlipi.ttf");
+        tf = Typeface.createFromAsset(context.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
     }
 
     @Override
@@ -130,8 +127,8 @@ class DistrictListRecyclerAdapter extends RecyclerView.Adapter<DistrictListRecyc
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, BrowseByDivisionActivity.class);
-                intent.putExtra("divisionName",divisionName);
-                intent.putExtra("districtName",districts[holder.getAdapterPosition()]);
+                intent.putExtra(Constants.DIVISION_NAME, divisionName);
+                intent.putExtra(Constants.DISTRICT_NAME, districts[holder.getAdapterPosition()]);
                 context.startActivity(intent);
             }
         });
@@ -143,16 +140,14 @@ class DistrictListRecyclerAdapter extends RecyclerView.Adapter<DistrictListRecyc
     }
 
     static class DistrictListViewHolder extends RecyclerView.ViewHolder {
-
-        TextView textView1,textView2;
-        LinearLayout linearLayout;
+        protected TextView textView1, textView2;
+        protected LinearLayout linearLayout;
 
         public DistrictListViewHolder(View itemView) {
             super(itemView);
             textView1 = ViewHolder.get(itemView, R.id.text1);
-            textView2 = ViewHolder.get(itemView,R.id.text2);
+            textView2 = ViewHolder.get(itemView, R.id.text2);
             linearLayout = ViewHolder.get(itemView, R.id.division_list_item_container);
         }
     }
-
 }

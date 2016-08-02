@@ -56,7 +56,6 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,12 +63,12 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
             }
         });
 
-
         Intent i = getIntent();
         BlogPost blogPost = (BlogPost) i.getSerializableExtra("post");
         Picasso.with(TourBlogDetailsActivity.this).load(blogPost.getImage()).into(imageView);
 
         setTitle(blogPost.getTitle());
+
         MyPagerAdapter mAdapter = new MyPagerAdapter(getSupportFragmentManager(), Titles, blogPost);
         mPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mPager);

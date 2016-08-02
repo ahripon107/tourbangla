@@ -25,7 +25,6 @@ import java.util.List;
  * Created by Ripon on 6/11/15.
  */
 public class FragmentDrawer extends Fragment {
-    private static String TAG = FragmentDrawer.class.getSimpleName();
 
     private RecyclerView recyclerView;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -81,7 +80,6 @@ public class FragmentDrawer extends Fragment {
 
             }
         }));
-
         return layout;
     }
 
@@ -116,7 +114,6 @@ public class FragmentDrawer extends Fragment {
                 mDrawerToggle.syncState();
             }
         });
-
     }
 
     public static interface ClickListener {

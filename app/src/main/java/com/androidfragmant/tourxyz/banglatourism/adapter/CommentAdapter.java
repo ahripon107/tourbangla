@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ import java.util.ArrayList;
  * Created by Ripon on 8/27/15.
  */
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
-
     private ArrayList<String> names;
     private ArrayList<String> comments;
     Context context;
@@ -27,7 +27,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.names = names;
         this.comments = comments;
         this.context = context;
-        tf = Typeface.createFromAsset(context.getAssets(), "font/solaimanlipi.ttf");
+        tf = Typeface.createFromAsset(context.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
     }
 
     @Override
@@ -50,9 +50,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
-
-        TextView commenter;
-        TextView comment;
+        protected TextView commenter;
+        protected TextView comment;
 
         public CommentViewHolder(View v) {
             super(v);

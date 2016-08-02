@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.activities.TourOfferDetailsActivity;
 import com.androidfragmant.tourxyz.banglatourism.model.TourOperatorOffer;
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.squareup.picasso.Picasso;
 
@@ -23,15 +24,16 @@ import java.util.ArrayList;
  * Created by Ripon on 7/6/16.
  */
 public class TourOperatorOfferRecyclerAdapter extends RecyclerView.Adapter<TourOperatorOfferRecyclerAdapter.TourOperatorOfferViewHolder> {
-
     Context context;
     ArrayList<TourOperatorOffer> offers;
     Typeface tf;
+
     public TourOperatorOfferRecyclerAdapter(Context context, ArrayList<TourOperatorOffer> offers) {
         this.context = context;
         this.offers = offers;
-        tf = Typeface.createFromAsset(context.getAssets(), "font/solaimanlipi.ttf");
+        tf = Typeface.createFromAsset(context.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
     }
+
     @Override
     public TourOperatorOfferViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.singletouroperatoroffer,parent,false);
@@ -62,7 +64,6 @@ public class TourOperatorOfferRecyclerAdapter extends RecyclerView.Adapter<TourO
     }
 
     static class TourOperatorOfferViewHolder extends RecyclerView.ViewHolder {
-
         protected TextView offerTitle;
         protected TextView offerSummary;
         protected Button button;

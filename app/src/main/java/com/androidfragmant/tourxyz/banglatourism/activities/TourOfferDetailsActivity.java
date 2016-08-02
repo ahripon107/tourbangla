@@ -71,7 +71,7 @@ public class TourOfferDetailsActivity extends RoboAppCompatActivity {
         });
 
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);
     }
 }

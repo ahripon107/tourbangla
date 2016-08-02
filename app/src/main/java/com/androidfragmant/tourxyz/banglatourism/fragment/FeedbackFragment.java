@@ -24,28 +24,37 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import roboguice.fragment.RoboFragment;
+import roboguice.inject.InjectView;
 
 /**
  * Created by Ripon on 9/27/15.
  */
-public class FeedbackFragment extends Fragment {
+public class FeedbackFragment extends RoboFragment {
+
+    @InjectView((R.id.etFeedbackTitle))
+    EditText title;
+
+    @InjectView((R.id.etFeedbackDetails))
+    EditText details;
+
+    @InjectView(R.id.btnSend)
+    Button send;
 
     public FeedbackFragment() {
 
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragmentfeedback, container, false);
-        final EditText title = (EditText) rootView.findViewById(R.id.etFeedbackTitle);
-        final EditText details = (EditText) rootView.findViewById(R.id.etFeedbackDetails);
-        final Button send = (Button) rootView.findViewById(R.id.btnSend);
+        return inflater.inflate(R.layout.fragmentfeedback, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         send.setText("SEND");
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,9 +66,8 @@ public class FeedbackFragment extends Fragment {
                     return;
                 }
 
-
                 RequestParams params = new RequestParams();
-                params.put("key","bl905577");
+                params.put(Constants.KEY,Constants.KEY_VALUE);
                 params.put("title",t);
                 params.put("details",d);
                 String url = Constants.SEND_FEEDBACK_URL;
@@ -83,10 +91,6 @@ public class FeedbackFragment extends Fragment {
                     }
                 });
             }
-
-
         });
-        return rootView;
     }
-
 }

@@ -15,6 +15,7 @@ import android.view.View;
 import com.androidfragmant.tourxyz.banglatourism.FileProcessor;
 import com.androidfragmant.tourxyz.banglatourism.fragment.SuggestNewPlaceFragment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.UpdateDatabaseFragment;
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.batch.android.Batch;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -66,7 +67,7 @@ public class MainActivity extends RoboAppCompatActivity implements FragmentDrawe
         drawerFragment.setDrawerListener(this);
         displayView(0);
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);
     }
 
@@ -169,6 +170,16 @@ public class MainActivity extends RoboAppCompatActivity implements FragmentDrawe
             fragmentTransaction.commit();
 
             getSupportActionBar().setTitle(title);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.container_body);
+        if (f instanceof HomeFragment) {
+            super.onBackPressed();
+        } else {
+            displayView(0);
         }
     }
 }

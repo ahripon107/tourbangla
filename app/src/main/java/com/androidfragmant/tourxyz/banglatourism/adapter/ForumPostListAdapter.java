@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.activities.ForumPostDetailsActivity;
 import com.androidfragmant.tourxyz.banglatourism.model.ForumPost;
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 
 import java.util.ArrayList;
@@ -23,7 +24,6 @@ import java.util.ArrayList;
  * Created by Ripon on 8/28/15.
  */
 public class ForumPostListAdapter extends RecyclerView.Adapter<ForumPostListAdapter.ForumPostViewHolder> {
-
     private Context context;
     private ArrayList<ForumPost> forumPosts;
     Typeface tf;
@@ -31,8 +31,7 @@ public class ForumPostListAdapter extends RecyclerView.Adapter<ForumPostListAdap
     public ForumPostListAdapter(Activity paramActivity, ArrayList<ForumPost> forumPosts) {
         this.context = paramActivity;
         this.forumPosts = forumPosts;
-        this.tf = Typeface.createFromAsset(paramActivity.getAssets(),
-                "font/solaimanlipi.ttf");
+        this.tf = Typeface.createFromAsset(paramActivity.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
     }
 
     @Override
@@ -45,10 +44,8 @@ public class ForumPostListAdapter extends RecyclerView.Adapter<ForumPostListAdap
     public void onBindViewHolder(ForumPostViewHolder holder, final int position) {
         holder.question.setTypeface(tf);
         holder.askedby.setTypeface(tf);
-
         holder.question.setText(forumPosts.get(position).getQuestion());
         holder.askedby.setText("পোস্ট করেছেনঃ "+forumPosts.get(position).getName());
-
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +63,6 @@ public class ForumPostListAdapter extends RecyclerView.Adapter<ForumPostListAdap
 
 
     public static class ForumPostViewHolder extends RecyclerView.ViewHolder {
-
         protected TextView question;
         protected TextView askedby;
         protected LinearLayout linearLayout;

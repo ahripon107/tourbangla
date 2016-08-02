@@ -32,15 +32,7 @@ public class WishListFragment extends Fragment {
     GridAdapter gridAdapter;
     ArrayList<Place> allWishListPlaces;
 
-
     public WishListFragment() {
-
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -48,8 +40,6 @@ public class WishListFragment extends Fragment {
         super.onResume();
 
         allWishListPlaces = new ArrayList<>();
-        //wishlist = new ArrayList<>();
-
         Map<String, ?> elements = sharedPreference.getAll();
         for (Map.Entry<String, ?> entry : elements.entrySet()) {
             String string = entry.getValue().toString();
@@ -69,7 +59,7 @@ public class WishListFragment extends Fragment {
         }
 
         gridAdapter = new GridAdapter(getActivity(),
-                web, picname, "font/Amaranth-Bold.ttf");
+                web, picname);
         listView.setAdapter(gridAdapter);
     }
 
@@ -99,8 +89,7 @@ public class WishListFragment extends Fragment {
             }
         }
 
-        gridAdapter = new GridAdapter(getActivity(),
-                web, picname, "font/Amaranth-Bold.ttf");
+        gridAdapter = new GridAdapter(getActivity(), web, picname);
         listView.setAdapter(gridAdapter);
 
 
@@ -113,15 +102,5 @@ public class WishListFragment extends Fragment {
             }
         });
         return rootView;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 }

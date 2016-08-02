@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.activities.NewPlaceDetailsActivity;
 import com.androidfragmant.tourxyz.banglatourism.model.Place;
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.ImageUtil;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 
@@ -24,16 +25,16 @@ import java.util.List;
  */
 public class PlaceRecyclerAdapter extends RecyclerView.Adapter<PlaceRecyclerAdapter.PlaceCardViewHolder> {
     private LayoutInflater mInflater;
-    Context con;
+    Context context;
     List<Place> items;
     Typeface tf;
 
     public PlaceRecyclerAdapter(Context context, List<Place> items) {
-        con = context;
+        this.context = context;
         this.items = items;
         mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        tf = Typeface.createFromAsset(context.getAssets(),"font/solaimanlipi.ttf");
+        tf = Typeface.createFromAsset(context.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
     }
 
     @Override
@@ -52,9 +53,9 @@ public class PlaceRecyclerAdapter extends RecyclerView.Adapter<PlaceRecyclerAdap
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(con, NewPlaceDetailsActivity.class);
+                Intent i = new Intent(context, NewPlaceDetailsActivity.class);
                 i.putExtra("id", place.getId());
-                con.startActivity(i);
+                context.startActivity(i);
             }
         });
     }
@@ -65,18 +66,15 @@ public class PlaceRecyclerAdapter extends RecyclerView.Adapter<PlaceRecyclerAdap
     }
 
     static class PlaceCardViewHolder extends RecyclerView.ViewHolder {
-
         protected ImageView imageView;
         protected TextView title;
         protected LinearLayout linearLayout;
 
         public PlaceCardViewHolder(View itemView) {
             super(itemView);
-
             imageView = ViewHolder.get(itemView,R.id.list_item_google_cards_travel_image);
             title = ViewHolder.get(itemView,R.id.list_item_google_cards_travel_title);
             linearLayout = ViewHolder.get(itemView,R.id.linear);
         }
     }
-
 }

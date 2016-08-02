@@ -64,7 +64,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
 
     String nameString, questionString;
 
-    ArrayList<String> names,comments;
+    ArrayList<String> names, comments;
 
     CommentAdapter commentAdapter;
 
@@ -85,14 +85,14 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
             }
         });
 
-        tf = Typeface.createFromAsset(getAssets(),"font/solaimanlipi.ttf");
+        tf = Typeface.createFromAsset(getAssets(), Constants.SOLAIMAN_LIPI_FONT);
 
         names = new ArrayList<>();
         comments = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ForumPostDetailsActivity.this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-        commentAdapter = new CommentAdapter(ForumPostDetailsActivity.this,names,comments);
+        commentAdapter = new CommentAdapter(ForumPostDetailsActivity.this, names, comments);
         recyclerView.setAdapter(commentAdapter);
 
         Intent i = getIntent();
@@ -104,23 +104,23 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
 
         askedBy.setTypeface(tf);
         question.setTypeface(tf);
-        askedBy.setText("পোস্ট করেছেনঃ "+nameString);
+        askedBy.setText("পোস্ট করেছেনঃ " + nameString);
         question.setText(questionString);
 
-        String url = Constants.FETCH_FORUM_POST_COMMENTS+id;
+        String url = Constants.FETCH_FORUM_POST_COMMENTS + id;
         Log.d(Constants.TAG, url);
 
         final ProgressDialog progressDialog1 = new ProgressDialog(ForumPostDetailsActivity.this);
         progressDialog1.setMessage("Please Wait...");
         progressDialog1.show();
 
-        FetchFromWeb.get(url,null, new JsonHttpResponseHandler() {
+        FetchFromWeb.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 progressDialog1.dismiss();
                 try {
                     JSONArray jsonArray = response.getJSONArray("content");
-                    for (int i=0;i<jsonArray.length();i++) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String name = jsonObject.getString("name");
                         String comment = jsonObject.getString("comment");
@@ -167,21 +167,21 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
 
                                 RequestParams params = new RequestParams();
 
-                                params.put("key","bl905577");
-                                params.put("name",name);
-                                params.put("postid",id);
-                                params.put("comment",comment);
-                                 String url1 = Constants.INSERT_FORUM_POST_COMMENT_URL;
+                                params.put(Constants.KEY, Constants.KEY_VALUE);
+                                params.put("name", name);
+                                params.put("postid", id);
+                                params.put("comment", comment);
+                                String url1 = Constants.INSERT_FORUM_POST_COMMENT_URL;
                                 final ProgressDialog progressDialog = new ProgressDialog(ForumPostDetailsActivity.this);
                                 progressDialog.setMessage("Posting comment..Please wait...");
                                 progressDialog.show();
-                                FetchFromWeb.post(url1,params,new JsonHttpResponseHandler() {
+                                FetchFromWeb.post(url1, params, new JsonHttpResponseHandler() {
                                     @Override
                                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                         progressDialog.dismiss();
                                         Toast.makeText(ForumPostDetailsActivity.this, "Comment successfully posted", Toast.LENGTH_LONG).show();
-                                        names.add(0,name);
-                                        comments.add(0,comment);
+                                        names.add(0, name);
+                                        comments.add(0, comment);
                                         commentAdapter.notifyDataSetChanged();
                                         Log.d(Constants.TAG, response.toString());
                                     }
@@ -207,7 +207,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
             }
         });
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);
 
     }

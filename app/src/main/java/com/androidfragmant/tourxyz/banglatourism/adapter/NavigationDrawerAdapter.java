@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by Ripon on 6/11/15.
  */
-public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.MyViewHolder>{
+public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.NavigationDrawerViewHolder>{
     List<NavDrawerItem> data = Collections.emptyList();
     private LayoutInflater inflater;
     private Context context;
@@ -36,14 +36,14 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public NavigationDrawerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.nav_drawer_row, parent, false);
         view.getBackground().setAlpha(128);
-        return new MyViewHolder(view);
+        return new NavigationDrawerViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(NavigationDrawerViewHolder holder, int position) {
         NavDrawerItem current = data.get(position);
         holder.title.setTypeface(tf,Typeface.BOLD);
         holder.title.setText(current.getTitle());
@@ -54,10 +54,10 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
         return data.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    class NavigationDrawerViewHolder extends RecyclerView.ViewHolder {
         TextView title;
 
-        public MyViewHolder(View itemView) {
+        public NavigationDrawerViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
         }

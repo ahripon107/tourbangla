@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.model.HomeFragmentImage;
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.ImageUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -30,12 +30,12 @@ public class SlideShowViewPagerAdapter extends PagerAdapter {
     String category;
     Typeface tf;
 
-    public SlideShowViewPagerAdapter(Context context,ArrayList<HomeFragmentImage> homeFragmentImages) {
+    public SlideShowViewPagerAdapter(Context context, ArrayList<HomeFragmentImage> homeFragmentImages) {
         this.homeFragmentImages = homeFragmentImages;
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context));
-        tf = Typeface.createFromAsset(context.getAssets(),"font/solaimanlipi.ttf");
+        tf = Typeface.createFromAsset(context.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
     }
 
     @Override
@@ -56,7 +56,6 @@ public class SlideShowViewPagerAdapter extends PagerAdapter {
         TextView tvText = (TextView) itemView.findViewById(R.id.tvText);
         if (this.category.equals(homeFragmentImages.get(position).getCategory())) {
             ImageUtil.displayImage(imageView, homeFragmentImages.get(position).getImagename(), null);
-            //Picasso.with(mContext).load(homeFragmentImages.get(position).getImagename()).into(imageView);
         }
         container.addView(itemView);
         tvText.setTypeface(tf);

@@ -104,8 +104,6 @@ public class TourBlogActivity extends RoboAppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BlogPost blogPost) {
-        //blogPosts.add(0,blogPost);
-        //tourBlogRecyclerAdapter.notifyDataSetChanged();
         loadPosts();
     }
 
@@ -113,6 +111,12 @@ public class TourBlogActivity extends RoboAppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     public void loadPosts() {
@@ -156,7 +160,7 @@ public class TourBlogActivity extends RoboAppCompatActivity {
                     progressWheel.stopSpinning();
                     progressWheel.setVisibility(View.INVISIBLE);
                 }
-                Toast.makeText(TourBlogActivity.this, statusCode+" failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(TourBlogActivity.this, statusCode+" Failed loading posts", Toast.LENGTH_LONG).show();
             }
         });
     }

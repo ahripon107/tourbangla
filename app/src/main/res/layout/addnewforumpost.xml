@@ -33,8 +33,8 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
-            android:maxLength="300"
-            android:hint="Post Details (300 char max)"/>
+            android:maxLength="500"
+            android:hint="Post Details (500 char max)"/>
 
     </android.support.design.widget.TextInputLayout>
 

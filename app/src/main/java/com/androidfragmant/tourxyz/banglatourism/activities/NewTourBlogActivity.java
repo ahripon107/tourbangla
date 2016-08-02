@@ -3,7 +3,6 @@ package com.androidfragmant.tourxyz.banglatourism.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -32,12 +31,8 @@ import com.loopj.android.http.RequestParams;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import cz.msebera.android.httpclient.Header;
@@ -137,7 +132,7 @@ public class NewTourBlogActivity extends RoboAppCompatActivity {
 
                 RequestParams params = new RequestParams();
 
-                params.put("key","bl905577");
+                params.put(Constants.KEY,Constants.KEY_VALUE);
                 params.put("image", encodedImage);
                 params.put("title",blogTitle);
                 params.put("details",blogDetails);

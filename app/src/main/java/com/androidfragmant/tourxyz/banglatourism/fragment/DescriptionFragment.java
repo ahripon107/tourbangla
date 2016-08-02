@@ -16,8 +16,6 @@ import com.androidfragmant.tourxyz.banglatourism.util.Constants;
  */
 public class DescriptionFragment extends Fragment {
 
-    Typeface tf;
-
     public DescriptionFragment() {
     }
 
@@ -29,13 +27,12 @@ public class DescriptionFragment extends Fragment {
         return myFragment;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         inflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.placedescription, container, false);
         TextView textView = (TextView) v.findViewById(R.id.placedescription);
-        tf = Typeface.createFromAsset(getActivity().getAssets(), "font/solaimanlipi.ttf");
+        Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), Constants.SOLAIMAN_LIPI_FONT);
         textView.setTypeface(tf);
         textView.setText(getArguments().getString("description"));
         return v;

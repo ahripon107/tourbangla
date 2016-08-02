@@ -157,14 +157,13 @@ public class ForumPostListActivity extends RoboAppCompatActivity {
             }
         });
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);
     }
 
     public void fetchContents() {
         progressWheel.setVisibility(View.VISIBLE);
         progressWheel.spin();
-
 
         String url = Constants.FETCH_FORUM_POSTS_URL;
         Log.d(Constants.TAG, url);
@@ -203,7 +202,7 @@ public class ForumPostListActivity extends RoboAppCompatActivity {
                     progressWheel.stopSpinning();
                     progressWheel.setVisibility(View.INVISIBLE);
                 }
-                Toast.makeText(ForumPostListActivity.this, statusCode + "failure", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForumPostListActivity.this, statusCode + "Failed loading posts", Toast.LENGTH_SHORT).show();
             }
         });
 

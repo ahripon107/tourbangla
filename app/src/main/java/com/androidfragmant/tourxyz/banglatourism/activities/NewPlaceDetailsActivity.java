@@ -83,19 +83,11 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
 
     private CharSequence Titles[] = {"DESCRIPTION", "HOW TO GO", "HOTELS", "OTHER INFO", "COMMENTS"};
     private Place selectedPlace;
-
-    List<Place> favourites;
-
     int id;
-    int counter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        counter = 0;
-
         setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -121,7 +113,7 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
         Log.d(Constants.TAG, picture);
 
 
-        Picasso.with(getApplicationContext()).load( picture ).into(imageView);
+        Picasso.with(getApplicationContext()).load(picture).into(imageView);
         int noOfTabs = 5;
         YourPagerAdapter mAdapter = new YourPagerAdapter(getSupportFragmentManager(), Titles, noOfTabs, selectedPlace);
         mPager.setAdapter(mAdapter);
@@ -243,7 +235,7 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
 
         });
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);
     }
 
@@ -271,17 +263,13 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_load:
                 ShareDialog shareDialog = new ShareDialog(NewPlaceDetailsActivity.this);
-                if (ShareDialog.canShow(ShareLinkContent.class))
-                {
+                if (ShareDialog.canShow(ShareLinkContent.class)) {
                     String appPackageName = getPackageName();
                     ShareLinkContent linkContent;
                     String aURL = "https://play.google.com/store/apps/details?id=" + appPackageName;
-
                     linkContent = new ShareLinkContent.Builder()
-                                .setContentUrl(Uri.parse(aURL))
-                                .build();
-
-
+                            .setContentUrl(Uri.parse(aURL))
+                            .build();
                     shareDialog.show(linkContent);
                 }
                 return true;
@@ -289,8 +277,6 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 }
 
 class YourPagerAdapter extends FragmentStatePagerAdapter {

@@ -60,7 +60,6 @@ public class SuggestNewPlaceFragment extends RoboFragment {
         suggestDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String pname = name.getText().toString().trim();
                 String paddress = address.getText().toString().trim();
                 String pdivision = division.getText().toString().trim();
@@ -73,7 +72,7 @@ public class SuggestNewPlaceFragment extends RoboFragment {
                 }
 
                 RequestParams params = new RequestParams();
-                params.put("key","bl905577");
+                params.put(Constants.KEY,Constants.KEY_VALUE);
                 params.put("hotels",photels);
                 params.put("howtogo",phowtogo);
                 params.put("description",pdescription);

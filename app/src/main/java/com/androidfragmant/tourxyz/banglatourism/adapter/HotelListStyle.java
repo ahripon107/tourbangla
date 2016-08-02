@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 
 /**
  * Created by Ripon on 8/29/15.
@@ -15,18 +16,14 @@ import com.androidfragmant.tourxyz.banglatourism.R;
 public class HotelListStyle extends ArrayAdapter<String> {
 
     private final Activity context;
-
     Typeface tf;
     private String[] hotelNames;
 
-    public HotelListStyle(Activity paramActivity,
-                          String[] hotelNames) {
+    public HotelListStyle(Activity paramActivity, String[] hotelNames) {
         super(paramActivity, R.layout.singlehotel);
         this.context = paramActivity;
         this.hotelNames = hotelNames;
-
-        this.tf = Typeface.createFromAsset(paramActivity.getAssets(),
-                "font/solaimanlipi.ttf");
+        this.tf = Typeface.createFromAsset(paramActivity.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
     }
 
     @Override
@@ -35,17 +32,14 @@ public class HotelListStyle extends ArrayAdapter<String> {
     }
 
     @Override
-    public View getView(int paramInt, View paramView, ViewGroup paramViewGroup) {
+    public View getView(int position, View paramView, ViewGroup paramViewGroup) {
         View localView = paramView;
         if (localView == null) {
-            localView = this.context.getLayoutInflater().inflate(R.layout.singlehotel, paramViewGroup, true);
+            localView = this.context.getLayoutInflater().inflate(R.layout.singlehotel, paramViewGroup, false);
         }
-
         TextView name = (TextView) localView.findViewById(R.id.tvHotelName);
-        name.setTypeface(this.tf, 1);
-
-
-        name.setText(this.hotelNames[paramInt]);
+        name.setTypeface(tf);
+        name.setText(hotelNames[position]);
         return localView;
     }
 }

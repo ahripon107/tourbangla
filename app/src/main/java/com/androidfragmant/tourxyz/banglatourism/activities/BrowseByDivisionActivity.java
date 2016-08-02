@@ -36,8 +36,6 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
     @InjectView(R.id.gridview)
     RecyclerView recyclerView;
 
-    private PlaceRecyclerAdapter mGoogleCardsAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +51,8 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
             }
         });
 
-        String divisionName = getIntent().getStringExtra("divisionName");
-        String districtName = getIntent().getStringExtra("districtName");
+        String divisionName = getIntent().getStringExtra(Constants.DIVISION_NAME);
+        String districtName = getIntent().getStringExtra(Constants.DISTRICT_NAME);
         Log.d(Constants.TAG, divisionName);
         Log.d(Constants.TAG, districtName);
 
@@ -65,10 +63,10 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        mGoogleCardsAdapter = new PlaceRecyclerAdapter(BrowseByDivisionActivity.this, PlaceAccessHelper.getPlacesOfDistrict(districtName));
-        recyclerView.setAdapter(mGoogleCardsAdapter);
+        PlaceRecyclerAdapter placeRecyclerAdapter = new PlaceRecyclerAdapter(BrowseByDivisionActivity.this, PlaceAccessHelper.getPlacesOfDistrict(districtName));
+        recyclerView.setAdapter(placeRecyclerAdapter);
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);
 
     }
