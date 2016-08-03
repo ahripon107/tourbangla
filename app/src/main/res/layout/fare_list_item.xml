@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvCompanyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:paddingLeft="2dp"
+            android:text="company name"
+            android:textSize="23sp"
+            android:textColor="@color/Blue"/>
+
+        <TextView
+            android:id="@+id/tvFare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="fare"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tvTimeToLeave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="time to leave"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tvEstimatedTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="Estimated time"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tvLeavingPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="Leaving place"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

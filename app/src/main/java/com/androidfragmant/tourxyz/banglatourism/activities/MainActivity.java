@@ -13,6 +13,7 @@ import android.view.View;
 
 
 import com.androidfragmant.tourxyz.banglatourism.FileProcessor;
+import com.androidfragmant.tourxyz.banglatourism.fragment.FareFragment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.SuggestNewPlaceFragment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.UpdateDatabaseFragment;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
@@ -142,6 +143,10 @@ public class MainActivity extends RoboAppCompatActivity implements FragmentDrawe
                 subtitle = getString(R.string.updatedatabase);
                 break;
             case 7:
+                fragment = new FareFragment();
+                subtitle = getString(R.string.fare);
+                break;
+            case 8:
                 final String appPackageName = getPackageName();
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
@@ -149,7 +154,7 @@ public class MainActivity extends RoboAppCompatActivity implements FragmentDrawe
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
                 }
                 break;
-            case 8:
+            case 9:
                 final String packageName = getPackageName();
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)));

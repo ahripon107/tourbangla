@@ -32,6 +32,7 @@
         <item>@string/givefeedback</item>
         <item>@string/suggestplace</item>
         <item>@string/updatedatabase</item>
+        <item>@string/fare</item>
         <item>@string/rateus</item>
         <item>@string/update</item>
 
@@ -48,6 +49,7 @@
     <string name="rateus">Rate Us</string>
     <string name="update">Update App</string>
     <string name="updatedatabase">Update Database</string>
+    <string name="fare">Fare</string>
 
     <!-- Fontello icons -->
     <string name="fontello_logo">&#xe802;</string>
