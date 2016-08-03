@@ -2,6 +2,7 @@ package com.androidfragmant.tourxyz.banglatourism.fragment;
 
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,9 @@ import android.view.ViewGroup;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.adapter.HomeFragmentRecyclerAdapter;
 import com.androidfragmant.tourxyz.banglatourism.model.HomeFragmentElement;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.LikeView;
+import com.facebook.share.widget.ShareButton;
 
 import java.util.ArrayList;
 
@@ -43,6 +47,23 @@ public class HomeFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+
+        LikeView likeView = (LikeView) rootView.findViewById(R.id.likeView);
+        likeView.setLikeViewStyle(LikeView.Style.STANDARD);
+        likeView.setAuxiliaryViewPosition(LikeView.AuxiliaryViewPosition.INLINE);
+
+        likeView.setObjectIdAndType(
+                "https://www.facebook.com/Civil10-Premier-League-CPL-1413055355581750/",
+                LikeView.ObjectType.PAGE);
+
+        ShareButton shareButton = (ShareButton) rootView.findViewById(R.id.shareButton);
+        String appPackageName = getContext().getPackageName();
+        ShareLinkContent linkContent;
+        String aURL = "https://play.google.com/store/apps/details?id=" + appPackageName;
+        linkContent = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse(aURL))
+                .build();
+        shareButton.setShareContent(linkContent);
         return rootView;
     }
 

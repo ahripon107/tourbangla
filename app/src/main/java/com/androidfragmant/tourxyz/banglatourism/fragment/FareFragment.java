@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,40 +32,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import cz.msebera.android.httpclient.Header;
-import roboguice.fragment.RoboFragment;
-import roboguice.inject.InjectView;
 
 /**
  * Created by Ripon on 8/2/16.
  */
 
-public class FareFragment extends RoboFragment {
+public class FareFragment extends Fragment {
 
-    @InjectView(R.id.spnFrom)
+
     Spinner fromSpinner;
-
-    @InjectView(R.id.spnTo)
     Spinner toSpinner;
-
-    @InjectView(R.id.spnVehicle)
     Spinner vehicleSpinner;
-
-    @InjectView(R.id.btnSearch)
     Button searchButton;
-
-    @InjectView(R.id.farelist)
     RecyclerView fareList;
-
-    @InjectView(R.id.numberOfResultsFound)
     TextView resultsFound;
-
-    @InjectView(R.id.tvStartPlace)
     TextView startPlace;
-
-    @InjectView(R.id.tvEndPlace)
     TextView EndPlace;
-
-    @InjectView(R.id.tvJanbahon)
     TextView janbahon;
 
     ArrayList<String> elements;
@@ -80,6 +63,16 @@ public class FareFragment extends RoboFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        fromSpinner = (Spinner) view.findViewById(R.id.spnFrom);
+        toSpinner = (Spinner) view.findViewById(R.id.spnTo);
+        vehicleSpinner = (Spinner) view.findViewById(R.id.spnVehicle);
+        searchButton = (Button) view.findViewById(R.id.btnSearch);
+        fareList = (RecyclerView) view.findViewById(R.id.farelist);
+        resultsFound = (TextView) view.findViewById(R.id.numberOfResultsFound);
+        startPlace = (TextView) view.findViewById(R.id.tvStartPlace);
+        EndPlace = (TextView) view.findViewById(R.id.tvEndPlace);
+        janbahon = (TextView) view.findViewById(R.id.tvJanbahon);
 
         elements = populate();
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
@@ -102,6 +95,7 @@ public class FareFragment extends RoboFragment {
         ArrayAdapter<String> vehicleAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, vehicles);
         vehicleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         vehicleSpinner.setAdapter(vehicleAdapter);
 
         allFares = new ArrayList<>();

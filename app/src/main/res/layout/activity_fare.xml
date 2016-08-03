@@ -54,6 +54,8 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     style="@android:style/Widget.Holo.Light.Spinner"
+                    android:spinnerMode="dropdown"
+                    android:clickable="true"
                     />
 
             </LinearLayout>

@@ -47,10 +47,10 @@ public class FareListAdapter extends RecyclerView.Adapter<FareListAdapter.FareVi
         holder.leavingPlace.setTypeface(tf);
 
         holder.companyName.setText(fare.getCompanyName());
-        holder.fare.setText("ভাড়াঃ "+fare.getFare());
-        holder.timeToLeave.setText("ছাড়ার সময়ঃ "+fare.getStartTime());
-        holder.estimatedTime.setText("অনুমিত সময়ঃ "+fare.getEstimatedTime());
-        holder.leavingPlace.setText("ছাড়ার স্থানঃ "+fare.getLeavePlace());
+        holder.fare.setText(fare.getFare());
+        holder.timeToLeave.setText(fare.getStartTime());
+        holder.estimatedTime.setText(fare.getEstimatedTime());
+        holder.leavingPlace.setText(fare.getLeavePlace());
     }
 
     @Override
