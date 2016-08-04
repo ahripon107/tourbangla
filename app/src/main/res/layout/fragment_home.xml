@@ -1,18 +1,330 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerviewselect"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:horizontalSpacing="10dip"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="10dip" />
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            card_view:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:id="@+id/placecardcontainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3">
 
-</LinearLayout>
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/placeViewPagerImageSlideShow"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"></android.support.v4.view.ViewPager>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/placeImageDots"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <TextView
+                    android:id="@+id/placeCardTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Large Text"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
+
+                <com.dd.ShadowLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    app:sl_cornerRadius="2dp"
+                    app:sl_dx="6dp"
+                    app:sl_dy="6dp"
+                    app:sl_shadowColor="#AA000000">
+
+                    <Button
+                        android:id="@+id/btnExplorePlace"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/raised_selector"
+                        android:minHeight="36dp"
+                        android:minWidth="88dp"
+                        android:padding="4dp"
+                        android:text="Explore Places"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                        android:textColor="@android:color/white" />
+
+                </com.dd.ShadowLayout>
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_offer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            card_view:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:id="@+id/offercardcontainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/offerViewPagerImageSlideShow"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"></android.support.v4.view.ViewPager>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/offerImageDots"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <TextView
+                    android:id="@+id/offerCardTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Large Text"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
+
+                <com.dd.ShadowLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    app:sl_cornerRadius="2dp"
+                    app:sl_dx="6dp"
+                    app:sl_dy="6dp"
+                    app:sl_shadowColor="#AA000000">
+
+                    <Button
+                        android:id="@+id/btnExploreOffer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/raised_selector"
+                        android:minHeight="36dp"
+                        android:minWidth="88dp"
+                        android:padding="4dp"
+                        android:text="Tour offers"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                        android:textColor="@android:color/white" />
+
+                </com.dd.ShadowLayout>
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_blog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            card_view:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:id="@+id/blogcardcontainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/blogCardTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Large Text"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
+
+                <com.dd.ShadowLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    app:sl_cornerRadius="2dp"
+                    app:sl_dx="6dp"
+                    app:sl_dy="6dp"
+                    app:sl_shadowColor="#AA000000">
+
+                    <Button
+                        android:id="@+id/btnExploreBlog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/raised_selector"
+                        android:minHeight="36dp"
+                        android:minWidth="88dp"
+                        android:padding="4dp"
+                        android:text="Tour Blog"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                        android:textColor="@android:color/white" />
+                </com.dd.ShadowLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_forum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            card_view:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:id="@+id/forumcardcontainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/forumCardTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Large Text"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
+
+                <com.dd.ShadowLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    app:sl_cornerRadius="2dp"
+                    app:sl_dx="6dp"
+                    app:sl_dy="6dp"
+                    app:sl_shadowColor="#AA000000">
+
+                    <Button
+                        android:id="@+id/btnExploreForum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/raised_selector"
+                        android:minHeight="36dp"
+                        android:minWidth="88dp"
+                        android:padding="4dp"
+                        android:text="Forum"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                        android:textColor="@android:color/white" />
+                </com.dd.ShadowLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_fare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            card_view:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:id="@+id/farecardcontainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/fareCardTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Large Text"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
+
+                <com.dd.ShadowLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    app:sl_cornerRadius="2dp"
+                    app:sl_dx="6dp"
+                    app:sl_dy="6dp"
+                    app:sl_shadowColor="#AA000000">
+
+                    <Button
+                        android:id="@+id/btnExploreFare"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/raised_selector"
+                        android:minHeight="36dp"
+                        android:minWidth="88dp"
+                        android:padding="4dp"
+                        android:text="Fare"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                        android:textColor="@android:color/white" />
+                </com.dd.ShadowLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

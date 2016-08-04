@@ -1,79 +1,84 @@
-<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="4dp"
-    android:layout_margin="10dp">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/cardcontainer"
-        android:orientation="vertical">
-
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        card_view:cardCornerRadius="4dp">
 
         <LinearLayout
+            android:id="@+id/cardcontainer"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3">
-            <android.support.v4.view.ViewPager
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:id="@+id/viewPagerImageSlideShow">
-            </android.support.v4.view.ViewPager>
+                android:layout_height="0dp"
+                android:layout_weight="3">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPagerImageSlideShow"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"></android.support.v4.view.ViewPager>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutDots"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"></LinearLayout>
+
+            <TextView
+                android:id="@+id/tourTitle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="3dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Large Text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp"
+                android:textStyle="italic" />
+
+            <com.dd.ShadowLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="right"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                app:sl_cornerRadius="2dp"
+                app:sl_dx="6dp"
+                app:sl_dy="6dp"
+                app:sl_shadowColor="#AA000000">
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/raised_selector"
+                    android:minHeight="36dp"
+                    android:minWidth="88dp"
+                    android:padding="4dp"
+                    android:text="Click me"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                    android:textColor="@android:color/white" />
+
+            </com.dd.ShadowLayout>
+
+
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/layoutDots"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginBottom="5dp"
-            android:gravity="center"
-            android:orientation="horizontal"></LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/tourTitle"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:textStyle="italic"
-            android:textColor="@color/colorAccent"
-            android:layout_marginLeft="3dp"/>
-
-        <com.dd.ShadowLayout
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            app:sl_cornerRadius="2dp"
-            app:sl_dx="6dp"
-            app:sl_dy="6dp"
-            app:sl_shadowColor="#AA000000"
-            android:layout_gravity="right">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="88dp"
-                android:minHeight="36dp"
-                android:padding="4dp"
-                android:id="@+id/button2"
-                android:textColor="@android:color/white"
-                android:background="@drawable/raised_selector"
-                android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                android:text="Click me"/>
-
-        </com.dd.ShadowLayout>
-
-
-    </LinearLayout>
-
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
