@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp"
+        >
+        <EditText
+            android:id="@+id/et_tour_cost_place"
+            android:layout_width="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+            android:layout_margin="10dp"
+            android:hint="কোথায় ট্যুর দিচ্ছেন?"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>

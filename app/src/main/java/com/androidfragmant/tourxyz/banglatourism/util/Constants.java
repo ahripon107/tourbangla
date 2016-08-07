@@ -37,11 +37,22 @@ public class Constants {
     /////////////// SUGGEST NEW PLACE URL ///////////
     public static final String SUGGEST_NEW_PLACE_URL = "http://apisea.xyz/TourBangla/apis/v1/SuggestNewPlace.php";
 
+    ////////////// FARE URL /////////////////////////
     public static final String FETCH_FARES_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchFares.php?key=bl905577";
 
-    public static final String WISHLIST_PREFERENCE_KEY = "wishlist";
+    public static final String FETCH_YOUTUBE_VIDEOS_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchYoutubeVideos.php";
+
+    public static final String WISHLIST_PREFERENCE_FILE = "wishlist";
 
     public static final String SOLAIMAN_LIPI_FONT = "font/solaimanlipi.ttf";
 
     public static final String ONE_PLUS_TEST_DEVICE = "7D3F3DF2A7214E839DBE70BE2132D5B9";
+
+    public static final String TOUR_COST_PLACE_PREFERENCE_FILE = "cost";
+
+    public static final String COST_PLACE_ID_PREFERENCE_FILE = "idpref";
+
+    public static final String COST_ITEM_PREFERENCE_FILE = "cost_item";
+
+    public static final String COST_ITEM_ID_PREFERENCE_FILE = "cost_item_id";
 }

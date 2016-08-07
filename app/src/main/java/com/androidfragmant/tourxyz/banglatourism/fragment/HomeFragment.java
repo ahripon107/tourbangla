@@ -23,6 +23,7 @@ import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.FileProcessor;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.activities.DivisionListActivity;
+import com.androidfragmant.tourxyz.banglatourism.activities.FareActivity;
 import com.androidfragmant.tourxyz.banglatourism.activities.ForumPostListActivity;
 import com.androidfragmant.tourxyz.banglatourism.activities.TourBlogActivity;
 import com.androidfragmant.tourxyz.banglatourism.activities.TourOperatorOffersListActivity;
@@ -281,7 +282,8 @@ public class HomeFragment extends RoboFragment {
         exploreFare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(getActivity(),FareActivity.class);
+                getActivity().startActivity(i);
             }
         });
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp">
+    android:orientation="vertical">
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -11,13 +11,13 @@
         android:layout_marginBottom="20dp"
         >
         <EditText
-            android:id="@+id/etYourName"
+            android:id="@+id/et_tour_cost_amount"
             android:layout_width="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_height="wrap_content"
-            android:inputType="textCapWords"
-            android:maxLength="50"
-            android:hint="আপনার নাম"/>
+            android:inputType="numberDecimal"
+            android:layout_margin="10dp"
+            android:hint="খরচের পরিমাণ"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -25,17 +25,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        >
         <EditText
-            android:id="@+id/etYourComment"
+            android:id="@+id/et_tour_cost_purpose"
             android:layout_width="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:hint="কমেন্ট"/>
+            android:inputType="textCapWords"
+            android:layout_margin="10dp"
+            android:hint="খরচের খাত"/>
 
     </android.support.design.widget.TextInputLayout>
-
-
-
 </LinearLayout>

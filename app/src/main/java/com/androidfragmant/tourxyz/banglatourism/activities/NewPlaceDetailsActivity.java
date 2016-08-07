@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -25,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 
+import com.androidfragmant.tourxyz.banglatourism.fragment.YoutubeVideoFragment;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.FalseProgress;
 import com.facebook.share.model.ShareLinkContent;
@@ -81,7 +81,7 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
     @InjectView(R.id.adViewPlaceDetails)
     AdView adView;
 
-    private CharSequence Titles[] = {"DESCRIPTION", "HOW TO GO", "HOTELS", "OTHER INFO", "COMMENTS"};
+    private CharSequence Titles[] = {"DESCRIPTION", "HOW TO GO", "HOTELS", "OTHER INFO", "COMMENTS", "VIDEO"};
     private Place selectedPlace;
     int id;
 
@@ -302,8 +302,10 @@ class YourPagerAdapter extends FragmentStatePagerAdapter {
             return DescriptionFragment.newInstanceOfDescriptionFragment(SelectedPlace.getHotel());
         } else if (position == 3) {
             return DescriptionFragment.newInstanceOfDescriptionFragment(SelectedPlace.getOthers());
-        } else {
+        } else if (position == 4) {
             return CommentAddComment.NewInstanceofCommentAddComment(SelectedPlace.getId(), 1);
+        } else {
+            return YoutubeVideoFragment.newInstanceOfYoutubeVideoFragment(SelectedPlace.getId());
         }
     }
 

@@ -36,7 +36,7 @@ public class TourBlogRecyclerAdapter extends RecyclerView.Adapter<TourBlogRecycl
 
     @Override
     public TourBlogViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tourblogsingleitem,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_tour_blog_item,parent,false);
         return new TourBlogViewHolder(view);
     }
 

@@ -31,7 +31,6 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('libs/gson-2.3.1.jar')
-
     compile 'com.flaviofaria:kenburnsview:1.0.7'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
@@ -53,5 +52,5 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.dmytrodanylyk.shadow-layout:library:1.0.3'
-
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
 }

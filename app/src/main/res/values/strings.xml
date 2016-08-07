@@ -14,8 +14,10 @@
     <string name="tourblog">ca-app-pub-9201945236996508/7452120875</string>
     <string name="forumpostlist">ca-app-pub-9201945236996508/1405587270</string>
     <string name="forumpostdetails">ca-app-pub-9201945236996508/7312520073</string>
+    <string name="underyoutube">ca-app-pub-9201945236996508/9989151275</string>
 
 
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
     <string name="facebook_app_id">258793617834681</string>
 
     <string name="cd_background_image">background image</string>
@@ -32,7 +34,7 @@
         <item>@string/givefeedback</item>
         <item>@string/suggestplace</item>
         <item>@string/updatedatabase</item>
-        <item>@string/fare</item>
+        <item>@string/costcalculator</item>
         <item>@string/rateus</item>
         <item>@string/update</item>
 
@@ -49,7 +51,7 @@
     <string name="rateus">Rate Us</string>
     <string name="update">Update App</string>
     <string name="updatedatabase">Update Database</string>
-    <string name="fare">Fare</string>
+    <string name="costcalculator">Tour Cost Calculator</string>
 
     <!-- Fontello icons -->
     <string name="fontello_logo">&#xe802;</string>

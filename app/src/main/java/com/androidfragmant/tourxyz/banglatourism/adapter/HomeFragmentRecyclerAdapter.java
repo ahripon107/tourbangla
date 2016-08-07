@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidfragmant.tourxyz.banglatourism.fragment.FareFragment;
 import com.androidfragmant.tourxyz.banglatourism.activities.ForumPostListActivity;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;

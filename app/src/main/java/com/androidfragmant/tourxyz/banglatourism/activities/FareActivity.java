@@ -1,16 +1,13 @@
-package com.androidfragmant.tourxyz.banglatourism.fragment;
+package com.androidfragmant.tourxyz.banglatourism.activities;
 
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -19,6 +16,7 @@ import android.widget.Toast;
 
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
+import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.adapter.FareListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.model.Fare;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
@@ -32,56 +30,74 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import cz.msebera.android.httpclient.Header;
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
 
 /**
  * Created by Ripon on 8/2/16.
  */
 
-public class FareFragment extends Fragment {
+@ContentView(R.layout.activity_fare)
+public class FareActivity extends RoboAppCompatActivity {
 
-
+    @InjectView(R.id.spnFrom)
     Spinner fromSpinner;
+
+    @InjectView(R.id.spnTo)
     Spinner toSpinner;
+
+    @InjectView(R.id.spnVehicle)
     Spinner vehicleSpinner;
+
+    @InjectView(R.id.btnSearch)
     Button searchButton;
+
+    @InjectView(R.id.farelist)
     RecyclerView fareList;
+
+    @InjectView(R.id.numberOfResultsFound)
     TextView resultsFound;
+
+    @InjectView(R.id.tvStartPlace)
     TextView startPlace;
+
+    @InjectView(R.id.tvEndPlace)
     TextView EndPlace;
+
+    @InjectView(R.id.tvJanbahon)
     TextView janbahon;
+
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
 
     ArrayList<String> elements;
     ArrayList<Fare> allFares,selectedFares;
     FareListAdapter fareListAdapter;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_fare,container,false);
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        setSupportActionBar(toolbar);
+        setTitle("Fare");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
-        fromSpinner = (Spinner) view.findViewById(R.id.spnFrom);
-        toSpinner = (Spinner) view.findViewById(R.id.spnTo);
-        vehicleSpinner = (Spinner) view.findViewById(R.id.spnVehicle);
-        searchButton = (Button) view.findViewById(R.id.btnSearch);
-        fareList = (RecyclerView) view.findViewById(R.id.farelist);
-        resultsFound = (TextView) view.findViewById(R.id.numberOfResultsFound);
-        startPlace = (TextView) view.findViewById(R.id.tvStartPlace);
-        EndPlace = (TextView) view.findViewById(R.id.tvEndPlace);
-        janbahon = (TextView) view.findViewById(R.id.tvJanbahon);
 
         elements = populate();
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(FareActivity.this,
                 android.R.layout.simple_spinner_item, elements);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fromSpinner.setAdapter(dataAdapter);
         toSpinner.setAdapter(dataAdapter);
 
-        Typeface tf = Typeface.createFromAsset(getActivity().getAssets(),Constants.SOLAIMAN_LIPI_FONT);
+        Typeface tf = Typeface.createFromAsset(FareActivity.this.getAssets(),Constants.SOLAIMAN_LIPI_FONT);
         resultsFound.setTypeface(tf);
         startPlace.setTypeface(tf);
         EndPlace.setTypeface(tf);
@@ -92,7 +108,7 @@ public class FareFragment extends Fragment {
         vehicles.add("ট্রেন");
         vehicles.add("লঞ্চ");
 
-        ArrayAdapter<String> vehicleAdapter = new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<String> vehicleAdapter = new ArrayAdapter<String>(FareActivity.this,
                 android.R.layout.simple_spinner_item, vehicles);
         vehicleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -100,14 +116,14 @@ public class FareFragment extends Fragment {
 
         allFares = new ArrayList<>();
         selectedFares = new ArrayList<>();
-        fareListAdapter = new FareListAdapter(getActivity(),selectedFares);
+        fareListAdapter = new FareListAdapter(FareActivity.this,selectedFares);
         fareList.setAdapter(fareListAdapter);
-        fareList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        fareList.setLayoutManager(new LinearLayoutManager(FareActivity.this));
 
         String url = Constants.FETCH_FARES_URL;
         Log.d(Constants.TAG, url);
 
-        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        final ProgressDialog progressDialog = new ProgressDialog(FareActivity.this);
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
         progressDialog.show();
@@ -142,7 +158,7 @@ public class FareFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), "Failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(FareActivity.this, "Failed", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -164,6 +180,7 @@ public class FareFragment extends Fragment {
             }
         });
     }
+
 
     public ArrayList<String> populate() {
         ArrayList<String> e = new ArrayList<>();

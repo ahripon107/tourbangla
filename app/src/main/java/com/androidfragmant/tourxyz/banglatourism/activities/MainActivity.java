@@ -13,8 +13,8 @@ import android.view.View;
 
 
 import com.androidfragmant.tourxyz.banglatourism.FileProcessor;
-import com.androidfragmant.tourxyz.banglatourism.fragment.FareFragment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.SuggestNewPlaceFragment;
+import com.androidfragmant.tourxyz.banglatourism.fragment.TourCostCalculatorFragment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.UpdateDatabaseFragment;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.batch.android.Batch;
@@ -143,8 +143,8 @@ public class MainActivity extends RoboAppCompatActivity implements FragmentDrawe
                 subtitle = getString(R.string.updatedatabase);
                 break;
             case 7:
-                fragment = new FareFragment();
-                subtitle = getString(R.string.fare);
+                fragment = new TourCostCalculatorFragment();
+                subtitle = getString(R.string.costcalculator);
                 break;
             case 8:
                 final String appPackageName = getPackageName();
