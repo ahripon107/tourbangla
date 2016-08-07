@@ -32,6 +32,7 @@ import com.androidfragmant.tourxyz.banglatourism.model.HomeFragmentElement;
 import com.androidfragmant.tourxyz.banglatourism.model.HomeFragmentImage;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -125,6 +126,9 @@ public class HomeFragment extends RoboFragment {
         String url = Constants.FRONT_PAGE_IMAGE_LIST_URL;
         Log.d(Constants.TAG, url);
 
+        RequestParams requestParams = new RequestParams();
+        requestParams.add(Constants.KEY,Constants.KEY_VALUE);
+
         if (!isNetworkAvailable()) {
             placeImageViewPager.setVisibility(View.GONE);
             offerImageViewPager.setVisibility(View.GONE);
@@ -132,7 +136,7 @@ public class HomeFragment extends RoboFragment {
 
 
         if (isNetworkAvailable()) {
-            FetchFromWeb.get(url, null, new JsonHttpResponseHandler() {
+            FetchFromWeb.get(url, requestParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -18,6 +19,8 @@ import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.adapter.PlaceRecyclerAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
@@ -65,6 +68,7 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
 
         PlaceRecyclerAdapter placeRecyclerAdapter = new PlaceRecyclerAdapter(BrowseByDivisionActivity.this, PlaceAccessHelper.getPlacesOfDistrict(districtName));
         recyclerView.setAdapter(placeRecyclerAdapter);
+        recyclerView.setItemAnimator(new SlideInLeftAnimator());
 
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);

@@ -1,5 +1,7 @@
 package com.androidfragmant.tourxyz.banglatourism.util;
 
+import android.content.Context;
+
 /**
  * Created by Ripon on 6/3/16.
  */
@@ -12,7 +14,7 @@ public class Constants {
     public static final String DISTRICT_NAME = "districtName";
 
     public static final String TOUR_OPERATOR_OFFER_URL = "http://apisea.xyz/TourBangla/apis/v1/tourOperatorOffer.php?key=bl905577";
-    public static final String FRONT_PAGE_IMAGE_LIST_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchHomeFragmentImageList.php?key=bl905577";
+    public static final String FRONT_PAGE_IMAGE_LIST_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchHomeFragmentImageList.php";
 
     /////////////// PLACE RELATED URL //////////////////
     public static final String FETCH_PLACES_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchPlaces.php?key=bl905577";
@@ -26,7 +28,7 @@ public class Constants {
     public static final String FETCH_FORUM_POST_COMMENTS = "http://apisea.xyz/TourBangla/apis/v1/FetchForumPostComments.php?key=bl905577&postid=";
 
     /////////////// BLOG RELATED URL /////////////////
-    public static final String FETCH_BLOG_POSTS_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchTourBlogs.php?key=bl905577";
+    public static final String FETCH_BLOG_POSTS_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchTourBlogs.php";
     public static final String INSERT_BLOG_POST_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertBlogPost.php";
     public static final String INSERT_BLOG_POST_COMMENT_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertBlogPostComment.php";
     public static final String FETCH_BLOG_POST_COMMENTS_URL = "http://apisea.xyz/TourBangla/apis/v1/BlogPostComments.php";
@@ -38,7 +40,7 @@ public class Constants {
     public static final String SUGGEST_NEW_PLACE_URL = "http://apisea.xyz/TourBangla/apis/v1/SuggestNewPlace.php";
 
     ////////////// FARE URL /////////////////////////
-    public static final String FETCH_FARES_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchFares.php?key=bl905577";
+    public static final String FETCH_FARES_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchFares.php";
 
     public static final String FETCH_YOUTUBE_VIDEOS_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchYoutubeVideos.php";
 
@@ -55,4 +57,39 @@ public class Constants {
     public static final String COST_ITEM_PREFERENCE_FILE = "cost_item";
 
     public static final String COST_ITEM_ID_PREFERENCE_FILE = "cost_item_id";
+
+    private static final int SECOND_MILLIS = 1000;
+    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
+
+    public static String getTimeAgo(long time) {
+        if (time < 1000000000000L) {
+            // if timestamp given in seconds, convert to millis
+            time *= 1000;
+        }
+
+        long now = System.currentTimeMillis();
+        if (time > now || time <= 0) {
+            return null;
+        }
+
+        // TODO: localize
+        final long diff = now - time;
+        if (diff < MINUTE_MILLIS) {
+            return "just now";
+        } else if (diff < 2 * MINUTE_MILLIS) {
+            return "a minute ago";
+        } else if (diff < 50 * MINUTE_MILLIS) {
+            return diff / MINUTE_MILLIS + " minutes ago";
+        } else if (diff < 90 * MINUTE_MILLIS) {
+            return "an hour ago";
+        } else if (diff < 24 * HOUR_MILLIS) {
+            return diff / HOUR_MILLIS + " hours ago";
+        } else if (diff < 48 * HOUR_MILLIS) {
+            return "yesterday";
+        } else {
+            return diff / DAY_MILLIS + " days ago";
+        }
+    }
 }

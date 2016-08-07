@@ -21,6 +21,7 @@ import com.androidfragmant.tourxyz.banglatourism.adapter.FareListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.model.Fare;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -122,13 +123,15 @@ public class FareActivity extends RoboAppCompatActivity {
 
         String url = Constants.FETCH_FARES_URL;
         Log.d(Constants.TAG, url);
+        RequestParams requestParams = new RequestParams();
+        requestParams.add(Constants.KEY,Constants.KEY_VALUE);
 
         final ProgressDialog progressDialog = new ProgressDialog(FareActivity.this);
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        FetchFromWeb.get(url, null, new JsonHttpResponseHandler() {
+        FetchFromWeb.get(url, requestParams, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 progressDialog.dismiss();

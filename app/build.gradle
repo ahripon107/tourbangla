@@ -53,4 +53,5 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.dmytrodanylyk.shadow-layout:library:1.0.3'
     compile files('libs/YouTubeAndroidPlayerApi.jar')
+    compile 'jp.wasabeef:recyclerview-animators:2.2.3'
 }

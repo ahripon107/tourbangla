@@ -24,6 +24,7 @@ import com.androidfragmant.tourxyz.banglatourism.adapter.TourBlogRecyclerAdapter
 import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.view.ProgressWheel;
+import com.loopj.android.http.RequestParams;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -95,7 +96,7 @@ public class TourBlogActivity extends RoboAppCompatActivity {
             }
         });
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("7D3F3DF2A7214E839DBE70BE2132D5B9").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);
         loadPosts();
 
@@ -126,7 +127,10 @@ public class TourBlogActivity extends RoboAppCompatActivity {
         String url = Constants.FETCH_BLOG_POSTS_URL;
         Log.d(Constants.TAG, url);
 
-        FetchFromWeb.get(url,null,new JsonHttpResponseHandler() {
+        RequestParams requestParams = new RequestParams();
+        requestParams.add(Constants.KEY,Constants.KEY_VALUE);
+
+        FetchFromWeb.get(url,requestParams,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 blogPosts.clear();
