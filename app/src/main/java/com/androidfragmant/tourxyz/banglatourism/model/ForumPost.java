@@ -10,11 +10,14 @@ public class ForumPost implements Serializable {
     private int id;
     private String name;
     private String question;
+    private String timestamp;
 
-    public ForumPost(int id, String name, String question) {
+
+    public ForumPost(int id, String name, String question, String timestamp) {
         this.id = id;
         this.name = name;
         this.question = question;
+        this.timestamp = timestamp;
     }
 
     public int getId() {
@@ -41,12 +44,21 @@ public class ForumPost implements Serializable {
         this.question = question;
     }
 
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
     @Override
     public String toString() {
         return "ForumPost{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", question='" + question + '\'' +
+                ", timestamp='" + timestamp + '\'' +
                 '}';
     }
 }

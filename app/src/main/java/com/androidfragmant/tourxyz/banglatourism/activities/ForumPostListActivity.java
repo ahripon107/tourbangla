@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.model.ForumPost;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -120,6 +121,7 @@ public class ForumPostListActivity extends RoboAppCompatActivity {
                                 params.put("key", "bl905577");
                                 params.put("name", name);
                                 params.put("question", comment);
+                                params.put("timestamp",System.currentTimeMillis()+"");
 
                                 String url1 = Constants.INSERT_FORUM_POST_URL;
 
@@ -182,10 +184,8 @@ public class ForumPostListActivity extends RoboAppCompatActivity {
                     JSONArray jsonArray = response.getJSONArray("content");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        int id = jsonObject.getInt("id");
-                        String name = jsonObject.getString("name");
-                        String question = jsonObject.getString("question");
-                        ForumPost forumPost = new ForumPost(id, name, question);
+                        Gson gson = new Gson();
+                        ForumPost forumPost = gson.fromJson(String.valueOf(jsonObject),ForumPost.class);
                         forumPosts.add(forumPost);
 
                     }

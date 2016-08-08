@@ -68,7 +68,7 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
 
         PlaceRecyclerAdapter placeRecyclerAdapter = new PlaceRecyclerAdapter(BrowseByDivisionActivity.this, PlaceAccessHelper.getPlacesOfDistrict(districtName));
         recyclerView.setAdapter(placeRecyclerAdapter);
-        recyclerView.setItemAnimator(new SlideInLeftAnimator());
+
 
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);

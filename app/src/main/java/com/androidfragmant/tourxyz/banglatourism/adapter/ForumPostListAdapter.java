@@ -46,6 +46,7 @@ public class ForumPostListAdapter extends RecyclerView.Adapter<ForumPostListAdap
         holder.askedby.setTypeface(tf);
         holder.question.setText(forumPosts.get(position).getQuestion());
         holder.askedby.setText("পোস্ট করেছেনঃ "+forumPosts.get(position).getName());
+        holder.timeStamp.setText(Constants.getTimeAgo(Long.parseLong(forumPosts.get(position).getTimestamp())));
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,12 +66,14 @@ public class ForumPostListAdapter extends RecyclerView.Adapter<ForumPostListAdap
     public static class ForumPostViewHolder extends RecyclerView.ViewHolder {
         protected TextView question;
         protected TextView askedby;
+        protected TextView timeStamp;
         protected LinearLayout linearLayout;
 
         public ForumPostViewHolder(View itemView) {
             super(itemView);
             question = ViewHolder.get(itemView,R.id.tvQuestionOfForumPost);
             askedby = ViewHolder.get(itemView,R.id.tvAskedByWhom);
+            timeStamp = ViewHolder.get(itemView,R.id.forum_post_time_stamp);
             linearLayout = ViewHolder.get(itemView,R.id.forumpostlinearlayout);
         }
     }
