@@ -46,7 +46,6 @@ public class MainActivity extends RoboAppCompatActivity implements FragmentDrawe
         super.onCreate(savedInstanceState);
 
         setSupportActionBar(mToolbar);
-        //getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         boolean exists = false;
         String[] files = MainActivity.this.fileList();

@@ -103,7 +103,7 @@ public class ForumPostListActivity extends RoboAppCompatActivity {
                 final EditText yourName = (EditText) promptsView.findViewById(R.id.etYourForumPostName);
                 AlertDialog.Builder builder = new AlertDialog.Builder(ForumPostListActivity.this);
                 builder.setView(promptsView);
-                builder.setTitle("New Forum Post");
+                builder.setTitle("নতুন ফোরাম পোস্ট");
                 builder.setCancelable(false)
                         .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
                             @Override
@@ -124,7 +124,7 @@ public class ForumPostListActivity extends RoboAppCompatActivity {
                                 params.put("timestamp",System.currentTimeMillis()+"");
 
                                 String url1 = Constants.INSERT_FORUM_POST_URL;
-
+                                Log.d(Constants.TAG, url1);
 
                                 final ProgressDialog progressDialog = new ProgressDialog(ForumPostListActivity.this);
                                 progressDialog.setMessage("Posting..Please wait...");
@@ -167,10 +167,13 @@ public class ForumPostListActivity extends RoboAppCompatActivity {
         progressWheel.setVisibility(View.VISIBLE);
         progressWheel.spin();
 
+        RequestParams requestParams = new RequestParams();
+        requestParams.add(Constants.KEY,Constants.KEY_VALUE);
+
         String url = Constants.FETCH_FORUM_POSTS_URL;
         Log.d(Constants.TAG, url);
 
-        FetchFromWeb.get(url, null, new JsonHttpResponseHandler() {
+        FetchFromWeb.get(url, requestParams, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

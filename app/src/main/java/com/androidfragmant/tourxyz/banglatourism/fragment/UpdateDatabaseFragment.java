@@ -3,7 +3,6 @@ package com.androidfragmant.tourxyz.banglatourism.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import com.androidfragmant.tourxyz.banglatourism.FileProcessor;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
@@ -50,6 +50,9 @@ public class UpdateDatabaseFragment extends Fragment {
                     Toast.makeText(getActivity(),"Please check your internet connection",Toast.LENGTH_LONG).show();
                 }
                 else {
+                    RequestParams requestParams = new RequestParams();
+                    requestParams.add(Constants.KEY,Constants.KEY_VALUE);
+
                     String url = Constants.FETCH_PLACES_URL;
                     Log.d(Constants.TAG, url);
                     final ProgressDialog progressDialog = new ProgressDialog(getActivity());
@@ -57,7 +60,7 @@ public class UpdateDatabaseFragment extends Fragment {
                     progressDialog.setTitle("Loading data");
                     progressDialog.show();
 
-                    FetchFromWeb.get(url, null, new JsonHttpResponseHandler() {
+                    FetchFromWeb.get(url, requestParams, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             progressDialog.dismiss();

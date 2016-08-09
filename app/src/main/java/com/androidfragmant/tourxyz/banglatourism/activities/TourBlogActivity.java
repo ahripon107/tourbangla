@@ -8,10 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.OvershootInterpolator;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import java.util.ArrayList;
@@ -35,9 +35,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
-import jp.wasabeef.recyclerview.animators.ScaleInBottomAnimator;
-import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
@@ -83,17 +80,9 @@ public class TourBlogActivity extends RoboAppCompatActivity {
             }
         });
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(TourBlogActivity.this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(TourBlogActivity.this));
         tourBlogRecyclerAdapter = new TourBlogRecyclerAdapter(TourBlogActivity.this, blogPosts);
         recyclerView.setAdapter(tourBlogRecyclerAdapter);
-        recyclerView.setItemAnimator(new ScaleInBottomAnimator());
-        recyclerView.getItemAnimator().setAddDuration(500);
-        recyclerView.getItemAnimator().setRemoveDuration(500);
-        recyclerView.getItemAnimator().setMoveDuration(500);
-        recyclerView.getItemAnimator().setChangeDuration(500);
 
 
         fabNewBlog.setOnClickListener(new View.OnClickListener() {
@@ -114,12 +103,6 @@ public class TourBlogActivity extends RoboAppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BlogPost blogPost) {
         loadPosts();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
     }
 
     @Override
@@ -150,20 +133,14 @@ public class TourBlogActivity extends RoboAppCompatActivity {
                     JSONArray jsonArray = response.getJSONArray("content");
                     for (int i=0;i<jsonArray.length();i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        int id = jsonObject.getInt("id");
-                        String title = jsonObject.getString("title");
-                        String name = jsonObject.getString("name");
-                        String details = jsonObject.getString("details");
-                        String tags = jsonObject.getString("tags");
-                        String image = jsonObject.getString("image");
-                        BlogPost blogPost = new BlogPost(id,name,title,details,tags,image);
+                        Gson gson = new Gson();
+                        BlogPost blogPost = gson.fromJson(String.valueOf(jsonObject),BlogPost.class);
                         blogPosts.add(blogPost);
-                        tourBlogRecyclerAdapter.notifyItemInserted(blogPosts.size()-1);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                //tourBlogRecyclerAdapter.notifyDataSetChanged();
+                tourBlogRecyclerAdapter.notifyDataSetChanged();
                 Log.d(Constants.TAG, response.toString());
             }
 

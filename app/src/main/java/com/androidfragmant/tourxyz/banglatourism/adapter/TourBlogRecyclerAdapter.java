@@ -49,18 +49,15 @@ public class TourBlogRecyclerAdapter extends RecyclerView.Adapter<TourBlogRecycl
         holder.name.setText("লিখেছেন: "+blogPost.getName());
         holder.title.setText(blogPost.getTitle());
         holder.tags.setText("Tags: "+blogPost.getTags());
+        holder.timestamp.setText(Constants.getTimeAgo(Long.parseLong(blogPost.getTimestamp())));
+
         Picasso.with(context).load(blogPost.getImage()).into(holder.imageView);
+
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, TourBlogDetailsActivity.class);
                 i.putExtra("post",blogPost);
-                i.putExtra("name", blogPost.getName());
-                i.putExtra("title",blogPost.getTitle());
-                i.putExtra("details",blogPost.getDetails());
-                i.putExtra("tags",blogPost.getTags());
-                i.putExtra("image",blogPost.getImage());
-                i.putExtra("id",blogPost.getId());
                 context.startActivity(i);
             }
         });
@@ -74,6 +71,7 @@ public class TourBlogRecyclerAdapter extends RecyclerView.Adapter<TourBlogRecycl
     static class TourBlogViewHolder extends RecyclerView.ViewHolder {
         protected ImageView imageView;
         protected TextView title,name,tags;
+        protected TextView timestamp;
         protected LinearLayout linearLayout;
 
         public TourBlogViewHolder(View itemView) {
@@ -82,6 +80,7 @@ public class TourBlogRecyclerAdapter extends RecyclerView.Adapter<TourBlogRecycl
             title = ViewHolder.get(itemView,R.id.txtPostTitle);
             name = ViewHolder.get(itemView,R.id.txtPostWriter);
             tags = ViewHolder.get(itemView,R.id.txtPostTags);
+            timestamp = ViewHolder.get(itemView,R.id.tv_blog_time_stamp);
             linearLayout = ViewHolder.get(itemView,R.id.blogPostContainer);
         }
     }

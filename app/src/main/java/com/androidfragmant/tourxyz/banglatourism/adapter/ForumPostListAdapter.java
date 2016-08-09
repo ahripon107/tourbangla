@@ -63,7 +63,7 @@ public class ForumPostListAdapter extends RecyclerView.Adapter<ForumPostListAdap
     }
 
 
-    public static class ForumPostViewHolder extends RecyclerView.ViewHolder {
+    static class ForumPostViewHolder extends RecyclerView.ViewHolder {
         protected TextView question;
         protected TextView askedby;
         protected TextView timeStamp;

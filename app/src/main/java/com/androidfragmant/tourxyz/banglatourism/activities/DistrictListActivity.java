@@ -89,12 +89,9 @@ public class DistrictListActivity extends RoboAppCompatActivity {
         });
         setTitle("Select District");
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DistrictListActivity.this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
         DistrictListRecyclerAdapter adapter = new DistrictListRecyclerAdapter(DistrictListActivity.this, districts, districtsBangla, divisionName);
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(DistrictListActivity.this));
     }
 }
 

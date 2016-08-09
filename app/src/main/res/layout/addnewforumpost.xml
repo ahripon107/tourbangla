@@ -16,8 +16,8 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_height="wrap_content"
             android:inputType="textCapWords"
-            android:maxLength="40"
-            android:hint="Your Name"/>
+            android:maxLength="50"
+            android:hint="আপনার নাম"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:maxLength="500"
-            android:hint="Post Details (500 char max)"/>
+            android:hint="পোস্ট বিস্তারিত (সর্বোচ্চ ৫০০ অক্ষর)"/>
 
     </android.support.design.widget.TextInputLayout>
 

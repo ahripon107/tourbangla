@@ -24,7 +24,7 @@ public class FareListAdapter extends RecyclerView.Adapter<FareListAdapter.FareVi
     ArrayList<Fare> fareArrayList;
     Typeface tf;
 
-    public FareListAdapter(Context context,ArrayList<Fare> fareArrayList) {
+    public FareListAdapter(Context context, ArrayList<Fare> fareArrayList) {
         this.context = context;
         this.fareArrayList = fareArrayList;
         tf = Typeface.createFromAsset(context.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
@@ -32,7 +32,7 @@ public class FareListAdapter extends RecyclerView.Adapter<FareListAdapter.FareVi
 
     @Override
     public FareViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fare_list_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fare_list_item, parent, false);
         return new FareViewHolder(view);
     }
 
@@ -67,11 +67,11 @@ public class FareListAdapter extends RecyclerView.Adapter<FareListAdapter.FareVi
 
         public FareViewHolder(View itemView) {
             super(itemView);
-            companyName = ViewHolder.get(itemView,R.id.tvCompanyName);
-            fare = ViewHolder.get(itemView,R.id.tvFare);
-            timeToLeave = ViewHolder.get(itemView,R.id.tvTimeToLeave);
-            estimatedTime = ViewHolder.get(itemView,R.id.tvEstimatedTime);
-            leavingPlace = ViewHolder.get(itemView,R.id.tvLeavingPlace);
+            companyName = ViewHolder.get(itemView, R.id.tvCompanyName);
+            fare = ViewHolder.get(itemView, R.id.tvFare);
+            timeToLeave = ViewHolder.get(itemView, R.id.tvTimeToLeave);
+            estimatedTime = ViewHolder.get(itemView, R.id.tvEstimatedTime);
+            leavingPlace = ViewHolder.get(itemView, R.id.tvLeavingPlace);
         }
     }
 }

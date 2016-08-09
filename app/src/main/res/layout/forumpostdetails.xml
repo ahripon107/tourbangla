@@ -64,13 +64,6 @@
 
     </com.dd.ShadowLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/layoutid"
-        android:id="@+id/forumPostCommentList">
-
-    </android.support.v7.widget.RecyclerView>
     <com.google.android.gms.ads.AdView
         android:id="@+id/adViewForumPostDetails"
         android:layout_width="fill_parent"
@@ -79,4 +72,14 @@
         ads:adSize="BANNER"
         ads:adUnitId="@string/forumpostdetails">
     </com.google.android.gms.ads.AdView>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutid"
+        android:layout_above="@id/adViewForumPostDetails"
+        android:id="@+id/forumPostCommentList">
+
+    </android.support.v7.widget.RecyclerView>
+
 </RelativeLayout>

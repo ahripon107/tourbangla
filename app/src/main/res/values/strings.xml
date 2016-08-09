@@ -16,6 +16,9 @@
     <string name="forumpostdetails">ca-app-pub-9201945236996508/7312520073</string>
     <string name="underyoutube">ca-app-pub-9201945236996508/9989151275</string>
 
+    <string name="tour_offer_list_title">Tour Offers</string>
+    <string name="tour_offer_details">Offer Details</string>
+
 
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
     <string name="facebook_app_id">258793617834681</string>

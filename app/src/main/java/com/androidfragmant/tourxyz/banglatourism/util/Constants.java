@@ -1,6 +1,5 @@
 package com.androidfragmant.tourxyz.banglatourism.util;
 
-import android.content.Context;
 
 /**
  * Created by Ripon on 6/3/16.
@@ -13,19 +12,19 @@ public class Constants {
     public static final String DIVISION_NAME = "divisionName";
     public static final String DISTRICT_NAME = "districtName";
 
-    public static final String TOUR_OPERATOR_OFFER_URL = "http://apisea.xyz/TourBangla/apis/v1/tourOperatorOffer.php?key=bl905577";
+    public static final String TOUR_OPERATOR_OFFER_URL = "http://apisea.xyz/TourBangla/apis/v1/tourOperatorOffer.php";
     public static final String FRONT_PAGE_IMAGE_LIST_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchHomeFragmentImageList.php";
 
     /////////////// PLACE RELATED URL //////////////////
-    public static final String FETCH_PLACES_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchPlaces.php?key=bl905577";
+    public static final String FETCH_PLACES_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchPlaces.php";
     public static final String INSERT_PLACE_COMMENT_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertPlaceComment.php";
     public static final String FETCH_PLACE_COMMENTS_URL = "http://apisea.xyz/TourBangla/apis/v1/PlaceComments.php";
 
     /////////////// FORUM RELATED URL /////////////////
-    public static final String FETCH_FORUM_POSTS_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchForumPost.php?key=bl905577";
+    public static final String FETCH_FORUM_POSTS_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchForumPost.php";
     public static final String INSERT_FORUM_POST_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertForumPost.php";
     public static final String INSERT_FORUM_POST_COMMENT_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertForumPostComment.php";
-    public static final String FETCH_FORUM_POST_COMMENTS = "http://apisea.xyz/TourBangla/apis/v1/FetchForumPostComments.php?key=bl905577&postid=";
+    public static final String FETCH_FORUM_POST_COMMENTS = "http://apisea.xyz/TourBangla/apis/v1/FetchForumPostComments.php";
 
     /////////////// BLOG RELATED URL /////////////////
     public static final String FETCH_BLOG_POSTS_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchTourBlogs.php";
@@ -65,7 +64,6 @@ public class Constants {
 
     public static String getTimeAgo(long time) {
         if (time < 1000000000000L) {
-            // if timestamp given in seconds, convert to millis
             time *= 1000;
         }
 
@@ -74,7 +72,6 @@ public class Constants {
             return null;
         }
 
-        // TODO: localize
         final long diff = now - time;
         if (diff < MINUTE_MILLIS) {
             return "Just now";
@@ -84,10 +81,12 @@ public class Constants {
             return diff / MINUTE_MILLIS + " minutes ago";
         } else if (diff < 90 * MINUTE_MILLIS) {
             return "an hour ago";
+        } else if (diff < 119 * MINUTE_MILLIS) {
+            return "1 hour ago";
         } else if (diff < 24 * HOUR_MILLIS) {
             return diff / HOUR_MILLIS + " hours ago";
         } else if (diff < 48 * HOUR_MILLIS) {
-            return "yesterday";
+            return "Yesterday";
         } else {
             return diff / DAY_MILLIS + " days ago";
         }

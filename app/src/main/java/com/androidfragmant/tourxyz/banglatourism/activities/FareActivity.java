@@ -20,6 +20,7 @@ import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.adapter.FareListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.model.Fare;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -72,7 +73,7 @@ public class FareActivity extends RoboAppCompatActivity {
     Toolbar toolbar;
 
     ArrayList<String> elements;
-    ArrayList<Fare> allFares,selectedFares;
+    ArrayList<Fare> allFares, selectedFares;
     FareListAdapter fareListAdapter;
 
     @Override
@@ -98,7 +99,7 @@ public class FareActivity extends RoboAppCompatActivity {
         fromSpinner.setAdapter(dataAdapter);
         toSpinner.setAdapter(dataAdapter);
 
-        Typeface tf = Typeface.createFromAsset(FareActivity.this.getAssets(),Constants.SOLAIMAN_LIPI_FONT);
+        Typeface tf = Typeface.createFromAsset(FareActivity.this.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
         resultsFound.setTypeface(tf);
         startPlace.setTypeface(tf);
         EndPlace.setTypeface(tf);
@@ -117,14 +118,14 @@ public class FareActivity extends RoboAppCompatActivity {
 
         allFares = new ArrayList<>();
         selectedFares = new ArrayList<>();
-        fareListAdapter = new FareListAdapter(FareActivity.this,selectedFares);
+        fareListAdapter = new FareListAdapter(FareActivity.this, selectedFares);
         fareList.setAdapter(fareListAdapter);
         fareList.setLayoutManager(new LinearLayoutManager(FareActivity.this));
 
         String url = Constants.FETCH_FARES_URL;
         Log.d(Constants.TAG, url);
         RequestParams requestParams = new RequestParams();
-        requestParams.add(Constants.KEY,Constants.KEY_VALUE);
+        requestParams.add(Constants.KEY, Constants.KEY_VALUE);
 
         final ProgressDialog progressDialog = new ProgressDialog(FareActivity.this);
         progressDialog.setMessage("Please wait...");
@@ -139,16 +140,8 @@ public class FareActivity extends RoboAppCompatActivity {
                     JSONArray jsonArray = response.getJSONArray("content");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        int id = jsonObject.getInt("id");
-                        String from = jsonObject.getString("fromPlace");
-                        String to = jsonObject.getString("toPlace");
-                        String fare = jsonObject.getString("fare");
-                        String startTime = jsonObject.getString("startTime");
-                        String companyName = jsonObject.getString("companyName");
-                        String estimatedTime = jsonObject.getString("estimatedTime");
-                        String leavePlace = jsonObject.getString("leavePlace");
-                        String vehicle = jsonObject.getString("vehicle");
-                        Fare f = new Fare(id,from,to,fare,startTime,companyName,estimatedTime,leavePlace,vehicle);
+                        Gson gson = new Gson();
+                        Fare f = gson.fromJson(String.valueOf(jsonObject), Fare.class);
                         allFares.add(f);
                     }
                 } catch (JSONException e) {
@@ -179,7 +172,7 @@ public class FareActivity extends RoboAppCompatActivity {
                     }
                 }
                 fareListAdapter.notifyDataSetChanged();
-                resultsFound.setText(selectedFares.size()+" টি ফলাফল পাওয়া গেছে");
+                resultsFound.setText(selectedFares.size() + " টি ফলাফল পাওয়া গেছে");
             }
         });
     }

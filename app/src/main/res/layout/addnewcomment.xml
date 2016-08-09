@@ -32,7 +32,8 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
-            android:hint="কমেন্ট"/>
+            android:maxLength="500"
+            android:hint="মন্তব্য"/>
 
     </android.support.design.widget.TextInputLayout>
 

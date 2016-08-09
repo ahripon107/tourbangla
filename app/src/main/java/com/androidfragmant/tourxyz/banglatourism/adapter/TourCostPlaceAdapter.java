@@ -22,10 +22,10 @@ import java.util.ArrayList;
  * Created by Ripon on 8/5/16.
  */
 public class TourCostPlaceAdapter extends RecyclerView.Adapter<TourCostPlaceAdapter.CostPlaceViewHolder> {
-
     Context context;
     ArrayList<CostPlace> costPlaces;
     Typeface tf;
+
     public TourCostPlaceAdapter(Context context,ArrayList<CostPlace> costPlaces) {
         this.context = context;
         this.costPlaces = costPlaces;

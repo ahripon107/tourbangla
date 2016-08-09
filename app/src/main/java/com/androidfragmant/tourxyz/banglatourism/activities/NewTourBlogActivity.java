@@ -138,6 +138,7 @@ public class NewTourBlogActivity extends RoboAppCompatActivity {
                 params.put("details",blogDetails);
                 params.put("tags",blogTags);
                 params.put("name",blogWriterName);
+                params.put("timestamp",System.currentTimeMillis()+"");
 
                 String url = Constants.INSERT_BLOG_POST_URL;
                 Log.d(Constants.TAG, url);
@@ -155,7 +156,7 @@ public class NewTourBlogActivity extends RoboAppCompatActivity {
                         writername.getText().clear();
                         selectedPicture.setText("No Picture Selected");
                         Toast.makeText(NewTourBlogActivity.this,"Your Post Added Successfully.",Toast.LENGTH_SHORT).show();
-                        EventBus.getDefault().post(new BlogPost(blogWriterName,blogTitle,blogDetails,blogTags,encodedImage));
+                        EventBus.getDefault().post(new BlogPost(blogWriterName,blogTitle,blogDetails,blogTags,encodedImage,System.currentTimeMillis()+""));
                     }
 
                     @Override

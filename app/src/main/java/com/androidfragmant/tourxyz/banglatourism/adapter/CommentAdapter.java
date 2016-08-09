@@ -20,12 +20,14 @@ import java.util.ArrayList;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
     private ArrayList<String> names;
     private ArrayList<String> comments;
+    private ArrayList<String> timestamps;
     Context context;
     Typeface tf;
 
-    public CommentAdapter(Context context,ArrayList<String> names, ArrayList<String> comments) {
+    public CommentAdapter(Context context, ArrayList<String> names, ArrayList<String> comments, ArrayList<String> timestamps) {
         this.names = names;
         this.comments = comments;
+        this.timestamps = timestamps;
         this.context = context;
         tf = Typeface.createFromAsset(context.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
     }
@@ -42,6 +44,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.commenter.setTypeface(tf);
         holder.commenter.setText("মন্তব্য করেছেন:  " + names.get(position));
         holder.comment.setText(comments.get(position));
+        holder.timestamp.setText(Constants.getTimeAgo(Long.parseLong(timestamps.get(position))));
     }
 
     @Override
@@ -52,11 +55,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
         protected TextView commenter;
         protected TextView comment;
+        protected TextView timestamp;
 
         public CommentViewHolder(View v) {
             super(v);
-            commenter = ViewHolder.get(v,R.id.tvName);
-            comment = ViewHolder.get(v,R.id.tvComment);
+            commenter = ViewHolder.get(v, R.id.tvName);
+            comment = ViewHolder.get(v, R.id.tvComment);
+            timestamp = ViewHolder.get(itemView, R.id.tv_time_stamp);
         }
     }
 }

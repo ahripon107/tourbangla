@@ -66,25 +66,29 @@ public class SuggestNewPlaceFragment extends RoboFragment {
                 String pdescription = description.getText().toString().trim();
                 String phowtogo = howtogo.getText().toString().trim();
                 String photels = hotels.getText().toString().trim();
+
                 if (pname.length() == 0 || paddress.length() == 0 || pdivision.length() == 0 || pdescription.length() == 0 || phowtogo.length() == 0 || photels.length() == 0) {
                     Toast.makeText(getActivity(), "Please give input correctly", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 RequestParams params = new RequestParams();
-                params.put(Constants.KEY,Constants.KEY_VALUE);
-                params.put("hotels",photels);
-                params.put("howtogo",phowtogo);
-                params.put("description",pdescription);
-                params.put("division",pdivision);
-                params.put("address",paddress);
-                params.put("name",pname);
+                params.put(Constants.KEY, Constants.KEY_VALUE);
+                params.put("hotels", photels);
+                params.put("howtogo", phowtogo);
+                params.put("description", pdescription);
+                params.put("division", pdivision);
+                params.put("address", paddress);
+                params.put("name", pname);
+
                 String url = Constants.SUGGEST_NEW_PLACE_URL;
                 Log.d(Constants.TAG, url);
+
                 final ProgressDialog progressDialog = new ProgressDialog(getContext());
                 progressDialog.setMessage("Loading...");
                 progressDialog.show();
-                FetchFromWeb.post(url,params,new JsonHttpResponseHandler() {
+
+                FetchFromWeb.post(url, params, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         progressDialog.dismiss();
@@ -100,11 +104,10 @@ public class SuggestNewPlaceFragment extends RoboFragment {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Failed..Please try again.."+statusCode, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Failed..Please try again.." + statusCode, Toast.LENGTH_LONG).show();
                     }
                 });
             }
-
         });
     }
 }

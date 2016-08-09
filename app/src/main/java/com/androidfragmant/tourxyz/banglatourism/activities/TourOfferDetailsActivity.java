@@ -52,7 +52,6 @@ public class TourOfferDetailsActivity extends RoboAppCompatActivity {
                 finish();
             }
         });
-        setTitle("Offer Details");
 
         Intent intent = getIntent();
         String detailsText = intent.getStringExtra("details");

@@ -38,8 +38,10 @@ import cz.msebera.android.httpclient.Header;
 public class CommentAddComment extends Fragment {
     ArrayList<String> names;
     ArrayList<String> comments;
+    ArrayList<String> timestamps;
     CommentAdapter commentAdapter;
     String url;
+    RecyclerView recyclerView;
 
     public CommentAddComment() {
 
@@ -59,13 +61,16 @@ public class CommentAddComment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         inflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.commentandaddcomment, container, false);
-        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.rvComments);
+        recyclerView = (RecyclerView) v.findViewById(R.id.rvComments);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
+
         names = new ArrayList<>();
         comments = new ArrayList<>();
-        commentAdapter = new CommentAdapter(getContext(), names, comments);
+        timestamps = new ArrayList<>();
+
+        commentAdapter = new CommentAdapter(getContext(), names, comments, timestamps);
         recyclerView.setAdapter(commentAdapter);
 
         RequestParams requestParams = new RequestParams();
@@ -89,11 +94,15 @@ public class CommentAddComment extends Fragment {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         names.add(jsonObject.getString("name"));
                         comments.add(jsonObject.getString("comment"));
+                        timestamps.add(jsonObject.getString("timestamp"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 commentAdapter.notifyDataSetChanged();
+                if (names.size() != 0) {
+                    recyclerView.smoothScrollToPosition(names.size()-1);
+                }
                 Log.d(Constants.TAG, response.toString());
             }
 
@@ -110,12 +119,12 @@ public class CommentAddComment extends Fragment {
             public void onClick(View v) {
 
                 LayoutInflater li = LayoutInflater.from(getContext());
-                View promptsView = li.inflate(R.layout.addnewcomment, null);
+                View promptsView = li.inflate(R.layout.addnewcomment, null, false);
                 final EditText writeComment = (EditText) promptsView.findViewById(R.id.etYourComment);
                 final EditText yourName = (EditText) promptsView.findViewById(R.id.etYourName);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setView(promptsView);
-                builder.setTitle("Comment");
+                builder.setTitle("মন্তব্য");
                 builder.setCancelable(false)
                         .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
                             @Override
@@ -131,16 +140,18 @@ public class CommentAddComment extends Fragment {
 
                                 RequestParams params = new RequestParams();
                                 if (getArguments().get("number") == 2) {
-                                    params.put("key", "bl905577");
+                                    params.put(Constants.KEY, Constants.KEY_VALUE);
                                     params.put("id", getArguments().getInt("id"));
                                     params.put("name", name);
                                     params.put("comment", comment);
+                                    params.put("timestamp", System.currentTimeMillis() + "");
                                     url = Constants.INSERT_BLOG_POST_COMMENT_URL;
                                 } else {
-                                    params.put("key", "bl905577");
+                                    params.put(Constants.KEY, Constants.KEY_VALUE);
                                     params.put("id", getArguments().getInt("id"));
                                     params.put("name", name);
                                     params.put("comment", comment);
+                                    params.put("timestamp", System.currentTimeMillis() + "");
                                     url = Constants.INSERT_PLACE_COMMENT_URL;
                                 }
                                 final ProgressDialog progressDialog = new ProgressDialog(getActivity());
@@ -151,9 +162,13 @@ public class CommentAddComment extends Fragment {
                                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                         progressDialog.dismiss();
                                         Toast.makeText(getContext(), "Comment successfully posted", Toast.LENGTH_LONG).show();
-                                        names.add(0, name);
-                                        comments.add(0, comment);
+                                        names.add(name);
+                                        comments.add(comment);
+                                        timestamps.add(System.currentTimeMillis() + "");
                                         commentAdapter.notifyDataSetChanged();
+                                        if (names.size() != 0) {
+                                            recyclerView.smoothScrollToPosition(names.size()-1);
+                                        }
                                         Log.d(Constants.TAG, response.toString());
                                     }
 

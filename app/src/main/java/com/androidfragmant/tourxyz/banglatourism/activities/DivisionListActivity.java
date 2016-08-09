@@ -54,12 +54,9 @@ public class DivisionListActivity extends RoboAppCompatActivity {
         });
         setTitle("Select Division");
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DivisionListActivity.this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
         DivisionListRecyclerAdapter adapter = new DivisionListRecyclerAdapter(DivisionListActivity.this, divisions, divisionsBangla);
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(DivisionListActivity.this));
     }
 }
 

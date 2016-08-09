@@ -31,6 +31,7 @@ import com.androidfragmant.tourxyz.banglatourism.adapter.SlideShowViewPagerAdapt
 import com.androidfragmant.tourxyz.banglatourism.model.HomeFragmentElement;
 import com.androidfragmant.tourxyz.banglatourism.model.HomeFragmentImage;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -101,17 +102,17 @@ public class HomeFragment extends RoboFragment {
 
     public HomeFragment() {
         elements = new ArrayList<>();
-        elements.add(new HomeFragmentElement("Explore amazing tourist spots of beautiful Bangladesh!","Explore Places"));
-        elements.add(new HomeFragmentElement("Explore offers from tour operators and hotels!","Tour offers"));
-        elements.add(new HomeFragmentElement("Want to share your and read other's tour experience? Explore Tour Blog!","Tour Blog"));
-        elements.add(new HomeFragmentElement("Want to know anything about a place? Ask in Forum!","Forum"));
-        elements.add(new HomeFragmentElement("Explore inter district fare!","Fare"));
+        elements.add(new HomeFragmentElement("Explore amazing tourist spots of beautiful Bangladesh!", "Explore Places"));
+        elements.add(new HomeFragmentElement("Explore offers from tour operators and hotels!", "Tour offers"));
+        elements.add(new HomeFragmentElement("Want to share your and read other's tour experience? Explore Tour Blog!", "Tour Blog"));
+        elements.add(new HomeFragmentElement("Want to know anything about a place? Ask in Forum!", "Forum"));
+        elements.add(new HomeFragmentElement("Explore inter district fare!", "Fare"));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home,container,false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
@@ -120,14 +121,14 @@ public class HomeFragment extends RoboFragment {
 
         placeImages = new ArrayList<>();
         offerImages = new ArrayList<>();
-        placeViewPagerAdapter = new SlideShowViewPagerAdapter(getContext(),placeImages);
-        offerViewPagerAdapter = new SlideShowViewPagerAdapter(getContext(),offerImages);
-        tf = Typeface.createFromAsset(getContext().getAssets(),Constants.SOLAIMAN_LIPI_FONT);
+        placeViewPagerAdapter = new SlideShowViewPagerAdapter(getContext(), placeImages);
+        offerViewPagerAdapter = new SlideShowViewPagerAdapter(getContext(), offerImages);
+        tf = Typeface.createFromAsset(getContext().getAssets(), Constants.SOLAIMAN_LIPI_FONT);
         String url = Constants.FRONT_PAGE_IMAGE_LIST_URL;
         Log.d(Constants.TAG, url);
 
         RequestParams requestParams = new RequestParams();
-        requestParams.add(Constants.KEY,Constants.KEY_VALUE);
+        requestParams.add(Constants.KEY, Constants.KEY_VALUE);
 
         if (!isNetworkAvailable()) {
             placeImageViewPager.setVisibility(View.GONE);
@@ -144,14 +145,13 @@ public class HomeFragment extends RoboFragment {
                         JSONArray jsonArray = response.getJSONArray("content");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            int id = jsonObject.getInt("id");
-                            String category = jsonObject.getString("category");
-                            String imagename = jsonObject.getString("imagename");
-                            String text = jsonObject.getString("text");
-                            HomeFragmentImage homeFragmentImage = new HomeFragmentImage(id, category, imagename, text);
-                            if (category.equals("browseplace")) {
+
+                            Gson gson = new Gson();
+                            HomeFragmentImage homeFragmentImage = gson.fromJson(String.valueOf(jsonObject), HomeFragmentImage.class);
+
+                            if (homeFragmentImage.getCategory().equals("browseplace")) {
                                 placeImages.add(homeFragmentImage);
-                            } else if (category.equals("touroffer")) {
+                            } else if (homeFragmentImage.getCategory().equals("touroffer")) {
                                 offerImages.add(homeFragmentImage);
                             }
                         }
@@ -180,7 +180,6 @@ public class HomeFragment extends RoboFragment {
         placeImageViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -190,14 +189,12 @@ public class HomeFragment extends RoboFragment {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
         offerImageViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -207,7 +204,6 @@ public class HomeFragment extends RoboFragment {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
@@ -227,14 +223,18 @@ public class HomeFragment extends RoboFragment {
                 if (!exists && !isNetworkAvailable()) {
                     Toast.makeText(getContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
                 } else if (!exists && isNetworkAvailable()) {
+                    RequestParams requestParams1 = new RequestParams();
+                    requestParams1.add(Constants.KEY, Constants.KEY_VALUE);
+
                     String url = Constants.FETCH_PLACES_URL;
                     Log.d(Constants.TAG, url);
+
                     final ProgressDialog progressDialog = new ProgressDialog(getContext());
                     progressDialog.setMessage("Please wait...this may take a while...");
                     progressDialog.setTitle("Loading data");
                     progressDialog.show();
 
-                    FetchFromWeb.get(url, null, new JsonHttpResponseHandler() {
+                    FetchFromWeb.get(url, requestParams1, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             progressDialog.dismiss();
@@ -286,7 +286,7 @@ public class HomeFragment extends RoboFragment {
         exploreFare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(),FareActivity.class);
+                Intent i = new Intent(getActivity(), FareActivity.class);
                 getActivity().startActivity(i);
             }
         });

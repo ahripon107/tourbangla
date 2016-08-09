@@ -64,7 +64,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
 
     String nameString, questionString;
 
-    ArrayList<String> names, comments;
+    ArrayList<String> names, comments, timestamps;
 
     CommentAdapter commentAdapter;
 
@@ -89,14 +89,16 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
 
         names = new ArrayList<>();
         comments = new ArrayList<>();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ForumPostDetailsActivity.this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        commentAdapter = new CommentAdapter(ForumPostDetailsActivity.this, names, comments);
+        timestamps = new ArrayList<>();
+
+        commentAdapter = new CommentAdapter(ForumPostDetailsActivity.this, names, comments,timestamps);
         recyclerView.setAdapter(commentAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(ForumPostDetailsActivity.this));
+
 
         Intent i = getIntent();
         ForumPost forumPost = (ForumPost) i.getSerializableExtra("forumpost");
+
         nameString = forumPost.getName();
         questionString = forumPost.getQuestion();
         final int id = forumPost.getId();
@@ -107,14 +109,18 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
         askedBy.setText("পোস্ট করেছেনঃ " + nameString);
         question.setText(questionString);
 
-        String url = Constants.FETCH_FORUM_POST_COMMENTS + id;
+        RequestParams requestParams = new RequestParams();
+        requestParams.add(Constants.KEY,Constants.KEY_VALUE);
+        requestParams.add("postid",id+"");
+
+        String url = Constants.FETCH_FORUM_POST_COMMENTS;
         Log.d(Constants.TAG, url);
 
         final ProgressDialog progressDialog1 = new ProgressDialog(ForumPostDetailsActivity.this);
         progressDialog1.setMessage("Please Wait...");
         progressDialog1.show();
 
-        FetchFromWeb.get(url, null, new JsonHttpResponseHandler() {
+        FetchFromWeb.get(url, requestParams, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 progressDialog1.dismiss();
@@ -124,14 +130,20 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String name = jsonObject.getString("name");
                         String comment = jsonObject.getString("comment");
+                        String timestamp = jsonObject.getString("timestamp");
                         names.add(name);
                         comments.add(comment);
+                        timestamps.add(timestamp);
 
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 commentAdapter.notifyDataSetChanged();
+                if (names.size() != 0) {
+                    recyclerView.smoothScrollToPosition(names.size()-1);
+                }
+
                 Log.d(Constants.TAG, response.toString());
             }
 
@@ -151,7 +163,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                 final EditText yourName = (EditText) promptsView.findViewById(R.id.etYourName);
                 AlertDialog.Builder builder = new AlertDialog.Builder(ForumPostDetailsActivity.this);
                 builder.setView(promptsView);
-                builder.setTitle("Comment");
+                builder.setTitle("মন্তব্য");
                 builder.setCancelable(false)
                         .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
                             @Override
@@ -171,6 +183,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                                 params.put("name", name);
                                 params.put("postid", id);
                                 params.put("comment", comment);
+                                params.put("timestamp",System.currentTimeMillis()+"");
                                 String url1 = Constants.INSERT_FORUM_POST_COMMENT_URL;
                                 final ProgressDialog progressDialog = new ProgressDialog(ForumPostDetailsActivity.this);
                                 progressDialog.setMessage("Posting comment..Please wait...");
@@ -180,9 +193,13 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                         progressDialog.dismiss();
                                         Toast.makeText(ForumPostDetailsActivity.this, "Comment successfully posted", Toast.LENGTH_LONG).show();
-                                        names.add(0, name);
-                                        comments.add(0, comment);
+                                        names.add(name);
+                                        comments.add(comment);
+                                        timestamps.add(System.currentTimeMillis()+"");
                                         commentAdapter.notifyDataSetChanged();
+                                        if (names.size() != 0) {
+                                            recyclerView.smoothScrollToPosition(names.size()-1);
+                                        }
                                         Log.d(Constants.TAG, response.toString());
                                     }
 

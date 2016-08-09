@@ -1,6 +1,5 @@
 package com.androidfragmant.tourxyz.banglatourism.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -92,7 +91,7 @@ public class VisitedPlacesFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                Intent i = new Intent(getActivity(),NewPlaceDetailsActivity.class);
+                Intent i = new Intent(getActivity(), NewPlaceDetailsActivity.class);
                 i.putExtra("id", allPlaces.get(position).getId());
                 startActivity(i);
             }

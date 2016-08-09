@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
@@ -18,6 +19,7 @@ import com.androidfragmant.tourxyz.banglatourism.adapter.TourOperatorOfferRecycl
 import com.androidfragmant.tourxyz.banglatourism.model.TourOperatorOffer;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.view.ProgressWheel;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,7 +58,6 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
 
         offers = new ArrayList<>();
         setSupportActionBar(toolbar);
-        setTitle("Tour Offers");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -82,10 +83,13 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);
 
+        RequestParams requestParams = new RequestParams();
+        requestParams.add(Constants.KEY,Constants.KEY_VALUE);
+
         String url = Constants.TOUR_OPERATOR_OFFER_URL;
         Log.d(Constants.TAG, url);
 
-        FetchFromWeb.get(url,null,new JsonHttpResponseHandler() {
+        FetchFromWeb.get(url,requestParams,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 if (progressWheel.isSpinning()) {
@@ -97,13 +101,8 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
                     for (int i=0;i<jsonArray.length();i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                        String title = jsonObject.getString("title");
-                        String summary = jsonObject.getString("summary");
-                        String details = jsonObject.getString("details");
-                        String imageName = jsonObject.getString("imageName");
-                        String link = jsonObject.getString("link");
-                        TourOperatorOffer operatorOffer = new TourOperatorOffer(title,summary
-                                ,details,imageName,link);
+                        Gson gson = new Gson();
+                        TourOperatorOffer operatorOffer = gson.fromJson(String.valueOf(jsonObject),TourOperatorOffer.class);
                         offers.add(operatorOffer);
                     }
                 } catch (JSONException e) {
