@@ -21,6 +21,7 @@ import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.adapter.CommentAdapter;
 import com.androidfragmant.tourxyz.banglatourism.model.ForumPost;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.androidfragmant.tourxyz.banglatourism.util.Validator;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.google.android.gms.ads.AdRequest;
@@ -158,69 +159,60 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
             @Override
             public void onClick(View v) {
                 LayoutInflater li = LayoutInflater.from(ForumPostDetailsActivity.this);
-                View promptsView = li.inflate(R.layout.addnewcomment, null);
+                View promptsView = li.inflate(R.layout.addnewcomment, null,false);
                 final EditText writeComment = (EditText) promptsView.findViewById(R.id.etYourComment);
                 final EditText yourName = (EditText) promptsView.findViewById(R.id.etYourName);
                 AlertDialog.Builder builder = new AlertDialog.Builder(ForumPostDetailsActivity.this);
                 builder.setView(promptsView);
-                builder.setTitle("মন্তব্য");
-                builder.setCancelable(false)
-                        .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                final String comment = writeComment.getText().toString().trim();
-                                final String name = yourName.getText().toString().trim();
-                                if (comment.length() == 0 || name.length() == 0) {
-                                    Toast.makeText(ForumPostDetailsActivity.this, "Please give input correctly", Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-                                writeComment.getText().clear();
-                                yourName.getText().clear();
+                builder.setTitle("মন্তব্য").setPositiveButton("SUBMIT", null).setNegativeButton("CANCEL", null);
 
-                                RequestParams params = new RequestParams();
-
-                                params.put(Constants.KEY, Constants.KEY_VALUE);
-                                params.put("name", name);
-                                params.put("postid", id);
-                                params.put("comment", comment);
-                                params.put("timestamp",System.currentTimeMillis()+"");
-                                String url1 = Constants.INSERT_FORUM_POST_COMMENT_URL;
-                                final ProgressDialog progressDialog = new ProgressDialog(ForumPostDetailsActivity.this);
-                                progressDialog.setMessage("Posting comment..Please wait...");
-                                progressDialog.show();
-                                FetchFromWeb.post(url1, params, new JsonHttpResponseHandler() {
-                                    @Override
-                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(ForumPostDetailsActivity.this, "Comment successfully posted", Toast.LENGTH_LONG).show();
-                                        names.add(name);
-                                        comments.add(comment);
-                                        timestamps.add(System.currentTimeMillis()+"");
-                                        commentAdapter.notifyDataSetChanged();
-                                        if (names.size() != 0) {
-                                            recyclerView.smoothScrollToPosition(names.size()-1);
-                                        }
-                                        Log.d(Constants.TAG, response.toString());
-                                    }
-
-                                    @Override
-                                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(ForumPostDetailsActivity.this, "Failed", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-
-
-                        })
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alertDialog = builder.create();
+                final AlertDialog alertDialog = builder.create();
                 alertDialog.show();
+
+                Button okButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                okButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (Validator.validateNotEmpty(yourName,"Required") && Validator.validateNotEmpty(writeComment,"Required")) {
+                            final String comment = writeComment.getText().toString().trim();
+                            final String name = yourName.getText().toString().trim();
+
+                            RequestParams params = new RequestParams();
+
+                            params.put(Constants.KEY, Constants.KEY_VALUE);
+                            params.put("name", name);
+                            params.put("postid", id);
+                            params.put("comment", comment);
+                            params.put("timestamp",System.currentTimeMillis()+"");
+                            String url1 = Constants.INSERT_FORUM_POST_COMMENT_URL;
+                            final ProgressDialog progressDialog = new ProgressDialog(ForumPostDetailsActivity.this);
+                            progressDialog.setMessage("Posting comment..Please wait...");
+                            progressDialog.show();
+                            FetchFromWeb.post(url1, params, new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(ForumPostDetailsActivity.this, "Comment successfully posted", Toast.LENGTH_LONG).show();
+                                    names.add(name);
+                                    comments.add(comment);
+                                    timestamps.add(System.currentTimeMillis()+"");
+                                    commentAdapter.notifyDataSetChanged();
+                                    if (names.size() != 0) {
+                                        recyclerView.smoothScrollToPosition(names.size()-1);
+                                    }
+                                    Log.d(Constants.TAG, response.toString());
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(ForumPostDetailsActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            alertDialog.dismiss();
+                        }
+                    }
+                });
             }
         });
 

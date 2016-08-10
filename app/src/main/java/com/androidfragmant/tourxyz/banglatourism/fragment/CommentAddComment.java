@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.androidfragmant.tourxyz.banglatourism.util.Validator;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
@@ -124,72 +125,62 @@ public class CommentAddComment extends Fragment {
                 final EditText yourName = (EditText) promptsView.findViewById(R.id.etYourName);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setView(promptsView);
-                builder.setTitle("মন্তব্য");
-                builder.setCancelable(false)
-                        .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                final String comment = writeComment.getText().toString().trim();
-                                final String name = yourName.getText().toString().trim();
-                                if (comment.length() == 0 || name.length() == 0) {
-                                    Toast.makeText(getActivity(), "Please give input correctly", Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-                                writeComment.getText().clear();
-                                yourName.getText().clear();
+                builder.setTitle("মন্তব্য").setPositiveButton("SUBMIT", null).setNegativeButton("CANCEL", null);
 
-                                RequestParams params = new RequestParams();
-                                if (getArguments().get("number") == 2) {
-                                    params.put(Constants.KEY, Constants.KEY_VALUE);
-                                    params.put("id", getArguments().getInt("id"));
-                                    params.put("name", name);
-                                    params.put("comment", comment);
-                                    params.put("timestamp", System.currentTimeMillis() + "");
-                                    url = Constants.INSERT_BLOG_POST_COMMENT_URL;
-                                } else {
-                                    params.put(Constants.KEY, Constants.KEY_VALUE);
-                                    params.put("id", getArguments().getInt("id"));
-                                    params.put("name", name);
-                                    params.put("comment", comment);
-                                    params.put("timestamp", System.currentTimeMillis() + "");
-                                    url = Constants.INSERT_PLACE_COMMENT_URL;
-                                }
-                                final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                                progressDialog.setMessage("Posting comment..Please wait...");
-                                progressDialog.show();
-                                FetchFromWeb.post(url, params, new JsonHttpResponseHandler() {
-                                    @Override
-                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(getContext(), "Comment successfully posted", Toast.LENGTH_LONG).show();
-                                        names.add(name);
-                                        comments.add(comment);
-                                        timestamps.add(System.currentTimeMillis() + "");
-                                        commentAdapter.notifyDataSetChanged();
-                                        if (names.size() != 0) {
-                                            recyclerView.smoothScrollToPosition(names.size()-1);
-                                        }
-                                        Log.d(Constants.TAG, response.toString());
-                                    }
-
-                                    @Override
-                                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(getContext(), "Failed", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-
-
-                        })
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alertDialog = builder.create();
+                final AlertDialog alertDialog = builder.create();
                 alertDialog.show();
+
+                Button okButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                okButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (Validator.validateNotEmpty(yourName,"Required") && Validator.validateNotEmpty(writeComment,"Required")) {
+                            final String comment = writeComment.getText().toString().trim();
+                            final String name = yourName.getText().toString().trim();
+                            RequestParams params = new RequestParams();
+                            if (getArguments().get("number") == 2) {
+                                params.put(Constants.KEY, Constants.KEY_VALUE);
+                                params.put("id", getArguments().getInt("id"));
+                                params.put("name", name);
+                                params.put("comment", comment);
+                                params.put("timestamp", System.currentTimeMillis() + "");
+                                url = Constants.INSERT_BLOG_POST_COMMENT_URL;
+                            } else {
+                                params.put(Constants.KEY, Constants.KEY_VALUE);
+                                params.put("id", getArguments().getInt("id"));
+                                params.put("name", name);
+                                params.put("comment", comment);
+                                params.put("timestamp", System.currentTimeMillis() + "");
+                                url = Constants.INSERT_PLACE_COMMENT_URL;
+                            }
+                            final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+                            progressDialog.setMessage("Posting comment..Please wait...");
+                            progressDialog.show();
+                            FetchFromWeb.post(url, params, new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "Comment successfully posted", Toast.LENGTH_LONG).show();
+                                    names.add(name);
+                                    comments.add(comment);
+                                    timestamps.add(System.currentTimeMillis() + "");
+                                    commentAdapter.notifyDataSetChanged();
+                                    if (names.size() != 0) {
+                                        recyclerView.smoothScrollToPosition(names.size()-1);
+                                    }
+                                    Log.d(Constants.TAG, response.toString());
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "Failed", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            alertDialog.dismiss();
+                        }
+                    }
+                });
             }
         });
         return v;

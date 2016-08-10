@@ -6,8 +6,8 @@ package com.androidfragmant.tourxyz.banglatourism.model;
 public class Fare {
 
     private int id;
-    private String from;
-    private String to;
+    private String fromPlace;
+    private String toPlace;
     private String fare;
     private String startTime;
     private String companyName;
@@ -15,10 +15,10 @@ public class Fare {
     private String leavePlace;
     private String vehicle;
 
-    public Fare(int id, String from, String to, String fare, String startTime, String companyName, String estimatedTime, String leavePlace, String vehicle) {
+    public Fare(int id, String fromPlace, String toPlace, String fare, String startTime, String companyName, String estimatedTime, String leavePlace, String vehicle) {
         this.id = id;
-        this.from = from;
-        this.to = to;
+        this.fromPlace = fromPlace;
+        this.toPlace = toPlace;
         this.fare = fare;
         this.startTime = startTime;
         this.companyName = companyName;
@@ -35,20 +35,20 @@ public class Fare {
         this.id = id;
     }
 
-    public String getFrom() {
-        return from;
+    public String getFromPlace() {
+        return fromPlace;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setFromPlace(String fromPlace) {
+        this.fromPlace = fromPlace;
     }
 
-    public String getTo() {
-        return to;
+    public String getToPlace() {
+        return toPlace;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setToPlace(String toPlace) {
+        this.toPlace = toPlace;
     }
 
     public String getFare() {
@@ -103,8 +103,8 @@ public class Fare {
     public String toString() {
         return "Fare{" +
                 "id=" + id +
-                ", from='" + from + '\'' +
-                ", to='" + to + '\'' +
+                ", fromPlace='" + fromPlace + '\'' +
+                ", toPlace='" + toPlace + '\'' +
                 ", fare='" + fare + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", companyName='" + companyName + '\'' +

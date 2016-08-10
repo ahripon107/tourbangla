@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.model.ForumPost;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.androidfragmant.tourxyz.banglatourism.util.Validator;
 import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -98,64 +100,52 @@ public class ForumPostListActivity extends RoboAppCompatActivity {
             @Override
             public void onClick(View v) {
                 LayoutInflater li = LayoutInflater.from(ForumPostListActivity.this);
-                View promptsView = li.inflate(R.layout.addnewforumpost, null);
+                View promptsView = li.inflate(R.layout.addnewforumpost, null,false);
                 final EditText writeComment = (EditText) promptsView.findViewById(R.id.etYourQuestion);
                 final EditText yourName = (EditText) promptsView.findViewById(R.id.etYourForumPostName);
                 AlertDialog.Builder builder = new AlertDialog.Builder(ForumPostListActivity.this);
                 builder.setView(promptsView);
-                builder.setTitle("নতুন ফোরাম পোস্ট");
-                builder.setCancelable(false)
-                        .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                final String comment = writeComment.getText().toString().trim();
-                                final String name = yourName.getText().toString().trim();
-                                if (comment.length() == 0 || name.length() == 0) {
-                                    Toast.makeText(ForumPostListActivity.this, "Please give input correctly", Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-                                writeComment.getText().clear();
-                                yourName.getText().clear();
 
-                                RequestParams params = new RequestParams();
-                                params.put("key", "bl905577");
-                                params.put("name", name);
-                                params.put("question", comment);
-                                params.put("timestamp",System.currentTimeMillis()+"");
-
-                                String url1 = Constants.INSERT_FORUM_POST_URL;
-                                Log.d(Constants.TAG, url1);
-
-                                final ProgressDialog progressDialog = new ProgressDialog(ForumPostListActivity.this);
-                                progressDialog.setMessage("Posting..Please wait...");
-                                progressDialog.show();
-                                FetchFromWeb.post(url1, params, new JsonHttpResponseHandler() {
-                                    @Override
-                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(ForumPostListActivity.this, "Successfully Posted", Toast.LENGTH_LONG).show();
-                                        fetchContents();
-                                        Log.d(Constants.TAG, response.toString());
-                                    }
-
-                                    @Override
-                                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(ForumPostListActivity.this, "Failed..Please try again..", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-
-
-                        })
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alertDialog = builder.create();
+                builder.setTitle("নতুন ফোরাম পোস্ট").setPositiveButton("SUBMIT", null).setNegativeButton("CANCEL", null);
+                final AlertDialog alertDialog = builder.create();
                 alertDialog.show();
+
+                Button okButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                okButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (Validator.validateNotEmpty(yourName,"Required") && Validator.validateNotEmpty(writeComment,"Required")) {
+                            RequestParams params = new RequestParams();
+                            params.put("key", "bl905577");
+                            params.put("name", yourName.getText().toString());
+                            params.put("question", writeComment.getText().toString());
+                            params.put("timestamp",System.currentTimeMillis()+"");
+
+                            String url1 = Constants.INSERT_FORUM_POST_URL;
+                            Log.d(Constants.TAG, url1);
+
+                            final ProgressDialog progressDialog = new ProgressDialog(ForumPostListActivity.this);
+                            progressDialog.setMessage("Posting..Please wait...");
+                            progressDialog.show();
+                            FetchFromWeb.post(url1, params, new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(ForumPostListActivity.this, "Successfully Posted", Toast.LENGTH_LONG).show();
+                                    fetchContents();
+                                    Log.d(Constants.TAG, response.toString());
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(ForumPostListActivity.this, "Failed..Please try again..", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            alertDialog.dismiss();
+                        }
+                    }
+                });
             }
         });
 

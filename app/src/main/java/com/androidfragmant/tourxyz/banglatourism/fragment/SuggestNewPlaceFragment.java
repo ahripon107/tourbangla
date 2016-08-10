@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.androidfragmant.tourxyz.banglatourism.util.Validator;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
@@ -60,53 +61,45 @@ public class SuggestNewPlaceFragment extends RoboFragment {
         suggestDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String pname = name.getText().toString().trim();
-                String paddress = address.getText().toString().trim();
-                String pdivision = division.getText().toString().trim();
-                String pdescription = description.getText().toString().trim();
-                String phowtogo = howtogo.getText().toString().trim();
-                String photels = hotels.getText().toString().trim();
+                if (Validator.validateNotEmpty(name,"Required") && Validator.validateNotEmpty(address,"Required")
+                        && Validator.validateNotEmpty(division,"Required") && Validator.validateNotEmpty(description,"Required")
+                        && Validator.validateNotEmpty(howtogo,"Required") && Validator.validateNotEmpty(hotels,"Required")) {
+                    RequestParams params = new RequestParams();
+                    params.put(Constants.KEY, Constants.KEY_VALUE);
+                    params.put("hotels", hotels.getText().toString());
+                    params.put("howtogo", howtogo.getText().toString());
+                    params.put("description", description.getText().toString());
+                    params.put("division", division.getText().toString());
+                    params.put("address", address.getText().toString());
+                    params.put("name", name.getText().toString());
 
-                if (pname.length() == 0 || paddress.length() == 0 || pdivision.length() == 0 || pdescription.length() == 0 || phowtogo.length() == 0 || photels.length() == 0) {
-                    Toast.makeText(getActivity(), "Please give input correctly", Toast.LENGTH_LONG).show();
-                    return;
+                    String url = Constants.SUGGEST_NEW_PLACE_URL;
+                    Log.d(Constants.TAG, url);
+
+                    final ProgressDialog progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Loading...");
+                    progressDialog.show();
+
+                    FetchFromWeb.post(url, params, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            progressDialog.dismiss();
+                            name.getText().clear();
+                            address.getText().clear();
+                            division.getText().clear();
+                            description.getText().clear();
+                            howtogo.getText().clear();
+                            hotels.getText().clear();
+                            Toast.makeText(getContext(), "Thank you for your suggestion.", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getContext(), "Failed..Please try again.." + statusCode, Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
-
-                RequestParams params = new RequestParams();
-                params.put(Constants.KEY, Constants.KEY_VALUE);
-                params.put("hotels", photels);
-                params.put("howtogo", phowtogo);
-                params.put("description", pdescription);
-                params.put("division", pdivision);
-                params.put("address", paddress);
-                params.put("name", pname);
-
-                String url = Constants.SUGGEST_NEW_PLACE_URL;
-                Log.d(Constants.TAG, url);
-
-                final ProgressDialog progressDialog = new ProgressDialog(getContext());
-                progressDialog.setMessage("Loading...");
-                progressDialog.show();
-
-                FetchFromWeb.post(url, params, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        progressDialog.dismiss();
-                        name.getText().clear();
-                        address.getText().clear();
-                        division.getText().clear();
-                        description.getText().clear();
-                        howtogo.getText().clear();
-                        hotels.getText().clear();
-                        Toast.makeText(getContext(), "Thank you for your suggestion.", Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getContext(), "Failed..Please try again.." + statusCode, Toast.LENGTH_LONG).show();
-                    }
-                });
             }
         });
     }

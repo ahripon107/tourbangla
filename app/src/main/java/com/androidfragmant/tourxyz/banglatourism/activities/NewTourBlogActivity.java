@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
+import com.androidfragmant.tourxyz.banglatourism.util.Validator;
 import com.loopj.android.http.Base64;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
@@ -103,68 +104,68 @@ public class NewTourBlogActivity extends RoboAppCompatActivity {
         done1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String blogTitle = title.getText().toString().trim();
-                final String blogDetails = details.getText().toString().trim();
-                final String blogTags = tags.getText().toString().trim();
-                final String blogWriterName = writername.getText().toString().trim();
+                if (Validator.validateNotEmpty(writername,"Required") && Validator.validateNotEmpty(title,"Required")
+                        && Validator.validateNotEmpty(details,"Required") && Validator.validateNotEmpty(tags,"Required")) {
 
-                if (blogTitle.length() == 0 || blogDetails.length() == 0 || blogTags.length() == 0 || blogWriterName.length() == 0) {
-                    Toast.makeText(NewTourBlogActivity.this, "Please give input correctly", Toast.LENGTH_LONG).show();
-                    return;
-                }
+                    final String blogTitle = title.getText().toString().trim();
+                    final String blogDetails = details.getText().toString().trim();
+                    final String blogTags = tags.getText().toString().trim();
+                    final String blogWriterName = writername.getText().toString().trim();
 
-                byte[] bytes;
+                    byte[] bytes;
 
-                if (bitmap != null) {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                    bytes = stream.toByteArray();
-                } else {
-                    Drawable drawable = getResources().getDrawable(R.drawable.noimage);
-                    Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                    bytes = stream.toByteArray();
-                }
-                final String encodedImage = Base64.encodeToString(bytes, Base64.DEFAULT);
-                Log.d(Constants.TAG, encodedImage.getBytes().length+"");
-                Log.d(Constants.TAG, bytes.length+"");
-
-                RequestParams params = new RequestParams();
-
-                params.put(Constants.KEY,Constants.KEY_VALUE);
-                params.put("image", encodedImage);
-                params.put("title",blogTitle);
-                params.put("details",blogDetails);
-                params.put("tags",blogTags);
-                params.put("name",blogWriterName);
-                params.put("timestamp",System.currentTimeMillis()+"");
-
-                String url = Constants.INSERT_BLOG_POST_URL;
-                Log.d(Constants.TAG, url);
-                final ProgressDialog progressDialog = new ProgressDialog(NewTourBlogActivity.this);
-                progressDialog.setMessage("Please wait...");
-                progressDialog.show();
-
-                FetchFromWeb.post(url, params, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        progressDialog.dismiss();
-                        title.getText().clear();
-                        details.getText().clear();
-                        tags.getText().clear();
-                        writername.getText().clear();
-                        selectedPicture.setText("No Picture Selected");
-                        Toast.makeText(NewTourBlogActivity.this,"Your Post Added Successfully.",Toast.LENGTH_SHORT).show();
-                        EventBus.getDefault().post(new BlogPost(blogWriterName,blogTitle,blogDetails,blogTags,encodedImage,System.currentTimeMillis()+""));
+                    if (bitmap != null) {
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                        bytes = stream.toByteArray();
+                    } else {
+                        Drawable drawable = getResources().getDrawable(R.drawable.noimage);
+                        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                        bytes = stream.toByteArray();
                     }
+                    final String encodedImage = Base64.encodeToString(bytes, Base64.DEFAULT);
+                    Log.d(Constants.TAG, encodedImage.getBytes().length+"");
+                    Log.d(Constants.TAG, bytes.length+"");
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        progressDialog.dismiss();
-                        Toast.makeText(NewTourBlogActivity.this,statusCode+"Failed..Please try again..",Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    RequestParams params = new RequestParams();
+
+                    params.put(Constants.KEY,Constants.KEY_VALUE);
+                    params.put("image", encodedImage);
+                    params.put("title",blogTitle);
+                    params.put("details",blogDetails);
+                    params.put("tags",blogTags);
+                    params.put("name",blogWriterName);
+                    params.put("timestamp",System.currentTimeMillis()+"");
+
+                    String url = Constants.INSERT_BLOG_POST_URL;
+                    Log.d(Constants.TAG, url);
+                    final ProgressDialog progressDialog = new ProgressDialog(NewTourBlogActivity.this);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+
+                    FetchFromWeb.post(url, params, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            progressDialog.dismiss();
+                            title.getText().clear();
+                            details.getText().clear();
+                            tags.getText().clear();
+                            writername.getText().clear();
+                            selectedPicture.setText("No Picture Selected");
+                            Toast.makeText(NewTourBlogActivity.this,"Your Post Added Successfully.",Toast.LENGTH_SHORT).show();
+                            EventBus.getDefault().post(new BlogPost(blogWriterName,blogTitle,blogDetails,blogTags,encodedImage,System.currentTimeMillis()+""));
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            progressDialog.dismiss();
+                            Toast.makeText(NewTourBlogActivity.this,statusCode+"Failed..Please try again..",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
     }

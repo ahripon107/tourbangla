@@ -84,7 +84,7 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
         sharedPreferencesid = getSharedPreferences(Constants.COST_ITEM_ID_PREFERENCE_FILE, Context.MODE_PRIVATE);
 
         if (!sharedPreferencesid.contains("id")) {
-            sharedPreferences.edit().putInt("id", 1).apply();
+            sharedPreferencesid.edit().putInt("id", 1).apply();
         }
 
         Map<String, ?> elements = sharedPreferences.getAll();

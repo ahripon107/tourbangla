@@ -147,6 +147,7 @@ public class FareActivity extends RoboAppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
                 fareListAdapter.notifyDataSetChanged();
                 Log.d(Constants.TAG, response.toString());
             }
@@ -167,7 +168,8 @@ public class FareActivity extends RoboAppCompatActivity {
                 String vehicle = vehicleSpinner.getSelectedItem().toString();
 
                 for (Fare fa : allFares) {
-                    if (fa.getFrom().equals(from) && fa.getTo().equals(to) && fa.getVehicle().equals(vehicle)) {
+                    Log.d(Constants.TAG, fa.toString());
+                    if (fa.getFromPlace().equals(from) && fa.getToPlace().equals(to) && fa.getVehicle().equals(vehicle)) {
                         selectedFares.add(fa);
                     }
                 }
