@@ -36,8 +36,8 @@ public class ParseApplication extends Application {
         Batch.Push.setGCMSenderId("78317493023");
 
         // TODO : switch to live Batch Api Key before shipping
-        //Batch.setConfig(new Config("DEV57888C87CB43EF32913115ACD3C")); // devloppement
-        Batch.setConfig(new Config("57888C87C9514AA9FFB7706926386C")); // live
+        Batch.setConfig(new Config("DEV57888C87CB43EF32913115ACD3C")); // devloppement
+        //Batch.setConfig(new Config("57888C87C9514AA9FFB7706926386C")); // live
 
     }
 

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,16 +12,18 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
-import com.androidfragmant.tourxyz.banglatourism.adapter.TourCostItemAdapter;
 import com.androidfragmant.tourxyz.banglatourism.model.CostItem;
+import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.Validator;
+import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,13 +53,13 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
     Toolbar toolbar;
 
     ArrayList<CostItem> costItems;
-    TourCostItemAdapter tourCostItemAdapter;
 
     SharedPreferences sharedPreferences;
     SharedPreferences sharedPreferencesid;
 
     int id, placeid;
     Gson gson;
+    Typeface tf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +76,12 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
             }
         });
         setTitle("Cost Details");
+        tf = Typeface.createFromAsset(getAssets(), Constants.SOLAIMAN_LIPI_FONT);
 
         gson = new Gson();
         placeid = getIntent().getIntExtra(EXTRA_PLACE_ID, 0);
 
         costItems = new ArrayList<>();
-        tourCostItemAdapter = new TourCostItemAdapter(TourCostItemActivity.this, costItems);
 
         sharedPreferences = getSharedPreferences(Constants.COST_ITEM_PREFERENCE_FILE, Context.MODE_PRIVATE);
         sharedPreferencesid = getSharedPreferences(Constants.COST_ITEM_ID_PREFERENCE_FILE, Context.MODE_PRIVATE);
@@ -99,9 +102,24 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
 
         Collections.sort(costItems);
 
-        recyclerView.setAdapter(tourCostItemAdapter);
+        recyclerView.setAdapter(new AbstractListAdapter<CostItem,CostItemViewHolder>(TourCostItemActivity.this,costItems) {
+            @Override
+            public CostItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sigle_tour_cost_item,parent,false);
+                return new CostItemViewHolder(view);
+            }
+
+            @Override
+            public void onBindViewHolder(CostItemViewHolder holder, int position) {
+                holder.costAmount.setTypeface(tf);
+                holder.costPurpose.setTypeface(tf);
+                holder.costAmount.setText("খরচের পরিমাণ : "+costItems.get(position).getCostAmount()+" টাকা");
+                holder.costPurpose.setText("খরচের খাত : "+costItems.get(position).getCostPurpose());
+            }
+
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        tourCostItemAdapter.notifyDataSetChanged();
+        recyclerView.getAdapter().notifyDataSetChanged();
 
         addNewCostItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +148,7 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
                             costItems.add(costItem);
 
                             Collections.sort(costItems);
-                            tourCostItemAdapter.notifyDataSetChanged();
+                            recyclerView.getAdapter().notifyDataSetChanged();
 
                             String json = gson.toJson(costItem);
                             sharedPreferences.edit().putString(id + "", json).apply();
@@ -142,5 +160,16 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
                 });
             }
         });
+    }
+
+    static class CostItemViewHolder extends RecyclerView.ViewHolder {
+        protected TextView costAmount;
+        protected TextView costPurpose;
+
+        public CostItemViewHolder(View itemView) {
+            super(itemView);
+            costAmount = ViewHolder.get(itemView,R.id.tv_cost_amount);
+            costPurpose = ViewHolder.get(itemView,R.id.tv_cost_purpose);
+        }
     }
 }

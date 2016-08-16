@@ -7,7 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -17,10 +19,12 @@ import android.widget.Toast;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
-import com.androidfragmant.tourxyz.banglatourism.adapter.FareListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.model.Fare;
+import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.google.gson.Gson;
+import com.google.inject.Inject;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -72,9 +76,15 @@ public class FareActivity extends RoboAppCompatActivity {
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
 
+    @Inject
     ArrayList<String> elements;
-    ArrayList<Fare> allFares, selectedFares;
-    FareListAdapter fareListAdapter;
+
+    @Inject
+    ArrayList<Fare> allFares;
+
+    @Inject
+    ArrayList<Fare> selectedFares;
+    Typeface tf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +109,7 @@ public class FareActivity extends RoboAppCompatActivity {
         fromSpinner.setAdapter(dataAdapter);
         toSpinner.setAdapter(dataAdapter);
 
-        Typeface tf = Typeface.createFromAsset(FareActivity.this.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
+        tf = Typeface.createFromAsset(FareActivity.this.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
         resultsFound.setTypeface(tf);
         startPlace.setTypeface(tf);
         EndPlace.setTypeface(tf);
@@ -116,10 +126,30 @@ public class FareActivity extends RoboAppCompatActivity {
 
         vehicleSpinner.setAdapter(vehicleAdapter);
 
-        allFares = new ArrayList<>();
-        selectedFares = new ArrayList<>();
-        fareListAdapter = new FareListAdapter(FareActivity.this, selectedFares);
-        fareList.setAdapter(fareListAdapter);
+        fareList.setAdapter(new AbstractListAdapter<Fare,FareViewHolder>(this,selectedFares) {
+            @Override
+            public FareViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fare_list_item, parent, false);
+                return new FareViewHolder(view);
+            }
+
+            @Override
+            public void onBindViewHolder(FareViewHolder holder, int position) {
+                Fare fare = selectedFares.get(position);
+
+                holder.companyName.setTypeface(tf);
+                holder.fare.setTypeface(tf);
+                holder.timeToLeave.setTypeface(tf);
+                holder.estimatedTime.setTypeface(tf);
+                holder.leavingPlace.setTypeface(tf);
+
+                holder.companyName.setText(fare.getCompanyName());
+                holder.fare.setText(fare.getFare());
+                holder.timeToLeave.setText(fare.getStartTime());
+                holder.estimatedTime.setText(fare.getEstimatedTime());
+                holder.leavingPlace.setText(fare.getLeavePlace());
+            }
+        });
         fareList.setLayoutManager(new LinearLayoutManager(FareActivity.this));
 
         String url = Constants.FETCH_FARES_URL;
@@ -148,7 +178,6 @@ public class FareActivity extends RoboAppCompatActivity {
                     e.printStackTrace();
                 }
 
-                fareListAdapter.notifyDataSetChanged();
                 Log.d(Constants.TAG, response.toString());
             }
 
@@ -173,7 +202,7 @@ public class FareActivity extends RoboAppCompatActivity {
                         selectedFares.add(fa);
                     }
                 }
-                fareListAdapter.notifyDataSetChanged();
+                fareList.getAdapter().notifyDataSetChanged();
                 resultsFound.setText(selectedFares.size() + " টি ফলাফল পাওয়া গেছে");
             }
         });
@@ -199,5 +228,22 @@ public class FareActivity extends RoboAppCompatActivity {
         districtsBangla = getResources().getStringArray(R.array.barisal_districts_bangla);
         e.addAll(Arrays.asList(districtsBangla));
         return e;
+    }
+
+    static class FareViewHolder extends RecyclerView.ViewHolder {
+        protected TextView companyName;
+        protected TextView fare;
+        protected TextView timeToLeave;
+        protected TextView estimatedTime;
+        protected TextView leavingPlace;
+
+        public FareViewHolder(View itemView) {
+            super(itemView);
+            companyName = ViewHolder.get(itemView, R.id.tvCompanyName);
+            fare = ViewHolder.get(itemView, R.id.tvFare);
+            timeToLeave = ViewHolder.get(itemView, R.id.tvTimeToLeave);
+            estimatedTime = ViewHolder.get(itemView, R.id.tvEstimatedTime);
+            leavingPlace = ViewHolder.get(itemView, R.id.tvLeavingPlace);
+        }
     }
 }

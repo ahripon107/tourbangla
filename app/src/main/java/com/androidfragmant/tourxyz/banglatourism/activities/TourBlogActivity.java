@@ -1,16 +1,24 @@
 package com.androidfragmant.tourxyz.banglatourism.activities;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
+import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -21,11 +29,11 @@ import com.google.android.gms.ads.AdView;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
-import com.androidfragmant.tourxyz.banglatourism.adapter.TourBlogRecyclerAdapter;
 import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.view.ProgressWheel;
 import com.loopj.android.http.RequestParams;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -59,8 +67,8 @@ public class TourBlogActivity extends RoboAppCompatActivity {
     @InjectView(R.id.adViewTourBlog)
     AdView adView;
 
-    TourBlogRecyclerAdapter tourBlogRecyclerAdapter;
     ArrayList<BlogPost> blogPosts;
+    Typeface tf;
 
 
     @Override
@@ -68,6 +76,7 @@ public class TourBlogActivity extends RoboAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         blogPosts = new ArrayList<>();
+        tf = Typeface.createFromAsset(getAssets(), Constants.SOLAIMAN_LIPI_FONT);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,10 +89,37 @@ public class TourBlogActivity extends RoboAppCompatActivity {
             }
         });
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(TourBlogActivity.this));
-        tourBlogRecyclerAdapter = new TourBlogRecyclerAdapter(TourBlogActivity.this, blogPosts);
-        recyclerView.setAdapter(tourBlogRecyclerAdapter);
+        recyclerView.setAdapter(new AbstractListAdapter<BlogPost,TourBlogViewHolder>(TourBlogActivity.this,blogPosts) {
+            @Override
+            public TourBlogViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_tour_blog_item,parent,false);
+                return new TourBlogViewHolder(view);
+            }
 
+            @Override
+            public void onBindViewHolder(TourBlogViewHolder holder, int position) {
+                final BlogPost blogPost = blogPosts.get(position);
+                holder.name.setTypeface(tf);
+                holder.title.setTypeface(tf);
+                holder.tags.setTypeface(tf);
+                holder.name.setText("লিখেছেন: "+blogPost.getName());
+                holder.title.setText(blogPost.getTitle());
+                holder.tags.setText("Tags: "+blogPost.getTags());
+                holder.timestamp.setText(Constants.getTimeAgo(Long.parseLong(blogPost.getTimestamp())));
+
+                Picasso.with(TourBlogActivity.this).load(blogPost.getImage()).into(holder.imageView);
+
+                holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(TourBlogActivity.this, TourBlogDetailsActivity.class);
+                        i.putExtra("post",blogPost);
+                        startActivity(i);
+                    }
+                });
+            }
+        });
+        recyclerView.setLayoutManager(new LinearLayoutManager(TourBlogActivity.this));
 
         fabNewBlog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +176,7 @@ public class TourBlogActivity extends RoboAppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                tourBlogRecyclerAdapter.notifyDataSetChanged();
+                recyclerView.getAdapter().notifyDataSetChanged();
                 Log.d(Constants.TAG, response.toString());
             }
 
@@ -153,5 +189,22 @@ public class TourBlogActivity extends RoboAppCompatActivity {
                 Toast.makeText(TourBlogActivity.this, statusCode+" Failed loading posts", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    static class TourBlogViewHolder extends RecyclerView.ViewHolder {
+        protected ImageView imageView;
+        protected TextView title,name,tags;
+        protected TextView timestamp;
+        protected LinearLayout linearLayout;
+
+        public TourBlogViewHolder(View itemView) {
+            super(itemView);
+            imageView = ViewHolder.get(itemView, R.id.imgBlogPost);
+            title = ViewHolder.get(itemView,R.id.txtPostTitle);
+            name = ViewHolder.get(itemView,R.id.txtPostWriter);
+            tags = ViewHolder.get(itemView,R.id.txtPostTags);
+            timestamp = ViewHolder.get(itemView,R.id.tv_blog_time_stamp);
+            linearLayout = ViewHolder.get(itemView,R.id.blogPostContainer);
+        }
     }
 }

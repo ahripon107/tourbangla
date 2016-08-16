@@ -3,7 +3,9 @@ package com.androidfragmant.tourxyz.banglatourism.fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,14 +16,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
-import com.androidfragmant.tourxyz.banglatourism.adapter.TourCostPlaceAdapter;
+import com.androidfragmant.tourxyz.banglatourism.activities.TourCostItemActivity;
 import com.androidfragmant.tourxyz.banglatourism.model.CostItem;
 import com.androidfragmant.tourxyz.banglatourism.model.CostPlace;
+import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.Validator;
+import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,9 +55,9 @@ public class TourCostCalculatorFragment extends RoboFragment {
     SharedPreferences sharedPreferences, idpreference;
     ArrayList<CostPlace> costPlaces;
     int id;
-    TourCostPlaceAdapter tourCostPlaceAdapter;
 
     Gson gson;
+    Typeface tf;
 
 
     @Nullable
@@ -66,6 +72,7 @@ public class TourCostCalculatorFragment extends RoboFragment {
         super.onViewCreated(view, savedInstanceState);
         costPlaces = new ArrayList<>();
         gson = new Gson();
+        tf = Typeface.createFromAsset(getActivity().getAssets(), Constants.SOLAIMAN_LIPI_FONT);
 
         sharedPreferences = getActivity().getSharedPreferences(Constants.TOUR_COST_PLACE_PREFERENCE_FILE, Context.MODE_PRIVATE);
         idpreference = getActivity().getSharedPreferences(Constants.COST_PLACE_ID_PREFERENCE_FILE,Context.MODE_PRIVATE);
@@ -73,7 +80,6 @@ public class TourCostCalculatorFragment extends RoboFragment {
         if (!idpreference.contains("id")) {
             idpreference.edit().putInt("id", 1).apply();
         }
-        tourCostPlaceAdapter = new TourCostPlaceAdapter(getContext(), costPlaces);
 
         Map<String, ?> elements = sharedPreferences.getAll();
 
@@ -85,9 +91,31 @@ public class TourCostCalculatorFragment extends RoboFragment {
 
 
         Collections.sort(costPlaces);
-        recyclerView.setAdapter(tourCostPlaceAdapter);
+        recyclerView.setAdapter(new AbstractListAdapter<CostPlace,CostPlaceViewHolder>(getContext(), costPlaces) {
+            @Override
+            public CostPlaceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_tour_cost_place,parent,false);
+                return new CostPlaceViewHolder(view);
+            }
+
+            @Override
+            public void onBindViewHolder(CostPlaceViewHolder holder, final int position) {
+                holder.costPlace.setTypeface(tf);
+                holder.totallCost.setTypeface(tf);
+                holder.costPlace.setText("ট্যুর : "+costPlaces.get(position).getCostPlace());
+                holder.totallCost.setText("সর্বমোট খরচ "+costPlaces.get(position).getCost()+" টাকা");
+                holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), TourCostItemActivity.class);
+                        intent.putExtra("placeid",costPlaces.get(position).getId());
+                        getContext().startActivity(intent);
+                    }
+                });
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        tourCostPlaceAdapter.notifyDataSetChanged();
+        recyclerView.getAdapter().notifyDataSetChanged();
 
         addNewPlace.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +143,7 @@ public class TourCostCalculatorFragment extends RoboFragment {
                             String json = gson.toJson(costPlace);
                             sharedPreferences.edit().putString(costPlace.getId()+"", json).apply();
                             idpreference.edit().putInt("id", id + 1).apply();
-                            tourCostPlaceAdapter.notifyDataSetChanged();
+                            recyclerView.getAdapter().notifyDataSetChanged();
                             alertDialog.dismiss();
                         }
                     }
@@ -142,7 +170,7 @@ public class TourCostCalculatorFragment extends RoboFragment {
         }
         Collections.sort(costPlaces);
 
-        tourCostPlaceAdapter.notifyDataSetChanged();
+        recyclerView.getAdapter().notifyDataSetChanged();
 
     }
 
@@ -150,5 +178,17 @@ public class TourCostCalculatorFragment extends RoboFragment {
     public void onDestroyView() {
         EventBus.getDefault().unregister(this);
         super.onDestroyView();
+    }
+
+    static class CostPlaceViewHolder extends RecyclerView.ViewHolder {
+        protected TextView costPlace;
+        protected TextView totallCost;
+        protected LinearLayout linearLayout;
+        public CostPlaceViewHolder(View itemView) {
+            super(itemView);
+            costPlace = ViewHolder.get(itemView,R.id.tv_tour_place);
+            totallCost = ViewHolder.get(itemView,R.id.tv_total_cost);
+            linearLayout = ViewHolder.get(itemView,R.id.cost_place_layout);
+        }
     }
 }

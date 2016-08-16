@@ -1,13 +1,22 @@
 package com.androidfragmant.tourxyz.banglatourism.activities;
 
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
+import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
@@ -15,11 +24,11 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
-import com.androidfragmant.tourxyz.banglatourism.adapter.TourOperatorOfferRecyclerAdapter;
 import com.androidfragmant.tourxyz.banglatourism.model.TourOperatorOffer;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.view.ProgressWheel;
 import com.loopj.android.http.RequestParams;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +59,7 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
     ProgressWheel progressWheel;
 
     ArrayList<TourOperatorOffer> offers;
-    TourOperatorOfferRecyclerAdapter adapter;
+    Typeface tf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,19 +75,41 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
                 finish();
             }
         });
+        tf = Typeface.createFromAsset(getAssets(), Constants.SOLAIMAN_LIPI_FONT);
 
-        adapter = new TourOperatorOfferRecyclerAdapter(TourOperatorOffersListActivity.this,offers);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(TourOperatorOffersListActivity.this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(new AbstractListAdapter<TourOperatorOffer,TourOperatorOfferViewHolder>(TourOperatorOffersListActivity.this,offers) {
+            @Override
+            public TourOperatorOfferViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.singletouroperatoroffer,parent,false);
+                return new TourOperatorOfferViewHolder(view);
+            }
 
-        recyclerView.setAdapter(adapter);
+            @Override
+            public void onBindViewHolder(TourOperatorOfferViewHolder holder, int position) {
+                final TourOperatorOffer offer = offers.get(position);
+                holder.offerTitle.setText(offer.getTitle());
+                holder.offerTitle.setTypeface(tf);
+                holder.offerSummary.setText(offer.getSummary());
+                Picasso.with(TourOperatorOffersListActivity.this).load(offers.get(position).getImageName()).into(holder.offerImage);
+                holder.button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(TourOperatorOffersListActivity.this, TourOfferDetailsActivity.class);
+                        intent.putExtra("details",offer.getDetails());
+                        intent.putExtra("link",offer.getLink());
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         progressWheel.setVisibility(View.VISIBLE);
         progressWheel.spin();
 
         offers.clear();
-        adapter.notifyDataSetChanged();
+        recyclerView.getAdapter().notifyDataSetChanged();
 
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);
@@ -108,7 +139,7 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                adapter.notifyDataSetChanged();
+                recyclerView.getAdapter().notifyDataSetChanged();
                 Log.d(Constants.TAG, response.toString());
             }
 
@@ -121,5 +152,20 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
                 Toast.makeText(TourOperatorOffersListActivity.this, statusCode+"Failed loading...Please try again...", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    static class TourOperatorOfferViewHolder extends RecyclerView.ViewHolder {
+        protected TextView offerTitle;
+        protected TextView offerSummary;
+        protected Button button;
+        protected ImageView offerImage;
+
+        public TourOperatorOfferViewHolder(View itemView) {
+            super(itemView);
+            offerTitle = ViewHolder.get(itemView, R.id.tourOfferTitle);
+            offerSummary = ViewHolder.get(itemView,R.id.tourOfferSummary);
+            button = ViewHolder.get(itemView,R.id.tourOfferDetails);
+            offerImage = ViewHolder.get(itemView,R.id.tourOfferImage);
+        }
     }
 }

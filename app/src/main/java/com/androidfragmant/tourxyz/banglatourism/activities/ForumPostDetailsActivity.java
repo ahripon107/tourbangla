@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.adapter.CommentAdapter;
+import com.androidfragmant.tourxyz.banglatourism.model.Comment;
 import com.androidfragmant.tourxyz.banglatourism.model.ForumPost;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.Validator;
@@ -65,7 +66,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
 
     String nameString, questionString;
 
-    ArrayList<String> names, comments, timestamps;
+    ArrayList<Comment> comments;
 
     CommentAdapter commentAdapter;
 
@@ -86,13 +87,10 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
             }
         });
 
+        comments = new ArrayList<>();
         tf = Typeface.createFromAsset(getAssets(), Constants.SOLAIMAN_LIPI_FONT);
 
-        names = new ArrayList<>();
-        comments = new ArrayList<>();
-        timestamps = new ArrayList<>();
-
-        commentAdapter = new CommentAdapter(ForumPostDetailsActivity.this, names, comments,timestamps);
+        commentAdapter = new CommentAdapter(ForumPostDetailsActivity.this, comments);
         recyclerView.setAdapter(commentAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(ForumPostDetailsActivity.this));
 
@@ -129,20 +127,16 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                     JSONArray jsonArray = response.getJSONArray("content");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        String name = jsonObject.getString("name");
-                        String comment = jsonObject.getString("comment");
-                        String timestamp = jsonObject.getString("timestamp");
-                        names.add(name);
-                        comments.add(comment);
-                        timestamps.add(timestamp);
+                        comments.add(new Comment(jsonObject.getString("name"),jsonObject.getString("comment"),jsonObject.getString("timestamp")));
+
 
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 commentAdapter.notifyDataSetChanged();
-                if (names.size() != 0) {
-                    recyclerView.smoothScrollToPosition(names.size()-1);
+                if (comments.size() != 0) {
+                    recyclerView.smoothScrollToPosition(comments.size()-1);
                 }
 
                 Log.d(Constants.TAG, response.toString());
@@ -193,12 +187,10 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                     progressDialog.dismiss();
                                     Toast.makeText(ForumPostDetailsActivity.this, "Comment successfully posted", Toast.LENGTH_LONG).show();
-                                    names.add(name);
-                                    comments.add(comment);
-                                    timestamps.add(System.currentTimeMillis()+"");
+                                    comments.add(new Comment(name,comment,System.currentTimeMillis()+""));
                                     commentAdapter.notifyDataSetChanged();
-                                    if (names.size() != 0) {
-                                        recyclerView.smoothScrollToPosition(names.size()-1);
+                                    if (comments.size() != 0) {
+                                        recyclerView.smoothScrollToPosition(comments.size()-1);
                                     }
                                     Log.d(Constants.TAG, response.toString());
                                 }

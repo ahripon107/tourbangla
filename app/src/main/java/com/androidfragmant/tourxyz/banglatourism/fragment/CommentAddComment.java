@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.androidfragmant.tourxyz.banglatourism.model.Comment;
 import com.androidfragmant.tourxyz.banglatourism.util.Validator;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
@@ -37,9 +38,7 @@ import cz.msebera.android.httpclient.Header;
  * Created by Ripon on 8/27/15.
  */
 public class CommentAddComment extends Fragment {
-    ArrayList<String> names;
-    ArrayList<String> comments;
-    ArrayList<String> timestamps;
+    ArrayList<Comment> comments;
     CommentAdapter commentAdapter;
     String url;
     RecyclerView recyclerView;
@@ -60,18 +59,15 @@ public class CommentAddComment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        inflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.commentandaddcomment, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.rvComments);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
 
-        names = new ArrayList<>();
-        comments = new ArrayList<>();
-        timestamps = new ArrayList<>();
 
-        commentAdapter = new CommentAdapter(getContext(), names, comments, timestamps);
+        comments = new ArrayList<>();
+        commentAdapter = new CommentAdapter(getContext(), comments);
         recyclerView.setAdapter(commentAdapter);
 
         RequestParams requestParams = new RequestParams();
@@ -93,16 +89,14 @@ public class CommentAddComment extends Fragment {
                     JSONArray jsonArray = response.getJSONArray("content");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        names.add(jsonObject.getString("name"));
-                        comments.add(jsonObject.getString("comment"));
-                        timestamps.add(jsonObject.getString("timestamp"));
+                        comments.add(new Comment(jsonObject.getString("name"),jsonObject.getString("comment"),jsonObject.getString("timestamp")));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 commentAdapter.notifyDataSetChanged();
-                if (names.size() != 0) {
-                    recyclerView.smoothScrollToPosition(names.size()-1);
+                if (comments.size() != 0) {
+                    recyclerView.smoothScrollToPosition(comments.size()-1);
                 }
                 Log.d(Constants.TAG, response.toString());
             }
@@ -161,12 +155,10 @@ public class CommentAddComment extends Fragment {
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                     progressDialog.dismiss();
                                     Toast.makeText(getContext(), "Comment successfully posted", Toast.LENGTH_LONG).show();
-                                    names.add(name);
-                                    comments.add(comment);
-                                    timestamps.add(System.currentTimeMillis() + "");
+                                    comments.add(new Comment(name,comment,System.currentTimeMillis() + ""));
                                     commentAdapter.notifyDataSetChanged();
-                                    if (names.size() != 0) {
-                                        recyclerView.smoothScrollToPosition(names.size()-1);
+                                    if (comments.size() != 0) {
+                                        recyclerView.smoothScrollToPosition(comments.size()-1);
                                     }
                                     Log.d(Constants.TAG, response.toString());
                                 }

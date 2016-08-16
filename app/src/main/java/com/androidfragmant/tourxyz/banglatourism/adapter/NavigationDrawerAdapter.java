@@ -19,25 +19,19 @@ import java.util.List;
  */
 public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.NavigationDrawerViewHolder>{
     List<NavDrawerItem> data = Collections.emptyList();
-    private LayoutInflater inflater;
     private Context context;
     private Typeface tf;
 
     public NavigationDrawerAdapter(Context context, List<NavDrawerItem> data) {
         this.context = context;
-        inflater = LayoutInflater.from(context);
         this.data = data;
         tf = Typeface.createFromAsset(context.getAssets(),"font/timeroman.ttf");
     }
 
-    public void delete(int position) {
-        data.remove(position);
-        notifyItemRemoved(position);
-    }
 
     @Override
     public NavigationDrawerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.nav_drawer_row, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.nav_drawer_row, parent, false);
         view.getBackground().setAlpha(128);
         return new NavigationDrawerViewHolder(view);
     }
@@ -54,7 +48,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
         return data.size();
     }
 
-    class NavigationDrawerViewHolder extends RecyclerView.ViewHolder {
+    static class NavigationDrawerViewHolder extends RecyclerView.ViewHolder {
         TextView title;
 
         public NavigationDrawerViewHolder(View itemView) {
