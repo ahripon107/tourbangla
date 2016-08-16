@@ -15,8 +15,8 @@
             android:id="@+id/imgBlogPost"
             android:layout_width="0dp"
             android:layout_height="100dp"
-
             android:layout_weight="1"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/ic_profile" />
 
 
