@@ -126,7 +126,7 @@ public class FareActivity extends RoboAppCompatActivity {
 
         vehicleSpinner.setAdapter(vehicleAdapter);
 
-        fareList.setAdapter(new AbstractListAdapter<Fare,FareViewHolder>(this,selectedFares) {
+        fareList.setAdapter(new AbstractListAdapter<Fare,FareViewHolder>(selectedFares) {
             @Override
             public FareViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fare_list_item, parent, false);

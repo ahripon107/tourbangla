@@ -91,7 +91,7 @@ public class TourCostCalculatorFragment extends RoboFragment {
 
 
         Collections.sort(costPlaces);
-        recyclerView.setAdapter(new AbstractListAdapter<CostPlace,CostPlaceViewHolder>(getContext(), costPlaces) {
+        recyclerView.setAdapter(new AbstractListAdapter<CostPlace,CostPlaceViewHolder>(costPlaces) {
             @Override
             public CostPlaceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_tour_cost_place,parent,false);

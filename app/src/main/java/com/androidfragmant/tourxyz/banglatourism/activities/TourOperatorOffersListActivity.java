@@ -77,7 +77,7 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
         });
         tf = Typeface.createFromAsset(getAssets(), Constants.SOLAIMAN_LIPI_FONT);
 
-        recyclerView.setAdapter(new AbstractListAdapter<TourOperatorOffer,TourOperatorOfferViewHolder>(TourOperatorOffersListActivity.this,offers) {
+        recyclerView.setAdapter(new AbstractListAdapter<TourOperatorOffer,TourOperatorOfferViewHolder>(offers) {
             @Override
             public TourOperatorOfferViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.singletouroperatoroffer,parent,false);

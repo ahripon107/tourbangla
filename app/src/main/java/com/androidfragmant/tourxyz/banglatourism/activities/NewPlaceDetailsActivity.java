@@ -303,7 +303,12 @@ class YourPagerAdapter extends FragmentStatePagerAdapter {
         } else if (position == 3) {
             return DescriptionFragment.newInstanceOfDescriptionFragment(SelectedPlace.getOthers());
         } else if (position == 4) {
-            return CommentAddComment.NewInstanceofCommentAddComment(SelectedPlace.getId(), 1);
+            CommentAddComment commentAddComment = new CommentAddComment();
+            Bundle arguments = new Bundle();
+            arguments.putInt("number", 1);
+            arguments.putInt("id", SelectedPlace.getId());
+            commentAddComment.setArguments(arguments);
+            return commentAddComment;
         } else {
             return YoutubeVideoFragment.newInstanceOfYoutubeVideoFragment(SelectedPlace.getId());
         }

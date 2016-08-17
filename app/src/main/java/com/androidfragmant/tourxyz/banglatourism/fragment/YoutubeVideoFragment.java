@@ -64,7 +64,7 @@ public class YoutubeVideoFragment extends Fragment {
         youtubeVideos = new ArrayList<>();
         recyclerView = (RecyclerView) view.findViewById(R.id.youtubevideolist);
 
-        recyclerView.setAdapter(new AbstractListAdapter<YoutubeVideo,VideoListViewHolder>(getContext(), youtubeVideos) {
+        recyclerView.setAdapter(new AbstractListAdapter<YoutubeVideo,VideoListViewHolder>(youtubeVideos) {
             @Override
             public VideoListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_place, parent, false);

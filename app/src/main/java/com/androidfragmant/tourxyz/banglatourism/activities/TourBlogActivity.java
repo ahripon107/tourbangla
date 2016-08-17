@@ -89,7 +89,7 @@ public class TourBlogActivity extends RoboAppCompatActivity {
             }
         });
 
-        recyclerView.setAdapter(new AbstractListAdapter<BlogPost,TourBlogViewHolder>(TourBlogActivity.this,blogPosts) {
+        recyclerView.setAdapter(new AbstractListAdapter<BlogPost,TourBlogViewHolder>(blogPosts) {
             @Override
             public TourBlogViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_tour_blog_item,parent,false);

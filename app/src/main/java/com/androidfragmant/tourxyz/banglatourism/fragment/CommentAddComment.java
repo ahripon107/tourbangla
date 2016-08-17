@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,28 +46,18 @@ public class CommentAddComment extends Fragment {
 
     }
 
-    public static CommentAddComment NewInstanceofCommentAddComment(int id, int number) {
-        CommentAddComment commentAddComment = new CommentAddComment();
-        Bundle arguments = new Bundle();
-        arguments.putInt("number", number);
-        arguments.putInt("id", id);
-        commentAddComment.setArguments(arguments);
-        return commentAddComment;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.commentandaddcomment, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.rvComments);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
 
 
         comments = new ArrayList<>();
         commentAdapter = new CommentAdapter(getContext(), comments);
         recyclerView.setAdapter(commentAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         RequestParams requestParams = new RequestParams();
         if (getArguments().get("number") == 2) {
@@ -113,8 +102,7 @@ public class CommentAddComment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                LayoutInflater li = LayoutInflater.from(getContext());
-                View promptsView = li.inflate(R.layout.addnewcomment, null, false);
+                View promptsView = LayoutInflater.from(getContext()).inflate(R.layout.addnewcomment, null, false);
                 final EditText writeComment = (EditText) promptsView.findViewById(R.id.etYourComment);
                 final EditText yourName = (EditText) promptsView.findViewById(R.id.etYourName);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

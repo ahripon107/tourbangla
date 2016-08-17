@@ -11,11 +11,9 @@ import java.util.ArrayList;
  */
 public abstract class AbstractListAdapter<X,T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T>{
 
-    Context context;
     ArrayList<X> elements;
 
-    public AbstractListAdapter(Context context,ArrayList<X> elements){
-        this.context = context;
+    public AbstractListAdapter(ArrayList<X> elements){
         this.elements = elements;
     }
     @Override

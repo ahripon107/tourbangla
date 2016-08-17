@@ -77,7 +77,7 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(BrowseByDivisionActivity.this));
 
         places = PlaceAccessHelper.getPlacesOfDistrict(districtName);
-        recyclerView.setAdapter(new AbstractListAdapter<Place,PlaceCardViewHolder>(this,places) {
+        recyclerView.setAdapter(new AbstractListAdapter<Place,PlaceCardViewHolder>(places) {
             @Override
             public PlaceCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_place,parent,false);

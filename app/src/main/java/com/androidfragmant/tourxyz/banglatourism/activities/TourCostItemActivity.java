@@ -102,7 +102,7 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
 
         Collections.sort(costItems);
 
-        recyclerView.setAdapter(new AbstractListAdapter<CostItem,CostItemViewHolder>(TourCostItemActivity.this,costItems) {
+        recyclerView.setAdapter(new AbstractListAdapter<CostItem,CostItemViewHolder>(costItems) {
             @Override
             public CostItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sigle_tour_cost_item,parent,false);

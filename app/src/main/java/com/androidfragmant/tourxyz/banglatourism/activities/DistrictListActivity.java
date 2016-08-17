@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.model.DistrictName;
+import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 
@@ -40,14 +41,16 @@ public class DistrictListActivity extends RoboAppCompatActivity {
     String[] districtsBangla;
 
     ArrayList<DistrictName> districtNames;
+    Typeface tf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         districtNames = new ArrayList<>();
+        tf = Typeface.createFromAsset(getAssets(), Constants.SOLAIMAN_LIPI_FONT);
 
-        String divisionName = getIntent().getStringExtra(Constants.DIVISION_NAME);
+        final String divisionName = getIntent().getStringExtra(Constants.DIVISION_NAME);
 
         switch (divisionName) {
             case "Dhaka":
@@ -96,53 +99,35 @@ public class DistrictListActivity extends RoboAppCompatActivity {
         });
         setTitle("Select District");
 
+        for (int i=0;i<districts.length;i++) {
+            districtNames.add(new DistrictName(districts[i],districtsBangla[i]));
+        }
 
 
-        DistrictListRecyclerAdapter adapter = new DistrictListRecyclerAdapter(DistrictListActivity.this, districts, districtsBangla, divisionName);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(DistrictListActivity.this));
-    }
-}
-
-class DistrictListRecyclerAdapter extends RecyclerView.Adapter<DistrictListRecyclerAdapter.DistrictListViewHolder> {
-    Context context;
-    String[] districts, districtsBangla;
-    String divisionName;
-    Typeface tf;
-
-    DistrictListRecyclerAdapter(Context context, String[] districts, String[] districtsBangla, String divisionName) {
-        this.context = context;
-        this.districts = districts;
-        this.districtsBangla = districtsBangla;
-        this.divisionName = divisionName;
-        tf = Typeface.createFromAsset(context.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
-    }
-
-    @Override
-    public DistrictListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.division_list_item, parent, false);
-        return new DistrictListViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(final DistrictListViewHolder holder, int position) {
-        holder.textView1.setTypeface(tf);
-        holder.textView1.setText(districtsBangla[holder.getAdapterPosition()]);
-        holder.textView2.setText(districts[position]);
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+        recyclerView.setAdapter(new AbstractListAdapter<DistrictName,DistrictListViewHolder>(districtNames) {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, BrowseByDivisionActivity.class);
-                intent.putExtra(Constants.DIVISION_NAME, divisionName);
-                intent.putExtra(Constants.DISTRICT_NAME, districts[holder.getAdapterPosition()]);
-                context.startActivity(intent);
+            public DistrictListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.division_list_item, parent, false);
+                return new DistrictListViewHolder(view);
+            }
+
+            @Override
+            public void onBindViewHolder(final DistrictListViewHolder holder, int position) {
+                holder.textView1.setTypeface(tf);
+                holder.textView1.setText(districtsBangla[holder.getAdapterPosition()]);
+                holder.textView2.setText(districts[position]);
+                holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(DistrictListActivity.this, BrowseByDivisionActivity.class);
+                        intent.putExtra(Constants.DIVISION_NAME, divisionName);
+                        intent.putExtra(Constants.DISTRICT_NAME, districts[holder.getAdapterPosition()]);
+                        startActivity(intent);
+                    }
+                });
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return districts.length;
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     static class DistrictListViewHolder extends RecyclerView.ViewHolder {

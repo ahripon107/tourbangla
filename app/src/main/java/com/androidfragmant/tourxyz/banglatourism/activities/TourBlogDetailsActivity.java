@@ -95,7 +95,12 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
             if (position == 0) {
                 return BlogDetails.newInstanceofBlogDetails(blogPost.getTitle(), blogPost.getName(), blogPost.getDetails());
             } else {
-                return CommentAddComment.NewInstanceofCommentAddComment(blogPost.getId(), 2);
+                CommentAddComment commentAddComment = new CommentAddComment();
+                Bundle arguments = new Bundle();
+                arguments.putInt("number", 2);
+                arguments.putInt("id", blogPost.getId());
+                commentAddComment.setArguments(arguments);
+                return commentAddComment;
             }
         }
 
