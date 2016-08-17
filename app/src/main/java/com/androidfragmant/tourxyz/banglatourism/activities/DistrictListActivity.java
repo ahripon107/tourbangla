@@ -15,8 +15,11 @@ import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
+import com.androidfragmant.tourxyz.banglatourism.model.DistrictName;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
+
+import java.util.ArrayList;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -36,9 +39,13 @@ public class DistrictListActivity extends RoboAppCompatActivity {
     String[] districts;
     String[] districtsBangla;
 
+    ArrayList<DistrictName> districtNames;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        districtNames = new ArrayList<>();
 
         String divisionName = getIntent().getStringExtra(Constants.DIVISION_NAME);
 
@@ -88,6 +95,8 @@ public class DistrictListActivity extends RoboAppCompatActivity {
             }
         });
         setTitle("Select District");
+
+
 
         DistrictListRecyclerAdapter adapter = new DistrictListRecyclerAdapter(DistrictListActivity.this, districts, districtsBangla, divisionName);
         recyclerView.setAdapter(adapter);
