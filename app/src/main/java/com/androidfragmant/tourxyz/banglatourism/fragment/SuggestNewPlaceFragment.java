@@ -46,6 +46,9 @@ public class SuggestNewPlaceFragment extends RoboFragment {
     @InjectView(R.id.etSuggestedPlaceHotels)
     EditText hotels;
 
+    @InjectView(R.id.etEmail)
+    EditText email;
+
     @InjectView(R.id.btnDoneSuggest)
     Button suggestDone;
 
@@ -61,9 +64,7 @@ public class SuggestNewPlaceFragment extends RoboFragment {
         suggestDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Validator.validateNotEmpty(name,"Required") && Validator.validateNotEmpty(address,"Required")
-                        && Validator.validateNotEmpty(division,"Required") && Validator.validateNotEmpty(description,"Required")
-                        && Validator.validateNotEmpty(howtogo,"Required") && Validator.validateNotEmpty(hotels,"Required")) {
+                if (Validator.validateNotEmpty(name,"Required") && Validator.validateNotEmpty(division,"Required") && Validator.validateNotEmpty(howtogo,"Required")) {
                     RequestParams params = new RequestParams();
                     params.put(Constants.KEY, Constants.KEY_VALUE);
                     params.put("hotels", hotels.getText().toString());
@@ -72,6 +73,7 @@ public class SuggestNewPlaceFragment extends RoboFragment {
                     params.put("division", division.getText().toString());
                     params.put("address", address.getText().toString());
                     params.put("name", name.getText().toString());
+                    params.put("email",email.getText().toString());
 
                     String url = Constants.SUGGEST_NEW_PLACE_URL;
                     Log.d(Constants.TAG, url);
@@ -90,6 +92,7 @@ public class SuggestNewPlaceFragment extends RoboFragment {
                             description.getText().clear();
                             howtogo.getText().clear();
                             hotels.getText().clear();
+                            email.getText().clear();
                             Toast.makeText(getContext(), "Thank you for your suggestion.", Toast.LENGTH_LONG).show();
                         }
 

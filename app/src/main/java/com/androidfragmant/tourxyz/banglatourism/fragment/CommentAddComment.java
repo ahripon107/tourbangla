@@ -3,6 +3,7 @@ package com.androidfragmant.tourxyz.banglatourism.fragment;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,14 +15,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidfragmant.tourxyz.banglatourism.model.Comment;
+import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Validator;
+import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
-import com.androidfragmant.tourxyz.banglatourism.adapter.CommentAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.loopj.android.http.RequestParams;
 
@@ -38,9 +41,9 @@ import cz.msebera.android.httpclient.Header;
  */
 public class CommentAddComment extends Fragment {
     ArrayList<Comment> comments;
-    CommentAdapter commentAdapter;
     String url;
     RecyclerView recyclerView;
+    Typeface tf;
 
     public CommentAddComment() {
 
@@ -53,10 +56,27 @@ public class CommentAddComment extends Fragment {
         recyclerView = (RecyclerView) v.findViewById(R.id.rvComments);
         recyclerView.setHasFixedSize(true);
 
+        tf = Typeface.createFromAsset(getActivity().getAssets(), Constants.SOLAIMAN_LIPI_FONT);
 
         comments = new ArrayList<>();
-        commentAdapter = new CommentAdapter(getContext(), comments);
-        recyclerView.setAdapter(commentAdapter);
+
+        recyclerView.setAdapter(new AbstractListAdapter<Comment,CommentViewHolder>(comments) {
+            @Override
+            public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.singlecomment, parent, false);
+                return new CommentViewHolder(v);
+            }
+
+            @Override
+            public void onBindViewHolder(CommentViewHolder holder, int position) {
+                holder.comment.setTypeface(tf);
+                holder.commenter.setTypeface(tf);
+                holder.commenter.setText("মন্তব্য করেছেন:  " + comments.get(position).getName());
+                holder.comment.setText(comments.get(position).getComment());
+                holder.timestamp.setText(Constants.getTimeAgo(Long.parseLong(comments.get(position).getTimestamp())));
+            }
+
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         RequestParams requestParams = new RequestParams();
@@ -83,7 +103,7 @@ public class CommentAddComment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                commentAdapter.notifyDataSetChanged();
+                recyclerView.getAdapter().notifyDataSetChanged();
                 if (comments.size() != 0) {
                     recyclerView.smoothScrollToPosition(comments.size()-1);
                 }
@@ -144,7 +164,7 @@ public class CommentAddComment extends Fragment {
                                     progressDialog.dismiss();
                                     Toast.makeText(getContext(), "Comment successfully posted", Toast.LENGTH_LONG).show();
                                     comments.add(new Comment(name,comment,System.currentTimeMillis() + ""));
-                                    commentAdapter.notifyDataSetChanged();
+                                    recyclerView.getAdapter().notifyDataSetChanged();
                                     if (comments.size() != 0) {
                                         recyclerView.smoothScrollToPosition(comments.size()-1);
                                     }
@@ -164,5 +184,18 @@ public class CommentAddComment extends Fragment {
             }
         });
         return v;
+    }
+
+    public static class CommentViewHolder extends RecyclerView.ViewHolder {
+        protected TextView commenter;
+        protected TextView comment;
+        protected TextView timestamp;
+
+        public CommentViewHolder(View v) {
+            super(v);
+            commenter = ViewHolder.get(v, R.id.tvName);
+            comment = ViewHolder.get(v, R.id.tvComment);
+            timestamp = ViewHolder.get(itemView, R.id.tv_time_stamp);
+        }
     }
 }

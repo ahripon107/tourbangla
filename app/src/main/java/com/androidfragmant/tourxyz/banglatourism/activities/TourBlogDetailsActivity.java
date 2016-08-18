@@ -10,16 +10,24 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.fragment.BlogDetails;
 import com.androidfragmant.tourxyz.banglatourism.fragment.CommentAddComment;
 import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
@@ -66,6 +74,27 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
         Intent i = getIntent();
         BlogPost blogPost = (BlogPost) i.getSerializableExtra("post");
         Picasso.with(TourBlogDetailsActivity.this).load(blogPost.getImage()).into(imageView);
+
+        String sendVisitedBlogUrl = Constants.INSERT_VISITED_BLOG_POST_URL;
+        Log.d(Constants.TAG, sendVisitedBlogUrl);
+
+        RequestParams paramsBlog = new RequestParams();
+
+        paramsBlog.put(Constants.KEY, Constants.KEY_VALUE);
+        paramsBlog.put("blogid",blogPost.getId());
+        paramsBlog.put("blogtitle",blogPost.getTitle());
+        paramsBlog.put("timestamp",System.currentTimeMillis());
+
+        FetchFromWeb.post(sendVisitedBlogUrl, paramsBlog, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d(Constants.TAG, response.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            }
+        });
 
         setTitle(blogPost.getTitle());
 

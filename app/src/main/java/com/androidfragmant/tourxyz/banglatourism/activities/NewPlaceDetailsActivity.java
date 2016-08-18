@@ -22,9 +22,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
+import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.fragment.YoutubeVideoFragment;
+import com.androidfragmant.tourxyz.banglatourism.model.Comment;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.FalseProgress;
 import com.facebook.share.model.ShareLinkContent;
@@ -38,6 +41,8 @@ import com.androidfragmant.tourxyz.banglatourism.fragment.CommentAddComment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.DescriptionFragment;
 import com.androidfragmant.tourxyz.banglatourism.model.Place;
 import com.androidfragmant.tourxyz.banglatourism.view.cpb.CircularProgressButton;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -45,6 +50,9 @@ import java.util.List;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
@@ -112,6 +120,25 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
         String picture = selectedPlace.getPicture();
         Log.d(Constants.TAG, picture);
 
+        String sendPlaceNameUrl = Constants.INSERT_VISITED_PLACE_ELEMENT_URL;
+        Log.d(Constants.TAG, sendPlaceNameUrl);
+
+        RequestParams paramsName = new RequestParams();
+
+        paramsName.put(Constants.KEY, Constants.KEY_VALUE);
+        paramsName.put("placename",selectedPlace.getName());
+        paramsName.put("timestamp",System.currentTimeMillis());
+
+        FetchFromWeb.post(sendPlaceNameUrl, paramsName, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d(Constants.TAG, response.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            }
+        });
 
         Picasso.with(getApplicationContext()).load(picture).into(imageView);
         int noOfTabs = 5;

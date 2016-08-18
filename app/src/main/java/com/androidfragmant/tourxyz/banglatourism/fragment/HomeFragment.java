@@ -102,11 +102,11 @@ public class HomeFragment extends RoboFragment {
 
     public HomeFragment() {
         elements = new ArrayList<>();
-        elements.add(new HomeFragmentElement("Explore amazing tourist spots of beautiful Bangladesh!", "Explore Places"));
-        elements.add(new HomeFragmentElement("Explore offers from tour operators and hotels!", "Tour offers"));
-        elements.add(new HomeFragmentElement("Want to share your and read other's tour experience? Explore Tour Blog!", "Tour Blog"));
-        elements.add(new HomeFragmentElement("Want to know anything about a place? Ask in Forum!", "Forum"));
-        elements.add(new HomeFragmentElement("Explore inter district fare!", "Fare"));
+        elements.add(new HomeFragmentElement("অনিন্দ্যসুন্দর বাংলাদেশের অসাধারণ টুরিস্ট স্পটগুলো এক্সপ্লোর করুন!", "Explore Places"));
+        elements.add(new HomeFragmentElement("ট্যুর অপারেটর ও হোটেলগুলোর বিভিন্ন অফার উপভোগ করুন!", "Tour offers"));
+        elements.add(new HomeFragmentElement("অন্যের ভ্রমণকাহিনী পড়ুন এবং নিজের ভ্রমণ অভিজ্ঞতা শেয়ার করুন ট্যুর ব্লগ এর মাধ্যমে!", "Tour Blog"));
+        elements.add(new HomeFragmentElement("কোনও জায়গা সম্পর্কে কিছু জানতে চাইলে ফোরামে জিজ্ঞাসা করুন!", "Forum"));
+        elements.add(new HomeFragmentElement("আন্তঃ জেলা ভাড়ার তালিকা দেখুন!", "Fare"));
     }
 
     @Override

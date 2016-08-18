@@ -17,7 +17,7 @@
             android:id="@+id/etFeedbackTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title"
+            android:hint="শিরোনাম"
             android:inputType="textCapWords"
 
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
 
-            android:hint="Details"
+            android:hint="বিস্তারিত"
 
             android:inputType="textMultiLine"
             android:textAppearance="?android:attr/textAppearanceLarge" />

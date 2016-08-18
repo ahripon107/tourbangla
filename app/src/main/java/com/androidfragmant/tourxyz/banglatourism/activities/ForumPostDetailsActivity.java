@@ -12,17 +12,19 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
-import com.androidfragmant.tourxyz.banglatourism.adapter.CommentAdapter;
 import com.androidfragmant.tourxyz.banglatourism.model.Comment;
 import com.androidfragmant.tourxyz.banglatourism.model.ForumPost;
+import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.Validator;
+import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.google.android.gms.ads.AdRequest;
@@ -68,8 +70,6 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
 
     ArrayList<Comment> comments;
 
-    CommentAdapter commentAdapter;
-
     Typeface tf;
 
 
@@ -90,8 +90,23 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
         comments = new ArrayList<>();
         tf = Typeface.createFromAsset(getAssets(), Constants.SOLAIMAN_LIPI_FONT);
 
-        commentAdapter = new CommentAdapter(ForumPostDetailsActivity.this, comments);
-        recyclerView.setAdapter(commentAdapter);
+        recyclerView.setAdapter(new AbstractListAdapter<Comment,ForumCommentViewHolder>(comments) {
+            @Override
+            public ForumCommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.singlecomment, parent, false);
+                return new ForumCommentViewHolder(v);
+            }
+
+            @Override
+            public void onBindViewHolder(ForumCommentViewHolder holder, int position) {
+                holder.comment.setTypeface(tf);
+                holder.commenter.setTypeface(tf);
+                holder.commenter.setText("মন্তব্য করেছেন:  " + comments.get(position).getName());
+                holder.comment.setText(comments.get(position).getComment());
+                holder.timestamp.setText(Constants.getTimeAgo(Long.parseLong(comments.get(position).getTimestamp())));
+            }
+
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(ForumPostDetailsActivity.this));
 
 
@@ -134,7 +149,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                commentAdapter.notifyDataSetChanged();
+                recyclerView.getAdapter().notifyDataSetChanged();
                 if (comments.size() != 0) {
                     recyclerView.smoothScrollToPosition(comments.size()-1);
                 }
@@ -188,7 +203,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                                     progressDialog.dismiss();
                                     Toast.makeText(ForumPostDetailsActivity.this, "Comment successfully posted", Toast.LENGTH_LONG).show();
                                     comments.add(new Comment(name,comment,System.currentTimeMillis()+""));
-                                    commentAdapter.notifyDataSetChanged();
+                                    recyclerView.getAdapter().notifyDataSetChanged();
                                     if (comments.size() != 0) {
                                         recyclerView.smoothScrollToPosition(comments.size()-1);
                                     }
@@ -211,5 +226,18 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);
 
+    }
+
+    public static class ForumCommentViewHolder extends RecyclerView.ViewHolder {
+        protected TextView commenter;
+        protected TextView comment;
+        protected TextView timestamp;
+
+        public ForumCommentViewHolder(View v) {
+            super(v);
+            commenter = ViewHolder.get(v, R.id.tvName);
+            comment = ViewHolder.get(v, R.id.tvComment);
+            timestamp = ViewHolder.get(itemView, R.id.tv_time_stamp);
+        }
     }
 }

@@ -36,12 +36,16 @@ public class Constants {
     public static final String SEND_FEEDBACK_URL = "http://apisea.xyz/TourBangla/apis/v1/feedback.php";
 
     /////////////// SUGGEST NEW PLACE URL ///////////
-    public static final String SUGGEST_NEW_PLACE_URL = "http://apisea.xyz/TourBangla/apis/v1/SuggestNewPlace.php";
+    public static final String SUGGEST_NEW_PLACE_URL = "http://apisea.xyz/TourBangla/apis/v2/SuggestNewPlace.php";
 
     ////////////// FARE URL /////////////////////////
     public static final String FETCH_FARES_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchFares.php";
 
     public static final String FETCH_YOUTUBE_VIDEOS_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchYoutubeVideos.php";
+
+    public static final String INSERT_VISITED_PLACE_ELEMENT_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertVisitedPlaceElement.php";
+
+    public static final String INSERT_VISITED_BLOG_POST_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertVisitedBlogPost.php";
 
     public static final String WISHLIST_PREFERENCE_FILE = "wishlist";
 

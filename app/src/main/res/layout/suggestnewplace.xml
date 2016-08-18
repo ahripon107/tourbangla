@@ -28,8 +28,7 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:layout_height="wrap_content"
                     android:inputType="textCapWords"
-
-                    android:hint="Place Name"/>
+                    android:hint="জায়গার নাম"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -46,11 +45,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-
                     android:textAppearance="?android:attr/textAppearanceLarge"
-
                     android:inputType="textMultiLine"
-                    android:hint="Address"/>
+                    android:hint="ঠিকানা"/>
             </android.support.design.widget.TextInputLayout>
 
 
@@ -67,7 +64,7 @@
                     android:inputType="textCapWords"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:hint="Division"/>
+                    android:hint="বিভাগ"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -83,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:inputType="textMultiLine"
-                    android:hint="Description"/>
+                    android:hint="জায়গার বর্ণনা"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -98,7 +95,7 @@
                     android:inputType="textMultiLine"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:hint="How to go"/>
+                    android:hint="কিভাবে যেতে হবে"/>
             </android.support.design.widget.TextInputLayout>
 
 
@@ -114,7 +111,22 @@
                     android:inputType="textMultiLine"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:hint="Hotels"/>
+                    android:hint="হোটেল/থাকার জায়গা"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                >
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:inputType="textMultiLine"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:hint="আপনার ইমেইল/ফোন"/>
             </android.support.design.widget.TextInputLayout>
 
             <com.dd.ShadowLayout
