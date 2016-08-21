@@ -2,7 +2,6 @@ package com.androidfragmant.tourxyz.banglatourism;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDex;
 
 import com.batch.android.Batch;
 import com.batch.android.Config;
@@ -98,6 +97,5 @@ public class ParseApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        MultiDex.install(this);
     }
 }
