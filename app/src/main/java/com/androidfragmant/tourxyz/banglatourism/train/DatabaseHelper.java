@@ -106,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Train> getTrainLocation() {
-        ArrayList<Train> tracking = new ArrayList();
+        ArrayList<Train> tracking = new ArrayList<>();
         Cursor cursor = this.database.rawQuery("Select  train_name,name,t_from,t_to,current_station,delay_hour,delay_min,time,note,t_id   from \n(SELECT  tracking_live.id as t_id,train_name,trainname_id,tracking_live.train_from as t_from,tracking_live.train_to as t_to,current_station,delay_hour,delay_min,time,note  FROM tracking_live  inner join  train_time  on train_time.train_no=tracking_live.train_name) as ttable   inner join  trainName  on trainName.id=ttable.trainname_id   group  by  train_name order by  t_id  DESC", new String[0]);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -144,7 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Train> searchTrain() {
-        ArrayList<Train> traintime = new ArrayList();
+        ArrayList<Train> traintime = new ArrayList<>();
         String str = BuildConfig.FLAVOR;
         Cursor cursor = this.database.rawQuery("select TrainName.name as tname ,train_from,train_to,code_number  from train_name inner join trainName on train_name.tid=trainName.id group by code_number order by tname", new String[0]);
         if (cursor != null && cursor.getCount() > 0) {
@@ -209,8 +209,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             for (int i = 0; i < cursor.getCount(); i++) {
-                ArrayList<PriceEvant> arrayList = trainprice;
-                arrayList.add(new PriceEvant(cursor.getString(cursor.getColumnIndex("distance")), cursor.getString(cursor.getColumnIndex("second_sadaron")), cursor.getString(cursor.getColumnIndex("second_mail")), cursor.getString(cursor.getColumnIndex("comiutar")), cursor.getString(cursor.getColumnIndex("sulov")), cursor.getString(cursor.getColumnIndex("shuvon")), cursor.getString(cursor.getColumnIndex("shuvon_chair")), cursor.getString(cursor.getColumnIndex("first_chair")), cursor.getString(cursor.getColumnIndex("first_berth")), cursor.getString(cursor.getColumnIndex("snigdha")), cursor.getString(cursor.getColumnIndex("ac_seat")), cursor.getString(cursor.getColumnIndex("ac_berth")), cursor.getString(cursor.getColumnIndex("train_from")), cursor.getString(cursor.getColumnIndex("train_to"))));
+                trainprice.add(new PriceEvant(cursor.getString(cursor.getColumnIndex("distance")), cursor.getString(cursor.getColumnIndex("second_sadaron")), cursor.getString(cursor.getColumnIndex("second_mail")), cursor.getString(cursor.getColumnIndex("comiutar")), cursor.getString(cursor.getColumnIndex("sulov")), cursor.getString(cursor.getColumnIndex("shuvon")), cursor.getString(cursor.getColumnIndex("shuvon_chair")), cursor.getString(cursor.getColumnIndex("first_chair")), cursor.getString(cursor.getColumnIndex("first_berth")), cursor.getString(cursor.getColumnIndex("snigdha")), cursor.getString(cursor.getColumnIndex("ac_seat")), cursor.getString(cursor.getColumnIndex("ac_berth")), cursor.getString(cursor.getColumnIndex("train_from")), cursor.getString(cursor.getColumnIndex("train_to"))));
                 cursor.moveToNext();
             }
         }
@@ -219,7 +218,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<IdName> searchPriceFrom() {
-        ArrayList<IdName> trainprice = new ArrayList();
+        ArrayList<IdName> trainprice = new ArrayList<>();
         Cursor cursor = this.database.rawQuery("select train_from  from train_price group by train_from ", new String[0]);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -233,7 +232,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<IdName> searchPriceFromKey(String key) {
-        ArrayList<IdName> trainprice = new ArrayList();
+        ArrayList<IdName> trainprice = new ArrayList<>();
         Cursor cursor = this.database.rawQuery("select train_from  from train_price  where train_from like '%" + key + "%' or train_from_english  like '%" + key + "%'group  by train_from  ", new String[0]);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -247,7 +246,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<IdName> searchPriceTo() {
-        ArrayList<IdName> trainprice = new ArrayList();
+        ArrayList<IdName> trainprice = new ArrayList<>();
         Cursor cursor = this.database.rawQuery("select train_to  from train_price group by train_to ", new String[0]);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -261,7 +260,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<IdName> searchPriceTokey(String key) {
-        ArrayList<IdName> trainprice = new ArrayList();
+        ArrayList<IdName> trainprice = new ArrayList<>();
         Cursor cursor = this.database.rawQuery("select train_to  from train_price  where train_to like '%" + key + "%' or train_to_english  like '%" + key + "%'group  by train_to ", new String[0]);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -275,7 +274,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<PriceEvant> searchTrainPriceTo(String key, String key1) {
-        ArrayList<PriceEvant> trainprice = new ArrayList();
+        ArrayList<PriceEvant> trainprice = new ArrayList<>();
         String q = BuildConfig.FLAVOR;
         if (key == null || key.isEmpty() || key1 == null || key1.isEmpty()) {
             q = "select * from train_price where train_from = '" + key + "' or train_to = '" + key1 + "'";
@@ -286,8 +285,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             for (int i = 0; i < cursor.getCount(); i++) {
-                ArrayList<PriceEvant> arrayList = trainprice;
-                arrayList.add(new PriceEvant(cursor.getString(cursor.getColumnIndex("distance")), cursor.getString(cursor.getColumnIndex("second_sadaron")), cursor.getString(cursor.getColumnIndex("second_mail")), cursor.getString(cursor.getColumnIndex("comiutar")), cursor.getString(cursor.getColumnIndex("sulov")), cursor.getString(cursor.getColumnIndex("shuvon")), cursor.getString(cursor.getColumnIndex("shuvon_chair")), cursor.getString(cursor.getColumnIndex("first_chair")), cursor.getString(cursor.getColumnIndex("first_berth")), cursor.getString(cursor.getColumnIndex("snigdha")), cursor.getString(cursor.getColumnIndex("ac_seat")), cursor.getString(cursor.getColumnIndex("ac_berth")), cursor.getString(cursor.getColumnIndex("train_from")), cursor.getString(cursor.getColumnIndex("train_to"))));
+                trainprice.add(new PriceEvant(cursor.getString(cursor.getColumnIndex("distance")), cursor.getString(cursor.getColumnIndex("second_sadaron")), cursor.getString(cursor.getColumnIndex("second_mail")), cursor.getString(cursor.getColumnIndex("comiutar")), cursor.getString(cursor.getColumnIndex("sulov")), cursor.getString(cursor.getColumnIndex("shuvon")), cursor.getString(cursor.getColumnIndex("shuvon_chair")), cursor.getString(cursor.getColumnIndex("first_chair")), cursor.getString(cursor.getColumnIndex("first_berth")), cursor.getString(cursor.getColumnIndex("snigdha")), cursor.getString(cursor.getColumnIndex("ac_seat")), cursor.getString(cursor.getColumnIndex("ac_berth")), cursor.getString(cursor.getColumnIndex("train_from")), cursor.getString(cursor.getColumnIndex("train_to"))));
                 cursor.moveToNext();
             }
         }
@@ -296,7 +294,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<IdName> searchArea() {
-        ArrayList<IdName> traintime = new ArrayList();
+        ArrayList<IdName> traintime = new ArrayList<>();
         Cursor cursor = this.database.rawQuery("select id,name from train_area  order by name", new String[0]);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -310,7 +308,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Train> searchAreaDetails(String key) {
-        ArrayList<Train> traintime = new ArrayList();
+        ArrayList<Train> traintime = new ArrayList<>();
         Cursor cursor = this.database.rawQuery("select  name,train_from,train_to,start_time,end_time,day_name,area_id  from day_off  inner join  (SELECT * FROM  train_time  inner join trainName on train_time.trainname_id=trainName.id ) as ttrain  on ttrain.offday_id=day_off.id  where area_id='" + key + "' order by name ", new String[0]);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -324,7 +322,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<IdName> getFrom(String pos) {
-        ArrayList<IdName> names = new ArrayList();
+        ArrayList<IdName> names = new ArrayList<>();
         String q = BuildConfig.FLAVOR;
         if (pos == null) {
             q = "SELECT   trainname_id,train_from  FROM  train_time  group  BY train_from";
@@ -344,7 +342,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<IdName> getFromKey(String key) {
-        ArrayList<IdName> names = new ArrayList();
+        ArrayList<IdName> names = new ArrayList<>();
         Cursor cursor = this.database.rawQuery("SELECT   train_from  FROM  train_time where train_from like '%" + key + "%' or train_from_english like '%" + key + "%'group  BY train_from ", new String[0]);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -358,7 +356,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<IdName> getTo(String pos) {
-        ArrayList<IdName> names = new ArrayList();
+        ArrayList<IdName> names = new ArrayList<>();
         String q = BuildConfig.FLAVOR;
         if (pos == null) {
             q = "SELECT   trainname_id,train_to  FROM  train_time  group  BY train_to";
@@ -378,7 +376,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<IdName> getToKey(String key) {
-        ArrayList<IdName> names = new ArrayList();
+        ArrayList<IdName> names = new ArrayList<>();
         Cursor cursor = this.database.rawQuery("SELECT   train_to  FROM  train_time where train_to like '%" + key + "%' or train_to_english like '%" + key + "%'group  BY train_to ", new String[0]);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -392,7 +390,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<PriceEvant> getTrainPrice1(String key) {
-        ArrayList<PriceEvant> trainprice = new ArrayList();
+        ArrayList<PriceEvant> trainprice = new ArrayList<>();
         String[] strArr = new String[0];
         Cursor cursor = this.database.rawQuery("SELECT  id,distance,name,train_from,train_to,shuvon,shuvon_chair,snigdha,first_chair,first_berth,ac_seat,ac_berth,kumutur  FROM  train_price1 inner join trainName on trainName.id=train_price1.train_id  where id='" + key + "' order by train_from", strArr);
         if (cursor != null && cursor.getCount() > 0) {
@@ -409,8 +407,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String first_chair = cursor.getString(cursor.getColumnIndex("first_chair"));
                 String first_berth = cursor.getString(cursor.getColumnIndex("first_berth"));
                 String kumutur = cursor.getString(cursor.getColumnIndex("kumutur"));
-                ArrayList<PriceEvant> arrayList = trainprice;
-                arrayList.add(new PriceEvant(id, distance, name, from, to, shuvon, shuvon_chair, snigdha, first_chair, first_berth, cursor.getString(cursor.getColumnIndex("ac_seat")), cursor.getString(cursor.getColumnIndex("ac_berth")), kumutur));
+                trainprice.add(new PriceEvant(id, distance, name, from, to, shuvon, shuvon_chair, snigdha, first_chair, first_berth, cursor.getString(cursor.getColumnIndex("ac_seat")), cursor.getString(cursor.getColumnIndex("ac_berth")), kumutur));
                 cursor.moveToNext();
             }
         }
@@ -419,7 +416,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<PriceEvant> getTrainPrice1From(String key, String key1, String key2) {
-        ArrayList<PriceEvant> trainprice = new ArrayList();
+        ArrayList<PriceEvant> trainprice = new ArrayList<>();
         String[] strArr = new String[0];
         Cursor cursor = this.database.rawQuery("SELECT  id,distance,name,train_from,train_to,shuvon,shuvon_chair,snigdha,first_chair,first_berth,ac_seat,ac_berth,kumutur  FROM  train_price1 inner join trainName on trainName.id=train_price1.train_id  where id='" + key + "' and train_from like '" + key1 + "%' and train_to like '" + key2 + "%' order by train_from", strArr);
         if (cursor != null && cursor.getCount() > 0) {
@@ -508,7 +505,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<IdName> searchPrice1To(String key) {
-        ArrayList<IdName> trainprice = new ArrayList();
+        ArrayList<IdName> trainprice = new ArrayList<>();
         Cursor cursor = this.database.rawQuery("select train_to  from train_price1 where train_id='" + key + "'  group by train_to ", new String[0]);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
