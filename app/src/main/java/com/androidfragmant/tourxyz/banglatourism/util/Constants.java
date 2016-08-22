@@ -12,6 +12,9 @@ public class Constants {
     public static final String DIVISION_NAME = "divisionName";
     public static final String DISTRICT_NAME = "districtName";
 
+    public static final int SUCCESS = 1;
+    public static final int FAILURE = 2;
+
     public static final String TOUR_OPERATOR_OFFER_URL = "http://apisea.xyz/TourBangla/apis/v1/tourOperatorOffer.php";
     public static final String FRONT_PAGE_IMAGE_LIST_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchHomeFragmentImageList.php";
 

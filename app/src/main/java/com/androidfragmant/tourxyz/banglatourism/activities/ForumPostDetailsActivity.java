@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -72,6 +75,8 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
 
     Typeface tf;
 
+    ProgressDialog progressDialog;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +91,9 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                 finish();
             }
         });
+
+        progressDialog = new ProgressDialog(ForumPostDetailsActivity.this);
+        progressDialog.setMessage("Please Wait...");
 
         comments = new ArrayList<>();
         tf = Typeface.createFromAsset(getAssets(), Constants.SOLAIMAN_LIPI_FONT);
@@ -127,42 +135,43 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
         requestParams.add(Constants.KEY,Constants.KEY_VALUE);
         requestParams.add("postid",id+"");
 
-        String url = Constants.FETCH_FORUM_POST_COMMENTS;
-        Log.d(Constants.TAG, url);
 
-        final ProgressDialog progressDialog1 = new ProgressDialog(ForumPostDetailsActivity.this);
-        progressDialog1.setMessage("Please Wait...");
-        progressDialog1.show();
+        progressDialog.show();
 
-        FetchFromWeb.get(url, requestParams, new JsonHttpResponseHandler() {
+        Handler handler = new Handler(Looper.getMainLooper()){
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                progressDialog1.dismiss();
-                try {
-                    JSONArray jsonArray = response.getJSONArray("content");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        comments.add(new Comment(jsonObject.getString("name"),jsonObject.getString("comment"),jsonObject.getString("timestamp")));
+            public void handleMessage(Message msg) {
+                progressDialog.dismiss();
+                if (msg.what == Constants.SUCCESS) {
+                    JSONObject response = (JSONObject) msg.obj;
 
+                    if (response != null) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("content");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                comments.add(new Comment(jsonObject.getString("name"),jsonObject.getString("comment"),jsonObject.getString("timestamp")));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                        if (comments.size() != 0) {
+                            recyclerView.smoothScrollToPosition(comments.size()-1);
+                        }
 
+                        Log.d(Constants.TAG, response.toString());
+                    } else {
+                        Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
                 }
-                recyclerView.getAdapter().notifyDataSetChanged();
-                if (comments.size() != 0) {
-                    recyclerView.smoothScrollToPosition(comments.size()-1);
-                }
-
-                Log.d(Constants.TAG, response.toString());
             }
+        };
+        FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
+        fetchFromWeb.retreiveData(Constants.FETCH_FORUM_POST_COMMENTS,requestParams);
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                progressDialog1.dismiss();
-                super.onFailure(statusCode, headers, responseString, throwable);
-            }
-        });
 
         btnAns.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,29 +202,34 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                             params.put("postid", id);
                             params.put("comment", comment);
                             params.put("timestamp",System.currentTimeMillis()+"");
-                            String url1 = Constants.INSERT_FORUM_POST_COMMENT_URL;
-                            final ProgressDialog progressDialog = new ProgressDialog(ForumPostDetailsActivity.this);
-                            progressDialog.setMessage("Posting comment..Please wait...");
-                            progressDialog.show();
-                            FetchFromWeb.post(url1, params, new JsonHttpResponseHandler() {
-                                @Override
-                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(ForumPostDetailsActivity.this, "Comment successfully posted", Toast.LENGTH_LONG).show();
-                                    comments.add(new Comment(name,comment,System.currentTimeMillis()+""));
-                                    recyclerView.getAdapter().notifyDataSetChanged();
-                                    if (comments.size() != 0) {
-                                        recyclerView.smoothScrollToPosition(comments.size()-1);
-                                    }
-                                    Log.d(Constants.TAG, response.toString());
-                                }
 
+                            progressDialog.show();
+                            Handler handler1 = new Handler(Looper.getMainLooper()){
                                 @Override
-                                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                public void handleMessage(Message msg) {
                                     progressDialog.dismiss();
-                                    Toast.makeText(ForumPostDetailsActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                                    if (msg.what == Constants.SUCCESS) {
+                                        JSONObject response = (JSONObject) msg.obj;
+                                        if (response != null) {
+                                            Toast.makeText(ForumPostDetailsActivity.this, "Comment successfully posted", Toast.LENGTH_LONG).show();
+                                            comments.add(new Comment(name,comment,System.currentTimeMillis()+""));
+                                            recyclerView.getAdapter().notifyDataSetChanged();
+                                            if (comments.size() != 0) {
+                                                recyclerView.smoothScrollToPosition(comments.size()-1);
+                                            }
+                                            Log.d(Constants.TAG, response.toString());
+                                        } else {
+                                            Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            });
+                            };
+
+                            FetchFromWeb send = new FetchFromWeb(handler1);
+                            send.postData(Constants.INSERT_FORUM_POST_COMMENT_URL,params);
+
                             alertDialog.dismiss();
                         }
                     }
@@ -228,7 +242,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
 
     }
 
-    public static class ForumCommentViewHolder extends RecyclerView.ViewHolder {
+    private static class ForumCommentViewHolder extends RecyclerView.ViewHolder {
         protected TextView commenter;
         protected TextView comment;
         protected TextView timestamp;

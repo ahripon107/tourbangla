@@ -5,6 +5,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -116,32 +119,38 @@ public class ForumPostListActivity extends RoboAppCompatActivity {
                     public void onClick(View v) {
                         if (Validator.validateNotEmpty(yourName,"Required") && Validator.validateNotEmpty(writeComment,"Required")) {
                             RequestParams params = new RequestParams();
-                            params.put("key", "bl905577");
+                            params.put(Constants.KEY, Constants.KEY_VALUE);
                             params.put("name", yourName.getText().toString());
                             params.put("question", writeComment.getText().toString());
                             params.put("timestamp",System.currentTimeMillis()+"");
 
-                            String url1 = Constants.INSERT_FORUM_POST_URL;
-                            Log.d(Constants.TAG, url1);
 
                             final ProgressDialog progressDialog = new ProgressDialog(ForumPostListActivity.this);
                             progressDialog.setMessage("Posting..Please wait...");
                             progressDialog.show();
-                            FetchFromWeb.post(url1, params, new JsonHttpResponseHandler() {
-                                @Override
-                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(ForumPostListActivity.this, "Successfully Posted", Toast.LENGTH_LONG).show();
-                                    fetchContents();
-                                    Log.d(Constants.TAG, response.toString());
-                                }
 
+                            Handler handler = new Handler(Looper.getMainLooper()) {
                                 @Override
-                                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                public void handleMessage(Message msg) {
                                     progressDialog.dismiss();
-                                    Toast.makeText(ForumPostListActivity.this, "Failed..Please try again..", Toast.LENGTH_LONG).show();
+                                    if (msg.what == Constants.SUCCESS) {
+                                        JSONObject response = (JSONObject) msg.obj;
+                                        if (response!= null) {
+                                            Toast.makeText(ForumPostListActivity.this, "Successfully Posted", Toast.LENGTH_LONG).show();
+                                            fetchContents();
+                                            Log.d(Constants.TAG, response.toString());
+                                        } else {
+                                            Toast.makeText(ForumPostListActivity.this, "Failed..Please try again..", Toast.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(ForumPostListActivity.this, "Failed..Please try again..", Toast.LENGTH_LONG).show();
+                                    }
                                 }
-                            });
+                            };
+
+                            FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
+                            fetchFromWeb.postData(Constants.INSERT_FORUM_POST_URL,params);
+
                             alertDialog.dismiss();
                         }
                     }
@@ -160,44 +169,42 @@ public class ForumPostListActivity extends RoboAppCompatActivity {
         RequestParams requestParams = new RequestParams();
         requestParams.add(Constants.KEY,Constants.KEY_VALUE);
 
-        String url = Constants.FETCH_FORUM_POSTS_URL;
-        Log.d(Constants.TAG, url);
-
-        FetchFromWeb.get(url, requestParams, new JsonHttpResponseHandler() {
-
+        Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                forumPosts.clear();
+            public void handleMessage(Message msg) {
                 if (progressWheel.isSpinning()) {
                     progressWheel.stopSpinning();
                     progressWheel.setVisibility(View.INVISIBLE);
                 }
+                if (msg.what == Constants.SUCCESS) {
+                    JSONObject response = (JSONObject) msg.obj;
+                    if (response!= null) {
+                        forumPosts.clear();
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("content");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                Gson gson = new Gson();
+                                ForumPost forumPost = gson.fromJson(String.valueOf(jsonObject),ForumPost.class);
+                                forumPosts.add(forumPost);
 
-                try {
-                    JSONArray jsonArray = response.getJSONArray("content");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        Gson gson = new Gson();
-                        ForumPost forumPost = gson.fromJson(String.valueOf(jsonObject),ForumPost.class);
-                        forumPosts.add(forumPost);
-
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        forumPostListAdapter.notifyDataSetChanged();
+                        Log.d(Constants.TAG, response.toString());
+                    } else {
+                        Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
                 }
-                forumPostListAdapter.notifyDataSetChanged();
-                Log.d(Constants.TAG, response.toString());
             }
+        };
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                if (progressWheel.isSpinning()) {
-                    progressWheel.stopSpinning();
-                    progressWheel.setVisibility(View.INVISIBLE);
-                }
-                Toast.makeText(ForumPostListActivity.this, statusCode + "Failed loading posts", Toast.LENGTH_SHORT).show();
-            }
-        });
+        FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
+        fetchFromWeb.retreiveData(Constants.FETCH_FORUM_POSTS_URL,requestParams);
 
     }
 }
