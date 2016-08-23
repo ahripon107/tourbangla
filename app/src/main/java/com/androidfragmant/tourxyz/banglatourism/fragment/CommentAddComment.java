@@ -5,6 +5,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,7 +25,6 @@ import com.androidfragmant.tourxyz.banglatourism.model.Comment;
 import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Validator;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
@@ -34,7 +36,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by Ripon on 8/27/15.
@@ -60,7 +61,7 @@ public class CommentAddComment extends Fragment {
 
         comments = new ArrayList<>();
 
-        recyclerView.setAdapter(new AbstractListAdapter<Comment,CommentViewHolder>(comments) {
+        recyclerView.setAdapter(new AbstractListAdapter<Comment, CommentViewHolder>(comments) {
             @Override
             public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.singlecomment, parent, false);
@@ -91,30 +92,33 @@ public class CommentAddComment extends Fragment {
         }
         Log.d(Constants.TAG, url);
 
-        FetchFromWeb.get(url, requestParams, new JsonHttpResponseHandler() {
+        Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    JSONArray jsonArray = response.getJSONArray("content");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        comments.add(new Comment(jsonObject.getString("name"),jsonObject.getString("comment"),jsonObject.getString("timestamp")));
+            public void handleMessage(Message msg) {
+                if (msg.what == Constants.SUCCESS) {
+                    JSONObject response = (JSONObject) msg.obj;
+                    if (response != null) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("content");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                comments.add(new Comment(jsonObject.getString("name"), jsonObject.getString("comment"), jsonObject.getString("timestamp")));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                        if (comments.size() != 0) {
+                            recyclerView.smoothScrollToPosition(comments.size() - 1);
+                        }
+                        Log.d(Constants.TAG, response.toString());
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-                recyclerView.getAdapter().notifyDataSetChanged();
-                if (comments.size() != 0) {
-                    recyclerView.smoothScrollToPosition(comments.size()-1);
-                }
-                Log.d(Constants.TAG, response.toString());
             }
+        };
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(getContext(), statusCode + "Failed", Toast.LENGTH_LONG).show();
-            }
-        });
+        FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
+        fetchFromWeb.retreiveData(url, requestParams);
 
         Button sendComment = (Button) v.findViewById(R.id.btnSubmitComment);
 
@@ -136,7 +140,7 @@ public class CommentAddComment extends Fragment {
                 okButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (Validator.validateNotEmpty(yourName,"Required") && Validator.validateNotEmpty(writeComment,"Required")) {
+                        if (Validator.validateNotEmpty(yourName, "Required") && Validator.validateNotEmpty(writeComment, "Required")) {
                             final String comment = writeComment.getText().toString().trim();
                             final String name = yourName.getText().toString().trim();
                             RequestParams params = new RequestParams();
@@ -158,25 +162,33 @@ public class CommentAddComment extends Fragment {
                             final ProgressDialog progressDialog = new ProgressDialog(getActivity());
                             progressDialog.setMessage("Posting comment..Please wait...");
                             progressDialog.show();
-                            FetchFromWeb.post(url, params, new JsonHttpResponseHandler() {
-                                @Override
-                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(getContext(), "Comment successfully posted", Toast.LENGTH_LONG).show();
-                                    comments.add(new Comment(name,comment,System.currentTimeMillis() + ""));
-                                    recyclerView.getAdapter().notifyDataSetChanged();
-                                    if (comments.size() != 0) {
-                                        recyclerView.smoothScrollToPosition(comments.size()-1);
-                                    }
-                                    Log.d(Constants.TAG, response.toString());
-                                }
 
+                            Handler handler1 = new Handler(Looper.getMainLooper()) {
                                 @Override
-                                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                public void handleMessage(Message msg) {
                                     progressDialog.dismiss();
-                                    Toast.makeText(getContext(), "Failed", Toast.LENGTH_LONG).show();
+                                    if (msg.what == Constants.SUCCESS) {
+                                        JSONObject response = (JSONObject) msg.obj;
+                                        if (response != null) {
+                                            Toast.makeText(getContext(), "Comment successfully posted", Toast.LENGTH_LONG).show();
+                                            comments.add(new Comment(name, comment, System.currentTimeMillis() + ""));
+                                            recyclerView.getAdapter().notifyDataSetChanged();
+                                            if (comments.size() != 0) {
+                                                recyclerView.smoothScrollToPosition(comments.size() - 1);
+                                            }
+                                            Log.d(Constants.TAG, response.toString());
+                                        } else {
+                                            Toast.makeText(getContext(), "Failed", Toast.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(getContext(), "Failed", Toast.LENGTH_LONG).show();
+                                    }
                                 }
-                            });
+                            };
+
+                            FetchFromWeb fetchFromWeb1 = new FetchFromWeb(handler1);
+                            fetchFromWeb1.postData(url, params);
+
                             alertDialog.dismiss();
                         }
                     }

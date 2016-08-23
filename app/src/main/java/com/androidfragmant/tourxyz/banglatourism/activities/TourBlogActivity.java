@@ -3,6 +3,9 @@ package com.androidfragmant.tourxyz.banglatourism.activities;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -151,47 +154,48 @@ public class TourBlogActivity extends RoboAppCompatActivity {
         progressWheel.setVisibility(View.VISIBLE);
         progressWheel.spin();
 
-        String url = Constants.FETCH_BLOG_POSTS_URL;
-        Log.d(Constants.TAG, url);
-
         RequestParams requestParams = new RequestParams();
         requestParams.add(Constants.KEY,Constants.KEY_VALUE);
 
-        FetchFromWeb.get(url,requestParams,new JsonHttpResponseHandler() {
+        Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                blogPosts.clear();
+            public void handleMessage(Message msg) {
                 if (progressWheel.isSpinning()) {
                     progressWheel.stopSpinning();
                     progressWheel.setVisibility(View.INVISIBLE);
                 }
-                try {
-                    JSONArray jsonArray = response.getJSONArray("content");
-                    for (int i=0;i<jsonArray.length();i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        Gson gson = new Gson();
-                        BlogPost blogPost = gson.fromJson(String.valueOf(jsonObject),BlogPost.class);
-                        blogPosts.add(blogPost);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                recyclerView.getAdapter().notifyDataSetChanged();
-                Log.d(Constants.TAG, response.toString());
-            }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                if (progressWheel.isSpinning()) {
-                    progressWheel.stopSpinning();
-                    progressWheel.setVisibility(View.INVISIBLE);
+                if (msg.what== Constants.SUCCESS) {
+                    JSONObject response = (JSONObject) msg.obj;
+                    if (response!=null) {
+                        blogPosts.clear();
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("content");
+                            for (int i=0;i<jsonArray.length();i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                Gson gson = new Gson();
+                                BlogPost blogPost = gson.fromJson(String.valueOf(jsonObject),BlogPost.class);
+                                blogPosts.add(blogPost);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                        Log.d(Constants.TAG, response.toString());
+                    } else {
+                        Toast.makeText(TourBlogActivity.this, " Failed loading posts", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(TourBlogActivity.this, " Failed loading posts", Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(TourBlogActivity.this, statusCode+" Failed loading posts", Toast.LENGTH_LONG).show();
             }
-        });
+        };
+
+        FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
+        fetchFromWeb.retreiveData(Constants.FETCH_BLOG_POSTS_URL,requestParams);
     }
 
-    static class TourBlogViewHolder extends RecyclerView.ViewHolder {
+    private static class TourBlogViewHolder extends RecyclerView.ViewHolder {
         protected ImageView imageView;
         protected TextView title,name,tags;
         protected TextView timestamp;

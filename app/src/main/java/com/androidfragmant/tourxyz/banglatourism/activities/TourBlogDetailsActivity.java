@@ -2,6 +2,9 @@ package com.androidfragmant.tourxyz.banglatourism.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -71,12 +74,8 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
             }
         });
 
-        Intent i = getIntent();
-        BlogPost blogPost = (BlogPost) i.getSerializableExtra("post");
+        BlogPost blogPost = (BlogPost) getIntent().getSerializableExtra("post");
         Picasso.with(TourBlogDetailsActivity.this).load(blogPost.getImage()).into(imageView);
-
-        String sendVisitedBlogUrl = Constants.INSERT_VISITED_BLOG_POST_URL;
-        Log.d(Constants.TAG, sendVisitedBlogUrl);
 
         RequestParams paramsBlog = new RequestParams();
 
@@ -85,16 +84,15 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
         paramsBlog.put("blogtitle",blogPost.getTitle());
         paramsBlog.put("timestamp",System.currentTimeMillis());
 
-        FetchFromWeb.post(sendVisitedBlogUrl, paramsBlog, new JsonHttpResponseHandler() {
+        Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d(Constants.TAG, response.toString());
-            }
+            public void handleMessage(Message msg) {
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
             }
-        });
+        };
+
+        FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
+        fetchFromWeb.postData(Constants.INSERT_VISITED_BLOG_POST_URL,paramsBlog);
 
         setTitle(blogPost.getTitle());
 

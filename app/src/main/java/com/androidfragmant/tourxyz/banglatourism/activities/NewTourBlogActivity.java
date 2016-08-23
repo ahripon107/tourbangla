@@ -10,6 +10,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,7 +25,6 @@ import android.widget.Toast;
 import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
 import com.androidfragmant.tourxyz.banglatourism.util.Validator;
 import com.loopj.android.http.Base64;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
@@ -36,7 +38,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-import cz.msebera.android.httpclient.Header;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
@@ -139,32 +140,36 @@ public class NewTourBlogActivity extends RoboAppCompatActivity {
                     params.put("name",blogWriterName);
                     params.put("timestamp",System.currentTimeMillis()+"");
 
-                    String url = Constants.INSERT_BLOG_POST_URL;
-                    Log.d(Constants.TAG, url);
                     final ProgressDialog progressDialog = new ProgressDialog(NewTourBlogActivity.this);
                     progressDialog.setMessage("Please wait...");
                     progressDialog.setCancelable(false);
                     progressDialog.show();
 
-                    FetchFromWeb.post(url, params, new JsonHttpResponseHandler() {
+                    Handler handler = new Handler(Looper.getMainLooper()) {
                         @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        public void handleMessage(Message msg) {
                             progressDialog.dismiss();
-                            title.getText().clear();
-                            details.getText().clear();
-                            tags.getText().clear();
-                            writername.getText().clear();
-                            selectedPicture.setText("No Picture Selected");
-                            Toast.makeText(NewTourBlogActivity.this,"Your Post Added Successfully.",Toast.LENGTH_SHORT).show();
-                            EventBus.getDefault().post(new BlogPost(blogWriterName,blogTitle,blogDetails,blogTags,encodedImage,System.currentTimeMillis()+""));
+                            if (msg.what== Constants.SUCCESS) {
+                                JSONObject response = (JSONObject) msg.obj;
+                                if (response!=null) {
+                                    title.getText().clear();
+                                    details.getText().clear();
+                                    tags.getText().clear();
+                                    writername.getText().clear();
+                                    selectedPicture.setText("No Picture Selected");
+                                    Toast.makeText(NewTourBlogActivity.this,"Your Post Added Successfully.",Toast.LENGTH_SHORT).show();
+                                    EventBus.getDefault().post(new BlogPost(blogWriterName,blogTitle,blogDetails,blogTags,encodedImage,System.currentTimeMillis()+""));
+                                } else {
+                                    Toast.makeText(NewTourBlogActivity.this,"Failed..Please try again..",Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(NewTourBlogActivity.this,"Failed..Please try again..",Toast.LENGTH_SHORT).show();
+                            }
                         }
+                    };
 
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            progressDialog.dismiss();
-                            Toast.makeText(NewTourBlogActivity.this,statusCode+"Failed..Please try again..",Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
+                    fetchFromWeb.postData(Constants.INSERT_BLOG_POST_URL,params);
                 }
             }
         });

@@ -3,6 +3,9 @@ package com.androidfragmant.tourxyz.banglatourism.activities;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -117,44 +120,46 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
         RequestParams requestParams = new RequestParams();
         requestParams.add(Constants.KEY,Constants.KEY_VALUE);
 
-        String url = Constants.TOUR_OPERATOR_OFFER_URL;
-        Log.d(Constants.TAG, url);
-
-        FetchFromWeb.get(url,requestParams,new JsonHttpResponseHandler() {
+        Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void handleMessage(Message msg) {
                 if (progressWheel.isSpinning()) {
                     progressWheel.stopSpinning();
                     progressWheel.setVisibility(View.INVISIBLE);
                 }
-                try {
-                    JSONArray jsonArray = response.getJSONArray("content");
-                    for (int i=0;i<jsonArray.length();i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                        Gson gson = new Gson();
-                        TourOperatorOffer operatorOffer = gson.fromJson(String.valueOf(jsonObject),TourOperatorOffer.class);
-                        offers.add(operatorOffer);
+                if (msg.what == Constants.SUCCESS) {
+                    JSONObject response = (JSONObject) msg.obj;
+                    if (response != null) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("content");
+                            for (int i=0;i<jsonArray.length();i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                Gson gson = new Gson();
+                                TourOperatorOffer operatorOffer = gson.fromJson(String.valueOf(jsonObject),TourOperatorOffer.class);
+                                offers.add(operatorOffer);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                        Log.d(Constants.TAG, response.toString());
+                    } else {
+                        Toast.makeText(TourOperatorOffersListActivity.this, "Failed loading...Please try again...", Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    Toast.makeText(TourOperatorOffersListActivity.this, "Failed loading...Please try again...", Toast.LENGTH_LONG).show();
                 }
-                recyclerView.getAdapter().notifyDataSetChanged();
-                Log.d(Constants.TAG, response.toString());
             }
+        };
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                if (progressWheel.isSpinning()) {
-                    progressWheel.stopSpinning();
-                    progressWheel.setVisibility(View.INVISIBLE);
-                }
-                Toast.makeText(TourOperatorOffersListActivity.this, statusCode+"Failed loading...Please try again...", Toast.LENGTH_LONG).show();
-            }
-        });
+        FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
+        fetchFromWeb.retreiveData(Constants.TOUR_OPERATOR_OFFER_URL,requestParams);
+
     }
 
-    static class TourOperatorOfferViewHolder extends RecyclerView.ViewHolder {
+    private static class TourOperatorOfferViewHolder extends RecyclerView.ViewHolder {
         protected TextView offerTitle;
         protected TextView offerSummary;
         protected Button button;

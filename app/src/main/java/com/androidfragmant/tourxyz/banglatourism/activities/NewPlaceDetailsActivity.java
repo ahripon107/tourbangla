@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -113,15 +116,11 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
             }
         });
 
-        Intent i = getIntent();
-        id = i.getExtras().getInt("id");
+        id = getIntent().getExtras().getInt("id");
 
         selectedPlace = PlaceAccessHelper.getPlace(id);
         String picture = selectedPlace.getPicture();
         Log.d(Constants.TAG, picture);
-
-        String sendPlaceNameUrl = Constants.INSERT_VISITED_PLACE_ELEMENT_URL;
-        Log.d(Constants.TAG, sendPlaceNameUrl);
 
         RequestParams paramsName = new RequestParams();
 
@@ -129,16 +128,15 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
         paramsName.put("placename",selectedPlace.getName());
         paramsName.put("timestamp",System.currentTimeMillis());
 
-        FetchFromWeb.post(sendPlaceNameUrl, paramsName, new JsonHttpResponseHandler() {
+        Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d(Constants.TAG, response.toString());
-            }
+            public void handleMessage(Message msg) {
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
             }
-        });
+        };
+
+        FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
+        fetchFromWeb.postData(Constants.INSERT_VISITED_PLACE_ELEMENT_URL,paramsName);
 
         Picasso.with(getApplicationContext()).load(picture).into(imageView);
         int noOfTabs = 5;

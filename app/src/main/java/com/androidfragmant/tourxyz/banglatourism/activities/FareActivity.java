@@ -3,6 +3,9 @@ package com.androidfragmant.tourxyz.banglatourism.activities;
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -162,31 +165,37 @@ public class FareActivity extends RoboAppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        FetchFromWeb.get(url, requestParams, new JsonHttpResponseHandler() {
+        Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void handleMessage(Message msg) {
                 progressDialog.dismiss();
-                try {
-                    JSONArray jsonArray = response.getJSONArray("content");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        Gson gson = new Gson();
-                        Fare f = gson.fromJson(String.valueOf(jsonObject), Fare.class);
-                        allFares.add(f);
+                if (msg.what==Constants.SUCCESS) {
+                    JSONObject response = (JSONObject) msg.obj;
+                    if (response != null) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("content");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                Gson gson = new Gson();
+                                Fare f = gson.fromJson(String.valueOf(jsonObject), Fare.class);
+                                allFares.add(f);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Log.d(Constants.TAG, response.toString());
+                    } else {
+                        Toast.makeText(FareActivity.this, "Failed", Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    Toast.makeText(FareActivity.this, "Failed", Toast.LENGTH_LONG).show();
                 }
-
-                Log.d(Constants.TAG, response.toString());
             }
+        };
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                progressDialog.dismiss();
-                Toast.makeText(FareActivity.this, "Failed", Toast.LENGTH_LONG).show();
-            }
-        });
+        FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
+        fetchFromWeb.retreiveData(Constants.FETCH_FARES_URL,requestParams);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,7 +239,7 @@ public class FareActivity extends RoboAppCompatActivity {
         return e;
     }
 
-    static class FareViewHolder extends RecyclerView.ViewHolder {
+    private static class FareViewHolder extends RecyclerView.ViewHolder {
         protected TextView companyName;
         protected TextView fare;
         protected TextView timeToLeave;
