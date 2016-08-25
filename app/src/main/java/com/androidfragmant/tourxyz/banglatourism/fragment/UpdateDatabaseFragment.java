@@ -6,6 +6,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -55,26 +58,34 @@ public class UpdateDatabaseFragment extends Fragment {
 
                     String url = Constants.FETCH_PLACES_URL;
                     Log.d(Constants.TAG, url);
+
                     final ProgressDialog progressDialog = new ProgressDialog(getActivity());
                     progressDialog.setMessage("Please wait...this may take a while...");
                     progressDialog.setTitle("Loading data");
                     progressDialog.show();
 
-                    FetchFromWeb.get(url, requestParams, new JsonHttpResponseHandler() {
+                    Handler handler = new Handler(Looper.getMainLooper()) {
                         @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        public void handleMessage(Message msg) {
                             progressDialog.dismiss();
-                            FileProcessor fileProcessor = new FileProcessor(getActivity());
-                            fileProcessor.writeToFile(response.toString());
-                            Toast.makeText(getActivity(),"Successfully Updated", Toast.LENGTH_LONG).show();
+                            if (msg.what==Constants.SUCCESS) {
+                                JSONObject response = (JSONObject) msg.obj;
+                                if (response != null) {
+                                    FileProcessor fileProcessor = new FileProcessor(getActivity());
+                                    fileProcessor.writeToFile(response.toString());
+                                    Toast.makeText(getActivity(),"Successfully Updated", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getActivity(), "failed", Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Toast.makeText(getActivity(), "failed", Toast.LENGTH_LONG).show();
+                            }
                         }
+                    };
 
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getActivity(), statusCode + "failed", Toast.LENGTH_LONG).show();
-                        }
-                    });
+                    FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
+                    fetchFromWeb.retreiveData(Constants.FETCH_PLACES_URL,requestParams);
+
                 }
             }
         });

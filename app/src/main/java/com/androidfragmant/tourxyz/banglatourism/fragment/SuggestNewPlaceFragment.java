@@ -2,6 +2,9 @@ package com.androidfragmant.tourxyz.banglatourism.fragment;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,26 +85,33 @@ public class SuggestNewPlaceFragment extends RoboFragment {
                     progressDialog.setMessage("Loading...");
                     progressDialog.show();
 
-                    FetchFromWeb.post(url, params, new JsonHttpResponseHandler() {
+                    Handler handler = new Handler(Looper.getMainLooper()) {
                         @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        public void handleMessage(Message msg) {
                             progressDialog.dismiss();
-                            name.getText().clear();
-                            address.getText().clear();
-                            division.getText().clear();
-                            description.getText().clear();
-                            howtogo.getText().clear();
-                            hotels.getText().clear();
-                            email.getText().clear();
-                            Toast.makeText(getContext(), "Thank you for your suggestion.", Toast.LENGTH_LONG).show();
+                            if (msg.what==Constants.SUCCESS) {
+                                JSONObject response = (JSONObject) msg.obj;
+                                if (response!=null) {
+                                    name.getText().clear();
+                                    address.getText().clear();
+                                    division.getText().clear();
+                                    description.getText().clear();
+                                    howtogo.getText().clear();
+                                    hotels.getText().clear();
+                                    email.getText().clear();
+                                    Toast.makeText(getContext(), "Thank you for your suggestion.", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getContext(), "Failed..Please try again..", Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Toast.makeText(getContext(), "Failed..Please try again.." , Toast.LENGTH_LONG).show();
+                            }
                         }
+                    };
 
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getContext(), "Failed..Please try again.." + statusCode, Toast.LENGTH_LONG).show();
-                        }
-                    });
+                    FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
+                    fetchFromWeb.postData(Constants.SUGGEST_NEW_PLACE_URL,params);
+
                 }
             }
         });

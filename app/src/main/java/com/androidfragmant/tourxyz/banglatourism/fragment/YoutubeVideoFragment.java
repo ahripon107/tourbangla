@@ -3,6 +3,9 @@ package com.androidfragmant.tourxyz.banglatourism.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -98,29 +101,33 @@ public class YoutubeVideoFragment extends Fragment {
         url = Constants.FETCH_YOUTUBE_VIDEOS_URL;
         Log.d(Constants.TAG, url);
 
-        FetchFromWeb.get(url, params, new JsonHttpResponseHandler() {
+        Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Gson gson = new Gson();
-                try {
-                    JSONArray jsonArray = response.getJSONArray("content");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        YoutubeVideo youtubeVideo = gson.fromJson(String.valueOf(jsonObject), YoutubeVideo.class);
-                        youtubeVideos.add(youtubeVideo);
+            public void handleMessage(Message msg) {
+                if (msg.what==Constants.SUCCESS) {
+                    JSONObject response = (JSONObject) msg.obj;
+                    if (response!=null) {
+                        Gson gson = new Gson();
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("content");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                YoutubeVideo youtubeVideo = gson.fromJson(String.valueOf(jsonObject), YoutubeVideo.class);
+                                youtubeVideos.add(youtubeVideo);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                        Log.d(Constants.TAG, response.toString());
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-                recyclerView.getAdapter().notifyDataSetChanged();
-                Log.d(Constants.TAG, response.toString());
             }
+        };
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(getContext(), statusCode + "Failed", Toast.LENGTH_LONG).show();
-            }
-        });
+        FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
+        fetchFromWeb.retreiveData(Constants.FETCH_YOUTUBE_VIDEOS_URL,params);
+
         return view;
     }
 

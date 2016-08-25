@@ -3,6 +3,9 @@ package com.androidfragmant.tourxyz.banglatourism.fragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -60,31 +63,39 @@ public class FeedbackFragment extends RoboFragment {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Validator.validateNotEmpty(title,"Required") && Validator.validateNotEmpty(details,"Required")) {
+                if (Validator.validateNotEmpty(title, "Required") && Validator.validateNotEmpty(details, "Required")) {
+
                     RequestParams params = new RequestParams();
-                    params.put(Constants.KEY,Constants.KEY_VALUE);
-                    params.put("title",title.getText().toString());
-                    params.put("details",details.getText().toString());
-                    String url = Constants.SEND_FEEDBACK_URL;
-                    Log.d(Constants.TAG, url);
+                    params.put(Constants.KEY, Constants.KEY_VALUE);
+                    params.put("title", title.getText().toString());
+                    params.put("details", details.getText().toString());
+
                     final ProgressDialog progressDialog = new ProgressDialog(getContext());
                     progressDialog.setMessage("Sending Feedback...Please Wait...");
                     progressDialog.show();
-                    FetchFromWeb.post(url,params,new JsonHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            progressDialog.dismiss();
-                            title.getText().clear();
-                            details.getText().clear();
-                            Toast.makeText(getContext(), "Thank you for your feedback.", Toast.LENGTH_LONG).show();
-                        }
 
+                    Handler handler = new Handler(Looper.getMainLooper()) {
                         @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        public void handleMessage(Message msg) {
                             progressDialog.dismiss();
-                            Toast.makeText(getContext(), "Failed "+statusCode, Toast.LENGTH_LONG).show();
+                            if (msg.what == Constants.SUCCESS) {
+                                JSONObject response = (JSONObject) msg.obj;
+                                if (response != null) {
+                                    title.getText().clear();
+                                    details.getText().clear();
+                                    Toast.makeText(getContext(), "Thank you for your feedback.", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getContext(), "Failed", Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Toast.makeText(getContext(), "Failed", Toast.LENGTH_LONG).show();
+                            }
                         }
-                    });
+                    };
+
+                    FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
+                    fetchFromWeb.postData(Constants.SEND_FEEDBACK_URL, params);
+
                 }
             }
         });
