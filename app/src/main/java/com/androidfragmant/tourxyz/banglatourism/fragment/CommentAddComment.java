@@ -81,7 +81,7 @@ public class CommentAddComment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         RequestParams requestParams = new RequestParams();
-        if (getArguments().get("number") == 2) {
+        if (getArguments().getInt("number") == 2) {
             requestParams.add(Constants.KEY, Constants.KEY_VALUE);
             requestParams.add("id", getArguments().getInt("id") + "");
             url = Constants.FETCH_BLOG_POST_COMMENTS_URL;
@@ -144,7 +144,7 @@ public class CommentAddComment extends Fragment {
                             final String comment = writeComment.getText().toString().trim();
                             final String name = yourName.getText().toString().trim();
                             RequestParams params = new RequestParams();
-                            if (getArguments().get("number") == 2) {
+                            if (getArguments().getInt("number") == 2) {
                                 params.put(Constants.KEY, Constants.KEY_VALUE);
                                 params.put("id", getArguments().getInt("id"));
                                 params.put("name", name);
