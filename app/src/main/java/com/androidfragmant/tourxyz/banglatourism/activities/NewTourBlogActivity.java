@@ -42,7 +42,7 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 9/21/15.
+ * @author Ripon
  */
 @ContentView(R.layout.newtourblog)
 public class NewTourBlogActivity extends RoboAppCompatActivity {

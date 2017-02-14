@@ -5,7 +5,7 @@ import com.androidfragmant.tourxyz.banglatourism.model.Place;
 import java.util.ArrayList;
 
 /**
- * Created by Ripon on 7/7/16.
+ * @author Ripon
  */
 public class PlaceAccessHelper {
 

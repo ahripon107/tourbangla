@@ -44,7 +44,7 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 7/6/16.
+ * @author Ripon
  */
 @ContentView(R.layout.browsebydivision)
 public class TourOperatorOffersListActivity extends RoboAppCompatActivity {

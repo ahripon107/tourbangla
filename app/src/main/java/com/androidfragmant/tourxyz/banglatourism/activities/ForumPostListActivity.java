@@ -26,6 +26,7 @@ import com.androidfragmant.tourxyz.banglatourism.model.ForumPost;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.Validator;
 import com.google.gson.Gson;
+import com.google.inject.Inject;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -47,29 +48,30 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 6/18/15.
+ * @author Ripon
  */
 @ContentView(R.layout.forumpostlist)
 public class ForumPostListActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.pwTourOperator)
-    ProgressWheel progressWheel;
+    private ProgressWheel progressWheel;
 
     @InjectView(R.id.recyclerViewForumPostList)
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     @InjectView(R.id.toolbar2)
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
     @InjectView(R.id.adViewTourOperator)
-    AdView adView;
+    private AdView adView;
 
     @InjectView(R.id.fabAddNewForumPost)
     private FloatingActionButton fab;
 
-    ArrayList<ForumPost> forumPosts;
+    @Inject
+    private ArrayList<ForumPost> forumPosts;
 
-    ForumPostListAdapter forumPostListAdapter;
+    private ForumPostListAdapter forumPostListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,14 +89,9 @@ public class ForumPostListActivity extends RoboAppCompatActivity {
                 finish();
             }
         });
-        setTitle("Forum");
 
-        forumPosts = new ArrayList<>();
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ForumPostListActivity.this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        forumPostListAdapter = new ForumPostListAdapter(ForumPostListActivity.this, forumPosts);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        forumPostListAdapter = new ForumPostListAdapter(this, forumPosts);
         recyclerView.setAdapter(forumPostListAdapter);
 
         fetchContents();

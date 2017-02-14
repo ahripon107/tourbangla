@@ -1,6 +1,5 @@
 package com.androidfragmant.tourxyz.banglatourism.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import com.androidfragmant.tourxyz.banglatourism.model.DistrictName;
 import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
+import com.google.inject.Inject;
 
 import java.util.ArrayList;
 
@@ -26,29 +26,29 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 7/5/16.
+ * @author Ripon
  */
 @ContentView(R.layout.divisionlist)
 public class DistrictListActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.divisionListRecyclerView)
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     @InjectView(R.id.divisionListBar)
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    String[] districts;
-    String[] districtsBangla;
+    @Inject
+    private ArrayList<DistrictName> districtNames;
 
-    ArrayList<DistrictName> districtNames;
-    Typeface tf;
+    private String[] districts;
+    private String[] districtsBangla;
+    private Typeface tf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        districtNames = new ArrayList<>();
-        tf = Typeface.createFromAsset(getAssets(), Constants.SOLAIMAN_LIPI_FONT);
+        tf = Constants.solaimanLipiFont(this);
 
         final String divisionName = getIntent().getStringExtra(Constants.DIVISION_NAME);
 
@@ -130,7 +130,7 @@ public class DistrictListActivity extends RoboAppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    static class DistrictListViewHolder extends RecyclerView.ViewHolder {
+    private static class DistrictListViewHolder extends RecyclerView.ViewHolder {
         protected TextView textView1, textView2;
         protected LinearLayout linearLayout;
 

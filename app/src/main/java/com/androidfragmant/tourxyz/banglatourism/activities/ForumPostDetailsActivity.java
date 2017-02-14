@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidfragmant.tourxyz.banglatourism.BuildConfig;
 import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.model.Comment;
 import com.androidfragmant.tourxyz.banglatourism.model.ForumPost;
@@ -46,7 +47,7 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 8/28/15.
+ * @author Ripon
  */
 @ContentView(R.layout.forumpostdetails)
 public class ForumPostDetailsActivity extends RoboAppCompatActivity {
@@ -64,18 +65,16 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
     private RecyclerView recyclerView;
 
     @InjectView(R.id.adViewForumPostDetails)
-    AdView adView;
+    private AdView adView;
 
     @InjectView(R.id.btnAnswer)
     private Button btnAns;
 
-    String nameString, questionString;
+    private ArrayList<Comment> comments;
 
-    ArrayList<Comment> comments;
+    private Typeface tf;
 
-    Typeface tf;
-
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -96,9 +95,9 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
         progressDialog.setMessage("Please Wait...");
 
         comments = new ArrayList<>();
-        tf = Typeface.createFromAsset(getAssets(), Constants.SOLAIMAN_LIPI_FONT);
+        tf = Constants.solaimanLipiFont(this);
 
-        recyclerView.setAdapter(new AbstractListAdapter<Comment,ForumCommentViewHolder>(comments) {
+        recyclerView.setAdapter(new AbstractListAdapter<Comment, ForumCommentViewHolder>(comments) {
             @Override
             public ForumCommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.singlecomment, parent, false);
@@ -117,12 +116,10 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(ForumPostDetailsActivity.this));
 
+        ForumPost forumPost = (ForumPost) getIntent().getSerializableExtra("forumpost");
 
-        Intent i = getIntent();
-        ForumPost forumPost = (ForumPost) i.getSerializableExtra("forumpost");
-
-        nameString = forumPost.getName();
-        questionString = forumPost.getQuestion();
+        String nameString = forumPost.getName();
+        String questionString = forumPost.getQuestion();
         final int id = forumPost.getId();
         setTitle(questionString);
 
@@ -132,13 +129,12 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
         question.setText(questionString);
 
         RequestParams requestParams = new RequestParams();
-        requestParams.add(Constants.KEY,Constants.KEY_VALUE);
-        requestParams.add("postid",id+"");
-
+        requestParams.add(Constants.KEY, Constants.KEY_VALUE);
+        requestParams.add("postid", id + "");
 
         progressDialog.show();
 
-        Handler handler = new Handler(Looper.getMainLooper()){
+        Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
                 progressDialog.dismiss();
@@ -150,36 +146,39 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                             JSONArray jsonArray = response.getJSONArray("content");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                comments.add(new Comment(jsonObject.getString("name"),jsonObject.getString("comment"),jsonObject.getString("timestamp")));
+                                comments.add(new Comment(jsonObject.getString("name"), jsonObject.getString("comment"), jsonObject.getString("timestamp")));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         recyclerView.getAdapter().notifyDataSetChanged();
                         if (comments.size() != 0) {
-                            recyclerView.smoothScrollToPosition(comments.size()-1);
+                            recyclerView.smoothScrollToPosition(comments.size() - 1);
                         }
 
-                        Log.d(Constants.TAG, response.toString());
+                        if (BuildConfig.DEBUG)
+                            Log.d(Constants.TAG, response.toString());
                     } else {
-                        Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
                 }
             }
         };
         FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
-        fetchFromWeb.retreiveData(Constants.FETCH_FORUM_POST_COMMENTS,requestParams);
+        fetchFromWeb.retreiveData(Constants.FETCH_FORUM_POST_COMMENTS, requestParams);
 
 
         btnAns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LayoutInflater li = LayoutInflater.from(ForumPostDetailsActivity.this);
-                View promptsView = li.inflate(R.layout.addnewcomment, null,false);
+                View promptsView = li.inflate(R.layout.addnewcomment, null, false);
+
                 final EditText writeComment = (EditText) promptsView.findViewById(R.id.etYourComment);
                 final EditText yourName = (EditText) promptsView.findViewById(R.id.etYourName);
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(ForumPostDetailsActivity.this);
                 builder.setView(promptsView);
                 builder.setTitle("মন্তব্য").setPositiveButton("SUBMIT", null).setNegativeButton("CANCEL", null);
@@ -191,7 +190,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                 okButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (Validator.validateNotEmpty(yourName,"Required") && Validator.validateNotEmpty(writeComment,"Required")) {
+                        if (Validator.validateNotEmpty(yourName, "Required") && Validator.validateNotEmpty(writeComment, "Required")) {
                             final String comment = writeComment.getText().toString().trim();
                             final String name = yourName.getText().toString().trim();
 
@@ -201,10 +200,10 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                             params.put("name", name);
                             params.put("postid", id);
                             params.put("comment", comment);
-                            params.put("timestamp",System.currentTimeMillis()+"");
+                            params.put("timestamp", System.currentTimeMillis() + "");
 
                             progressDialog.show();
-                            Handler handler1 = new Handler(Looper.getMainLooper()){
+                            Handler handler1 = new Handler(Looper.getMainLooper()) {
                                 @Override
                                 public void handleMessage(Message msg) {
                                     progressDialog.dismiss();
@@ -212,23 +211,23 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                                         JSONObject response = (JSONObject) msg.obj;
                                         if (response != null) {
                                             Toast.makeText(ForumPostDetailsActivity.this, "Comment successfully posted", Toast.LENGTH_LONG).show();
-                                            comments.add(new Comment(name,comment,System.currentTimeMillis()+""));
+                                            comments.add(new Comment(name, comment, System.currentTimeMillis() + ""));
                                             recyclerView.getAdapter().notifyDataSetChanged();
                                             if (comments.size() != 0) {
-                                                recyclerView.smoothScrollToPosition(comments.size()-1);
+                                                recyclerView.smoothScrollToPosition(comments.size() - 1);
                                             }
                                             Log.d(Constants.TAG, response.toString());
                                         } else {
-                                            Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
-                                        Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             };
 
                             FetchFromWeb send = new FetchFromWeb(handler1);
-                            send.postData(Constants.INSERT_FORUM_POST_COMMENT_URL,params);
+                            send.postData(Constants.INSERT_FORUM_POST_COMMENT_URL, params);
 
                             alertDialog.dismiss();
                         }

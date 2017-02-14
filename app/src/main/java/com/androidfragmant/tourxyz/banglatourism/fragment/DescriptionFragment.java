@@ -12,7 +12,7 @@ import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 
 /**
- * Created by Ripon on 8/26/15.
+ * @author Ripon
  */
 public class DescriptionFragment extends Fragment {
 
@@ -29,7 +29,6 @@ public class DescriptionFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        inflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.placedescription, container, false);
         TextView textView = (TextView) v.findViewById(R.id.placedescription);
         Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), Constants.SOLAIMAN_LIPI_FONT);

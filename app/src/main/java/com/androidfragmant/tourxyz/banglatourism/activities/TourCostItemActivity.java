@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -36,7 +35,7 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 8/5/16.
+ * @author Ripon
  */
 @ContentView(R.layout.activity_tour_cost_item)
 public class TourCostItemActivity extends RoboAppCompatActivity {
@@ -44,13 +43,13 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
     public static final String EXTRA_PLACE_ID = "placeid";
 
     @InjectView(R.id.cost_item_recycler_view)
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
-    @InjectView(R.id.fab_add_new_tour_cost_item)
-    FloatingActionButton addNewCostItem;
+    @InjectView(R.id.new_cost_item_button)
+    private Button addNewCostItem;
 
     @InjectView(R.id.bar)
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
     ArrayList<CostItem> costItems;
 

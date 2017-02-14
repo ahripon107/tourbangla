@@ -18,6 +18,7 @@ import com.androidfragmant.tourxyz.banglatourism.model.Place;
 import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.ImageUtil;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
+import com.google.inject.Inject;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -34,23 +35,24 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 6/13/15.
+ * @author Ripon
  */
 @ContentView(R.layout.browsebydivision)
 public class BrowseByDivisionActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.adViewDivision)
-    AdView adView;
+    private AdView adView;
 
     @InjectView(R.id.tool_bar)
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
     @InjectView(R.id.gridview)
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
-    ArrayList<Place> places;
+    @Inject
+    private ArrayList<Place> places;
 
-    Typeface tf;
+    private Typeface tf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,6 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
                 finish();
             }
         });
-        places = new ArrayList<>();
 
         String divisionName = getIntent().getStringExtra(Constants.DIVISION_NAME);
         String districtName = getIntent().getStringExtra(Constants.DISTRICT_NAME);
@@ -107,7 +108,7 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
         adView.loadAd(adRequest);
     }
 
-    static class PlaceCardViewHolder extends RecyclerView.ViewHolder {
+    private static class PlaceCardViewHolder extends RecyclerView.ViewHolder {
         protected ImageView imageView;
         protected TextView title;
         protected LinearLayout linearLayout;

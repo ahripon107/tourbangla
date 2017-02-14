@@ -1,18 +1,12 @@
 package com.androidfragmant.tourxyz.banglatourism.util;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
 
-import com.androidfragmant.tourxyz.banglatourism.R;
-
 /**
- * Created by amin on 8/21/16.
+ * @author Ripon
  */
 public class MenuHelper {
     public static final int NONE = -1;

@@ -21,7 +21,7 @@ import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import java.util.ArrayList;
 
 /**
- * Created by Ripon on 8/28/15.
+ * @author Ripon
  */
 public class ForumPostListAdapter extends RecyclerView.Adapter<ForumPostListAdapter.ForumPostViewHolder> {
     private Context context;

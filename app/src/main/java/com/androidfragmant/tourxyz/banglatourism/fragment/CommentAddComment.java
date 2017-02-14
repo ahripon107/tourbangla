@@ -35,16 +35,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
- * Created by Ripon on 8/27/15.
+ * @author Ripon
  */
 public class CommentAddComment extends Fragment {
-    ArrayList<Comment> comments;
-    String url;
-    RecyclerView recyclerView;
-    Typeface tf;
+    private ArrayList<Comment> comments;
+    private String url;
+    private RecyclerView recyclerView;
+    private Typeface tf;
 
     public CommentAddComment() {
 
@@ -81,13 +82,12 @@ public class CommentAddComment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         RequestParams requestParams = new RequestParams();
+        requestParams.add(Constants.KEY, Constants.KEY_VALUE);
+        requestParams.add("id", getArguments().getInt("id") + "");
+
         if (getArguments().getInt("number") == 2) {
-            requestParams.add(Constants.KEY, Constants.KEY_VALUE);
-            requestParams.add("id", getArguments().getInt("id") + "");
             url = Constants.FETCH_BLOG_POST_COMMENTS_URL;
         } else {
-            requestParams.add(Constants.KEY, Constants.KEY_VALUE);
-            requestParams.add("id", getArguments().getInt("id") + "");
             url = Constants.FETCH_PLACE_COMMENTS_URL;
         }
         Log.d(Constants.TAG, url);
@@ -103,6 +103,7 @@ public class CommentAddComment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                                 comments.add(new Comment(jsonObject.getString("name"), jsonObject.getString("comment"), jsonObject.getString("timestamp")));
+                                Collections.reverse(comments);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -144,21 +145,14 @@ public class CommentAddComment extends Fragment {
                             final String comment = writeComment.getText().toString().trim();
                             final String name = yourName.getText().toString().trim();
                             RequestParams params = new RequestParams();
+                            getParameters(params,comment,name);
+
                             if (getArguments().getInt("number") == 2) {
-                                params.put(Constants.KEY, Constants.KEY_VALUE);
-                                params.put("id", getArguments().getInt("id"));
-                                params.put("name", name);
-                                params.put("comment", comment);
-                                params.put("timestamp", System.currentTimeMillis() + "");
                                 url = Constants.INSERT_BLOG_POST_COMMENT_URL;
                             } else {
-                                params.put(Constants.KEY, Constants.KEY_VALUE);
-                                params.put("id", getArguments().getInt("id"));
-                                params.put("name", name);
-                                params.put("comment", comment);
-                                params.put("timestamp", System.currentTimeMillis() + "");
                                 url = Constants.INSERT_PLACE_COMMENT_URL;
                             }
+
                             final ProgressDialog progressDialog = new ProgressDialog(getActivity());
                             progressDialog.setMessage("Posting comment..Please wait...");
                             progressDialog.show();
@@ -171,7 +165,7 @@ public class CommentAddComment extends Fragment {
                                         JSONObject response = (JSONObject) msg.obj;
                                         if (response != null) {
                                             Toast.makeText(getContext(), "Comment successfully posted", Toast.LENGTH_LONG).show();
-                                            comments.add(new Comment(name, comment, System.currentTimeMillis() + ""));
+                                            comments.add(0, new Comment(name, comment, System.currentTimeMillis() + ""));
                                             recyclerView.getAdapter().notifyDataSetChanged();
                                             if (comments.size() != 0) {
                                                 recyclerView.smoothScrollToPosition(comments.size() - 1);
@@ -196,6 +190,15 @@ public class CommentAddComment extends Fragment {
             }
         });
         return v;
+    }
+
+    public void getParameters(RequestParams params, String comment, String name) {
+        params.put(Constants.KEY, Constants.KEY_VALUE);
+        params.put("id", getArguments().getInt("id"));
+        params.put("name", name);
+        params.put("comment", comment);
+        params.put("timestamp", System.currentTimeMillis() + "");
+
     }
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {

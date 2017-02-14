@@ -49,7 +49,7 @@ import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 6/11/15.
+ * @author Ripon
  */
 public class HomeFragment extends RoboFragment {
 

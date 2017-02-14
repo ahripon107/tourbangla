@@ -59,7 +59,6 @@ public class TourCostCalculatorFragment extends RoboFragment {
     Gson gson;
     Typeface tf;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

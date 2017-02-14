@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.R;
 
 /**
- * Created by Ripon on 9/27/15.
+ * @author Ripon
  */
 public class FrontPageActivity extends AppCompatActivity {
 

@@ -1,8 +1,11 @@
 package com.androidfragmant.tourxyz.banglatourism.util;
 
 
+import android.content.Context;
+import android.graphics.Typeface;
+
 /**
- * Created by Ripon on 6/3/16.
+ * @author Ripon
  */
 public class Constants {
     public static final String TAG = "tourxyz";
@@ -18,7 +21,7 @@ public class Constants {
     public static final String TOUR_OPERATOR_OFFER_URL = "http://apisea.xyz/TourBangla/apis/v1/tourOperatorOffer.php";
     public static final String FRONT_PAGE_IMAGE_LIST_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchHomeFragmentImageList.php";
 
-    /////////////// PLACE RELATED URL //////////////////
+    /************************ PLACE RELATED URL ***************************/
     public static final String FETCH_PLACES_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchPlaces.php";
     public static final String INSERT_PLACE_COMMENT_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertPlaceComment.php";
     public static final String FETCH_PLACE_COMMENTS_URL = "http://apisea.xyz/TourBangla/apis/v1/PlaceComments.php";
@@ -97,5 +100,9 @@ public class Constants {
         } else {
             return diff / DAY_MILLIS + " days ago";
         }
+    }
+
+    public static Typeface solaimanLipiFont(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
     }
 }

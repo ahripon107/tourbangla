@@ -3,15 +3,13 @@ package com.androidfragmant.tourxyz.banglatourism.model;
 import java.io.Serializable;
 
 /**
- * Created by Ripon on 7/16/16.
+ * @author Ripon
  */
 public class ForumPost implements Serializable {
-
     private int id;
     private String name;
     private String question;
     private String timestamp;
-
 
     public ForumPost(int id, String name, String question, String timestamp) {
         this.id = id;
