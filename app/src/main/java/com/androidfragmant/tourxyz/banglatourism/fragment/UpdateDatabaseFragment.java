@@ -1,17 +1,12 @@
 package com.androidfragmant.tourxyz.banglatourism.fragment;
 
-
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,33 +14,41 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.FileProcessor;
 import com.androidfragmant.tourxyz.banglatourism.R;
-import com.androidfragmant.tourxyz.banglatourism.util.Constants;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.androidfragmant.tourxyz.banglatourism.activities.DivisionListActivity;
+import com.androidfragmant.tourxyz.banglatourism.util.DefaultMessageHandler;
+import com.androidfragmant.tourxyz.banglatourism.util.NetworkService;
+import com.google.inject.Inject;
 
-import org.json.JSONObject;
-
-import cz.msebera.android.httpclient.Header;
+import roboguice.fragment.RoboFragment;
+import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 7/15/16.
+ * @author Ripon
  */
-public class UpdateDatabaseFragment extends Fragment {
+public class UpdateDatabaseFragment extends RoboFragment {
 
-    public UpdateDatabaseFragment() {
+    @InjectView(R.id.tvUpdateDatabase)
+    private TextView textView;
 
-    }
+    @InjectView(R.id.btnUpdateDatabase)
+    private Button button;
+
+    @Inject
+    private NetworkService networkService;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_update_database,container,false);
-        TextView textView = (TextView) rootView.findViewById(R.id.tvUpdateDatabase);
+        return inflater.inflate(R.layout.fragment_update_database,container,false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         textView.setText("Click button to update place database");
-        Button button = (Button) rootView.findViewById(R.id.btnUpdateDatabase);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,43 +56,21 @@ public class UpdateDatabaseFragment extends Fragment {
                     Toast.makeText(getActivity(),"Please check your internet connection",Toast.LENGTH_LONG).show();
                 }
                 else {
-                    RequestParams requestParams = new RequestParams();
-                    requestParams.add(Constants.KEY,Constants.KEY_VALUE);
-
-                    String url = Constants.FETCH_PLACES_URL;
-                    Log.d(Constants.TAG, url);
-
-                    final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-                    progressDialog.setMessage("Please wait...this may take a while...");
-                    progressDialog.setTitle("Loading data");
-                    progressDialog.show();
-
-                    Handler handler = new Handler(Looper.getMainLooper()) {
+                    networkService.fetchPlaces(new DefaultMessageHandler(getContext(),true) {
                         @Override
-                        public void handleMessage(Message msg) {
-                            progressDialog.dismiss();
-                            if (msg.what==Constants.SUCCESS) {
-                                JSONObject response = (JSONObject) msg.obj;
-                                if (response != null) {
-                                    FileProcessor fileProcessor = new FileProcessor(getActivity());
-                                    fileProcessor.writeToFile(response.toString());
-                                    Toast.makeText(getActivity(),"Successfully Updated", Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(getActivity(), "failed", Toast.LENGTH_LONG).show();
-                                }
-                            } else {
-                                Toast.makeText(getActivity(), "failed", Toast.LENGTH_LONG).show();
-                            }
+                        public void onSuccess(Message msg) {
+                            String response = (String) msg.obj;
+                            FileProcessor fileProcessor = new FileProcessor(getContext());
+                            fileProcessor.writeToFile(response);
+                            Intent i = new Intent(getActivity(), DivisionListActivity.class);
+                            getActivity().startActivity(i);
                         }
-                    };
-
-                    FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
-                    fetchFromWeb.retreiveData(Constants.FETCH_PLACES_URL,requestParams);
+                    });
 
                 }
             }
         });
-        return rootView;
+
     }
 
     private boolean isNetworkAvailable() {

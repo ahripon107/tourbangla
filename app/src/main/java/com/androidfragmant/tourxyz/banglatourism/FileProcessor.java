@@ -17,15 +17,15 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 /**
- * Created by amin on 7/10/16.
+ * @author Ripon
  */
 public class FileProcessor {
-    Context context;
-    ArrayList<Place> places;
+    private Context context;
+    private ArrayList<Place> places;
 
     public FileProcessor(Context context) {
         this.context = context;
-        places = new ArrayList<>();
+        this.places = new ArrayList<>();
     }
 
     public void writeToFile(String data) {
@@ -47,7 +47,7 @@ public class FileProcessor {
             JSONObject jsonObject = new JSONObject(s);
             JSONArray jsonArray = jsonObject.getJSONArray("content");
 
-            for (int i=0;i<jsonArray.length();i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
                 Place place = new Place(object.getInt("id"), object.getString("name")
                         , object.getString("description"), object.getString("howtogo"),
@@ -65,9 +65,7 @@ public class FileProcessor {
     }
 
     private String readFromFile() {
-
         String contentOfFile = "";
-
         try {
             InputStream inputStream = context.openFileInput("data.txt");
 
@@ -90,5 +88,4 @@ public class FileProcessor {
 
         return contentOfFile;
     }
-
 }

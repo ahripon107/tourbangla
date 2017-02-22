@@ -12,7 +12,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.androidfragmant.tourxyz.banglatourism.R;
 
 /**
- * Created by Ripon on 10/1/15.
+ * @author Ripon
  */
 public class ImageUtil  {
     public static void displayImage(ImageView view, String path, ImageLoadingListener listener) {

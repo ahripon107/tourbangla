@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Created by Ripon on 9/26/15.
+ * @author Ripon
  */
 public class VisitedPlacesFragment extends Fragment {
     ListView listView;
@@ -30,8 +31,6 @@ public class VisitedPlacesFragment extends Fragment {
     ArrayList<Place> allPlaces;
     GridAdapter gridAdapter;
 
-    public VisitedPlacesFragment() {
-    }
 
     @Override
     public void onResume() {
@@ -61,8 +60,14 @@ public class VisitedPlacesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragmentvisitedplaces, container, false);
-        listView = (ListView) rootView.findViewById(R.id.gridviewvisitedplaces);
+        return inflater.inflate(R.layout.fragmentvisitedplaces, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        listView = (ListView) view.findViewById(R.id.gridviewvisitedplaces);
 
         allPlaces = new ArrayList<>();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("rating", Context.MODE_PRIVATE);
@@ -96,6 +101,5 @@ public class VisitedPlacesFragment extends Fragment {
                 startActivity(i);
             }
         });
-        return rootView;
     }
 }

@@ -8,12 +8,6 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.TourBlogActivity">
 
-    <include
-        android:id="@+id/toolbarTourBlog"
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,14 +31,7 @@
             android:src="@drawable/ic_mode_edit_black_24dp"
             app:borderWidth="0dp"
             app:fabSize="normal" />
-        <com.androidfragmant.tourxyz.banglatourism.view.ProgressWheel
-            android:id="@+id/pwTourBlog"
-            style="@style/ProgressBarStyle.Reverse"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            />
+
     </RelativeLayout>
 
 

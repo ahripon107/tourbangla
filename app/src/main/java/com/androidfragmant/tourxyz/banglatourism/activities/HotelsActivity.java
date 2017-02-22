@@ -3,6 +3,7 @@ package com.androidfragmant.tourxyz.banglatourism.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -30,31 +31,31 @@ public class HotelsActivity extends RoboAppCompatActivity {
     ListView hotels;
     String[] names;
 
-    @InjectView(R.id.hoteltool_bar)
-    Toolbar toolbar;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hotels);
         progressWheel.spin();
-        setSupportActionBar(toolbar);
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         Intent i = getIntent();
         final String str = i.getExtras().getString("place");
         setTitle("Hotels of "+str);
         Toast.makeText(getApplicationContext(),str,Toast.LENGTH_LONG).show();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

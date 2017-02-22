@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -43,8 +44,6 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
     @InjectView(R.id.adViewDivision)
     private AdView adView;
 
-    @InjectView(R.id.tool_bar)
-    private Toolbar toolbar;
 
     @InjectView(R.id.gridview)
     private RecyclerView recyclerView;
@@ -58,21 +57,14 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         String divisionName = getIntent().getStringExtra(Constants.DIVISION_NAME);
         String districtName = getIntent().getStringExtra(Constants.DISTRICT_NAME);
         Log.d(Constants.TAG, divisionName);
         Log.d(Constants.TAG, districtName);
-        tf = Typeface.createFromAsset(BrowseByDivisionActivity.this.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
+        tf = Constants.solaimanLipiFont(this);
 
         setTitle("Place List Of "+districtName);
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(BrowseByDivisionActivity.this));
@@ -119,5 +111,16 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
             title = ViewHolder.get(itemView,R.id.list_item_google_cards_travel_title);
             linearLayout = ViewHolder.get(itemView,R.id.linear);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

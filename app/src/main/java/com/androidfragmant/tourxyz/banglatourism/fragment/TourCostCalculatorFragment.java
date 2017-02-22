@@ -29,6 +29,7 @@ import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.Validator;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.google.gson.Gson;
+import com.google.inject.Inject;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -42,22 +43,25 @@ import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 8/5/16.
+ * @author Ripon
  */
 public class TourCostCalculatorFragment extends RoboFragment {
 
     @InjectView(R.id.cost_recycler_view)
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     @InjectView(R.id.fab_add_new_tour_place)
-    FloatingActionButton addNewPlace;
+    private FloatingActionButton addNewPlace;
 
-    SharedPreferences sharedPreferences, idpreference;
-    ArrayList<CostPlace> costPlaces;
-    int id;
+    @Inject
+    private ArrayList<CostPlace> costPlaces;
 
-    Gson gson;
-    Typeface tf;
+    @Inject
+    private Gson gson;
+
+    private SharedPreferences sharedPreferences, idpreference;
+    private Typeface tf;
+    private int id;
 
     @Nullable
     @Override
@@ -69,9 +73,8 @@ public class TourCostCalculatorFragment extends RoboFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        costPlaces = new ArrayList<>();
-        gson = new Gson();
-        tf = Typeface.createFromAsset(getActivity().getAssets(), Constants.SOLAIMAN_LIPI_FONT);
+
+        tf = Constants.solaimanLipiFont(getContext());
 
         sharedPreferences = getActivity().getSharedPreferences(Constants.TOUR_COST_PLACE_PREFERENCE_FILE, Context.MODE_PRIVATE);
         idpreference = getActivity().getSharedPreferences(Constants.COST_PLACE_ID_PREFERENCE_FILE,Context.MODE_PRIVATE);

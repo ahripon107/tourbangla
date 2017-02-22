@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".activities.NewPlaceDetailsActivity">
 
-
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
@@ -17,15 +16,13 @@
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             app:layout_scrollFlags="scroll|enterAlways">
+
             <com.flaviofaria.kenburnsview.KenBurnsView
                 android:id="@+id/placeimage"
                 android:layout_width="match_parent"
                 android:layout_height="192dp"
                 android:src="@drawable/noimage" />
-
-
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/app_bar"
@@ -42,15 +39,12 @@
             android:background="@color/white"
             android:orientation="horizontal">
 
-
             <com.androidfragmant.tourxyz.banglatourism.view.cpb.CircularProgressButton
                 android:id="@+id/btnAddToFavourite"
                 style="@style/CircularProgressBarStyle.2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-
                 android:layout_weight="1"
-
                 android:text="ADD TO WISHLIST" />
 
             <com.androidfragmant.tourxyz.banglatourism.view.cpb.CircularProgressButton
@@ -58,9 +52,7 @@
                 android:layout_width="0dp"
                 style="@style/CircularProgressBarStyle.2"
                 android:layout_height="match_parent"
-
                 android:layout_weight="1"
-
                 android:text="I'VE VISITED THERE" />
 
         </LinearLayout>
@@ -70,7 +62,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-
             ads:adSize="BANNER"
             ads:adUnitId="@string/placedetails">
         </com.google.android.gms.ads.AdView>
@@ -100,9 +91,7 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
 
 </android.support.design.widget.CoordinatorLayout>
 

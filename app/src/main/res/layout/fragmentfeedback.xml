@@ -63,7 +63,7 @@
             android:textColor="@android:color/white"
             android:background="@drawable/raised_selector"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            android:text="SEND FEEDBACK"/>
+            android:text="SEND"/>
 
     </com.dd.ShadowLayout>
 

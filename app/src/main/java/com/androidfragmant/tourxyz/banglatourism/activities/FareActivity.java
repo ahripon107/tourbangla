@@ -1,35 +1,31 @@
 package com.androidfragmant.tourxyz.banglatourism.activities;
 
-import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.androidfragmant.tourxyz.banglatourism.BuildConfig;
-import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.model.Fare;
 import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.androidfragmant.tourxyz.banglatourism.util.DefaultMessageHandler;
+import com.androidfragmant.tourxyz.banglatourism.util.NetworkService;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
-import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,9 +71,6 @@ public class FareActivity extends RoboAppCompatActivity {
     @InjectView(R.id.tvJanbahon)
     private TextView janbahon;
 
-    @InjectView(R.id.toolbar)
-    private Toolbar toolbar;
-
     @Inject
     private ArrayList<String> elements;
 
@@ -87,22 +80,16 @@ public class FareActivity extends RoboAppCompatActivity {
     @Inject
     private ArrayList<Fare> selectedFares;
 
+    @Inject
+    private NetworkService networkService;
+
     private Typeface tf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         elements = populate();
 
@@ -114,6 +101,7 @@ public class FareActivity extends RoboAppCompatActivity {
         toSpinner.setAdapter(dataAdapter);
 
         tf = Constants.solaimanLipiFont(this);
+
         resultsFound.setTypeface(tf);
         startPlace.setTypeface(tf);
         EndPlace.setTypeface(tf);
@@ -156,50 +144,24 @@ public class FareActivity extends RoboAppCompatActivity {
         });
         fareList.setLayoutManager(new LinearLayoutManager(FareActivity.this));
 
-        String url = Constants.FETCH_FARES_URL;
-
-        if (BuildConfig.DEBUG)
-            Log.d(Constants.TAG, url);
-
-        RequestParams requestParams = new RequestParams();
-        requestParams.add(Constants.KEY, Constants.KEY_VALUE);
-
-        final ProgressDialog progressDialog = new ProgressDialog(FareActivity.this);
-        progressDialog.setMessage("Please wait...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
-        Handler handler = new Handler(Looper.getMainLooper()) {
+        networkService.fetchFares(new DefaultMessageHandler(this,true){
             @Override
-            public void handleMessage(Message msg) {
-                progressDialog.dismiss();
-                if (msg.what==Constants.SUCCESS) {
-                    JSONObject response = (JSONObject) msg.obj;
-                    if (response != null) {
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("content");
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                Gson gson = new Gson();
-                                Fare f = gson.fromJson(String.valueOf(jsonObject), Fare.class);
-                                allFares.add(f);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        Log.d(Constants.TAG, response.toString());
-                    } else {
-                        Toast.makeText(FareActivity.this, "Failed", Toast.LENGTH_LONG).show();
+            public void onSuccess(Message msg) {
+                String string = (String) msg.obj;
+                try {
+                    JSONObject response = new JSONObject(string);
+                    JSONArray jsonArray = response.getJSONArray("content");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        Gson gson = new Gson();
+                        Fare f = gson.fromJson(String.valueOf(jsonObject), Fare.class);
+                        allFares.add(f);
                     }
-                } else {
-                    Toast.makeText(FareActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
-        };
-
-        FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
-        fetchFromWeb.retreiveData(Constants.FETCH_FARES_URL,requestParams);
+        });
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,5 +220,16 @@ public class FareActivity extends RoboAppCompatActivity {
             estimatedTime = ViewHolder.get(itemView, R.id.tvEstimatedTime);
             leavingPlace = ViewHolder.get(itemView, R.id.tvLeavingPlace);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

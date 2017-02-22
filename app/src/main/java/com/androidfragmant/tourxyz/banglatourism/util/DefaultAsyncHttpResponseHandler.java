@@ -7,10 +7,6 @@ import android.util.Log;
 import com.androidfragmant.tourxyz.banglatourism.BuildConfig;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import cz.msebera.android.httpclient.Header;
 
 /**

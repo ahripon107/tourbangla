@@ -1,15 +1,11 @@
 package com.androidfragmant.tourxyz.banglatourism.fragment;
 
-
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
@@ -22,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.FileProcessor;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.activities.DivisionListActivity;
@@ -34,9 +29,10 @@ import com.androidfragmant.tourxyz.banglatourism.adapter.SlideShowViewPagerAdapt
 import com.androidfragmant.tourxyz.banglatourism.model.HomeFragmentElement;
 import com.androidfragmant.tourxyz.banglatourism.model.HomeFragmentImage;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.androidfragmant.tourxyz.banglatourism.util.DefaultMessageHandler;
+import com.androidfragmant.tourxyz.banglatourism.util.NetworkService;
 import com.google.gson.Gson;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.google.inject.Inject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +40,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.Header;
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
 
@@ -53,54 +48,62 @@ import roboguice.inject.InjectView;
  */
 public class HomeFragment extends RoboFragment {
 
-    ArrayList<HomeFragmentElement> elements;
+    private ArrayList<HomeFragmentElement> elements;
 
     @InjectView(R.id.placeViewPagerImageSlideShow)
-    ViewPager placeImageViewPager;
+    private ViewPager placeImageViewPager;
 
     @InjectView(R.id.offerViewPagerImageSlideShow)
-    ViewPager offerImageViewPager;
+    private ViewPager offerImageViewPager;
 
     @InjectView(R.id.placeImageDots)
-    LinearLayout placeImageDotsLayout;
+    private LinearLayout placeImageDotsLayout;
 
     @InjectView(R.id.offerImageDots)
-    LinearLayout offerImageDotsLayout;
+    private LinearLayout offerImageDotsLayout;
 
     @InjectView(R.id.placeCardTitle)
-    TextView placeCardTitle;
+    private TextView placeCardTitle;
 
     @InjectView(R.id.offerCardTitle)
-    TextView offerCardTitle;
+    private TextView offerCardTitle;
 
     @InjectView(R.id.blogCardTitle)
-    TextView blogCardTitle;
+    private TextView blogCardTitle;
 
     @InjectView(R.id.forumCardTitle)
-    TextView forumCardTitle;
+    private TextView forumCardTitle;
 
     @InjectView(R.id.fareCardTitle)
-    TextView fareCardTitle;
+    private TextView fareCardTitle;
 
     @InjectView(R.id.btnExplorePlace)
-    Button explorePlace;
+    private Button explorePlace;
 
     @InjectView(R.id.btnExploreOffer)
-    Button exploreOffer;
+    private Button exploreOffer;
 
     @InjectView(R.id.btnExploreBlog)
-    Button exploreBlog;
+    private Button exploreBlog;
 
     @InjectView(R.id.btnExploreForum)
-    Button exploreForum;
+    private Button exploreForum;
 
     @InjectView(R.id.btnExploreFare)
-    Button exploreFare;
+    private Button exploreFare;
 
-    Typeface tf;
-    ArrayList<HomeFragmentImage> placeImages, offerImages;
-    SlideShowViewPagerAdapter placeViewPagerAdapter, offerViewPagerAdapter;
-    TextView[] dots1, dots2;
+    @Inject
+    private ArrayList<HomeFragmentImage> placeImages;
+
+    @Inject
+    private ArrayList<HomeFragmentImage> offerImages;
+
+    @Inject
+    private NetworkService networkService;
+
+    private Typeface tf;
+    private SlideShowViewPagerAdapter placeViewPagerAdapter, offerViewPagerAdapter;
+    private TextView[] dots1, dots2;
 
 
     public HomeFragment() {
@@ -122,57 +125,47 @@ public class HomeFragment extends RoboFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        placeImages = new ArrayList<>();
-        offerImages = new ArrayList<>();
         placeViewPagerAdapter = new SlideShowViewPagerAdapter(getContext(), placeImages);
         offerViewPagerAdapter = new SlideShowViewPagerAdapter(getContext(), offerImages);
-        tf = Typeface.createFromAsset(getContext().getAssets(), Constants.SOLAIMAN_LIPI_FONT);
-
-        RequestParams requestParams = new RequestParams();
-        requestParams.add(Constants.KEY, Constants.KEY_VALUE);
+        tf = Constants.solaimanLipiFont(getContext());
 
         if (!isNetworkAvailable()) {
             placeImageViewPager.setVisibility(View.GONE);
             offerImageViewPager.setVisibility(View.GONE);
         }
 
-
         if (isNetworkAvailable()) {
-            Handler handler = new Handler(Looper.getMainLooper()) {
+            networkService.fetchFrontPageImageList(new DefaultMessageHandler(getContext()) {
                 @Override
-                public void handleMessage(Message msg) {
-                    if (msg.what==Constants.SUCCESS) {
-                        JSONObject response = (JSONObject) msg.obj;
-                        if (response!=null) {
-                            try {
-                                JSONArray jsonArray = response.getJSONArray("content");
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                public void onSuccess(Message msg) {
+                    String string = (String) msg.obj;
+                    try {
+                        JSONObject response = new JSONObject(string);
 
-                                    Gson gson = new Gson();
-                                    HomeFragmentImage homeFragmentImage = gson.fromJson(String.valueOf(jsonObject), HomeFragmentImage.class);
+                        JSONArray jsonArray = response.getJSONArray("content");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                                    if (homeFragmentImage.getCategory().equals("browseplace")) {
-                                        placeImages.add(homeFragmentImage);
-                                    } else if (homeFragmentImage.getCategory().equals("touroffer")) {
-                                        offerImages.add(homeFragmentImage);
-                                    }
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            Gson gson = new Gson();
+                            HomeFragmentImage homeFragmentImage = gson.fromJson(String.valueOf(jsonObject), HomeFragmentImage.class);
+
+                            if (homeFragmentImage.getCategory().equals("browseplace")) {
+                                placeImages.add(homeFragmentImage);
+                            } else if (homeFragmentImage.getCategory().equals("touroffer")) {
+                                offerImages.add(homeFragmentImage);
                             }
-                            placeViewPagerAdapter.notifyDataSetChanged();
-                            offerViewPagerAdapter.notifyDataSetChanged();
-                            addBottomDots1(0);
-                            addBottomDots2(0);
-                            Log.d(Constants.TAG, response.toString());
                         }
+
+                        placeViewPagerAdapter.notifyDataSetChanged();
+                        offerViewPagerAdapter.notifyDataSetChanged();
+                        addBottomDots1(0);
+                        addBottomDots2(0);
+                        Log.d(Constants.TAG, response.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
-            };
-
-            FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
-            fetchFromWeb.retreiveData(Constants.FRONT_PAGE_IMAGE_LIST_URL,requestParams);
+            });
         }
 
         placeViewPagerAdapter.setImageCategoty("browseplace");
@@ -227,40 +220,17 @@ public class HomeFragment extends RoboFragment {
                 if (!exists && !isNetworkAvailable()) {
                     Toast.makeText(getContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
                 } else if (!exists && isNetworkAvailable()) {
-                    RequestParams requestParams1 = new RequestParams();
-                    requestParams1.add(Constants.KEY, Constants.KEY_VALUE);
 
-                    String url = Constants.FETCH_PLACES_URL;
-                    Log.d(Constants.TAG, url);
-
-                    final ProgressDialog progressDialog = new ProgressDialog(getContext());
-                    progressDialog.setMessage("Please wait...this may take a while...");
-                    progressDialog.setTitle("Loading data");
-                    progressDialog.show();
-
-                    Handler handler1 = new Handler(Looper.getMainLooper()) {
+                    networkService.fetchPlaces(new DefaultMessageHandler(getContext(),true) {
                         @Override
-                        public void handleMessage(Message msg) {
-                            progressDialog.dismiss();
-                            if (msg.what==Constants.SUCCESS) {
-                                JSONObject response = (JSONObject) msg.obj;
-                                if (response!=null) {
-                                    FileProcessor fileProcessor = new FileProcessor(getContext());
-                                    fileProcessor.writeToFile(response.toString());
-                                    Intent i = new Intent(getActivity(), DivisionListActivity.class);
-                                    getActivity().startActivity(i);
-                                } else {
-                                    Toast.makeText(getContext(), "Failed", Toast.LENGTH_LONG).show();
-                                }
-                            } else {
-                                Toast.makeText(getContext(),  "Failed", Toast.LENGTH_LONG).show();
-                            }
+                        public void onSuccess(Message msg) {
+                            String response = (String) msg.obj;
+                            FileProcessor fileProcessor = new FileProcessor(getContext());
+                            fileProcessor.writeToFile(response);
+                            Intent i = new Intent(getActivity(), DivisionListActivity.class);
+                            getActivity().startActivity(i);
                         }
-                    };
-
-                    FetchFromWeb fetchFromWeb = new FetchFromWeb(handler1);
-                    fetchFromWeb.retreiveData(Constants.FETCH_PLACES_URL,requestParams1);
-
+                    });
                 } else {
                     FileProcessor fileProcessor = new FileProcessor(getContext());
                     fileProcessor.readFileAndProcess();

@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -33,9 +34,6 @@ public class DistrictListActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.divisionListRecyclerView)
     private RecyclerView recyclerView;
-
-    @InjectView(R.id.divisionListBar)
-    private Toolbar toolbar;
 
     @Inject
     private ArrayList<DistrictName> districtNames;
@@ -87,16 +85,8 @@ public class DistrictListActivity extends RoboAppCompatActivity {
                 break;
         }
 
-        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         setTitle("Select District");
 
         for (int i=0;i<districts.length;i++) {
@@ -140,5 +130,17 @@ public class DistrictListActivity extends RoboAppCompatActivity {
             textView2 = ViewHolder.get(itemView, R.id.text2);
             linearLayout = ViewHolder.get(itemView, R.id.division_list_item_container);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

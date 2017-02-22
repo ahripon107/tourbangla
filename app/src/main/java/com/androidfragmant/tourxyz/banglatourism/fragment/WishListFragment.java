@@ -1,10 +1,10 @@
 package com.androidfragmant.tourxyz.banglatourism.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Created by Ripon on 6/11/15.
+ * @author Ripon
  */
 public class WishListFragment extends Fragment {
     ListView listView;
@@ -31,9 +31,6 @@ public class WishListFragment extends Fragment {
     String[] picname = new String[0];
     GridAdapter gridAdapter;
     ArrayList<Place> allWishListPlaces;
-
-    public WishListFragment() {
-    }
 
     @Override
     public void onResume() {
@@ -66,8 +63,14 @@ public class WishListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_messages, container, false);
-        listView = (ListView) rootView.findViewById(R.id.gridviewfavourite);
+        return inflater.inflate(R.layout.fragment_messages, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        listView = (ListView) view.findViewById(R.id.gridviewfavourite);
         sharedPreference = getActivity().getSharedPreferences("wishlist", Context.MODE_PRIVATE);
         allWishListPlaces = new ArrayList<>();
 
@@ -101,6 +104,5 @@ public class WishListFragment extends Fragment {
                 startActivity(i);
             }
         });
-        return rootView;
     }
 }

@@ -10,9 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 
 /**
- * Created by Ripon on 9/27/15.
+ * @author Ripon
  */
 public class AboutAppFragment extends Fragment {
 
@@ -24,7 +25,7 @@ public class AboutAppFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.aboutapp, container, false);
         TextView about = (TextView) rootView.findViewById(R.id.tvabout);
-        Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "font/solaimanlipi.ttf");
+        Typeface tf = Constants.solaimanLipiFont(getContext());
         about.setTypeface(tf);
         String string = "আমাদের এই দেশের আনাচে কানাচে অনেক সুন্দর জায়গা ছড়িয়ে ছিটিয়ে আছে। তার সবগুলোর খোজ খবর হয়ত আমরা জানি না। আবার অনেক পরিচিত জায়গা সম্পর্কেও খুব ভালো জানা না থাকায় সেখানে ঘুরতে যাওয়া হয়ে উঠে না। তাই স্বল্প পরিচিত বা অপরিচিত সুন্দর জায়গা গুলো তুলে ধরার পাশাপাশি জনপ্রিয় জায়গাগুলোকে আরও ভালোভাবে represent করার জন্য এই অ্যাপ Tour Bangla ।\n" +
                 "\nএই অ্যাপ এ বিভাগ ও জেলা অনুযায়ী টুরিস্ট স্পট ব্রাউজ করা যাবে। এছাড়াও প্রত্যেক জায়গার উপর করা যাবে কমেন্ট এবং রেটিং। কোন জায়গা পছন্দ হলে তাকে wishlist এ অ্যাড করে রাখা যাবে।\n" +

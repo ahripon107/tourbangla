@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -35,9 +36,6 @@ public class DivisionListActivity extends RoboAppCompatActivity {
     @InjectView(R.id.divisionListRecyclerView)
     private RecyclerView recyclerView;
 
-    @InjectView(R.id.divisionListBar)
-    private Toolbar toolbar;
-
     @Inject
     private ArrayList<DivisionName> divisionNames;
 
@@ -59,17 +57,7 @@ public class DivisionListActivity extends RoboAppCompatActivity {
             divisionNames.add(new DivisionName(divisions[i],divisionsBangla[i]));
         }
 
-        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        setTitle("Select Division");
 
         recyclerView.setAdapter(new AbstractListAdapter<DivisionName,DivisionListViewHolder>(divisionNames) {
             @Override
@@ -108,5 +96,16 @@ public class DivisionListActivity extends RoboAppCompatActivity {
             textView2 = ViewHolder.get(itemView, R.id.text2);
             linearLayout = ViewHolder.get(itemView, R.id.division_list_item_container);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

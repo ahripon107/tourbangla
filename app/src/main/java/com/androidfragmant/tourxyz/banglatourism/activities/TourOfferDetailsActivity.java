@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,40 +19,27 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 7/6/16.
+ * @author Ripon
  */
 @ContentView(R.layout.tourofferdetails)
 public class TourOfferDetailsActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.adViewTourOfferDetails)
-    AdView adView;
+    private AdView adView;
 
     @InjectView(R.id.tvOfferDetails)
-    TextView details;
+    private TextView details;
 
     @InjectView(R.id.tvOfferLink)
-    TextView link;
-
-    @InjectView(R.id.detailsBar)
-    Toolbar toolbar;
-
-    Typeface tf;
+    private TextView link;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        tf = Typeface.createFromAsset(TourOfferDetailsActivity.this.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Typeface tf = Constants.solaimanLipiFont(this);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         String detailsText = intent.getStringExtra("details");
@@ -72,5 +60,16 @@ public class TourOfferDetailsActivity extends RoboAppCompatActivity {
 
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

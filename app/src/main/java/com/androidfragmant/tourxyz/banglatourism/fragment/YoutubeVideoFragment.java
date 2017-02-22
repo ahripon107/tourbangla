@@ -1,13 +1,9 @@
 package com.androidfragmant.tourxyz.banglatourism.fragment;
 
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,18 +13,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.activities.YoutubePlayerActivity;
 import com.androidfragmant.tourxyz.banglatourism.model.YoutubeVideo;
 import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.androidfragmant.tourxyz.banglatourism.util.DefaultMessageHandler;
+import com.androidfragmant.tourxyz.banglatourism.util.NetworkService;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.google.gson.Gson;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.google.inject.Inject;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -37,20 +32,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.Header;
+import roboguice.fragment.RoboFragment;
+import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 8/6/16.
+ * @author Ripon
  */
-public class YoutubeVideoFragment extends Fragment {
+public class YoutubeVideoFragment extends RoboFragment {
 
-    ArrayList<YoutubeVideo> youtubeVideos;
-    String url;
-    RecyclerView recyclerView;
+    @Inject
+    private ArrayList<YoutubeVideo> youtubeVideos;
 
-    public YoutubeVideoFragment() {
+    @InjectView(R.id.youtubevideolist)
+    private RecyclerView recyclerView;
 
-    }
+    @Inject
+    private NetworkService networkService;
 
     public static YoutubeVideoFragment newInstanceOfYoutubeVideoFragment(int id) {
         YoutubeVideoFragment youtubeVideoFragment = new YoutubeVideoFragment();
@@ -63,9 +60,12 @@ public class YoutubeVideoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.youtube_video_list, container, false);
-        youtubeVideos = new ArrayList<>();
-        recyclerView = (RecyclerView) view.findViewById(R.id.youtubevideolist);
+        return inflater.inflate(R.layout.youtube_video_list, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         recyclerView.setAdapter(new AbstractListAdapter<YoutubeVideo,VideoListViewHolder>(youtubeVideos) {
             @Override
@@ -91,47 +91,34 @@ public class YoutubeVideoFragment extends Fragment {
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        int id = getArguments().getInt("id");
-        Log.d(Constants.TAG, id+" placeid");
-        RequestParams params = new RequestParams();
-        params.add(Constants.KEY, Constants.KEY_VALUE);
-
-        params.add("id", id + "");
-
-        url = Constants.FETCH_YOUTUBE_VIDEOS_URL;
-        Log.d(Constants.TAG, url);
-
-        Handler handler = new Handler(Looper.getMainLooper()) {
+        networkService.fetchYoutubeVideos(getArguments().getInt("id"), new DefaultMessageHandler(getContext()){
             @Override
-            public void handleMessage(Message msg) {
-                if (msg.what==Constants.SUCCESS) {
-                    JSONObject response = (JSONObject) msg.obj;
-                    if (response!=null) {
-                        Gson gson = new Gson();
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("content");
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                YoutubeVideo youtubeVideo = gson.fromJson(String.valueOf(jsonObject), YoutubeVideo.class);
-                                youtubeVideos.add(youtubeVideo);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+            public void onSuccess(Message msg) {
+                String string = (String) msg.obj;
+
+                try {
+                    JSONObject response = new JSONObject(string);
+                    Gson gson = new Gson();
+                    try {
+                        JSONArray jsonArray = response.getJSONArray("content");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            YoutubeVideo youtubeVideo = gson.fromJson(String.valueOf(jsonObject), YoutubeVideo.class);
+                            youtubeVideos.add(youtubeVideo);
                         }
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                        Log.d(Constants.TAG, response.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+                    recyclerView.getAdapter().notifyDataSetChanged();
+                    Log.d(Constants.TAG, response.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
-        };
-
-        FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
-        fetchFromWeb.retreiveData(Constants.FETCH_YOUTUBE_VIDEOS_URL,params);
-
-        return view;
+        });
     }
 
-    static class VideoListViewHolder extends RecyclerView.ViewHolder {
+    private static class VideoListViewHolder extends RecyclerView.ViewHolder {
         protected ImageView imageView;
         protected TextView textView;
         protected LinearLayout linearLayout;

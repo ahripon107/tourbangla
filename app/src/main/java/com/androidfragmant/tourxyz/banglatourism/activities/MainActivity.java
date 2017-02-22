@@ -36,10 +36,10 @@ import roboguice.inject.InjectView;
 public class MainActivity extends RoboAppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
     @InjectView(R.id.adView)
-    AdView adView;
+    private AdView adView;
 
     @InjectView(R.id.toolbar)
-    Toolbar mToolbar;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,33 +72,26 @@ public class MainActivity extends RoboAppCompatActivity implements FragmentDrawe
     }
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
         super.onStart();
         Batch.onStart(this);
     }
 
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
         Batch.onStop(this);
-
         super.onStop();
     }
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         Batch.onDestroy(this);
-
         super.onDestroy();
     }
 
     @Override
-    protected void onNewIntent(Intent intent)
-    {
+    protected void onNewIntent(Intent intent) {
         Batch.onNewIntent(this, intent);
-
         super.onNewIntent(intent);
     }
 
@@ -113,7 +106,6 @@ public class MainActivity extends RoboAppCompatActivity implements FragmentDrawe
         String subtitle = "";
         switch (position) {
             case 0:
-
                 fragment = new HomeFragment();
                 subtitle = getString(R.string.title_home);
                 break;

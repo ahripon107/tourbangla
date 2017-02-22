@@ -7,16 +7,11 @@
     tools:context=".activities.TourOfferDetailsActivity"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/detailsBar"
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/detailsBar"
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/adViewTourOfferDetails">
 
         <LinearLayout
