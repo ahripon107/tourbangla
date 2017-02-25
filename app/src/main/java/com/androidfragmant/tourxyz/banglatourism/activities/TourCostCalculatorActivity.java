@@ -1,4 +1,4 @@
-package com.androidfragmant.tourxyz.banglatourism.fragment;
+package com.androidfragmant.tourxyz.banglatourism.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
+import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.activities.TourCostItemActivity;
 import com.androidfragmant.tourxyz.banglatourism.model.CostItem;
 import com.androidfragmant.tourxyz.banglatourism.model.CostPlace;
@@ -40,12 +42,14 @@ import java.util.Collections;
 import java.util.Map;
 
 import roboguice.fragment.RoboFragment;
+import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
  * @author Ripon
  */
-public class TourCostCalculatorFragment extends RoboFragment {
+@ContentView(R.layout.tour_cost)
+public class TourCostCalculatorActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.cost_recycler_view)
     private RecyclerView recyclerView;
@@ -63,21 +67,15 @@ public class TourCostCalculatorFragment extends RoboFragment {
     private Typeface tf;
     private int id;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
-        return inflater.inflate(R.layout.tour_cost, container, false);
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        tf = Constants.solaimanLipiFont(this);
 
-        tf = Constants.solaimanLipiFont(getContext());
-
-        sharedPreferences = getActivity().getSharedPreferences(Constants.TOUR_COST_PLACE_PREFERENCE_FILE, Context.MODE_PRIVATE);
-        idpreference = getActivity().getSharedPreferences(Constants.COST_PLACE_ID_PREFERENCE_FILE,Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(Constants.TOUR_COST_PLACE_PREFERENCE_FILE, Context.MODE_PRIVATE);
+        idpreference = getSharedPreferences(Constants.COST_PLACE_ID_PREFERENCE_FILE,Context.MODE_PRIVATE);
 
         if (!idpreference.contains("id")) {
             idpreference.edit().putInt("id", 1).apply();
@@ -109,23 +107,23 @@ public class TourCostCalculatorFragment extends RoboFragment {
                 holder.linearLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), TourCostItemActivity.class);
+                        Intent intent = new Intent(TourCostCalculatorActivity.this, TourCostItemActivity.class);
                         intent.putExtra("placeid",costPlaces.get(position).getId());
-                        getContext().startActivity(intent);
+                        TourCostCalculatorActivity.this.startActivity(intent);
                     }
                 });
             }
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.getAdapter().notifyDataSetChanged();
 
         addNewPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View promptsView = LayoutInflater.from(getContext()).inflate(R.layout.insert_cost_place, null,false);
+                View promptsView = LayoutInflater.from(TourCostCalculatorActivity.this).inflate(R.layout.insert_cost_place, null,false);
                 final EditText placeName = (EditText) promptsView.findViewById(R.id.et_tour_cost_place);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                AlertDialog.Builder builder = new AlertDialog.Builder(TourCostCalculatorActivity.this);
                 builder.setView(promptsView);
                 builder.setTitle("New Tour Cost Calculator").setPositiveButton("SUBMIT", null).setNegativeButton("CANCEL", null);
 
@@ -152,6 +150,8 @@ public class TourCostCalculatorFragment extends RoboFragment {
                 });
             }
         });
+
+        EventBus.getDefault().register(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -177,12 +177,13 @@ public class TourCostCalculatorFragment extends RoboFragment {
     }
 
     @Override
-    public void onDestroyView() {
+    protected void onDestroy() {
         EventBus.getDefault().unregister(this);
-        super.onDestroyView();
+        super.onDestroy();
     }
 
-    static class CostPlaceViewHolder extends RecyclerView.ViewHolder {
+
+    private static class CostPlaceViewHolder extends RecyclerView.ViewHolder {
         protected TextView costPlace;
         protected TextView totallCost;
         protected LinearLayout linearLayout;
@@ -192,5 +193,16 @@ public class TourCostCalculatorFragment extends RoboFragment {
             totallCost = ViewHolder.get(itemView,R.id.tv_total_cost);
             linearLayout = ViewHolder.get(itemView,R.id.cost_place_layout);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

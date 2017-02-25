@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
@@ -32,6 +33,9 @@ public class TourOfferDetailsActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.tvOfferLink)
     private TextView link;
+
+    @InjectView(R.id.btn_book_now)
+    private Button bookNow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

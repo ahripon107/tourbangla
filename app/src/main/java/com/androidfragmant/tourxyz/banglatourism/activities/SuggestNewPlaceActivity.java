@@ -1,28 +1,28 @@
-package com.androidfragmant.tourxyz.banglatourism.fragment;
+package com.androidfragmant.tourxyz.banglatourism.activities;
 
 import android.os.Bundle;
 import android.os.Message;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.util.DefaultMessageHandler;
 import com.androidfragmant.tourxyz.banglatourism.util.NetworkService;
 import com.androidfragmant.tourxyz.banglatourism.util.Validator;
 import com.google.inject.Inject;
 import com.androidfragmant.tourxyz.banglatourism.R;
 
-import roboguice.fragment.RoboFragment;
+import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
  * @author Ripon
  */
-
-public class SuggestNewPlaceFragment extends RoboFragment {
+@ContentView(R.layout.suggestnewplace)
+public class SuggestNewPlaceActivity extends RoboAppCompatActivity {
     @InjectView(R.id.etSuggestedPlaceName)
     private EditText name;
 
@@ -51,13 +51,10 @@ public class SuggestNewPlaceFragment extends RoboFragment {
     private NetworkService networkService;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.suggestnewplace, container, false);
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         suggestDone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,11 +64,11 @@ public class SuggestNewPlaceFragment extends RoboFragment {
                     networkService.suggestNewPlace(hotels.getText().toString(), howtogo.getText().toString(),
                             description.getText().toString(), division.getText().toString(),
                             address.getText().toString(), name.getText().toString(),
-                            email.getText().toString(), new DefaultMessageHandler(getContext(), true) {
+                            email.getText().toString(), new DefaultMessageHandler(SuggestNewPlaceActivity.this, true) {
                                 @Override
                                 public void onSuccess(Message msg) {
                                     clearTextFields();
-                                    Toast.makeText(getContext(), "Thank you for your suggestion.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(SuggestNewPlaceActivity.this, "Thank you for your suggestion.", Toast.LENGTH_LONG).show();
                                 }
                             });
                 }
@@ -87,5 +84,16 @@ public class SuggestNewPlaceFragment extends RoboFragment {
         howtogo.getText().clear();
         hotels.getText().clear();
         email.getText().clear();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

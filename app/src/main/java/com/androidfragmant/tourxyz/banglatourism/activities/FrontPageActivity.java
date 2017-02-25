@@ -3,7 +3,6 @@ package com.androidfragmant.tourxyz.banglatourism.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
@@ -29,7 +28,7 @@ public class FrontPageActivity extends Activity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-                    Intent intent1 = new Intent(FrontPageActivity.this, Main2Activity.class);
+                    Intent intent1 = new Intent(FrontPageActivity.this, MainActivity.class);
                     startActivity(intent1);
                 }
             }

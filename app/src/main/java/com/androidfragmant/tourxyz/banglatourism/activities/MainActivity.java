@@ -1,51 +1,58 @@
 package com.androidfragmant.tourxyz.banglatourism.activities;
 
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.androidfragmant.tourxyz.banglatourism.FileProcessor;
-import com.androidfragmant.tourxyz.banglatourism.fragment.SuggestNewPlaceFragment;
-import com.androidfragmant.tourxyz.banglatourism.fragment.TourCostCalculatorFragment;
-import com.androidfragmant.tourxyz.banglatourism.fragment.UpdateDatabaseFragment;
+import com.androidfragmant.tourxyz.banglatourism.R;
+import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
+import com.androidfragmant.tourxyz.banglatourism.fragment.HomeFragment;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.batch.android.Batch;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.androidfragmant.tourxyz.banglatourism.R;
-import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
-import com.androidfragmant.tourxyz.banglatourism.fragment.VisitedPlacesFragment;
-import com.androidfragmant.tourxyz.banglatourism.fragment.AboutAppFragment;
-import com.androidfragmant.tourxyz.banglatourism.fragment.FeedbackFragment;
-import com.androidfragmant.tourxyz.banglatourism.fragment.FragmentDrawer;
-import com.androidfragmant.tourxyz.banglatourism.fragment.HomeFragment;
-import com.androidfragmant.tourxyz.banglatourism.fragment.WishListFragment;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 @ContentView(R.layout.activity_main)
-public class MainActivity extends RoboAppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
+public class MainActivity extends RoboAppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
+
+    @InjectView(R.id.toolbar)
+    private Toolbar toolbar;
+
+    @InjectView(R.id.drawer_layout)
+    private DrawerLayout drawer;
+
+    @InjectView(R.id.nav_view)
+    private NavigationView navigationView;
 
     @InjectView(R.id.adView)
     private AdView adView;
-
-    @InjectView(R.id.toolbar)
-    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
 
         boolean exists = false;
         String[] files = MainActivity.this.fileList();
@@ -61,14 +68,25 @@ public class MainActivity extends RoboAppCompatActivity implements FragmentDrawe
             FileProcessor fileProcessor = new FileProcessor(MainActivity.this);
             fileProcessor.readFileAndProcess();
         }
-        FragmentDrawer drawerFragment = (FragmentDrawer)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-        drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
-        drawerFragment.setDrawerListener(this);
-        displayView(0);
+
+        loadFragment();
 
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
         adView.loadAd(adRequest);
+
+    }
+
+    private void loadFragment() {
+        Fragment fragment = new HomeFragment();
+        String title = "ট্যুর বাংলা";
+
+        getSupportActionBar().setTitle(title);
+
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container_body, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -96,86 +114,80 @@ public class MainActivity extends RoboAppCompatActivity implements FragmentDrawe
     }
 
     @Override
-    public void onDrawerItemSelected(View view, int position) {
-        displayView(position);
-    }
-
-    private void displayView(int position) {
-        Fragment fragment = null;
-        String title = getString(R.string.app_name);
-        String subtitle = "";
-        switch (position) {
-            case 0:
-                fragment = new HomeFragment();
-                subtitle = getString(R.string.title_home);
-                break;
-            case 1:
-                fragment = new WishListFragment();
-                subtitle = getString(R.string.title_messages);
-                break;
-            case 2:
-                fragment = new VisitedPlacesFragment();
-                subtitle = getString(R.string.title_visitedplaces);
-                break;
-            case 3:
-                fragment = new AboutAppFragment();
-                subtitle = getString(R.string.aboutapp);
-                break;
-            case 4:
-                fragment = new FeedbackFragment();
-                subtitle = getString(R.string.givefeedback);
-                break;
-            case 5:
-                fragment = new SuggestNewPlaceFragment();
-                subtitle = getString(R.string.suggestplace);
-                break;
-            case 6:
-                fragment = new UpdateDatabaseFragment();
-                subtitle = getString(R.string.updatedatabase);
-                break;
-            case 7:
-                fragment = new TourCostCalculatorFragment();
-                subtitle = getString(R.string.costcalculator);
-                break;
-            case 8:
-                final String appPackageName = getPackageName();
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                } catch (android.content.ActivityNotFoundException anfe) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                }
-                break;
-            case 9:
-                final String packageName = getPackageName();
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)));
-                } catch (android.content.ActivityNotFoundException anfe) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
-                }
-                break;
-            default:
-                break;
-        }
-
-        getSupportActionBar().setTitle(title);
-        getSupportActionBar().setSubtitle(subtitle);
-        if (fragment != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_body, fragment);
-            fragmentTransaction.commit();
-
-            getSupportActionBar().setTitle(title);
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
     }
 
     @Override
-    public void onBackPressed() {
-        Fragment f = getSupportFragmentManager().findFragmentById(R.id.container_body);
-        if (f instanceof HomeFragment) {
-            super.onBackPressed();
-        } else {
-            displayView(0);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main2, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_home) {
+
+        } else if (id == R.id.nav_wishlist) {
+            Intent intent = new Intent(this, WishListActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_visitedplaces) {
+            Intent intent = new Intent(this, VisitedPlacesActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_aboutapp) {
+            Intent intent = new Intent(this, AboutAppActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_feedback) {
+            Intent intent = new Intent(this, FeedbackActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_suggestplace) {
+            Intent intent = new Intent(this, SuggestNewPlaceActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_updatedatabase) {
+            Intent intent = new Intent(this, UpdateDatabaseActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_costcalculator) {
+            Intent intent = new Intent(this, TourCostCalculatorActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_rateus) {
+            String appPackageName = getPackageName();
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
+        } else if (id == R.id.nav_update) {
+            String appPackageName = getPackageName();
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

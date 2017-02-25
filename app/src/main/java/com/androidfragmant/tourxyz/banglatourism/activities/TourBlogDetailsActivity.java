@@ -1,5 +1,6 @@
 package com.androidfragmant.tourxyz.banglatourism.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
@@ -64,6 +66,13 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setSupportActionBar(mToolbar);
+        if (Build.VERSION.SDK_INT >= 21) {
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        }
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.TourOfferDetailsActivity"
     android:orientation="vertical">
 
@@ -60,6 +61,7 @@
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
+
 
         </LinearLayout>
     </ScrollView>

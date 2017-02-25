@@ -35,11 +35,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/MyMaterialTheme">
-        <activity
-            android:name=".activities.MainActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-        </activity>
+
         <activity
             android:name=".activities.FrontPageActivity"
             android:label="@string/app_name"
@@ -58,6 +54,7 @@
         <activity
             android:name=".activities.NewPlaceDetailsActivity"
             android:label="@string/app_name"
+            android:theme="@style/MyMaterialTheme.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.TourBlogActivity"
@@ -66,6 +63,7 @@
         <activity
             android:name=".activities.TourBlogDetailsActivity"
             android:label="@string/app_name"
+            android:theme="@style/MyMaterialTheme.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ForumPostListActivity"
@@ -110,6 +108,34 @@
         <activity
             android:name=".activities.TourCostItemActivity"
             android:label="Cost Details"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AboutAppActivity"
+            android:label="About App"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FeedbackActivity"
+            android:label="Feedback"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.VisitedPlacesActivity"
+            android:label="Visited Places"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SuggestNewPlaceActivity"
+            android:label="Suggest New Place"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.WishListActivity"
+            android:label="Wish List"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.UpdateDatabaseActivity"
+            android:label="Update Database"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.TourCostCalculatorActivity"
+            android:label="Cost Calculator"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.YoutubePlayerActivity"
@@ -169,7 +195,7 @@
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
         <activity
-            android:name=".activities.Main2Activity"
+            android:name=".activities.MainActivity"
             android:label="@string/title_activity_main2"
             android:theme="@style/MyMaterialTheme.NoActionBar"/>
     </application>

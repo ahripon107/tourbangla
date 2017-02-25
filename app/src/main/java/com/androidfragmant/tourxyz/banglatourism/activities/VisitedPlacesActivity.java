@@ -1,18 +1,16 @@
-package com.androidfragmant.tourxyz.banglatourism.fragment;
+package com.androidfragmant.tourxyz.banglatourism.activities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.androidfragmant.tourxyz.banglatourism.activities.NewPlaceDetailsActivity;
 import com.google.gson.Gson;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.adapter.GridAdapter;
@@ -24,7 +22,7 @@ import java.util.Map;
 /**
  * @author Ripon
  */
-public class VisitedPlacesFragment extends Fragment {
+public class VisitedPlacesActivity extends AppCompatActivity {
     ListView listView;
     String[] web = new String[0];
     String[] picname = new String[0];
@@ -36,7 +34,7 @@ public class VisitedPlacesFragment extends Fragment {
     public void onResume() {
         super.onResume();
         allPlaces = new ArrayList<>();
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("rating", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("rating", Context.MODE_PRIVATE);
         Map<String, ?> elements = sharedPreferences.getAll();
         for (Map.Entry<String, ?> entry : elements.entrySet()) {
             String string = entry.getValue().toString();
@@ -52,25 +50,20 @@ public class VisitedPlacesFragment extends Fragment {
                 picname[j] = allPlaces.get(j).getPicture();
             }
         }
-        gridAdapter = new GridAdapter(getActivity(),
+        gridAdapter = new GridAdapter(this,
                 web, picname);
         listView.setAdapter(gridAdapter);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragmentvisitedplaces, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        listView = (ListView) view.findViewById(R.id.gridviewvisitedplaces);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragmentvisitedplaces);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        listView = (ListView) findViewById(R.id.gridviewvisitedplaces);
 
         allPlaces = new ArrayList<>();
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("rating", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("rating", Context.MODE_PRIVATE);
         Map<String, ?> elements = sharedPreferences.getAll();
         for (Map.Entry<String, ?> entry : elements.entrySet()) {
             String string = entry.getValue().toString();
@@ -89,17 +82,28 @@ public class VisitedPlacesFragment extends Fragment {
             }
         }
 
-        gridAdapter = new GridAdapter(getActivity(),
+        gridAdapter = new GridAdapter(this,
                 web, picname);
         listView.setAdapter(gridAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                Intent i = new Intent(getActivity(), NewPlaceDetailsActivity.class);
+                Intent i = new Intent(VisitedPlacesActivity.this, NewPlaceDetailsActivity.class);
                 i.putExtra("id", allPlaces.get(position).getId());
                 startActivity(i);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

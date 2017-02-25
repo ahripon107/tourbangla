@@ -4,7 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -19,8 +22,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidfragmant.tourxyz.banglatourism.fragment.YoutubeVideoFragment;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
@@ -80,10 +88,12 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
     @InjectView(R.id.adViewPlaceDetails)
     private AdView adView;
 
+    private Typeface typeface;
+
     @Inject
     private NetworkService networkService;
 
-    private CharSequence Titles[] = {"DESCRIPTION", "HOW TO GO", "HOTELS", "OTHER INFO", "COMMENTS", "VIDEO"};
+    private CharSequence Titles[] = {"বর্ণনা", "কিভাবে যাবেন", "হোটেল", "অন্যান্য", "কমেন্ট", "ভিডিও"};
     private Place selectedPlace;
     int id;
 
@@ -91,6 +101,15 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSupportActionBar(mToolbar);
+
+        typeface = Constants.solaimanLipiFont(this);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -122,6 +141,7 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
         mPager.setAdapter(mAdapter);
 
         mTabLayout.setupWithViewPager(mPager);
+        changeTabsFont();
         mCollapsingToolbarLayout.setTitle(selectedPlace.getName());
         mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
         mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
@@ -280,6 +300,23 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void changeTabsFont() {
+
+        ViewGroup vg = (ViewGroup) mTabLayout.getChildAt(0);
+        int tabsCount = vg.getChildCount();
+        for (int j = 0; j < tabsCount; j++) {
+            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
+            int tabChildsCount = vgTab.getChildCount();
+            for (int i = 0; i < tabChildsCount; i++) {
+                View tabViewChild = vgTab.getChildAt(i);
+                if (tabViewChild instanceof TextView) {
+                    ((TextView) tabViewChild).setTypeface(typeface);
+                }
+            }
+        }
+    }
+
 }
 
 class YourPagerAdapter extends FragmentStatePagerAdapter {

@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/home"
             android:title="@string/title_home" />
         <item
             android:id="@+id/nav_wishlist"
@@ -16,37 +16,37 @@
             android:title="@string/title_visitedplaces" />
         <item
             android:id="@+id/nav_aboutapp"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/about"
             android:title="@string/aboutapp" />
 
         <item
             android:id="@+id/nav_feedback"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/feedback"
             android:title="@string/givefeedback" />
 
         <item
             android:id="@+id/nav_suggestplace"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/suggest"
             android:title="@string/suggestplace" />
 
         <item
             android:id="@+id/nav_updatedatabase"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/updatedb"
             android:title="@string/updatedatabase" />
 
         <item
             android:id="@+id/nav_costcalculator"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/calculator"
             android:title="@string/costcalculator" />
 
         <item
             android:id="@+id/nav_rateus"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/rate"
             android:title="@string/rateus" />
 
         <item
             android:id="@+id/nav_update"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/update"
             android:title="@string/update" />
     </group>
 

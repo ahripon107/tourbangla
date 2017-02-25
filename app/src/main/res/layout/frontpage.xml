@@ -10,5 +10,5 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/toursplash"/>
+        android:src="@drawable/splash"/>
 </LinearLayout>
