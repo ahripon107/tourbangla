@@ -113,6 +113,7 @@ public class DistrictListActivity extends RoboAppCompatActivity {
                         intent.putExtra(Constants.DIVISION_NAME, divisionName);
                         intent.putExtra(Constants.DISTRICT_NAME, districts[holder.getAdapterPosition()]);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.left_in, R.anim.left_out);
                     }
                 });
             }
@@ -139,8 +140,15 @@ public class DistrictListActivity extends RoboAppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             finish();
+            overridePendingTransition(R.anim.right_in, R.anim.right_out);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }
 }

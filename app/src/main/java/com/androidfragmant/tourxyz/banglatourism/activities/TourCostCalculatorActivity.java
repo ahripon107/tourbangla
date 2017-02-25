@@ -110,6 +110,7 @@ public class TourCostCalculatorActivity extends RoboAppCompatActivity {
                         Intent intent = new Intent(TourCostCalculatorActivity.this, TourCostItemActivity.class);
                         intent.putExtra("placeid",costPlaces.get(position).getId());
                         TourCostCalculatorActivity.this.startActivity(intent);
+                        overridePendingTransition(R.anim.left_in, R.anim.left_out);
                     }
                 });
             }
@@ -201,8 +202,15 @@ public class TourCostCalculatorActivity extends RoboAppCompatActivity {
 
         if (id == android.R.id.home) {
             finish();
+            overridePendingTransition(R.anim.right_in, R.anim.right_out);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }
 }

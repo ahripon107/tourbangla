@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.model.Place;
@@ -34,6 +35,9 @@ import java.util.ArrayList;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
+
+import static com.androidfragmant.tourxyz.banglatourism.util.Constants.setLeftInAnimation;
+import static com.androidfragmant.tourxyz.banglatourism.util.Constants.setRightInAnimation;
 
 /**
  * @author Ripon
@@ -80,6 +84,8 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
             @Override
             public void onBindViewHolder(PlaceCardViewHolder holder, int position) {
                 final Place place = places.get(position);
+                setLeftInAnimation(holder.linearLayout,BrowseByDivisionActivity.this);
+                setRightInAnimation(holder.imageView,BrowseByDivisionActivity.this);
                 holder.title.setTypeface(tf);
                 ImageUtil.displayImage(holder.imageView, place.getPicture(), null);
                 holder.title.setText(place.getName());
@@ -90,8 +96,10 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
                         Intent i = new Intent(BrowseByDivisionActivity.this, NewPlaceDetailsActivity.class);
                         i.putExtra("id", place.getId());
                         startActivity(i);
+                        overridePendingTransition(R.anim.left_in, R.anim.left_out);
                     }
                 });
+
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(BrowseByDivisionActivity.this));
@@ -103,7 +111,7 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
     private static class PlaceCardViewHolder extends RecyclerView.ViewHolder {
         protected ImageView imageView;
         protected TextView title;
-        protected LinearLayout linearLayout;
+        protected RelativeLayout linearLayout;
 
         public PlaceCardViewHolder(View itemView) {
             super(itemView);
@@ -119,8 +127,15 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
 
         if (id == android.R.id.home) {
             finish();
+            overridePendingTransition(R.anim.right_in, R.anim.right_out);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }
 }

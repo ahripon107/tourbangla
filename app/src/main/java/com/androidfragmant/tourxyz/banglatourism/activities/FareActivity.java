@@ -228,8 +228,15 @@ public class FareActivity extends RoboAppCompatActivity {
 
         if (id == android.R.id.home) {
             finish();
+            overridePendingTransition(R.anim.right_in, R.anim.right_out);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }
 }

@@ -36,6 +36,9 @@ public class BlogDetails extends RoboFragment {
     @InjectView(R.id.tvDetailsofPost)
     private TextView details;
 
+    @InjectView(R.id.tvReadTimes)
+    private TextView readTimes;
+
     @Inject
     private NetworkService networkService;
 
@@ -60,6 +63,7 @@ public class BlogDetails extends RoboFragment {
         title.setTypeface(tf);
         writer.setTypeface(tf);
         details.setTypeface(tf);
+        readTimes.setTypeface(tf);
 
         networkService.fetchBlogDetails(getArguments().getString("id"),new DefaultMessageHandler(getContext(),true){
             @Override
@@ -73,6 +77,7 @@ public class BlogDetails extends RoboFragment {
                     title.setText(blogPost1.getTitle());
                     writer.setText("লিখেছেন: " + blogPost1.getName());
                     details.setText(blogPost1.getDetails());
+                    readTimes.setText(blogPost1.getReadtimes()+"  বার পঠিত");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

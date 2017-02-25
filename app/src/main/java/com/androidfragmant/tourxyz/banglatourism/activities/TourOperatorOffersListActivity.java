@@ -87,6 +87,7 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
                         intent.putExtra("details", offer.getDetails());
                         intent.putExtra("link", offer.getLink());
                         startActivity(intent);
+                        overridePendingTransition(R.anim.left_in, R.anim.left_out);
                     }
                 });
             }
@@ -141,8 +142,15 @@ public class TourOperatorOffersListActivity extends RoboAppCompatActivity {
 
         if (id == android.R.id.home) {
             finish();
+            overridePendingTransition(R.anim.right_in, R.anim.right_out);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }
 }

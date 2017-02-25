@@ -3,7 +3,7 @@ package com.androidfragmant.tourxyz.banglatourism.model;
 import java.io.Serializable;
 
 /**
- * Created by Ripon on 7/7/16.
+ * @author Ripon
  */
 public class BlogPost implements Serializable {
 
@@ -14,6 +14,7 @@ public class BlogPost implements Serializable {
     private String tags;
     private String image;
     private String timestamp;
+    private int readtimes;
 
     public BlogPost(int id, String name, String title, String details, String tags, String image, String timestamp) {
         this.id = id;
@@ -32,7 +33,9 @@ public class BlogPost implements Serializable {
         this.tags = tags;
         this.image = image;
         this.timestamp = timestamp;
+        this.readtimes = readtimes;
     }
+
 
     public int getId() {
         return id;
@@ -90,6 +93,14 @@ public class BlogPost implements Serializable {
         this.timestamp = timestamp;
     }
 
+    public int getReadtimes() {
+        return readtimes;
+    }
+
+    public void setReadtimes(int readtimes) {
+        this.readtimes = readtimes;
+    }
+
     @Override
     public String toString() {
         return "BlogPost{" +
@@ -100,6 +111,7 @@ public class BlogPost implements Serializable {
                 ", tags='" + tags + '\'' +
                 ", image='" + image + '\'' +
                 ", timestamp='" + timestamp + '\'' +
+                ", readtimes=" + readtimes +
                 '}';
     }
 }
