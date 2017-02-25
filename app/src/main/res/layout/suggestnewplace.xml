@@ -149,7 +149,7 @@
                     android:textColor="@android:color/white"
                     android:background="@drawable/raised_selector"
                     android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                    android:text="DONE"/>
+                    android:text="সাবমিট"/>
 
             </com.dd.ShadowLayout>
 

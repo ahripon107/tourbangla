@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import com.androidfragmant.tourxyz.banglatourism.view.cpb.CircularProgressButton;
 
 /**
- * Created by amin on 7/20/16.
+ * @author Ripon
  */
 public class FalseProgress extends AsyncTask<Integer, Integer, Integer> {
 

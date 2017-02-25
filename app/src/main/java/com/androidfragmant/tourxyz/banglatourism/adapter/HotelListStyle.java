@@ -2,6 +2,7 @@ package com.androidfragmant.tourxyz.banglatourism.adapter;
 
 import android.app.Activity;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -11,19 +12,19 @@ import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 
 /**
- * Created by Ripon on 8/29/15.
+ * @author Ripon
  */
 public class HotelListStyle extends ArrayAdapter<String> {
 
-    private final Activity context;
-    Typeface tf;
+    private Activity context;
+    private Typeface tf;
     private String[] hotelNames;
 
     public HotelListStyle(Activity paramActivity, String[] hotelNames) {
         super(paramActivity, R.layout.singlehotel);
         this.context = paramActivity;
         this.hotelNames = hotelNames;
-        this.tf = Typeface.createFromAsset(paramActivity.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
+        this.tf = Constants.solaimanLipiFont(paramActivity);
     }
 
     @Override
@@ -31,6 +32,7 @@ public class HotelListStyle extends ArrayAdapter<String> {
         return hotelNames.length;
     }
 
+    @NonNull
     @Override
     public View getView(int position, View paramView, ViewGroup paramViewGroup) {
         View localView = paramView;

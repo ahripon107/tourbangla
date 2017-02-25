@@ -2,46 +2,47 @@ package com.androidfragmant.tourxyz.banglatourism.fragment;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
+import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.androidfragmant.tourxyz.banglatourism.util.DefaultMessageHandler;
+import com.androidfragmant.tourxyz.banglatourism.util.NetworkService;
+import com.google.gson.Gson;
+import com.google.inject.Inject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 8/27/15.
+ * @author Ripon
  */
 public class BlogDetails extends RoboFragment {
 
-    public static final String BLOG_TITLE = "title";
-    public static final String BLOG_WRITER = "writer";
-    public static final String BLOG_DETAILS = "details";
-
     @InjectView(R.id.tvTitle)
-    TextView title;
+    private TextView title;
 
     @InjectView(R.id.tvWriter)
-    TextView writer;
+    private TextView writer;
 
     @InjectView(R.id.tvDetailsofPost)
-    TextView details;
+    private TextView details;
 
-    public BlogDetails() {
+    @Inject
+    private NetworkService networkService;
 
-    }
-
-    public static BlogDetails newInstanceofBlogDetails(String title, String writer, String details) {
+    public static BlogDetails newInstanceofBlogDetails(int id) {
         BlogDetails blogDetails = new BlogDetails();
         Bundle arguments = new Bundle();
-        arguments.putString(BLOG_TITLE, title);
-        arguments.putString(BLOG_WRITER, writer);
-        arguments.putString(BLOG_DETAILS, details);
+        arguments.putString("id", id+"");
         blogDetails.setArguments(arguments);
         return blogDetails;
     }
@@ -55,12 +56,28 @@ public class BlogDetails extends RoboFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), Constants.SOLAIMAN_LIPI_FONT);
+        Typeface tf = Constants.solaimanLipiFont(getContext());
         title.setTypeface(tf);
         writer.setTypeface(tf);
         details.setTypeface(tf);
-        title.setText(getArguments().getString(BLOG_TITLE));
-        writer.setText("লিখেছেন: " + getArguments().getString(BLOG_WRITER));
-        details.setText(getArguments().getString(BLOG_DETAILS));
+
+        networkService.fetchBlogDetails(getArguments().getString("id"),new DefaultMessageHandler(getContext(),true){
+            @Override
+            public void onSuccess(Message msg) {
+                String string = (String) msg.obj;
+                try {
+                    JSONObject response = new JSONObject(string);
+                    Gson gson = new Gson();
+                    response = response.getJSONArray("details").getJSONObject(0);
+                    BlogPost blogPost1 = gson.fromJson(String.valueOf(response), BlogPost.class);
+                    title.setText(blogPost1.getTitle());
+                    writer.setText("লিখেছেন: " + blogPost1.getName());
+                    details.setText(blogPost1.getDetails());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
     }
 }

@@ -10,13 +10,7 @@
     android:id="@+id/colayout"
     tools:context=".activities.ForumPostDetailsActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/touroperatorapp_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
 
     <TextView
         android:layout_width="match_parent"
@@ -24,7 +18,7 @@
         android:text="Question"
         android:id="@+id/tvQuestion"
         android:layout_margin="7dp"
-        android:layout_below="@id/touroperatorapp_bar"
+        android:layout_alignParentTop="true"
         android:textSize="17sp"/>
 
     <TextView

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.androidfragmant.tourxyz.banglatourism">
 
     <uses-sdk
         android:minSdkVersion="15"
-        android:targetSdkVersion="23" />
+        android:targetSdkVersion="25" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -34,20 +35,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/MyMaterialTheme">
-        <activity
-            android:name=".activities.MainActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN1" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".activities.FrontPageActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,167 +50,103 @@
         <activity
             android:name=".activities.BrowseByDivisionActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.BROWSEBYDIVISION" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.NewPlaceDetailsActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.NEWPLACEDETAILSACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/MyMaterialTheme.NoActionBar"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.TourBlogActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.TOURBLOG" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:label="Tour Blog"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.TourBlogDetailsActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.TOURBLOGDETAILSACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/MyMaterialTheme.NoActionBar"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ForumPostListActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.SELECTTOUROPERATOR" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:label="Forum"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ForumPostDetailsActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.TOUROPERATORDETAILS" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.HotelsActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.HOTELS" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.NewTourBlogActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.NEWTOURBLOG" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:label="New Tour Blog"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.HotelDetailsActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.HOTELDETAILS" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.DivisionListActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.DIVISIONLISTACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:label="Select Division"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.TourOperatorOffersListActivity"
             android:label="@string/tour_offer_list_title"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.TOUROPERATOROFFERSLISTACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.TourOfferDetailsActivity"
             android:label="@string/tour_offer_details"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.TOUROFFERDETAILSACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.DistrictListActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.DISTRICTLISTACTIVITY" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.FareActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.FAREACTIVITY" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
+            android:label="Fare"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.TourCostItemActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.TOURCOSTITEMACTIVITY" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
+            android:label="Cost Details"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AboutAppActivity"
+            android:label="About App"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FeedbackActivity"
+            android:label="Feedback"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.VisitedPlacesActivity"
+            android:label="Visited Places"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SuggestNewPlaceActivity"
+            android:label="Suggest New Place"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.WishListActivity"
+            android:label="Wish List"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.UpdateDatabaseActivity"
+            android:label="Update Database"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.TourCostCalculatorActivity"
+            android:label="Cost Calculator"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.YoutubePlayerActivity"
             android:label="@string/app_name"
-            android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.YOUTUBEPLAYERACTIVITY" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
+            android:screenOrientation="landscape" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            tools:replace="android:theme" />
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
@@ -265,6 +194,10 @@
 
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/MyMaterialTheme.NoActionBar"/>
     </application>
 
 </manifest>

@@ -13,7 +13,7 @@ import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.analytics.Tracker;
 
 /**
- * Created by Ripon on 7/20/15.
+ * @author Ripon
  */
 public class ParseApplication extends Application {
 
@@ -35,8 +35,10 @@ public class ParseApplication extends Application {
         Batch.Push.setGCMSenderId("78317493023");
 
         // TODO : switch to live Batch Api Key before shipping
-        Batch.setConfig(new Config("DEV57888C87CB43EF32913115ACD3C")); // devloppement
-        //Batch.setConfig(new Config("57888C87C9514AA9FFB7706926386C")); // live
+        if (BuildConfig.DEBUG)
+            Batch.setConfig(new Config("DEV57888C87CB43EF32913115ACD3C")); // devloppement
+        else
+            Batch.setConfig(new Config("57888C87C9514AA9FFB7706926386C")); // live
 
     }
 

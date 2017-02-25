@@ -13,7 +13,7 @@ import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.squareup.picasso.Picasso;
 
 /**
- * Created by Ripon on 6/14/15.
+ * @author Ripon
  */
 public class GridAdapter extends BaseAdapter {
     private Activity context;

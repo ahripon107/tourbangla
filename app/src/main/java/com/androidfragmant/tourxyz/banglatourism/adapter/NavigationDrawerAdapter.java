@@ -6,6 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
@@ -15,9 +18,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by Ripon on 6/11/15.
+ * @author Ripon
  */
-public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.NavigationDrawerViewHolder>{
+public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.NavigationDrawerViewHolder> {
     List<NavDrawerItem> data = Collections.emptyList();
     private Context context;
     private Typeface tf;
@@ -25,7 +28,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     public NavigationDrawerAdapter(Context context, List<NavDrawerItem> data) {
         this.context = context;
         this.data = data;
-        tf = Typeface.createFromAsset(context.getAssets(),"font/timeroman.ttf");
+        tf = Typeface.createFromAsset(context.getAssets(), "font/timeroman.ttf");
     }
 
 
@@ -39,8 +42,10 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     @Override
     public void onBindViewHolder(NavigationDrawerViewHolder holder, int position) {
         NavDrawerItem current = data.get(position);
-        holder.title.setTypeface(tf,Typeface.BOLD);
+        holder.title.setTypeface(tf, Typeface.BOLD);
         holder.title.setText(current.getTitle());
+
+        setAnimation(holder.relativeLayout, position);
     }
 
     @Override
@@ -50,10 +55,20 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 
     static class NavigationDrawerViewHolder extends RecyclerView.ViewHolder {
         TextView title;
+        RelativeLayout relativeLayout;
 
         public NavigationDrawerViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
+            relativeLayout = (RelativeLayout) itemView.findViewById(R.id.relativelayout);
         }
+    }
+
+    private void setAnimation(View viewToAnimate, int position) {
+        Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+
+        animation.setDuration(position * 50 + 200);
+        viewToAnimate.startAnimation(animation);
+
     }
 }

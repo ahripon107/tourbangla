@@ -3,13 +3,12 @@ package com.androidfragmant.tourxyz.banglatourism.activities;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -23,16 +22,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.fragment.YoutubeVideoFragment;
-import com.androidfragmant.tourxyz.banglatourism.model.Comment;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.androidfragmant.tourxyz.banglatourism.util.DefaultMessageHandler;
 import com.androidfragmant.tourxyz.banglatourism.util.FalseProgress;
+import com.androidfragmant.tourxyz.banglatourism.util.NetworkService;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 
@@ -44,23 +46,17 @@ import com.androidfragmant.tourxyz.banglatourism.fragment.CommentAddComment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.DescriptionFragment;
 import com.androidfragmant.tourxyz.banglatourism.model.Place;
 import com.androidfragmant.tourxyz.banglatourism.view.cpb.CircularProgressButton;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.google.inject.Inject;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-import org.json.JSONObject;
-
-import cz.msebera.android.httpclient.Header;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 8/22/15.
+ * @author Ripon
  */
 @ContentView(R.layout.newplacedetails)
 public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
@@ -81,18 +77,23 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
     private TabLayout mTabLayout;
 
     @InjectView(R.id.placeimage)
-    ImageView imageView;
+    private ImageView imageView;
 
     @InjectView(R.id.btnAddToFavourite)
-    CircularProgressButton addToFavourite;
+    private CircularProgressButton addToFavourite;
 
     @InjectView(R.id.btnBeenThere)
-    CircularProgressButton beenThere;
+    private CircularProgressButton beenThere;
 
     @InjectView(R.id.adViewPlaceDetails)
-    AdView adView;
+    private AdView adView;
 
-    private CharSequence Titles[] = {"DESCRIPTION", "HOW TO GO", "HOTELS", "OTHER INFO", "COMMENTS", "VIDEO"};
+    private Typeface typeface;
+
+    @Inject
+    private NetworkService networkService;
+
+    private CharSequence Titles[] = {"বর্ণনা", "কিভাবে যাবেন", "হোটেল", "অন্যান্য", "কমেন্ট", "ভিডিও"};
     private Place selectedPlace;
     int id;
 
@@ -100,6 +101,15 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSupportActionBar(mToolbar);
+
+        typeface = Constants.solaimanLipiFont(this);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -122,28 +132,16 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
         String picture = selectedPlace.getPicture();
         Log.d(Constants.TAG, picture);
 
-        RequestParams paramsName = new RequestParams();
 
-        paramsName.put(Constants.KEY, Constants.KEY_VALUE);
-        paramsName.put("placename",selectedPlace.getName());
-        paramsName.put("timestamp",System.currentTimeMillis());
-
-        Handler handler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-
-            }
-        };
-
-        FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
-        fetchFromWeb.postData(Constants.INSERT_VISITED_PLACE_ELEMENT_URL,paramsName);
+        networkService.insertVisitedPlace(selectedPlace.getName(),System.currentTimeMillis()+"",
+                new DefaultMessageHandler(this));
 
         Picasso.with(getApplicationContext()).load(picture).into(imageView);
-        int noOfTabs = 5;
-        YourPagerAdapter mAdapter = new YourPagerAdapter(getSupportFragmentManager(), Titles, noOfTabs, selectedPlace);
+        YourPagerAdapter mAdapter = new YourPagerAdapter(getSupportFragmentManager(), Titles, selectedPlace);
         mPager.setAdapter(mAdapter);
 
         mTabLayout.setupWithViewPager(mPager);
+        changeTabsFont();
         mCollapsingToolbarLayout.setTitle(selectedPlace.getName());
         mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
         mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
@@ -302,17 +300,32 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void changeTabsFont() {
+
+        ViewGroup vg = (ViewGroup) mTabLayout.getChildAt(0);
+        int tabsCount = vg.getChildCount();
+        for (int j = 0; j < tabsCount; j++) {
+            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
+            int tabChildsCount = vgTab.getChildCount();
+            for (int i = 0; i < tabChildsCount; i++) {
+                View tabViewChild = vgTab.getChildAt(i);
+                if (tabViewChild instanceof TextView) {
+                    ((TextView) tabViewChild).setTypeface(typeface);
+                }
+            }
+        }
+    }
+
 }
 
 class YourPagerAdapter extends FragmentStatePagerAdapter {
     CharSequence[] Titles;
-    int NoOfTabs;
     private Place SelectedPlace;
 
-    public YourPagerAdapter(FragmentManager fm, CharSequence[] Titles, int NoOfTabs, Place selectedPlace) {
+    public YourPagerAdapter(FragmentManager fm, CharSequence[] Titles, Place selectedPlace) {
         super(fm);
         this.Titles = Titles;
-        this.NoOfTabs = NoOfTabs;
         this.SelectedPlace = selectedPlace;
     }
 

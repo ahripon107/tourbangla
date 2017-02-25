@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import com.androidfragmant.tourxyz.banglatourism.model.Place;
 import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.ImageUtil;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
+import com.google.inject.Inject;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -34,44 +36,35 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 6/13/15.
+ * @author Ripon
  */
 @ContentView(R.layout.browsebydivision)
 public class BrowseByDivisionActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.adViewDivision)
-    AdView adView;
+    private AdView adView;
 
-    @InjectView(R.id.tool_bar)
-    Toolbar toolbar;
 
     @InjectView(R.id.gridview)
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
-    ArrayList<Place> places;
+    @Inject
+    private ArrayList<Place> places;
 
-    Typeface tf;
+    private Typeface tf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        places = new ArrayList<>();
 
         String divisionName = getIntent().getStringExtra(Constants.DIVISION_NAME);
         String districtName = getIntent().getStringExtra(Constants.DISTRICT_NAME);
         Log.d(Constants.TAG, divisionName);
         Log.d(Constants.TAG, districtName);
-        tf = Typeface.createFromAsset(BrowseByDivisionActivity.this.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
+        tf = Constants.solaimanLipiFont(this);
 
         setTitle("Place List Of "+districtName);
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(BrowseByDivisionActivity.this));
@@ -107,7 +100,7 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
         adView.loadAd(adRequest);
     }
 
-    static class PlaceCardViewHolder extends RecyclerView.ViewHolder {
+    private static class PlaceCardViewHolder extends RecyclerView.ViewHolder {
         protected ImageView imageView;
         protected TextView title;
         protected LinearLayout linearLayout;
@@ -118,5 +111,16 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
             title = ViewHolder.get(itemView,R.id.list_item_google_cards_travel_title);
             linearLayout = ViewHolder.get(itemView,R.id.linear);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

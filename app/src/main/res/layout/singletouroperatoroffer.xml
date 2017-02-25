@@ -16,8 +16,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxHeight="40dp"
+            android:layout_height="200dp"
             android:id="@+id/tourOfferImage"
             android:src="@drawable/noimage"
             android:scaleType="fitXY"
@@ -27,7 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
             android:layout_margin="10dp"
             android:textColor="@color/cpb_blue_dark"
             android:id="@+id/tourOfferTitle"

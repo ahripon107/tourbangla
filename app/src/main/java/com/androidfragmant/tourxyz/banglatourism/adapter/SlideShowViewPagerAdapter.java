@@ -20,7 +20,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import java.util.ArrayList;
 
 /**
- * Created by Ripon on 7/13/16.
+ * @author Ripon
  */
 public class SlideShowViewPagerAdapter extends PagerAdapter {
 

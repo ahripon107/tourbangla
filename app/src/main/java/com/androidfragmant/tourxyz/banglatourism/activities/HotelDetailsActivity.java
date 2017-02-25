@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.gms.ads.AdRequest;
@@ -20,13 +21,10 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 9/21/15.
+ * @author Ripon
  */
 @ContentView(R.layout.hoteldetails)
 public class HotelDetailsActivity extends RoboAppCompatActivity {
-
-    @InjectView(R.id.hotelapp_bar)
-    private Toolbar mToolbar;
 
     @InjectView(R.id.hoteltab_layout)
     private TabLayout mTabLayout;
@@ -43,20 +41,9 @@ public class HotelDetailsActivity extends RoboAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.hoteldetails);
-        //mToolbar = (Toolbar) findViewById(R.id.hotelapp_bar);
-        setSupportActionBar(mToolbar);
-        //adView = (AdView) findViewById(R.id.adViewHotelDetails);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         Intent i = getIntent();
         String str = i.getExtras().getString("namet");
         int index = i.getExtras().getInt("index");
@@ -111,6 +98,17 @@ public class HotelDetailsActivity extends RoboAppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return titles[position];
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 

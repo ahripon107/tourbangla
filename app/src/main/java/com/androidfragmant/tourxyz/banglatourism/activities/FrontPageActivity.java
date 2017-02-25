@@ -1,19 +1,21 @@
 package com.androidfragmant.tourxyz.banglatourism.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
 
 /**
- * Created by Ripon on 9/27/15.
+ * @author Ripon
  */
-public class FrontPageActivity extends AppCompatActivity {
+public class FrontPageActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.frontpage);
         final Thread t;
         t = new Thread(new Runnable() {
@@ -28,7 +30,6 @@ public class FrontPageActivity extends AppCompatActivity {
                 } finally {
                     Intent intent1 = new Intent(FrontPageActivity.this, MainActivity.class);
                     startActivity(intent1);
-
                 }
             }
 

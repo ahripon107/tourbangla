@@ -1,6 +1,5 @@
 package com.androidfragmant.tourxyz.banglatourism.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -8,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -19,54 +19,45 @@ import com.androidfragmant.tourxyz.banglatourism.model.DivisionName;
 import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
+import com.google.inject.Inject;
 
 import java.util.ArrayList;
 
 import roboguice.inject.ContentView;
+import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 7/5/16.
+ * @author Ripon
  */
 @ContentView(R.layout.divisionlist)
 public class DivisionListActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.divisionListRecyclerView)
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
-    @InjectView(R.id.divisionListBar)
-    Toolbar toolbar;
+    @Inject
+    private ArrayList<DivisionName> divisionNames;
 
-    String[] divisions;
-    String[] divisionsBangla;
-    Typeface tf;
+    @InjectResource(R.array.division_list)
+    private String[] divisions;
 
-    ArrayList<DivisionName> divisionNames;
+    @InjectResource(R.array.division_list_bangla)
+    private String[] divisionsBangla;
+
+    private Typeface tf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        divisions = getResources().getStringArray(R.array.division_list);
-        divisionsBangla = getResources().getStringArray(R.array.division_list_bangla);
-        divisionNames = new ArrayList<>();
 
-        tf = Typeface.createFromAsset(getAssets(), Constants.SOLAIMAN_LIPI_FONT);
+        tf = Constants.solaimanLipiFont(this);
 
         for (int i=0;i<divisions.length;i++) {
             divisionNames.add(new DivisionName(divisions[i],divisionsBangla[i]));
         }
 
-        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        setTitle("Select Division");
 
         recyclerView.setAdapter(new AbstractListAdapter<DivisionName,DivisionListViewHolder>(divisionNames) {
             @Override
@@ -89,12 +80,11 @@ public class DivisionListActivity extends RoboAppCompatActivity {
                     }
                 });
             }
-
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(DivisionListActivity.this));
     }
 
-    static class DivisionListViewHolder extends RecyclerView.ViewHolder {
+    private static class DivisionListViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView textView;
         protected TextView textView2;
@@ -106,5 +96,16 @@ public class DivisionListActivity extends RoboAppCompatActivity {
             textView2 = ViewHolder.get(itemView, R.id.text2);
             linearLayout = ViewHolder.get(itemView, R.id.division_list_item_container);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

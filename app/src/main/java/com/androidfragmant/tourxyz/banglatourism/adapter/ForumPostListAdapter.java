@@ -1,6 +1,5 @@
 package com.androidfragmant.tourxyz.banglatourism.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -8,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,17 +19,17 @@ import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import java.util.ArrayList;
 
 /**
- * Created by Ripon on 8/28/15.
+ * @author Ripon
  */
 public class ForumPostListAdapter extends RecyclerView.Adapter<ForumPostListAdapter.ForumPostViewHolder> {
     private Context context;
     private ArrayList<ForumPost> forumPosts;
-    Typeface tf;
+    private Typeface tf;
 
-    public ForumPostListAdapter(Activity paramActivity, ArrayList<ForumPost> forumPosts) {
-        this.context = paramActivity;
+    public ForumPostListAdapter(Context context, ArrayList<ForumPost> forumPosts) {
+        this.context = context;
         this.forumPosts = forumPosts;
-        this.tf = Typeface.createFromAsset(paramActivity.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
+        this.tf = Constants.solaimanLipiFont(context);
     }
 
     @Override

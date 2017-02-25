@@ -6,11 +6,11 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,6 +25,7 @@ import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.Validator;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.google.gson.Gson;
+import com.google.inject.Inject;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -36,7 +37,7 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 8/5/16.
+ * @author Ripon
  */
 @ContentView(R.layout.activity_tour_cost_item)
 public class TourCostItemActivity extends RoboAppCompatActivity {
@@ -44,44 +45,33 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
     public static final String EXTRA_PLACE_ID = "placeid";
 
     @InjectView(R.id.cost_item_recycler_view)
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
-    @InjectView(R.id.fab_add_new_tour_cost_item)
-    FloatingActionButton addNewCostItem;
+    @InjectView(R.id.new_cost_item_button)
+    private Button addNewCostItem;
 
-    @InjectView(R.id.bar)
-    Toolbar toolbar;
+    @Inject
+    private Gson gson;
 
-    ArrayList<CostItem> costItems;
+    @Inject
+    private ArrayList<CostItem> costItems;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences sharedPreferencesid;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferencesid;
 
     int id, placeid;
-    Gson gson;
-    Typeface tf;
+
+    private Typeface tf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        setTitle("Cost Details");
-        tf = Typeface.createFromAsset(getAssets(), Constants.SOLAIMAN_LIPI_FONT);
+        tf = Constants.solaimanLipiFont(this);
 
-        gson = new Gson();
         placeid = getIntent().getIntExtra(EXTRA_PLACE_ID, 0);
-
-        costItems = new ArrayList<>();
 
         sharedPreferences = getSharedPreferences(Constants.COST_ITEM_PREFERENCE_FILE, Context.MODE_PRIVATE);
         sharedPreferencesid = getSharedPreferences(Constants.COST_ITEM_ID_PREFERENCE_FILE, Context.MODE_PRIVATE);
@@ -162,7 +152,7 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
         });
     }
 
-    static class CostItemViewHolder extends RecyclerView.ViewHolder {
+    private static class CostItemViewHolder extends RecyclerView.ViewHolder {
         protected TextView costAmount;
         protected TextView costPurpose;
 
@@ -172,4 +162,15 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
             costPurpose = ViewHolder.get(itemView,R.id.tv_cost_purpose);
         }
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

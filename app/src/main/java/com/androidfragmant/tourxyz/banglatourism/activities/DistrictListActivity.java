@@ -1,6 +1,5 @@
 package com.androidfragmant.tourxyz.banglatourism.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -8,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -19,6 +19,7 @@ import com.androidfragmant.tourxyz.banglatourism.model.DistrictName;
 import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
+import com.google.inject.Inject;
 
 import java.util.ArrayList;
 
@@ -26,29 +27,26 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 7/5/16.
+ * @author Ripon
  */
 @ContentView(R.layout.divisionlist)
 public class DistrictListActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.divisionListRecyclerView)
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
-    @InjectView(R.id.divisionListBar)
-    Toolbar toolbar;
+    @Inject
+    private ArrayList<DistrictName> districtNames;
 
-    String[] districts;
-    String[] districtsBangla;
-
-    ArrayList<DistrictName> districtNames;
-    Typeface tf;
+    private String[] districts;
+    private String[] districtsBangla;
+    private Typeface tf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        districtNames = new ArrayList<>();
-        tf = Typeface.createFromAsset(getAssets(), Constants.SOLAIMAN_LIPI_FONT);
+        tf = Constants.solaimanLipiFont(this);
 
         final String divisionName = getIntent().getStringExtra(Constants.DIVISION_NAME);
 
@@ -87,16 +85,8 @@ public class DistrictListActivity extends RoboAppCompatActivity {
                 break;
         }
 
-        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         setTitle("Select District");
 
         for (int i=0;i<districts.length;i++) {
@@ -130,7 +120,7 @@ public class DistrictListActivity extends RoboAppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    static class DistrictListViewHolder extends RecyclerView.ViewHolder {
+    private static class DistrictListViewHolder extends RecyclerView.ViewHolder {
         protected TextView textView1, textView2;
         protected LinearLayout linearLayout;
 
@@ -140,5 +130,17 @@ public class DistrictListActivity extends RoboAppCompatActivity {
             textView2 = ViewHolder.get(itemView, R.id.text2);
             linearLayout = ViewHolder.get(itemView, R.id.division_list_item_container);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,9 +1,7 @@
 package com.androidfragmant.tourxyz.banglatourism.activities;
 
-import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -13,29 +11,29 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.androidfragmant.tourxyz.banglatourism.FetchFromWeb;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.fragment.BlogDetails;
 import com.androidfragmant.tourxyz.banglatourism.fragment.CommentAddComment;
 import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
-import com.androidfragmant.tourxyz.banglatourism.util.Constants;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.androidfragmant.tourxyz.banglatourism.util.DefaultMessageHandler;
+import com.androidfragmant.tourxyz.banglatourism.util.NetworkService;
+import com.google.gson.Gson;
+import com.google.inject.Inject;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import cz.msebera.android.httpclient.Header;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
- * Created by Ripon on 8/27/15.
+ * @author Ripon
  */
 @ContentView(R.layout.blogpostdetails)
 public class TourBlogDetailsActivity extends RoboAppCompatActivity {
@@ -56,7 +54,10 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
     private TabLayout mTabLayout;
 
     @InjectView(R.id.blogplaceimage)
-    ImageView imageView;
+    private ImageView imageView;
+
+    @Inject
+    private NetworkService networkService;
 
     private CharSequence Titles[] = {"Post Details", "Comments"};
 
@@ -65,6 +66,13 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setSupportActionBar(mToolbar);
+        if (Build.VERSION.SDK_INT >= 21) {
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        }
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -77,22 +85,9 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
         BlogPost blogPost = (BlogPost) getIntent().getSerializableExtra("post");
         Picasso.with(TourBlogDetailsActivity.this).load(blogPost.getImage()).into(imageView);
 
-        RequestParams paramsBlog = new RequestParams();
+        networkService.insertVisitedBlogPost(blogPost,String.valueOf(System.currentTimeMillis()),
+                new DefaultMessageHandler(this));
 
-        paramsBlog.put(Constants.KEY, Constants.KEY_VALUE);
-        paramsBlog.put("blogid",blogPost.getId());
-        paramsBlog.put("blogtitle",blogPost.getTitle());
-        paramsBlog.put("timestamp",System.currentTimeMillis());
-
-        Handler handler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-
-            }
-        };
-
-        FetchFromWeb fetchFromWeb = new FetchFromWeb(handler);
-        fetchFromWeb.postData(Constants.INSERT_VISITED_BLOG_POST_URL,paramsBlog);
 
         setTitle(blogPost.getTitle());
 
@@ -120,7 +115,7 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return BlogDetails.newInstanceofBlogDetails(blogPost.getTitle(), blogPost.getName(), blogPost.getDetails());
+                return BlogDetails.newInstanceofBlogDetails(blogPost.getId());
             } else {
                 CommentAddComment commentAddComment = new CommentAddComment();
                 Bundle arguments = new Bundle();

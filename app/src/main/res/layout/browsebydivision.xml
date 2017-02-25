@@ -5,13 +5,6 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.BrowseByDivisionActivity">
 
-    <include
-        android:id="@+id/tool_bar"
-        layout="@layout/toolbar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        />
-
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adViewDivision"
@@ -26,17 +19,7 @@
         android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tool_bar"
+        android:layout_alignParentTop="true"
         android:layout_above="@id/adViewDivision" />
-
-
-    <com.androidfragmant.tourxyz.banglatourism.view.ProgressWheel
-        android:id="@+id/pwDhaka"
-        style="@style/ProgressBarStyle.Reverse"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:visibility="gone"
-        android:layout_centerInParent="true" />
-
 
 </RelativeLayout>

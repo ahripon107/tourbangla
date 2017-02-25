@@ -1,13 +1,12 @@
 package com.androidfragmant.tourxyz.banglatourism.util;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
 /**
- * Created by amin on 8/16/16.
+ * @author Ripon
  */
 public abstract class AbstractListAdapter<X,T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T>{
 

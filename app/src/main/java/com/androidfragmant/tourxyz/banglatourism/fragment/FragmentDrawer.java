@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Ripon on 6/11/15.
+ * @author Ripon
  */
 public class FragmentDrawer extends Fragment {
 
