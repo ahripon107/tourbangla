@@ -5,7 +5,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +46,8 @@ public class DivisionListActivity extends RoboAppCompatActivity {
 
     private Typeface tf;
 
+    private int lastPosition = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +59,7 @@ public class DivisionListActivity extends RoboAppCompatActivity {
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         recyclerView.setAdapter(new AbstractListAdapter<DivisionName,DivisionListViewHolder>(divisionNames) {
             @Override
@@ -77,6 +79,7 @@ public class DivisionListActivity extends RoboAppCompatActivity {
                         Intent intent = new Intent(DivisionListActivity.this, DistrictListActivity.class);
                         intent.putExtra(Constants.DIVISION_NAME, divisions[holder.getAdapterPosition()]);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.left_in, R.anim.left_out);
                     }
                 });
             }
@@ -104,8 +107,16 @@ public class DivisionListActivity extends RoboAppCompatActivity {
 
         if (id == android.R.id.home) {
             finish();
+            overridePendingTransition(R.anim.right_in, R.anim.right_out);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.right_in, R.anim.right_out);
+    }
+
 }

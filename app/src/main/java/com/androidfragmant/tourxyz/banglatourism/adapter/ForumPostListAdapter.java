@@ -1,8 +1,10 @@
 package com.androidfragmant.tourxyz.banglatourism.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,8 +53,11 @@ public class ForumPostListAdapter extends RecyclerView.Adapter<ForumPostListAdap
                 Intent i = new Intent(context,ForumPostDetailsActivity.class);
                 i.putExtra("forumpost",forumPosts.get(position));
                 context.startActivity(i);
+                ((Activity)context).overridePendingTransition(R.anim.left_in, R.anim.left_out);
             }
         });
+        Constants.setLeftInAnimation(holder.cardView,context);
+        Constants.setRightInAnimation(holder.question,context);
     }
 
     @Override
@@ -66,6 +71,7 @@ public class ForumPostListAdapter extends RecyclerView.Adapter<ForumPostListAdap
         protected TextView askedby;
         protected TextView timeStamp;
         protected LinearLayout linearLayout;
+        protected CardView cardView;
 
         public ForumPostViewHolder(View itemView) {
             super(itemView);
@@ -73,6 +79,7 @@ public class ForumPostListAdapter extends RecyclerView.Adapter<ForumPostListAdap
             askedby = ViewHolder.get(itemView,R.id.tvAskedByWhom);
             timeStamp = ViewHolder.get(itemView,R.id.forum_post_time_stamp);
             linearLayout = ViewHolder.get(itemView,R.id.forumpostlinearlayout);
+            cardView = ViewHolder.get(itemView,R.id.card);
         }
     }
 }

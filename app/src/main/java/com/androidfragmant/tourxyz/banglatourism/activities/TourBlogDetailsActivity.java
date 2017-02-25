@@ -59,7 +59,7 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
     @Inject
     private NetworkService networkService;
 
-    private CharSequence Titles[] = {"Post Details", "Comments"};
+    private CharSequence Titles[] = {"বিস্তারিত", "কমেন্ট"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +79,7 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                overridePendingTransition(R.anim.right_in, R.anim.right_out);
             }
         });
 
@@ -135,6 +136,12 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return Titles[position];
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }
 }
 

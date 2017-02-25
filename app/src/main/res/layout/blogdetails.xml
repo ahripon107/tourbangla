@@ -13,7 +13,6 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Large Text"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:textColor="@color/Green"
@@ -23,8 +22,16 @@
             android:id="@+id/tvWriter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Small Text"
             android:textColor="@color/Blue"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/tvReadTimes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/Orange"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -33,7 +40,6 @@
             android:id="@+id/tvDetailsofPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medium Text"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:textColor="@color/Black"

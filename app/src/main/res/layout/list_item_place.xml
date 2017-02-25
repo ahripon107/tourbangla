@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linear"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="240dp"
-    android:layout_margin="3dp"
-    android:background="@drawable/card_background_white"
     android:minHeight="240dp"
+    android:id="@+id/linear"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"
     android:orientation="vertical">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:minHeight="100dp">
 
         <ImageView
@@ -28,8 +25,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
         android:gravity="right"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
         <TextView
@@ -40,8 +37,9 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
+            android:background="#600099cc"
             android:text="Eat at Joe"
-            android:textColor="@color/material_blue_grey_300"
-            android:textSize="24sp" />
+            android:textColor="@color/white"
+            android:textSize="20sp" />
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

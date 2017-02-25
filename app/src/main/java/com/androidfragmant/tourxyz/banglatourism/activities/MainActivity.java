@@ -152,24 +152,31 @@ public class MainActivity extends RoboAppCompatActivity
         } else if (id == R.id.nav_wishlist) {
             Intent intent = new Intent(this, WishListActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.left_in, R.anim.left_out);
         } else if (id == R.id.nav_visitedplaces) {
             Intent intent = new Intent(this, VisitedPlacesActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.left_in, R.anim.left_out);
         } else if (id == R.id.nav_aboutapp) {
             Intent intent = new Intent(this, AboutAppActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.left_in, R.anim.left_out);
         } else if (id == R.id.nav_feedback) {
             Intent intent = new Intent(this, FeedbackActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.left_in, R.anim.left_out);
         } else if (id == R.id.nav_suggestplace) {
             Intent intent = new Intent(this, SuggestNewPlaceActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.left_in, R.anim.left_out);
         } else if (id == R.id.nav_updatedatabase) {
             Intent intent = new Intent(this, UpdateDatabaseActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.left_in, R.anim.left_out);
         } else if (id == R.id.nav_costcalculator) {
             Intent intent = new Intent(this, TourCostCalculatorActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.left_in, R.anim.left_out);
         } else if (id == R.id.nav_rateus) {
             String appPackageName = getPackageName();
             try {

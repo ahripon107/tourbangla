@@ -123,6 +123,7 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
                     fM.beginTransaction().remove(mapFragment).commit();
                 }*/
                 finish();
+                overridePendingTransition(R.anim.right_in, R.anim.right_out);
             }
         });
 
@@ -265,6 +266,7 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        overridePendingTransition(R.anim.right_in, R.anim.right_out);
         /*SupportMapFragment mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map123));
 
         if (mapFragment != null) {
@@ -280,6 +282,7 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
         menuInflater.inflate(R.menu.facebook_share_menu, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

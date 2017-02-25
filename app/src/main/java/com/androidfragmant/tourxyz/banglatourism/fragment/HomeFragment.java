@@ -229,6 +229,7 @@ public class HomeFragment extends RoboFragment {
                             fileProcessor.writeToFile(response);
                             Intent i = new Intent(getActivity(), DivisionListActivity.class);
                             getActivity().startActivity(i);
+                            getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
                         }
                     });
                 } else {
@@ -236,6 +237,7 @@ public class HomeFragment extends RoboFragment {
                     fileProcessor.readFileAndProcess();
                     Intent i = new Intent(getActivity(), DivisionListActivity.class);
                     getActivity().startActivity(i);
+                    getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
                 }
             }
         });
@@ -245,6 +247,7 @@ public class HomeFragment extends RoboFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), TourOperatorOffersListActivity.class);
                 getActivity().startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
             }
         });
 
@@ -253,6 +256,7 @@ public class HomeFragment extends RoboFragment {
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), TourBlogActivity.class);
                 getActivity().startActivity(i);
+                getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
             }
         });
 
@@ -261,6 +265,7 @@ public class HomeFragment extends RoboFragment {
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), ForumPostListActivity.class);
                 getActivity().startActivity(i);
+                getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
             }
         });
 
@@ -269,6 +274,7 @@ public class HomeFragment extends RoboFragment {
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), FareActivity.class);
                 getActivity().startActivity(i);
+                getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
             }
         });
 

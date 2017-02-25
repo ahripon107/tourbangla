@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -89,7 +90,7 @@ public class TourBlogActivity extends RoboAppCompatActivity {
                 holder.tags.setTypeface(tf);
                 holder.name.setText("লিখেছেন: " + blogPost.getName());
                 holder.title.setText(blogPost.getTitle());
-                holder.tags.setText("Tags: " + blogPost.getTags());
+                holder.tags.setText(blogPost.getReadtimes()+"  বার পঠিত");
                 holder.timestamp.setText(Constants.getTimeAgo(Long.parseLong(blogPost.getTimestamp())));
 
                 Picasso.with(TourBlogActivity.this).load(blogPost.getImage()).into(holder.imageView);
@@ -100,8 +101,13 @@ public class TourBlogActivity extends RoboAppCompatActivity {
                         Intent i = new Intent(TourBlogActivity.this, TourBlogDetailsActivity.class);
                         i.putExtra("post", blogPost);
                         startActivity(i);
+                        overridePendingTransition(R.anim.left_in, R.anim.left_out);
                     }
                 });
+
+                Constants.setLeftInAnimation(holder.cardView,TourBlogActivity.this);
+                Constants.setRightInAnimation(holder.title,TourBlogActivity.this);
+
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(TourBlogActivity.this));
@@ -111,6 +117,7 @@ public class TourBlogActivity extends RoboAppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(TourBlogActivity.this, NewTourBlogActivity.class);
                 startActivity(i);
+                overridePendingTransition(R.anim.left_in, R.anim.left_out);
             }
         });
 
@@ -162,6 +169,7 @@ public class TourBlogActivity extends RoboAppCompatActivity {
         protected TextView title, name, tags;
         protected TextView timestamp;
         protected LinearLayout linearLayout;
+        protected CardView cardView;
 
         public TourBlogViewHolder(View itemView) {
             super(itemView);
@@ -171,6 +179,7 @@ public class TourBlogActivity extends RoboAppCompatActivity {
             tags = ViewHolder.get(itemView, R.id.txtPostTags);
             timestamp = ViewHolder.get(itemView, R.id.tv_blog_time_stamp);
             linearLayout = ViewHolder.get(itemView, R.id.blogPostContainer);
+            cardView = ViewHolder.get(itemView,R.id.card_bl);
         }
     }
 
@@ -180,8 +189,15 @@ public class TourBlogActivity extends RoboAppCompatActivity {
 
         if (id == android.R.id.home) {
             finish();
+            overridePendingTransition(R.anim.right_in, R.anim.right_out);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }
 }

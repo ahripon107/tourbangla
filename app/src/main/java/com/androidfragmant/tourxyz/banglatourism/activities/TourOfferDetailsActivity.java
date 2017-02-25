@@ -34,9 +34,6 @@ public class TourOfferDetailsActivity extends RoboAppCompatActivity {
     @InjectView(R.id.tvOfferLink)
     private TextView link;
 
-    @InjectView(R.id.btn_book_now)
-    private Button bookNow;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +69,15 @@ public class TourOfferDetailsActivity extends RoboAppCompatActivity {
 
         if (id == android.R.id.home) {
             finish();
+            overridePendingTransition(R.anim.right_in, R.anim.right_out);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }
 }
