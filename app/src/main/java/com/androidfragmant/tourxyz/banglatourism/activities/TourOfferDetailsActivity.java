@@ -5,9 +5,12 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
@@ -90,6 +93,10 @@ public class TourOfferDetailsActivity extends RoboAppCompatActivity {
             finish();
             overridePendingTransition(R.anim.right_in, R.anim.right_out);
             return true;
+        } else if (id == R.id.action_book) {
+            Intent intent = new Intent(this,BookingPersonActivity.class);
+            startActivity(intent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -98,5 +105,12 @@ public class TourOfferDetailsActivity extends RoboAppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.right_in, R.anim.right_out);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.book_now_menu, menu);
+        return true;
     }
 }
