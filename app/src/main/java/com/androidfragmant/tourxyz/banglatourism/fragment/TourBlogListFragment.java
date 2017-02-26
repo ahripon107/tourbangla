@@ -1,14 +1,16 @@
-package com.androidfragmant.tourxyz.banglatourism.activities;
+package com.androidfragmant.tourxyz.banglatourism.fragment;
 
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.androidfragmant.tourxyz.banglatourism.activities.NewTourBlogActivity;
+import com.androidfragmant.tourxyz.banglatourism.activities.TourBlogDetailsActivity;
 import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.DefaultMessageHandler;
 import com.androidfragmant.tourxyz.banglatourism.util.NetworkService;
@@ -41,6 +45,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import roboguice.fragment.RoboFragment;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
@@ -48,7 +53,7 @@ import roboguice.inject.InjectView;
  * @author Ripon
  */
 @ContentView(R.layout.tourblog)
-public class TourBlogActivity extends RoboAppCompatActivity {
+public class TourBlogListFragment extends RoboFragment {
 
     @InjectView(R.id.rvAllBlogPosts)
     private RecyclerView recyclerView;
@@ -56,10 +61,6 @@ public class TourBlogActivity extends RoboAppCompatActivity {
     @InjectView(R.id.fabAddNewBlog)
     private FloatingActionButton fabNewBlog;
 
-    @InjectView(R.id.adViewTourBlog)
-    private AdView adView;
-
-    @Inject
     private ArrayList<BlogPost> blogPosts;
 
     @Inject
@@ -67,15 +68,14 @@ public class TourBlogActivity extends RoboAppCompatActivity {
 
     private Typeface tf;
 
+    private AbstractListAdapter<BlogPost, TourBlogViewHolder> tourBlogListAdapter;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        tf = Constants.solaimanLipiFont(this);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        recyclerView.setAdapter(new AbstractListAdapter<BlogPost, TourBlogViewHolder>(blogPosts) {
+        blogPosts = new ArrayList<>();
+        tourBlogListAdapter = new AbstractListAdapter<BlogPost, TourBlogViewHolder>(blogPosts) {
             @Override
             public TourBlogViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_tour_blog_item, parent, false);
@@ -93,54 +93,65 @@ public class TourBlogActivity extends RoboAppCompatActivity {
                 holder.tags.setText(blogPost.getReadtimes()+"  বার পঠিত");
                 holder.timestamp.setText(Constants.getTimeAgo(Long.parseLong(blogPost.getTimestamp())));
 
-                Picasso.with(TourBlogActivity.this).load(blogPost.getImage()).into(holder.imageView);
+                Picasso.with(getContext()).load(blogPost.getImage()).into(holder.imageView);
 
                 holder.linearLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(TourBlogActivity.this, TourBlogDetailsActivity.class);
+                        Intent i = new Intent(getActivity(), TourBlogDetailsActivity.class);
                         i.putExtra("post", blogPost);
                         startActivity(i);
-                        overridePendingTransition(R.anim.left_in, R.anim.left_out);
                     }
                 });
-
-                Constants.setLeftInAnimation(holder.cardView,TourBlogActivity.this);
-                Constants.setRightInAnimation(holder.title,TourBlogActivity.this);
-
+                Constants.setLeftInAnimation(holder.cardView,getContext());
+                Constants.setRightInAnimation(holder.title,getContext());
             }
-        });
-        recyclerView.setLayoutManager(new LinearLayoutManager(TourBlogActivity.this));
+        };
+
+        loadPosts();
+        EventBus.getDefault().register(this);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.tourblog,container,false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        tf = Constants.solaimanLipiFont(getContext());
+
+        recyclerView.setAdapter(tourBlogListAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         fabNewBlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(TourBlogActivity.this, NewTourBlogActivity.class);
+                Intent i = new Intent(getActivity(), NewTourBlogActivity.class);
                 startActivity(i);
-                overridePendingTransition(R.anim.left_in, R.anim.left_out);
+                getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
             }
         });
-
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
-        adView.loadAd(adRequest);
-        loadPosts();
-
-        EventBus.getDefault().register(this);
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(BlogPost blogPost) {
         loadPosts();
     }
 
+
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
+        Log.d(Constants.TAG, "onDestroy: ");
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
     public void loadPosts() {
-        networkService.fetchBlogPostList(new DefaultMessageHandler(this, true) {
+        networkService.fetchBlogPostList(new DefaultMessageHandler(getContext(), true) {
             @Override
             public void onSuccess(Message msg) {
                 String string = (String) msg.obj;
@@ -183,21 +194,4 @@ public class TourBlogActivity extends RoboAppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            finish();
-            overridePendingTransition(R.anim.right_in, R.anim.right_out);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.right_in, R.anim.right_out);
-    }
 }

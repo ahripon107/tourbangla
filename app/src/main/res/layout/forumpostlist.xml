@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    tools:context=".activities.ForumPostListActivity">
+    tools:context=".fragment.ForumPostListFragment">
 
 
     <android.support.v7.widget.RecyclerView
@@ -15,18 +15,9 @@
         android:layout_gravity="center_horizontal"
         android:horizontalSpacing="5dip"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/adViewTourOperator"
         android:stretchMode="columnWidth"
         android:verticalSpacing="5dip"/>
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adViewTourOperator"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/forumpostlist">
-    </com.google.android.gms.ads.AdView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabAddNewForumPost"
@@ -35,8 +26,8 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:src="@drawable/ic_mode_edit_black_24dp"
         app:borderWidth="0dp"
-        android:layout_above="@id/adViewTourOperator"
         app:fabSize="normal" />
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.androidfragmant.tourxyz.banglatourism.util;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
 import com.google.inject.Inject;
@@ -103,6 +104,7 @@ public class NetworkService {
     public void fetchBlogPostList(Handler handler) {
         RequestParams requestParams = new RequestParams();
         requestParams.add(Constants.KEY,Constants.KEY_VALUE);
+        Log.d(Constants.TAG, Constants.FETCH_BLOG_POSTS_URL);
 
         httpClient.get(Constants.FETCH_BLOG_POSTS_URL,requestParams,new DefaultAsyncHttpResponseHandler(handler));
     }
@@ -160,6 +162,7 @@ public class NetworkService {
     public void fetchForumPostList(Handler handler) {
         RequestParams requestParams = new RequestParams();
         requestParams.add(Constants.KEY,Constants.KEY_VALUE);
+        Log.d(Constants.TAG, Constants.FETCH_FORUM_POSTS_URL);
 
         httpClient.get(Constants.FETCH_FORUM_POSTS_URL,requestParams,new DefaultAsyncHttpResponseHandler(handler));
     }

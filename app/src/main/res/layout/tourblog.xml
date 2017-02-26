@@ -5,15 +5,12 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
-    tools:context=".activities.TourBlogActivity">
+    tools:context=".fragment.TourBlogListFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/relativelayout"
-        android:layout_above="@+id/adViewTourBlog"
-        android:layout_below="@+id/toolbarTourBlog">
+        android:id="@+id/relativelayout">
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
@@ -35,14 +32,5 @@
     </RelativeLayout>
 
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adViewTourBlog"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentBottom="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/tourblog">
-    </com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

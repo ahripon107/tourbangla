@@ -45,9 +45,6 @@ import static com.androidfragmant.tourxyz.banglatourism.util.Constants.setRightI
 @ContentView(R.layout.browsebydivision)
 public class BrowseByDivisionActivity extends RoboAppCompatActivity {
 
-    @InjectView(R.id.adViewDivision)
-    private AdView adView;
-
 
     @InjectView(R.id.gridview)
     private RecyclerView recyclerView;
@@ -103,9 +100,6 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(BrowseByDivisionActivity.this));
-
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
-        adView.loadAd(adRequest);
     }
 
     private static class PlaceCardViewHolder extends RecyclerView.ViewHolder {

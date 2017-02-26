@@ -21,10 +21,6 @@ import android.widget.Toast;
 import com.androidfragmant.tourxyz.banglatourism.FileProcessor;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.activities.DivisionListActivity;
-import com.androidfragmant.tourxyz.banglatourism.activities.FareActivity;
-import com.androidfragmant.tourxyz.banglatourism.activities.ForumPostListActivity;
-import com.androidfragmant.tourxyz.banglatourism.activities.TourBlogActivity;
-import com.androidfragmant.tourxyz.banglatourism.activities.TourOperatorOffersListActivity;
 import com.androidfragmant.tourxyz.banglatourism.adapter.SlideShowViewPagerAdapter;
 import com.androidfragmant.tourxyz.banglatourism.model.HomeFragmentElement;
 import com.androidfragmant.tourxyz.banglatourism.model.HomeFragmentImage;
@@ -245,7 +241,7 @@ public class HomeFragment extends RoboFragment {
         exploreOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), TourOperatorOffersListActivity.class);
+                Intent intent = new Intent(getActivity(), TourOperatorOffersListFragment.class);
                 getActivity().startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
             }
@@ -254,7 +250,7 @@ public class HomeFragment extends RoboFragment {
         exploreBlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), TourBlogActivity.class);
+                Intent i = new Intent(getActivity(), TourBlogListFragment.class);
                 getActivity().startActivity(i);
                 getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
             }
@@ -263,7 +259,7 @@ public class HomeFragment extends RoboFragment {
         exploreForum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), ForumPostListActivity.class);
+                Intent i = new Intent(getActivity(), ForumPostListFragment.class);
                 getActivity().startActivity(i);
                 getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
             }
@@ -272,7 +268,7 @@ public class HomeFragment extends RoboFragment {
         exploreFare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), FareActivity.class);
+                Intent i = new Intent(getActivity(), FareFragment.class);
                 getActivity().startActivity(i);
                 getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
             }

@@ -6,20 +6,10 @@
     tools:context=".activities.BrowseByDivisionActivity">
 
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adViewDivision"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/browsebydivision">
-    </com.google.android.gms.ads.AdView>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_above="@id/adViewDivision" />
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

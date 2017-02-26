@@ -1,11 +1,13 @@
-package com.androidfragmant.tourxyz.banglatourism.activities;
+package com.androidfragmant.tourxyz.banglatourism.fragment;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -34,6 +36,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import roboguice.fragment.RoboFragment;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
@@ -42,7 +45,7 @@ import roboguice.inject.InjectView;
  */
 
 @ContentView(R.layout.activity_fare)
-public class FareActivity extends RoboAppCompatActivity {
+public class FareFragment extends RoboFragment {
 
     @InjectView(R.id.spnFrom)
     private Spinner fromSpinner;
@@ -71,6 +74,8 @@ public class FareActivity extends RoboAppCompatActivity {
     @InjectView(R.id.tvJanbahon)
     private TextView janbahon;
 
+    private AbstractListAdapter<Fare,FareViewHolder> fareListAdapter;
+
     @Inject
     private ArrayList<String> elements;
 
@@ -85,40 +90,37 @@ public class FareActivity extends RoboAppCompatActivity {
 
     private Typeface tf;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private ArrayAdapter<String> vehicleAdapter;
+    private ArrayAdapter<String> dataAdapter;
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_fare,container,false);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         elements = populate();
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(FareActivity.this,
+        dataAdapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, elements);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        fromSpinner.setAdapter(dataAdapter);
-        toSpinner.setAdapter(dataAdapter);
-
-        tf = Constants.solaimanLipiFont(this);
-
-        resultsFound.setTypeface(tf);
-        startPlace.setTypeface(tf);
-        EndPlace.setTypeface(tf);
-        janbahon.setTypeface(tf);
 
         ArrayList<String> vehicles = new ArrayList<>();
         vehicles.add("বাস");
         vehicles.add("ট্রেন");
         vehicles.add("লঞ্চ");
 
-        ArrayAdapter<String> vehicleAdapter = new ArrayAdapter<String>(FareActivity.this,
+        vehicleAdapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, vehicles);
         vehicleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        vehicleSpinner.setAdapter(vehicleAdapter);
 
-        fareList.setAdapter(new AbstractListAdapter<Fare,FareViewHolder>(selectedFares) {
+        fareListAdapter = new AbstractListAdapter<Fare, FareViewHolder>(selectedFares) {
             @Override
             public FareViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fare_list_item, parent, false);
@@ -141,10 +143,11 @@ public class FareActivity extends RoboAppCompatActivity {
                 holder.estimatedTime.setText(fare.getEstimatedTime());
                 holder.leavingPlace.setText(fare.getLeavePlace());
             }
-        });
-        fareList.setLayoutManager(new LinearLayoutManager(FareActivity.this));
+        };
 
-        networkService.fetchFares(new DefaultMessageHandler(this,true){
+
+
+        networkService.fetchFares(new DefaultMessageHandler(getContext(),true){
             @Override
             public void onSuccess(Message msg) {
                 String string = (String) msg.obj;
@@ -162,6 +165,27 @@ public class FareActivity extends RoboAppCompatActivity {
                 }
             }
         });
+
+
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        fareList.setAdapter(fareListAdapter);
+        fareList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        vehicleSpinner.setAdapter(vehicleAdapter);
+        fromSpinner.setAdapter(dataAdapter);
+        toSpinner.setAdapter(dataAdapter);
+
+        tf = Constants.solaimanLipiFont(getContext());
+
+        resultsFound.setTypeface(tf);
+        startPlace.setTypeface(tf);
+        EndPlace.setTypeface(tf);
+        janbahon.setTypeface(tf);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,7 +206,6 @@ public class FareActivity extends RoboAppCompatActivity {
             }
         });
     }
-
 
     public ArrayList<String> populate() {
         ArrayList<String> e = new ArrayList<>();
@@ -220,23 +243,5 @@ public class FareActivity extends RoboAppCompatActivity {
             estimatedTime = ViewHolder.get(itemView, R.id.tvEstimatedTime);
             leavingPlace = ViewHolder.get(itemView, R.id.tvLeavingPlace);
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            finish();
-            overridePendingTransition(R.anim.right_in, R.anim.right_out);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }
 }
