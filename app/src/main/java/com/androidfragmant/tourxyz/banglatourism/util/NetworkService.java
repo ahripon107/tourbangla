@@ -60,6 +60,21 @@ public class NetworkService {
         httpClient.get(Constants.FETCH_PLACES_URL,requestParams,new DefaultAsyncHttpResponseHandler(handler));
     }
 
+    public void fetchTopPlaces(Handler handler) {
+        RequestParams requestParams = new RequestParams();
+        requestParams.put(Constants.KEY, Constants.KEY_VALUE);
+
+        httpClient.get(Constants.FETCH_TOP_PLACES,requestParams,new DefaultAsyncHttpResponseHandler(handler));
+    }
+
+    public void fetchSpecificPlace(int id, Handler handler) {
+        RequestParams requestParams = new RequestParams();
+        requestParams.put(Constants.KEY, Constants.KEY_VALUE);
+        requestParams.put("id",id);
+
+        httpClient.get(Constants.FETCH_SPECIFIC_PLACE,requestParams,new DefaultAsyncHttpResponseHandler(handler));
+    }
+
     public void suggestNewPlace(String hotels, String howtogo, String description, String division,
                                 String address, String name,
                                 String email, Handler handler) {
@@ -182,5 +197,13 @@ public class NetworkService {
         requestParams.add(Constants.KEY, Constants.KEY_VALUE);
 
         httpClient.get(Constants.FETCH_FARES_URL,requestParams,new DefaultAsyncHttpResponseHandler(handler));
+    }
+
+    public void fetchTourOfferDetails(int id, Handler handler){
+        RequestParams requestParams = new RequestParams();
+        requestParams.add(Constants.KEY, Constants.KEY_VALUE);
+        requestParams.add("id", String.valueOf(id));
+
+        httpClient.get(Constants.TOUR_OPERATOR_OFFER_DETAILS,requestParams,new DefaultAsyncHttpResponseHandler(handler));
     }
 }

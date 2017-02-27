@@ -21,12 +21,10 @@ import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.fragment.FareFragment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.ForumPostListFragment;
+import com.androidfragmant.tourxyz.banglatourism.fragment.TopPlacesFragment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.TourBlogListFragment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.TourOperatorOffersListFragment;
-import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.batch.android.Batch;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -44,9 +42,6 @@ public class MainActivity extends RoboAppCompatActivity
     @InjectView(R.id.nav_view)
     private NavigationView navigationView;
 
-    @InjectView(R.id.adView)
-    private AdView adView;
-
     @InjectView(R.id.tab_layout_home)
     private TabLayout tabLayout;
 
@@ -55,7 +50,7 @@ public class MainActivity extends RoboAppCompatActivity
 
     private SectionPagerAdapter homePagerAdapter;
 
-    String[] titles = {"Blog","Forum","Tour Offers","Fare"};
+    String[] titles = {"Top Places","Blog","Forum","Tour Offers","Fare"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,10 +83,6 @@ public class MainActivity extends RoboAppCompatActivity
             FileProcessor fileProcessor = new FileProcessor(MainActivity.this);
             fileProcessor.readFileAndProcess();
         }
-
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
-        adView.loadAd(adRequest);
-
     }
 
 
@@ -213,10 +204,12 @@ public class MainActivity extends RoboAppCompatActivity
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
+                return new TopPlacesFragment();
+            } else if (position == 1) {
                 return new TourBlogListFragment();
-            } else if (position == 1){
-                return  new ForumPostListFragment();
             } else if (position == 2){
+                return  new ForumPostListFragment();
+            } else if (position == 3){
                 return new TourOperatorOffersListFragment();
             } else
                 return new FareFragment();

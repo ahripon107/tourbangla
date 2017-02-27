@@ -3,7 +3,7 @@ package com.androidfragmant.tourxyz.banglatourism.model;
 import java.io.Serializable;
 
 /**
- * Created by Ripon on 7/7/16.
+ * @author Ripon
  */
 public class Place implements Serializable {
 

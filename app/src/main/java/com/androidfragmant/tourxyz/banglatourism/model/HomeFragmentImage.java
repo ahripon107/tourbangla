@@ -1,7 +1,7 @@
 package com.androidfragmant.tourxyz.banglatourism.model;
 
 /**
- * Created by Ripon on 7/13/16.
+ * @author Ripon
  */
 public class HomeFragmentImage {
 

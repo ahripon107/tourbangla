@@ -10,9 +10,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -30,10 +28,7 @@ import com.google.inject.Inject;
 
 import java.util.ArrayList;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.androidfragmant.tourxyz.banglatourism.R;
-import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.squareup.picasso.Picasso;
@@ -93,7 +88,7 @@ public class TourBlogListFragment extends RoboFragment {
                 holder.tags.setText(blogPost.getReadtimes()+"  বার পঠিত");
                 holder.timestamp.setText(Constants.getTimeAgo(Long.parseLong(blogPost.getTimestamp())));
 
-                Picasso.with(getContext()).load(blogPost.getImage()).into(holder.imageView);
+                Picasso.with(getContext()).load(blogPost.getImage()).placeholder(R.drawable.default_image).into(holder.imageView);
 
                 holder.linearLayout.setOnClickListener(new View.OnClickListener() {
                     @Override

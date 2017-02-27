@@ -26,8 +26,6 @@ import com.google.inject.Inject;
 
 import java.util.ArrayList;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.adapter.ForumPostListAdapter;
 

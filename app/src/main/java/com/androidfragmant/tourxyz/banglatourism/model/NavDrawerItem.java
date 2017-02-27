@@ -1,7 +1,7 @@
 package com.androidfragmant.tourxyz.banglatourism.model;
 
 /**
- * Created by Ripon on 6/11/15.
+ * @author Ripon
  */
 public class NavDrawerItem {
     private String icon;

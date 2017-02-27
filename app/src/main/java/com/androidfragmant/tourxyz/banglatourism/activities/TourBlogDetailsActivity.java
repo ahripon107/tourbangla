@@ -2,7 +2,6 @@ package com.androidfragmant.tourxyz.banglatourism.activities;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -22,12 +21,8 @@ import com.androidfragmant.tourxyz.banglatourism.fragment.CommentAddComment;
 import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
 import com.androidfragmant.tourxyz.banglatourism.util.DefaultMessageHandler;
 import com.androidfragmant.tourxyz.banglatourism.util.NetworkService;
-import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;

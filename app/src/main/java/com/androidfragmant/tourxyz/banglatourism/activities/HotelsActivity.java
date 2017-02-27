@@ -2,17 +2,12 @@ package com.androidfragmant.tourxyz.banglatourism.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
-import com.androidfragmant.tourxyz.banglatourism.adapter.HotelListStyle;
 import com.androidfragmant.tourxyz.banglatourism.view.ProgressWheel;
 
 import roboguice.inject.ContentView;

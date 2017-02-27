@@ -85,8 +85,7 @@ public class TourOperatorOffersListFragment extends RoboFragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), TourOfferDetailsActivity.class);
-                        intent.putExtra("details", offer.getDetails());
-                        intent.putExtra("link", offer.getLink());
+                        intent.putExtra("id", offer.getId());
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
                     }

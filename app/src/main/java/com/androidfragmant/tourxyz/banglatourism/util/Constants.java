@@ -23,7 +23,8 @@ public class Constants {
     public static final int SUCCESS = 1;
     public static final int FAILURE = 2;
 
-    public static final String TOUR_OPERATOR_OFFER_URL = "http://apisea.xyz/TourBangla/apis/v1/tourOperatorOffer.php";
+    public static final String TOUR_OPERATOR_OFFER_URL = "http://apisea.xyz/TourBangla/apis/v3/FetchTourOfferList.php";
+    public static final String TOUR_OPERATOR_OFFER_DETAILS = "http://apisea.xyz/TourBangla/apis/v3/FetchTourOffer.php";
     public static final String FRONT_PAGE_IMAGE_LIST_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchHomeFragmentImageList.php";
 
     /************************
@@ -32,6 +33,8 @@ public class Constants {
     public static final String FETCH_PLACES_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchPlaces.php";
     public static final String INSERT_PLACE_COMMENT_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertPlaceComment.php";
     public static final String FETCH_PLACE_COMMENTS_URL = "http://apisea.xyz/TourBangla/apis/v1/PlaceComments.php";
+    public static final String FETCH_TOP_PLACES = "http://apisea.xyz/TourBangla/apis/v3/FetchTopPlaces.php";
+    public static final String FETCH_SPECIFIC_PLACE = "http://apisea.xyz/TourBangla/apis/v3/FetchSpecificPlace.php";
 
     /************************
      * FORUM RELATED URL

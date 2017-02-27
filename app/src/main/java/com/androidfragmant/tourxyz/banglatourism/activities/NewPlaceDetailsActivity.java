@@ -4,11 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -23,12 +23,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidfragmant.tourxyz.banglatourism.fragment.YoutubeVideoFragment;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
@@ -51,6 +49,9 @@ import com.squareup.picasso.Picasso;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -129,7 +130,46 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
 
         id = getIntent().getExtras().getInt("id");
 
-        selectedPlace = PlaceAccessHelper.getPlace(id);
+        if (!isFileExist()) {
+            networkService.fetchSpecificPlace(id,new DefaultMessageHandler(this,true) {
+                @Override
+                public void onSuccess(Message msg) {
+                    String string = (String) msg.obj;
+
+                    try {
+                        JSONObject response = new JSONObject(string);
+                        response = response.getJSONArray("content").getJSONObject(0);
+                        Gson gson = new Gson();
+                        selectedPlace = gson.fromJson(String.valueOf(response),Place.class);
+                        populateData();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            selectedPlace = PlaceAccessHelper.getPlace(id);
+            populateData();
+        }
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
+        adView.loadAd(adRequest);
+    }
+
+    private boolean isFileExist() {
+        boolean exists = false;
+        String[] files = fileList();
+        for (String file : files) {
+            if (file.equals("data.txt")) {
+                exists = true;
+                break;
+            } else {
+                exists = false;
+            }
+        }
+        return exists;
+    }
+
+    private void populateData() {
         String picture = selectedPlace.getPicture();
         Log.d(Constants.TAG, picture);
 
@@ -258,9 +298,6 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
 
 
         });
-
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
-        adView.loadAd(adRequest);
     }
 
     @Override
@@ -282,7 +319,6 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
         menuInflater.inflate(R.menu.facebook_share_menu, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -2,12 +2,7 @@ package com.androidfragmant.tourxyz.banglatourism.activities;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;

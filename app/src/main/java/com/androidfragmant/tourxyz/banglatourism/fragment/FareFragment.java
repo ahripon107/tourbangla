@@ -1,16 +1,13 @@
 package com.androidfragmant.tourxyz.banglatourism.fragment;
 
-import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -19,7 +16,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
-import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
 import com.androidfragmant.tourxyz.banglatourism.model.Fare;
 import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
@@ -175,6 +171,7 @@ public class FareFragment extends RoboFragment {
 
         fareList.setAdapter(fareListAdapter);
         fareList.setLayoutManager(new LinearLayoutManager(getContext()));
+        fareList.setNestedScrollingEnabled(false);
 
         vehicleSpinner.setAdapter(vehicleAdapter);
         fromSpinner.setAdapter(dataAdapter);
