@@ -60,14 +60,7 @@
 
         </LinearLayout>
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adViewPlaceDetails"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            ads:adSize="BANNER"
-            ads:adUnitId="@string/placedetails">
-        </com.google.android.gms.ads.AdView>
+
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"

@@ -86,9 +86,6 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
     @InjectView(R.id.btnBeenThere)
     private CircularProgressButton beenThere;
 
-    @InjectView(R.id.adViewPlaceDetails)
-    private AdView adView;
-
     private Typeface typeface;
 
     @Inject
@@ -151,8 +148,6 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
             selectedPlace = PlaceAccessHelper.getPlace(id);
             populateData();
         }
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
-        adView.loadAd(adRequest);
     }
 
     private boolean isFileExist() {
