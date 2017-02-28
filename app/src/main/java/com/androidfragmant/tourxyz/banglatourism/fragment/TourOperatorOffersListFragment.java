@@ -57,7 +57,7 @@ public class TourOperatorOffersListFragment extends RoboFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.browsebydivision,container,false);
+        return inflater.inflate(R.layout.fragment_tour_offer,container,false);
     }
 
     @Override

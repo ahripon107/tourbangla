@@ -1,27 +1,14 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.BrowseByDivisionActivity">
+    android:orientation="vertical">
 
-    <RelativeLayout
+
+    <com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView
+        android:id="@+id/gridview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/gridview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true" />
 
-        <Button
-            android:id="@+id/explore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/gridview"
-            android:layout_margin="10dp"
-            android:text="More Places" />
-
-    </RelativeLayout>
-</ScrollView>
+</LinearLayout>
