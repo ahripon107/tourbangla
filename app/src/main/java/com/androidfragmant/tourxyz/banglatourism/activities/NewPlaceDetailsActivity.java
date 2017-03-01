@@ -47,9 +47,6 @@ import com.androidfragmant.tourxyz.banglatourism.view.cpb.CircularProgressButton
 import com.google.inject.Inject;
 import com.squareup.picasso.Picasso;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -59,7 +56,7 @@ import roboguice.inject.InjectView;
 /**
  * @author Ripon
  */
-@ContentView(R.layout.newplacedetails)
+@ContentView(R.layout.activity_place_details)
 public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.root_coordinator)
@@ -168,10 +165,6 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
         String picture = selectedPlace.getPicture();
         Log.d(Constants.TAG, picture);
 
-
-        networkService.insertVisitedPlace(selectedPlace.getName(),System.currentTimeMillis()+"",
-                new DefaultMessageHandler(this));
-
         Picasso.with(getApplicationContext()).load(picture).into(imageView);
         YourPagerAdapter mAdapter = new YourPagerAdapter(getSupportFragmentManager(), Titles, selectedPlace);
         mPager.setAdapter(mAdapter);
@@ -238,7 +231,6 @@ public class NewPlaceDetailsActivity extends RoboAppCompatActivity {
                 editor = sharedPreferences.edit();
 
                 AlertDialog.Builder builderSingle = new AlertDialog.Builder(NewPlaceDetailsActivity.this);
-                builderSingle.setIcon(R.drawable.ic_profile);
                 builderSingle.setTitle("Rate the place:-");
                 final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                         NewPlaceDetailsActivity.this,

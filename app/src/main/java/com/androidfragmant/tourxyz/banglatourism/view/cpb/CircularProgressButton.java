@@ -16,7 +16,7 @@ import android.util.StateSet;
 import android.widget.Button;
 import com.androidfragmant.tourxyz.banglatourism.R;
 
-import com.androidfragmant.tourxyz.banglatourism.font.RobotoTextView;
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 
 /**
  * Created by Ripon on 10/1/15.
@@ -91,7 +91,7 @@ public class CircularProgressButton extends Button {
         mStateManager = new StateManager(this);
 
         setText(mIdleText);
-        setTypeface(RobotoTextView.getRoboto(getContext(), RobotoTextView.Roboto.ROBOTO_MEDIUM));
+        setTypeface(Constants.iosFont(context));
 
         initIdleStateDrawable();
         setBackgroundCompat(mIdleStateDrawable);

@@ -19,7 +19,7 @@ import roboguice.inject.InjectView;
 /**
  * @author Ripon
  */
-@ContentView(R.layout.hoteldetails)
+@ContentView(R.layout.activity_hotel_details)
 public class HotelDetailsActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.hoteltab_layout)

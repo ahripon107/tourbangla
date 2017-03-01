@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.androidfragmant.tourxyz.banglatourism.model.Place;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,12 +50,8 @@ public class FileProcessor {
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
-                Place place = new Place(object.getInt("id"), object.getString("name")
-                        , object.getString("description"), object.getString("howtogo"),
-                        object.getString("lattitude"), object.getString("longitude"),
-                        object.getString("hotel"), object.getString("others"),
-                        object.getString("picture"), object.getString("district"),
-                        object.getString("division"));
+                Gson gson = new Gson();
+                Place place = gson.fromJson(String.valueOf(object),Place.class);
                 all.add(place);
             }
         } catch (JSONException e) {

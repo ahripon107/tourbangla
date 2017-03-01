@@ -16,7 +16,7 @@ import roboguice.inject.InjectView;
 /**
  * @author Ripon
  */
-@ContentView(R.layout.hotels)
+@ContentView(R.layout.activity_hotels)
 public class HotelsActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.pwHotels)
@@ -30,7 +30,7 @@ public class HotelsActivity extends RoboAppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hotels);
+        setContentView(R.layout.activity_hotels);
         progressWheel.spin();
 
 

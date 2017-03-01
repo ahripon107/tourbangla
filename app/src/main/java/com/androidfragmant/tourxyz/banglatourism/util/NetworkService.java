@@ -80,7 +80,7 @@ public class NetworkService {
                                 String email, Handler handler) {
         RequestParams params = new RequestParams();
         params.put(Constants.KEY, Constants.KEY_VALUE);
-        params.put("hotels", hotels);
+        params.put("activity_hotels", hotels);
         params.put("howtogo", howtogo);
         params.put("description", description);
         params.put("division", division);

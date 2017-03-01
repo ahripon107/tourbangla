@@ -1,5 +1,6 @@
 package com.androidfragmant.tourxyz.banglatourism.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -11,11 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.activities.TourOfferDetailsActivity;
-import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.DefaultMessageHandler;
 import com.androidfragmant.tourxyz.banglatourism.util.NetworkService;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
@@ -25,6 +24,8 @@ import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.model.TourOperatorOffer;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.squareup.picasso.Picasso;
+import com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView;
+import com.yayandroid.parallaxrecyclerview.ParallaxViewHolder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +42,7 @@ import roboguice.inject.InjectView;
 public class TourOperatorOffersListFragment extends RoboFragment {
 
     @InjectView(R.id.gridview)
-    private RecyclerView recyclerView;
+    private ParallaxRecyclerView recyclerView;
 
     @Inject
     private ArrayList<TourOperatorOffer> offers;
@@ -51,47 +52,21 @@ public class TourOperatorOffersListFragment extends RoboFragment {
 
     private Typeface tf;
 
-    private AbstractListAdapter<TourOperatorOffer, TourOperatorOfferViewHolder> tourOperatorOfferListAdapter;
+    private TourOperatorOfferListAdapter tourOperatorOfferListAdapter;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_tour_offer,container,false);
+        return inflater.inflate(R.layout.parallax_list,container,false);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         tf = Constants.solaimanLipiFont(getContext());
-
-        tourOperatorOfferListAdapter = new AbstractListAdapter<TourOperatorOffer, TourOperatorOfferViewHolder>(offers) {
-            @Override
-            public TourOperatorOfferViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.singletouroperatoroffer, parent, false);
-                return new TourOperatorOfferViewHolder(view);
-            }
-
-            @Override
-            public void onBindViewHolder(TourOperatorOfferViewHolder holder, int position) {
-                final TourOperatorOffer offer = offers.get(position);
-                holder.offerTitle.setText(offer.getTitle());
-                holder.offerTitle.setTypeface(tf);
-                holder.offerSummary.setText(offer.getSummary());
-                Picasso.with(getContext()).load(offers.get(position).getImageName()).into(holder.offerImage);
-                holder.button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), TourOfferDetailsActivity.class);
-                        intent.putExtra("id", offer.getId());
-                        startActivity(intent);
-                        getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
-                    }
-                });
-            }
-        };
+        tourOperatorOfferListAdapter = new TourOperatorOfferListAdapter(getContext(),offers);
 
         networkService.fetchTourOperatorOffers(new DefaultMessageHandler(getContext(), true) {
             @Override
@@ -126,18 +101,64 @@ public class TourOperatorOffersListFragment extends RoboFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private static class TourOperatorOfferViewHolder extends RecyclerView.ViewHolder {
+    private static class TourOperatorOfferViewHolder extends ParallaxViewHolder {
         protected TextView offerTitle;
         protected TextView offerSummary;
         protected Button button;
-        protected ImageView offerImage;
+
+        @Override
+        public int getParallaxImageId() {
+            return R.id.tourOfferImage;
+        }
 
         public TourOperatorOfferViewHolder(View itemView) {
             super(itemView);
             offerTitle = ViewHolder.get(itemView, R.id.tourOfferTitle);
             offerSummary = ViewHolder.get(itemView, R.id.tourOfferSummary);
             button = ViewHolder.get(itemView, R.id.tourOfferDetails);
-            offerImage = ViewHolder.get(itemView, R.id.tourOfferImage);
+        }
+    }
+
+    private class TourOperatorOfferListAdapter extends RecyclerView.Adapter<TourOperatorOfferViewHolder> {
+
+        protected Context context;
+        protected ArrayList<TourOperatorOffer> offers;
+
+        public TourOperatorOfferListAdapter(Context context, ArrayList<TourOperatorOffer> offers) {
+            this.context = context;
+            this.offers = offers;
+        }
+
+        @Override
+        public TourOperatorOfferViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_tour_offer, parent, false);
+            return new TourOperatorOfferViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(TourOperatorOfferViewHolder holder, int position) {
+            final TourOperatorOffer offer = offers.get(position);
+            holder.offerTitle.setText(offer.getTitle());
+            holder.offerTitle.setTypeface(tf);
+            holder.button.setTypeface(tf);
+            holder.offerSummary.setText(offer.getSummary());
+            Picasso.with(getContext()).load(offers.get(position).getImageName()).into(holder.getBackgroundImage());
+            holder.getBackgroundImage().reuse();
+
+            holder.button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), TourOfferDetailsActivity.class);
+                    intent.putExtra("id", offer.getId());
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return offers.size();
         }
     }
 }

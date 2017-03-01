@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,9 +74,7 @@ public class TopPlacesFragment extends RoboFragment {
 
         places = new ArrayList<>();
         tf = Constants.solaimanLipiFont(getContext());
-
         topPlacesListAdapter = new TopPlaceAdapter(getContext(), places);
-
 
         loadPlaces();
     }
@@ -83,7 +82,7 @@ public class TopPlacesFragment extends RoboFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_top_places, container, false);
+        return inflater.inflate(R.layout.parallax_list, container, false);
     }
 
     @Override
@@ -109,12 +108,6 @@ public class TopPlacesFragment extends RoboFragment {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Gson gson = new Gson();
                         Place place = gson.fromJson(String.valueOf(object), Place.class);
-//                        Place place = new Place(object.getInt("id"), object.getString("name")
-//                                , object.getString("description"), object.getString("howtogo"),
-//                                object.getString("lattitude"), object.getString("longitude"),
-//                                object.getString("hotel"), object.getString("others"),
-//                                object.getString("picture"), object.getString("district"),
-//                                object.getString("division"));
                         places.add(place);
                     }
                     topPlacesListAdapter.notifyDataSetChanged();
@@ -134,7 +127,7 @@ public class TopPlacesFragment extends RoboFragment {
 
     private static class PlaceViewHolder extends ParallaxViewHolder {
         protected TextView title;
-        protected RelativeLayout linearLayout;
+        protected LinearLayout linearLayout;
         protected TextView summary;
         protected Button details;
 

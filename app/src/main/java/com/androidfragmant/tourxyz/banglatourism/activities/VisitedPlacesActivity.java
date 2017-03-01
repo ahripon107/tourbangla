@@ -58,9 +58,9 @@ public class VisitedPlacesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragmentvisitedplaces);
+        setContentView(R.layout.activity_listview);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        listView = (ListView) findViewById(R.id.gridviewvisitedplaces);
+        listView = (ListView) findViewById(R.id.listview);
 
         allPlaces = new ArrayList<>();
         SharedPreferences sharedPreferences = getSharedPreferences("rating", Context.MODE_PRIVATE);

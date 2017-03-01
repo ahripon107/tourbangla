@@ -29,11 +29,8 @@ import roboguice.inject.InjectView;
 /**
  * @author Ripon
  */
-@ContentView(R.layout.tourofferdetails)
+@ContentView(R.layout.activity_tour_offer_details)
 public class TourOfferDetailsActivity extends RoboAppCompatActivity {
-
-    @InjectView(R.id.adViewTourOfferDetails)
-    private AdView adView;
 
     @InjectView(R.id.tvOfferDetails)
     private TextView details;
@@ -83,9 +80,6 @@ public class TourOfferDetailsActivity extends RoboAppCompatActivity {
                 }
             }
         });
-
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
-        adView.loadAd(adRequest);
     }
 
     @Override

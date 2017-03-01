@@ -7,9 +7,6 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
-import com.androidfragmant.tourxyz.banglatourism.util.Constants;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -23,7 +20,6 @@ public class YoutubePlayerActivity extends YouTubeBaseActivity implements
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
     String url;
-    AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +28,7 @@ public class YoutubePlayerActivity extends YouTubeBaseActivity implements
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.youtubeplayerlayout);
-
-        adView = (AdView) findViewById(R.id.adViewHighlightsVids);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
-        adView.loadAd(adRequest);
+        setContentView(R.layout.activity_youtube_player);
 
         Intent intent = getIntent();
         url = intent.getStringExtra("url");

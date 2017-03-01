@@ -15,7 +15,7 @@ import roboguice.inject.InjectView;
 /**
  * @author Ripon
  */
-@ContentView(R.layout.aboutapp)
+@ContentView(R.layout.activity_about_app)
 public class AboutAppActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.tvabout)

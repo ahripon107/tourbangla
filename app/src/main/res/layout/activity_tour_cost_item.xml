@@ -13,8 +13,8 @@
         android:text="+"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/cost_item_recycler_view"
+    <include
+        layout="@layout/list"
         android:layout_margin="3dp"
         android:layout_below="@id/new_cost_item_button"
         android:layout_width="match_parent"

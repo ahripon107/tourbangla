@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,7 +45,7 @@ import roboguice.inject.InjectView;
 /**
  * @author Ripon
  */
-@ContentView(R.layout.forumpostdetails)
+@ContentView(R.layout.activity_forum_post_details)
 public class ForumPostDetailsActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.tvQuestion)
@@ -56,11 +57,8 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
     @InjectView(R.id.forumPostCommentList)
     private RecyclerView recyclerView;
 
-    @InjectView(R.id.adViewForumPostDetails)
-    private AdView adView;
-
-    @InjectView(R.id.btnAnswer)
-    private Button btnAns;
+    @InjectView(R.id.fab)
+    private FloatingActionButton btnAns;
 
     @Inject
     private ArrayList<Comment> comments;
@@ -80,7 +78,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
         recyclerView.setAdapter(new AbstractListAdapter<Comment, ForumCommentViewHolder>(comments) {
             @Override
             public ForumCommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.singlecomment, parent, false);
+                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_comment, parent, false);
                 return new ForumCommentViewHolder(v);
             }
 
@@ -138,7 +136,7 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
             @Override
             public void onClick(View v) {
                 LayoutInflater li = LayoutInflater.from(ForumPostDetailsActivity.this);
-                View promptsView = li.inflate(R.layout.addnewcomment, null, false);
+                View promptsView = li.inflate(R.layout.dialog_add_new_comment, null, false);
 
                 final EditText writeComment = (EditText) promptsView.findViewById(R.id.etYourComment);
                 final EditText yourName = (EditText) promptsView.findViewById(R.id.etYourName);
@@ -176,10 +174,6 @@ public class ForumPostDetailsActivity extends RoboAppCompatActivity {
                 });
             }
         });
-
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
-        adView.loadAd(adRequest);
-
     }
 
     private static class ForumCommentViewHolder extends RecyclerView.ViewHolder {

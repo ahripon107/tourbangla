@@ -41,19 +41,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import roboguice.fragment.RoboFragment;
-import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
  * @author Ripon
  */
-@ContentView(R.layout.tourblog)
 public class TourBlogListFragment extends RoboFragment {
 
-    @InjectView(R.id.rvAllBlogPosts)
+    @InjectView(R.id.list)
     private RecyclerView recyclerView;
 
-    @InjectView(R.id.fabAddNewBlog)
+    @InjectView(R.id.fab)
     private FloatingActionButton fabNewBlog;
 
     private ArrayList<BlogPost> blogPosts;
@@ -73,7 +71,7 @@ public class TourBlogListFragment extends RoboFragment {
         tourBlogListAdapter = new AbstractListAdapter<BlogPost, TourBlogViewHolder>(blogPosts) {
             @Override
             public TourBlogViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_tour_blog_item, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_tour_blog, parent, false);
                 return new TourBlogViewHolder(view);
             }
 
@@ -110,7 +108,7 @@ public class TourBlogListFragment extends RoboFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.tourblog,container,false);
+        return inflater.inflate(R.layout.list_with_fab,container,false);
     }
 
     @Override

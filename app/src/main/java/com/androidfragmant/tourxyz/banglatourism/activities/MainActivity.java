@@ -1,6 +1,7 @@
 package com.androidfragmant.tourxyz.banglatourism.activities;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -15,6 +16,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.FileProcessor;
 import com.androidfragmant.tourxyz.banglatourism.R;
@@ -24,6 +28,7 @@ import com.androidfragmant.tourxyz.banglatourism.fragment.ForumPostListFragment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.TopPlacesFragment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.TourBlogListFragment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.TourOperatorOffersListFragment;
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.batch.android.Batch;
 
 import roboguice.inject.ContentView;
@@ -62,6 +67,20 @@ public class MainActivity extends RoboAppCompatActivity
         viewPager.setAdapter(homePagerAdapter);
 
         tabLayout.setupWithViewPager(viewPager);
+
+        Typeface tf = Constants.iosFont(this);
+        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
+        int tabsCount = vg.getChildCount();
+        for (int j = 0; j < tabsCount; j++) {
+            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
+            int tabChildsCount = vgTab.getChildCount();
+            for (int i = 0; i < tabChildsCount; i++) {
+                View tabViewChild = vgTab.getChildAt(i);
+                if (tabViewChild instanceof TextView) {
+                    ((TextView) tabViewChild).setTypeface(tf);
+                }
+            }
+        }
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

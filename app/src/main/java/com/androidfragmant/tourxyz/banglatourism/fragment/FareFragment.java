@@ -33,14 +33,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import roboguice.fragment.RoboFragment;
-import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
  * @author Ripon
  */
 
-@ContentView(R.layout.activity_fare)
 public class FareFragment extends RoboFragment {
 
     @InjectView(R.id.spnFrom)
@@ -92,7 +90,7 @@ public class FareFragment extends RoboFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_fare,container,false);
+        return inflater.inflate(R.layout.fragment_fare,container,false);
     }
 
     @Override
@@ -119,7 +117,7 @@ public class FareFragment extends RoboFragment {
         fareListAdapter = new AbstractListAdapter<Fare, FareViewHolder>(selectedFares) {
             @Override
             public FareViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fare_list_item, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_fare, parent, false);
                 return new FareViewHolder(view);
             }
 

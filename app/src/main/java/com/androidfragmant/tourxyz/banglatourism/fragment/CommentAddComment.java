@@ -60,7 +60,7 @@ public class CommentAddComment extends RoboFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.commentandaddcomment, container, false);
+        return inflater.inflate(R.layout.fragment_comments, container, false);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class CommentAddComment extends RoboFragment {
         recyclerView.setAdapter(new AbstractListAdapter<Comment, CommentViewHolder>(comments) {
             @Override
             public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.singlecomment, parent, false);
+                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_comment, parent, false);
                 return new CommentViewHolder(v);
             }
 
@@ -129,7 +129,7 @@ public class CommentAddComment extends RoboFragment {
         sendComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View promptsView = LayoutInflater.from(getContext()).inflate(R.layout.addnewcomment, null, false);
+                View promptsView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_new_comment, null, false);
                 final EditText writeComment = (EditText) promptsView.findViewById(R.id.etYourComment);
                 final EditText yourName = (EditText) promptsView.findViewById(R.id.etYourName);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

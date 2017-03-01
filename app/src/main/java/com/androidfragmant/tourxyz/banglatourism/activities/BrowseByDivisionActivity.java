@@ -11,18 +11,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.androidfragmant.tourxyz.banglatourism.fragment.TopPlacesFragment;
 import com.androidfragmant.tourxyz.banglatourism.model.Place;
-import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
-import com.androidfragmant.tourxyz.banglatourism.util.ImageUtil;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.google.inject.Inject;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import com.androidfragmant.tourxyz.banglatourism.PlaceAccessHelper;
 import com.androidfragmant.tourxyz.banglatourism.R;
@@ -36,13 +31,10 @@ import java.util.ArrayList;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
-import static com.androidfragmant.tourxyz.banglatourism.util.Constants.setLeftInAnimation;
-import static com.androidfragmant.tourxyz.banglatourism.util.Constants.setRightInAnimation;
-
 /**
  * @author Ripon
  */
-@ContentView(R.layout.browsebydivision)
+@ContentView(R.layout.parallax_list)
 public class BrowseByDivisionActivity extends RoboAppCompatActivity {
 
 
@@ -80,7 +72,9 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
 
     private static class PlaceCardViewHolder extends ParallaxViewHolder {
         protected TextView title;
-        protected RelativeLayout linearLayout;
+        protected LinearLayout linearLayout;
+        protected TextView summary;
+        protected Button details;
 
         @Override
         public int getParallaxImageId() {
@@ -91,6 +85,8 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
             super(itemView);
             title = ViewHolder.get(itemView,R.id.list_item_google_cards_travel_title);
             linearLayout = ViewHolder.get(itemView,R.id.linear);
+            summary = ViewHolder.get(itemView,R.id.summary);
+            details = ViewHolder.get(itemView,R.id.details);
         }
     }
 
@@ -130,15 +126,16 @@ public class BrowseByDivisionActivity extends RoboAppCompatActivity {
         @Override
         public void onBindViewHolder(PlaceCardViewHolder holder, int position) {
             final Place place = places.get(position);
-            //setLeftInAnimation(holder.linearLayout,getContext());
-            //setRightInAnimation(holder.imageView,getContext());
             holder.title.setTypeface(tf);
+            holder.summary.setTypeface(tf);
+            holder.details.setTypeface(tf);
             Picasso.with(BrowseByDivisionActivity.this).load(place.getPicture()).into(holder.getBackgroundImage());
             holder.title.setText(place.getName());
+            holder.summary.setText(place.getSummary());
 
             holder.getBackgroundImage().reuse();
 
-            holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            holder.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(BrowseByDivisionActivity.this, NewPlaceDetailsActivity.class);

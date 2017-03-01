@@ -30,7 +30,7 @@ import roboguice.inject.InjectView;
 /**
  * @author Ripon
  */
-@ContentView(R.layout.blogpostdetails)
+@ContentView(R.layout.activity_blog_post_details)
 public class TourBlogDetailsActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.blog_coordinator)
