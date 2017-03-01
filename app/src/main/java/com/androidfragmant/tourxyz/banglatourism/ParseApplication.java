@@ -3,6 +3,8 @@ package com.androidfragmant.tourxyz.banglatourism;
 import android.app.Application;
 import android.content.Context;
 
+import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.androidfragmant.tourxyz.banglatourism.util.FontsOverride;
 import com.batch.android.Batch;
 import com.batch.android.Config;
 import com.facebook.FacebookSdk;
@@ -25,6 +27,8 @@ public class ParseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        FontsOverride.setDefaultFont(this, "MONOSPACE", Constants.IOS_TYPE_FONT);
         mInstance = this;
         AnalyticsTrackers.initialize(this);
         AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);

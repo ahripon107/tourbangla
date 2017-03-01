@@ -1,7 +1,7 @@
 package com.androidfragmant.tourxyz.banglatourism.model;
 
 /**
- * Created by amin on 8/16/16.
+ * @author Ripon
  */
 public class Comment {
 

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,11 +18,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
-import com.androidfragmant.tourxyz.banglatourism.activities.TourCostItemActivity;
 import com.androidfragmant.tourxyz.banglatourism.model.CostItem;
 import com.androidfragmant.tourxyz.banglatourism.model.CostPlace;
 import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
@@ -41,20 +38,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
-import roboguice.fragment.RoboFragment;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 /**
  * @author Ripon
  */
-@ContentView(R.layout.tour_cost)
+@ContentView(R.layout.list_with_fab)
 public class TourCostCalculatorActivity extends RoboAppCompatActivity {
 
-    @InjectView(R.id.cost_recycler_view)
+    @InjectView(R.id.list)
     private RecyclerView recyclerView;
 
-    @InjectView(R.id.fab_add_new_tour_place)
+    @InjectView(R.id.fab)
     private FloatingActionButton addNewPlace;
 
     @Inject
@@ -94,7 +90,7 @@ public class TourCostCalculatorActivity extends RoboAppCompatActivity {
         recyclerView.setAdapter(new AbstractListAdapter<CostPlace,CostPlaceViewHolder>(costPlaces) {
             @Override
             public CostPlaceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_tour_cost_place,parent,false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_tour_cost_place,parent,false);
                 return new CostPlaceViewHolder(view);
             }
 
@@ -121,7 +117,7 @@ public class TourCostCalculatorActivity extends RoboAppCompatActivity {
         addNewPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View promptsView = LayoutInflater.from(TourCostCalculatorActivity.this).inflate(R.layout.insert_cost_place, null,false);
+                View promptsView = LayoutInflater.from(TourCostCalculatorActivity.this).inflate(R.layout.dialog_insert_cost_place, null,false);
                 final EditText placeName = (EditText) promptsView.findViewById(R.id.et_tour_cost_place);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(TourCostCalculatorActivity.this);

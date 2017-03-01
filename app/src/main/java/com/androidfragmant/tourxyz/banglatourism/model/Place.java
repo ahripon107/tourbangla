@@ -3,7 +3,7 @@ package com.androidfragmant.tourxyz.banglatourism.model;
 import java.io.Serializable;
 
 /**
- * Created by Ripon on 7/7/16.
+ * @author Ripon
  */
 public class Place implements Serializable {
 
@@ -19,6 +19,7 @@ public class Place implements Serializable {
     private String district;
     private String division;
     private int rating;
+    private String summary;
 
 
     public Place(int id, String name, String description, String howtogo, String lattitude, String longitude, String hotel, String others, String picture, String district, String division) {
@@ -48,6 +49,22 @@ public class Place implements Serializable {
         this.district = district;
         this.division = division;
         this.rating = rating;
+    }
+
+    public Place(int id, String name, String description, String howtogo, String lattitude, String longitude, String hotel, String others, String picture, String district, String division, int rating, String summary) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.howtogo = howtogo;
+        this.lattitude = lattitude;
+        this.longitude = longitude;
+        this.hotel = hotel;
+        this.others = others;
+        this.picture = picture;
+        this.district = district;
+        this.division = division;
+        this.rating = rating;
+        this.summary = summary;
     }
 
     public int getId() {
@@ -146,6 +163,14 @@ public class Place implements Serializable {
         this.rating = rating;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
     @Override
     public String toString() {
         return "Place{" +
@@ -160,6 +185,8 @@ public class Place implements Serializable {
                 ", picture='" + picture + '\'' +
                 ", district='" + district + '\'' +
                 ", division='" + division + '\'' +
+                ", rating=" + rating +
+                ", summary='" + summary + '\'' +
                 '}';
     }
 }

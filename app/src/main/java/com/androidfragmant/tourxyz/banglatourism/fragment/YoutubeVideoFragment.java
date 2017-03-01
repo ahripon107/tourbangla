@@ -43,7 +43,7 @@ public class YoutubeVideoFragment extends RoboFragment {
     @Inject
     private ArrayList<YoutubeVideo> youtubeVideos;
 
-    @InjectView(R.id.youtubevideolist)
+    @InjectView(R.id.list)
     private RecyclerView recyclerView;
 
     @Inject
@@ -60,7 +60,7 @@ public class YoutubeVideoFragment extends RoboFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.youtube_video_list, container, false);
+        return inflater.inflate(R.layout.list, container, false);
     }
 
     @Override
@@ -70,13 +70,13 @@ public class YoutubeVideoFragment extends RoboFragment {
         recyclerView.setAdapter(new AbstractListAdapter<YoutubeVideo,VideoListViewHolder>(youtubeVideos) {
             @Override
             public VideoListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_place, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_video, parent, false);
                 return new VideoListViewHolder(view);
             }
 
             @Override
             public void onBindViewHolder(VideoListViewHolder holder, final int position) {
-                Picasso.with(getContext()).load( "http://img.youtube.com/vi/" + youtubeVideos.get(position).getUrl() + "/0.jpg" ).into(holder.imageView);
+                Picasso.with(getContext()).load( "http://img.youtube.com/vi/" + youtubeVideos.get(position).getUrl() + "/0.jpg" ).placeholder(R.drawable.default_image).into(holder.imageView);
                 holder.textView.setText(youtubeVideos.get(position).getTitle());
                 holder.textView.setTextSize(20f);
                 holder.linearLayout.setOnClickListener(new View.OnClickListener() {
@@ -125,8 +125,8 @@ public class YoutubeVideoFragment extends RoboFragment {
 
         public VideoListViewHolder(View itemView) {
             super(itemView);
-            imageView = ViewHolder.get(itemView, R.id.list_item_google_cards_travel_image);
-            textView = ViewHolder.get(itemView, R.id.list_item_google_cards_travel_title);
+            imageView = ViewHolder.get(itemView, R.id.image);
+            textView = ViewHolder.get(itemView, R.id.tv_title);
             linearLayout = ViewHolder.get(itemView, R.id.linear);
         }
     }

@@ -21,7 +21,7 @@ import roboguice.inject.InjectView;
 /**
  * @author Ripon
  */
-@ContentView(R.layout.fragmentfeedback)
+@ContentView(R.layout.activity_feedback)
 public class FeedbackActivity extends RoboAppCompatActivity {
 
     @InjectView((R.id.etFeedbackTitle))

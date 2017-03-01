@@ -1,27 +1,35 @@
 package com.androidfragmant.tourxyz.banglatourism.activities;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.FileProcessor;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
-import com.androidfragmant.tourxyz.banglatourism.fragment.HomeFragment;
+import com.androidfragmant.tourxyz.banglatourism.fragment.FareFragment;
+import com.androidfragmant.tourxyz.banglatourism.fragment.ForumPostListFragment;
+import com.androidfragmant.tourxyz.banglatourism.fragment.TopPlacesFragment;
+import com.androidfragmant.tourxyz.banglatourism.fragment.TourBlogListFragment;
+import com.androidfragmant.tourxyz.banglatourism.fragment.TourOperatorOffersListFragment;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
 import com.batch.android.Batch;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -39,14 +47,40 @@ public class MainActivity extends RoboAppCompatActivity
     @InjectView(R.id.nav_view)
     private NavigationView navigationView;
 
-    @InjectView(R.id.adView)
-    private AdView adView;
+    @InjectView(R.id.tab_layout_home)
+    private TabLayout tabLayout;
+
+    @InjectView(R.id.home_view_pager)
+    private ViewPager viewPager;
+
+    private SectionPagerAdapter homePagerAdapter;
+
+    String[] titles = {"Top Places","Blog","Forum","Tour Offers","Fare"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setSupportActionBar(toolbar);
+
+        homePagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(homePagerAdapter);
+
+        tabLayout.setupWithViewPager(viewPager);
+
+        Typeface tf = Constants.iosFont(this);
+        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
+        int tabsCount = vg.getChildCount();
+        for (int j = 0; j < tabsCount; j++) {
+            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
+            int tabChildsCount = vgTab.getChildCount();
+            for (int i = 0; i < tabChildsCount; i++) {
+                View tabViewChild = vgTab.getChildAt(i);
+                if (tabViewChild instanceof TextView) {
+                    ((TextView) tabViewChild).setTypeface(tf);
+                }
+            }
+        }
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -68,26 +102,8 @@ public class MainActivity extends RoboAppCompatActivity
             FileProcessor fileProcessor = new FileProcessor(MainActivity.this);
             fileProcessor.readFileAndProcess();
         }
-
-        loadFragment();
-
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
-        adView.loadAd(adRequest);
-
     }
 
-    private void loadFragment() {
-        Fragment fragment = new HomeFragment();
-        String title = "ট্যুর বাংলা";
-
-        getSupportActionBar().setTitle(title);
-
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_body, fragment);
-        fragmentTransaction.commit();
-    }
 
     @Override
     protected void onStart() {
@@ -196,5 +212,36 @@ public class MainActivity extends RoboAppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public class SectionPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                return new TopPlacesFragment();
+            } else if (position == 1) {
+                return new TourBlogListFragment();
+            } else if (position == 2){
+                return  new ForumPostListFragment();
+            } else if (position == 3){
+                return new TourOperatorOffersListFragment();
+            } else
+                return new FareFragment();
+            }
+
+        @Override
+        public int getCount() {
+            return titles.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
+        }
     }
 }

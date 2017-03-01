@@ -4,17 +4,24 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.os.Message;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.RoboAppCompatActivity;
+import com.androidfragmant.tourxyz.banglatourism.model.TourOperatorOffer;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.androidfragmant.tourxyz.banglatourism.util.DefaultMessageHandler;
+import com.androidfragmant.tourxyz.banglatourism.util.NetworkService;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.gson.Gson;
+import com.google.inject.Inject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -22,17 +29,17 @@ import roboguice.inject.InjectView;
 /**
  * @author Ripon
  */
-@ContentView(R.layout.tourofferdetails)
+@ContentView(R.layout.activity_tour_offer_details)
 public class TourOfferDetailsActivity extends RoboAppCompatActivity {
-
-    @InjectView(R.id.adViewTourOfferDetails)
-    private AdView adView;
 
     @InjectView(R.id.tvOfferDetails)
     private TextView details;
 
     @InjectView(R.id.tvOfferLink)
     private TextView link;
+
+    @Inject
+    private NetworkService networkService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,24 +50,36 @@ public class TourOfferDetailsActivity extends RoboAppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        String detailsText = intent.getStringExtra("details");
-        final String linkText = intent.getStringExtra("link");
+        int id = intent.getIntExtra("id", 0);
         details.setTypeface(tf);
-        details.setText(detailsText);
-        link.setText(linkText);
         link.setTypeface(tf);
-        link.setOnClickListener(new View.OnClickListener() {
+
+        networkService.fetchTourOfferDetails(id, new DefaultMessageHandler(this, true) {
             @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(linkText));
-                startActivity(i);
+            public void onSuccess(Message msg) {
+                String string = (String) msg.obj;
+
+                try {
+                    JSONObject response = new JSONObject(string);
+                    response = response.getJSONArray("content").getJSONObject(0);
+                    Gson gson = new Gson();
+                    final TourOperatorOffer operatorOffer = gson.fromJson(String.valueOf(response), TourOperatorOffer.class);
+
+                    details.setText(operatorOffer.getDetails());
+                    link.setText(operatorOffer.getLink());
+                    link.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(operatorOffer.getLink()));
+                            startActivity(i);
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
-
-
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(Constants.ONE_PLUS_TEST_DEVICE).build();
-        adView.loadAd(adRequest);
     }
 
     @Override

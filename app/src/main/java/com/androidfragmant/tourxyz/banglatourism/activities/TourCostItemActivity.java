@@ -8,7 +8,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,7 +43,7 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
 
     public static final String EXTRA_PLACE_ID = "placeid";
 
-    @InjectView(R.id.cost_item_recycler_view)
+    @InjectView(R.id.list)
     private RecyclerView recyclerView;
 
     @InjectView(R.id.new_cost_item_button)
@@ -95,7 +94,7 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
         recyclerView.setAdapter(new AbstractListAdapter<CostItem,CostItemViewHolder>(costItems) {
             @Override
             public CostItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sigle_tour_cost_item,parent,false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_tour_cost,parent,false);
                 return new CostItemViewHolder(view);
             }
 
@@ -114,7 +113,7 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
         addNewCostItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View promptsView = LayoutInflater.from(TourCostItemActivity.this).inflate(R.layout.insert_cost_item, null, false);
+                View promptsView = LayoutInflater.from(TourCostItemActivity.this).inflate(R.layout.dialog_insert_cost_item, null, false);
                 final EditText costAmount = (EditText) promptsView.findViewById(R.id.et_tour_cost_amount);
                 final EditText costPurpose = (EditText) promptsView.findViewById(R.id.et_tour_cost_purpose);
 

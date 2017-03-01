@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="240dp"
-    android:minHeight="240dp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/linear"
-    android:layout_marginTop="3dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="3dp"
+    android:layout_marginTop="3dp"
     android:orientation="vertical">
 
-
-    <RelativeLayout
+    <com.yayandroid.parallaxrecyclerview.ParallaxImageView
+        android:id="@+id/list_item_google_cards_travel_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:minHeight="100dp">
+        android:layout_height="230dp"
+        android:contentDescription="@string/cd_main_image"
+        android:scaleType="fitXY" />
 
-        <ImageView
-            android:id="@+id/list_item_google_cards_travel_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/cd_main_image"
-            android:scaleType="centerCrop" />
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
@@ -33,13 +25,32 @@
             android:id="@+id/list_item_google_cards_travel_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:background="#600099cc"
             android:text="Eat at Joe"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textColor="@color/colorAccent"
+            android:textSize="25sp" />
+        <TextView
+            android:id="@+id/summary"
+            android:textSize="16sp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:textColor="@color/Black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/details"
+            android:layout_gravity="right"
+            android:layout_marginRight="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:background="@android:color/transparent"
+            android:textColor="@color/Blue"
+            android:textSize="18sp"
+            android:text="বিস্তারিত"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

@@ -1,10 +1,9 @@
 package com.androidfragmant.tourxyz.banglatourism.model;
 
 import java.io.Serializable;
-import java.util.Comparator;
 
 /**
- * Created by Ripon on 8/5/16.
+ * @author Ripon
  */
 public class CostPlace implements Serializable,Comparable<CostPlace> {
     private int id;

@@ -1,6 +1,7 @@
 package com.androidfragmant.tourxyz.banglatourism.util;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
 import com.google.inject.Inject;
@@ -59,12 +60,27 @@ public class NetworkService {
         httpClient.get(Constants.FETCH_PLACES_URL,requestParams,new DefaultAsyncHttpResponseHandler(handler));
     }
 
+    public void fetchTopPlaces(Handler handler) {
+        RequestParams requestParams = new RequestParams();
+        requestParams.put(Constants.KEY, Constants.KEY_VALUE);
+
+        httpClient.get(Constants.FETCH_TOP_PLACES,requestParams,new DefaultAsyncHttpResponseHandler(handler));
+    }
+
+    public void fetchSpecificPlace(int id, Handler handler) {
+        RequestParams requestParams = new RequestParams();
+        requestParams.put(Constants.KEY, Constants.KEY_VALUE);
+        requestParams.put("id",id);
+
+        httpClient.get(Constants.FETCH_SPECIFIC_PLACE,requestParams,new DefaultAsyncHttpResponseHandler(handler));
+    }
+
     public void suggestNewPlace(String hotels, String howtogo, String description, String division,
                                 String address, String name,
                                 String email, Handler handler) {
         RequestParams params = new RequestParams();
         params.put(Constants.KEY, Constants.KEY_VALUE);
-        params.put("hotels", hotels);
+        params.put("activity_hotels", hotels);
         params.put("howtogo", howtogo);
         params.put("description", description);
         params.put("division", division);
@@ -103,6 +119,7 @@ public class NetworkService {
     public void fetchBlogPostList(Handler handler) {
         RequestParams requestParams = new RequestParams();
         requestParams.add(Constants.KEY,Constants.KEY_VALUE);
+        Log.d(Constants.TAG, Constants.FETCH_BLOG_POSTS_URL);
 
         httpClient.get(Constants.FETCH_BLOG_POSTS_URL,requestParams,new DefaultAsyncHttpResponseHandler(handler));
     }
@@ -160,6 +177,7 @@ public class NetworkService {
     public void fetchForumPostList(Handler handler) {
         RequestParams requestParams = new RequestParams();
         requestParams.add(Constants.KEY,Constants.KEY_VALUE);
+        Log.d(Constants.TAG, Constants.FETCH_FORUM_POSTS_URL);
 
         httpClient.get(Constants.FETCH_FORUM_POSTS_URL,requestParams,new DefaultAsyncHttpResponseHandler(handler));
     }
@@ -179,5 +197,13 @@ public class NetworkService {
         requestParams.add(Constants.KEY, Constants.KEY_VALUE);
 
         httpClient.get(Constants.FETCH_FARES_URL,requestParams,new DefaultAsyncHttpResponseHandler(handler));
+    }
+
+    public void fetchTourOfferDetails(int id, Handler handler){
+        RequestParams requestParams = new RequestParams();
+        requestParams.add(Constants.KEY, Constants.KEY_VALUE);
+        requestParams.add("id", String.valueOf(id));
+
+        httpClient.get(Constants.TOUR_OPERATOR_OFFER_DETAILS,requestParams,new DefaultAsyncHttpResponseHandler(handler));
     }
 }

@@ -21,7 +21,7 @@ public class HotelListStyle extends ArrayAdapter<String> {
     private String[] hotelNames;
 
     public HotelListStyle(Activity paramActivity, String[] hotelNames) {
-        super(paramActivity, R.layout.singlehotel);
+        super(paramActivity, R.layout.list_item_hotel);
         this.context = paramActivity;
         this.hotelNames = hotelNames;
         this.tf = Constants.solaimanLipiFont(paramActivity);
@@ -37,7 +37,7 @@ public class HotelListStyle extends ArrayAdapter<String> {
     public View getView(int position, View paramView, ViewGroup paramViewGroup) {
         View localView = paramView;
         if (localView == null) {
-            localView = this.context.getLayoutInflater().inflate(R.layout.singlehotel, paramViewGroup, false);
+            localView = this.context.getLayoutInflater().inflate(R.layout.list_item_hotel, paramViewGroup, false);
         }
         TextView name = (TextView) localView.findViewById(R.id.tvHotelName);
         name.setTypeface(tf);

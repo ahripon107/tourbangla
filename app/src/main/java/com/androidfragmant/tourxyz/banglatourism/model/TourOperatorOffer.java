@@ -1,17 +1,18 @@
 package com.androidfragmant.tourxyz.banglatourism.model;
 
 /**
- * Created by Ripon on 7/6/16.
+ * @author Ripon
  */
 public class TourOperatorOffer {
-
+    private int id;
     private String title;
     private String summary;
     private String details;
     private String imageName;
     private String link;
 
-    public TourOperatorOffer(String title, String summary, String details, String imageName, String link) {
+    public TourOperatorOffer(int id, String title, String summary, String details, String imageName, String link) {
+        this.id = id;
         this.title = title;
         this.summary = summary;
         this.details = details;
@@ -59,10 +60,19 @@ public class TourOperatorOffer {
         this.link = link;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "TourOperatorOffer{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", summary='" + summary + '\'' +
                 ", details='" + details + '\'' +
                 ", imageName='" + imageName + '\'' +

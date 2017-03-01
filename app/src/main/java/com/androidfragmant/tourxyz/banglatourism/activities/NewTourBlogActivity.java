@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,7 +43,7 @@ import roboguice.inject.InjectView;
 /**
  * @author Ripon
  */
-@ContentView(R.layout.newtourblog)
+@ContentView(R.layout.activity_new_tour_blog)
 public class NewTourBlogActivity extends RoboAppCompatActivity {
 
     @InjectView(R.id.etBlogTitle)

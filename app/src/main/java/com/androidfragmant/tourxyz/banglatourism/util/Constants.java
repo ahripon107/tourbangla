@@ -23,15 +23,18 @@ public class Constants {
     public static final int SUCCESS = 1;
     public static final int FAILURE = 2;
 
-    public static final String TOUR_OPERATOR_OFFER_URL = "http://apisea.xyz/TourBangla/apis/v1/tourOperatorOffer.php";
+    public static final String TOUR_OPERATOR_OFFER_URL = "http://apisea.xyz/TourBangla/apis/v3/FetchTourOfferList.php";
+    public static final String TOUR_OPERATOR_OFFER_DETAILS = "http://apisea.xyz/TourBangla/apis/v3/FetchTourOffer.php";
     public static final String FRONT_PAGE_IMAGE_LIST_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchHomeFragmentImageList.php";
 
     /************************
      * PLACE RELATED URL
      ***************************/
-    public static final String FETCH_PLACES_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchPlaces.php";
+    public static final String FETCH_PLACES_URL = "http://apisea.xyz/TourBangla/apis/v3/FetchPlaces.php";
     public static final String INSERT_PLACE_COMMENT_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertPlaceComment.php";
     public static final String FETCH_PLACE_COMMENTS_URL = "http://apisea.xyz/TourBangla/apis/v1/PlaceComments.php";
+    public static final String FETCH_TOP_PLACES = "http://apisea.xyz/TourBangla/apis/v3/FetchTopPlaces.php";
+    public static final String FETCH_SPECIFIC_PLACE = "http://apisea.xyz/TourBangla/apis/v3/FetchSpecificPlace.php";
 
     /************************
      * FORUM RELATED URL
@@ -74,6 +77,7 @@ public class Constants {
     public static final String WISHLIST_PREFERENCE_FILE = "wishlist";
 
     public static final String SOLAIMAN_LIPI_FONT = "font/solaimanlipi.ttf";
+    public static final String IOS_TYPE_FONT = "font/CaviarDreams.ttf";
 
     public static final String ONE_PLUS_TEST_DEVICE = "7D3F3DF2A7214E839DBE70BE2132D5B9";
 
@@ -122,6 +126,10 @@ public class Constants {
 
     public static Typeface solaimanLipiFont(Context context) {
         return Typeface.createFromAsset(context.getAssets(), Constants.SOLAIMAN_LIPI_FONT);
+    }
+
+    public static Typeface iosFont(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), Constants.IOS_TYPE_FONT);
     }
 
     public static void setLeftInAnimation(View viewToAnimate, Context context) {

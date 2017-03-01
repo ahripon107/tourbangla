@@ -1,7 +1,7 @@
 package com.androidfragmant.tourxyz.banglatourism.model;
 
 /**
- * Created by Ripon on 8/2/16.
+ * @author Ripon
  */
 public class Fare {
 

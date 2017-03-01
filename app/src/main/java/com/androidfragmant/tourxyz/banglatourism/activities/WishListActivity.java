@@ -61,10 +61,10 @@ public class WishListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_messages);
+        setContentView(R.layout.activity_listview);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        listView = (ListView) findViewById(R.id.gridviewfavourite);
+        listView = (ListView) findViewById(R.id.listview);
         sharedPreference = getSharedPreferences("wishlist", Context.MODE_PRIVATE);
         allWishListPlaces = new ArrayList<>();
 

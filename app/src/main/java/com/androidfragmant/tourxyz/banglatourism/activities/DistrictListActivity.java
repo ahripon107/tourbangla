@@ -5,7 +5,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,10 +28,10 @@ import roboguice.inject.InjectView;
 /**
  * @author Ripon
  */
-@ContentView(R.layout.divisionlist)
+@ContentView(R.layout.list)
 public class DistrictListActivity extends RoboAppCompatActivity {
 
-    @InjectView(R.id.divisionListRecyclerView)
+    @InjectView(R.id.list)
     private RecyclerView recyclerView;
 
     @Inject
@@ -97,7 +96,7 @@ public class DistrictListActivity extends RoboAppCompatActivity {
         recyclerView.setAdapter(new AbstractListAdapter<DistrictName,DistrictListViewHolder>(districtNames) {
             @Override
             public DistrictListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.division_list_item, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_division, parent, false);
                 return new DistrictListViewHolder(view);
             }
 

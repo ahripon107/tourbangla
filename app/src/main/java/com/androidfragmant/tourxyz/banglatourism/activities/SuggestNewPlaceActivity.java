@@ -21,7 +21,7 @@ import roboguice.inject.InjectView;
 /**
  * @author Ripon
  */
-@ContentView(R.layout.suggestnewplace)
+@ContentView(R.layout.activity_suggest_new_place)
 public class SuggestNewPlaceActivity extends RoboAppCompatActivity {
     @InjectView(R.id.etSuggestedPlaceName)
     private EditText name;
