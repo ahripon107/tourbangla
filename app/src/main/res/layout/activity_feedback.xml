@@ -36,36 +36,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-
             android:hint="বিস্তারিত"
-
             android:inputType="textMultiLine"
+            android:minLines="3"
             android:textAppearance="?android:attr/textAppearanceLarge" />
     </android.support.design.widget.TextInputLayout>
 
-    <com.dd.ShadowLayout
-        android:layout_margin="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:sl_cornerRadius="2dp"
-        app:sl_dx="5dp"
-        app:sl_dy="5dp"
-        app:sl_shadowColor="#AA000000"
-        android:layout_gravity="right">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="88dp"
-            android:minHeight="36dp"
-            android:padding="4dp"
+            android:background="@android:color/transparent"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
             android:id="@+id/btnSend"
-            android:textColor="@android:color/white"
-            android:background="@drawable/raised_selector"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            android:text="SEND"/>
+            android:text="সাবমিট"/>
 
-    </com.dd.ShadowLayout>
 
 
 </LinearLayout>
