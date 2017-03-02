@@ -11,7 +11,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="5dp">
 
             <EditText
@@ -19,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Date"
-                android:inputType="textCapWords"
+                android:inputType="date"
                 android:maxLength="50"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -29,14 +29,14 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="5dp">
 
             <EditText
                 android:id="@+id/et_person_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Your Name"
+                android:hint="Name"
                 android:inputType="textCapWords"
                 android:maxLength="50"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -46,14 +46,14 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="5dp">
 
             <EditText
                 android:id="@+id/et_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Your Address"
+                android:hint="Address"
                 android:inputType="textCapWords"
                 android:maxLength="50"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -63,7 +63,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="5dp">
 
             <EditText
@@ -80,7 +80,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="5dp">
 
             <EditText
@@ -88,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Mobile No"
-                android:inputType="textCapWords"
+                android:inputType="numberDecimal"
                 android:maxLength="50"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -102,7 +102,7 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1">
 
@@ -111,23 +111,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="No Of Entry"
-                    android:inputType="textCapWords"
+                    android:inputType="numberDecimal"
                     android:maxLength="50"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
             </android.support.design.widget.TextInputLayout>
 
             <TextView
+                android:id="@+id/tv_total"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="5dp"
+                android:text="Total tk. 0"
+                android:gravity="right"
                 android:layout_weight="1"
-                android:text="Total"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/Red"
                 android:textSize="20sp" />
         </LinearLayout>
 
         <Button
+            android:id="@+id/btn_book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

@@ -59,7 +59,7 @@
 
         <activity
             android:name=".activities.BookingPersonActivity"
-            android:label="Tour Bangla"
+            android:label="Confirm Booking"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.TourBlogDetailsActivity"

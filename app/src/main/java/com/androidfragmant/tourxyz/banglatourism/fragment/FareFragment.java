@@ -1,5 +1,6 @@
 package com.androidfragmant.tourxyz.banglatourism.fragment;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Message;
@@ -16,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.R;
+import com.androidfragmant.tourxyz.banglatourism.activities.BookingPersonActivity;
 import com.androidfragmant.tourxyz.banglatourism.model.Fare;
 import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
@@ -136,6 +138,15 @@ public class FareFragment extends RoboFragment {
                 holder.timeToLeave.setText(fare.getStartTime());
                 holder.estimatedTime.setText(fare.getEstimatedTime());
                 holder.leavingPlace.setText(fare.getLeavePlace());
+
+                holder.buyTicket.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(),BookingPersonActivity.class);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
+                    }
+                });
             }
         };
 
@@ -229,6 +240,7 @@ public class FareFragment extends RoboFragment {
         protected TextView timeToLeave;
         protected TextView estimatedTime;
         protected TextView leavingPlace;
+        protected Button buyTicket;
 
         public FareViewHolder(View itemView) {
             super(itemView);
@@ -237,6 +249,7 @@ public class FareFragment extends RoboFragment {
             timeToLeave = ViewHolder.get(itemView, R.id.tvTimeToLeave);
             estimatedTime = ViewHolder.get(itemView, R.id.tvEstimatedTime);
             leavingPlace = ViewHolder.get(itemView, R.id.tvLeavingPlace);
+            buyTicket = ViewHolder.get(itemView, R.id.btn_buy_tkt);
         }
     }
 }

@@ -96,6 +96,7 @@ public class TourOfferDetailsActivity extends RoboAppCompatActivity {
         } else if (id == R.id.action_book) {
             Intent intent = new Intent(this,BookingPersonActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.left_in, R.anim.left_out);
             return true;
         }
         return super.onOptionsItemSelected(item);
