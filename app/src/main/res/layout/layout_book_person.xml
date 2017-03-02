@@ -1,26 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:textSize="25sp"
-            android:text="Date"
-            android:textColor="@color/Black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/et_choose_date"
-            android:paddingLeft="5dp"
-            android:text="Choose Date"
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp">
+
+            <EditText
+                android:id="@+id/et_choose_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date"
+                android:inputType="textCapWords"
+                android:maxLength="50"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp">
+
+            <EditText
+                android:id="@+id/et_person_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Your Name"
+                android:inputType="textCapWords"
+                android:maxLength="50"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp">
+
+            <EditText
+                android:id="@+id/et_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Your Address"
+                android:inputType="textCapWords"
+                android:maxLength="50"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp">
+
+            <EditText
+                android:id="@+id/et_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="City"
+                android:inputType="textCapWords"
+                android:maxLength="50"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp">
+
+            <EditText
+                android:id="@+id/et_mobile_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Mobile No"
+                android:inputType="textCapWords"
+                android:maxLength="50"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/et_no_of_entry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="No Of Entry"
+                    android:inputType="textCapWords"
+                    android:maxLength="50"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:text="Total"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@android:color/transparent"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:text="BUY" />
+
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>
