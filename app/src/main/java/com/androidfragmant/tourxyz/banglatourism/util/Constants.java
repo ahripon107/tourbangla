@@ -31,18 +31,18 @@ public class Constants {
      * PLACE RELATED URL
      ***************************/
     public static final String FETCH_PLACES_URL = "http://apisea.xyz/TourBangla/apis/v3/FetchPlaces.php";
-    public static final String INSERT_PLACE_COMMENT_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertPlaceComment.php";
-    public static final String FETCH_PLACE_COMMENTS_URL = "http://apisea.xyz/TourBangla/apis/v1/PlaceComments.php";
+    public static final String INSERT_PLACE_COMMENT_URL = "http://apisea.xyz/TourBangla/apis/v3/InsertPlaceComment.php";
+    public static final String FETCH_PLACE_COMMENTS_URL = "http://apisea.xyz/TourBangla/apis/v3/PlaceComments.php";
     public static final String FETCH_TOP_PLACES = "http://apisea.xyz/TourBangla/apis/v3/FetchTopPlaces.php";
     public static final String FETCH_SPECIFIC_PLACE = "http://apisea.xyz/TourBangla/apis/v3/FetchSpecificPlace.php";
 
     /************************
      * FORUM RELATED URL
      ***************************/
-    public static final String FETCH_FORUM_POSTS_URL = "http://apisea.xyz/TourBangla/apis/v1/FetchForumPost.php";
-    public static final String INSERT_FORUM_POST_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertForumPost.php";
-    public static final String INSERT_FORUM_POST_COMMENT_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertForumPostComment.php";
-    public static final String FETCH_FORUM_POST_COMMENTS = "http://apisea.xyz/TourBangla/apis/v1/FetchForumPostComments.php";
+    public static final String FETCH_FORUM_POSTS_URL = "http://apisea.xyz/TourBangla/apis/v3/FetchForumPost.php";
+    public static final String INSERT_FORUM_POST_URL = "http://apisea.xyz/TourBangla/apis/v3/InsertForumPost.php";
+    public static final String INSERT_FORUM_POST_COMMENT_URL = "http://apisea.xyz/TourBangla/apis/v3/InsertForumPostComment.php";
+    public static final String FETCH_FORUM_POST_COMMENTS = "http://apisea.xyz/TourBangla/apis/v3/FetchForumPostComments.php";
 
     /************************
      * BLOG RELATED URL
@@ -50,8 +50,8 @@ public class Constants {
     public static final String FETCH_BLOG_POSTS_URL = "http://apisea.xyz/TourBangla/apis/v3/FetchTourBlogs.php";
     public static final String FETCH_BLOG_DETAILS_URL = "http://apisea.xyz/TourBangla/apis/v3/FetchBlogDetails.php";
     public static final String INSERT_BLOG_POST_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertBlogPost.php";
-    public static final String INSERT_BLOG_POST_COMMENT_URL = "http://apisea.xyz/TourBangla/apis/v1/InsertBlogPostComment.php";
-    public static final String FETCH_BLOG_POST_COMMENTS_URL = "http://apisea.xyz/TourBangla/apis/v1/BlogPostComments.php";
+    public static final String INSERT_BLOG_POST_COMMENT_URL = "http://apisea.xyz/TourBangla/apis/v3/InsertBlogPostComment.php";
+    public static final String FETCH_BLOG_POST_COMMENTS_URL = "http://apisea.xyz/TourBangla/apis/v3/BlogPostComments.php";
 
     /*************************
      * FEEDBACK URL

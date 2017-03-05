@@ -7,11 +7,13 @@ public class Comment {
 
     private String name;
     private String comment;
+    private String profileimage;
     private String timestamp;
 
-    public Comment(String name, String comment, String timestamp) {
+    public Comment(String name, String comment, String profileimage, String timestamp) {
         this.name = name;
         this.comment = comment;
+        this.profileimage = profileimage;
         this.timestamp = timestamp;
     }
 
@@ -39,11 +41,20 @@ public class Comment {
         this.timestamp = timestamp;
     }
 
+    public String getProfileimage() {
+        return profileimage;
+    }
+
+    public void setProfileimage(String profileimage) {
+        this.profileimage = profileimage;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
                 "name='" + name + '\'' +
                 ", comment='" + comment + '\'' +
+                ", profileimage='" + profileimage + '\'' +
                 ", timestamp='" + timestamp + '\'' +
                 '}';
     }

@@ -2,56 +2,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="5dp">
 
 
-    <android.support.design.widget.TextInputLayout
+    <EditText
+        android:id="@+id/etFeedbackTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="5dp">
+        android:hint="শিরোনাম"
+        android:background="@drawable/edit_text_background"
+        android:minHeight="40dp"
+        android:maxLength="80"
+        android:padding="5dp"
+        android:inputType="textCapWords"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <EditText
-            android:id="@+id/etFeedbackTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="শিরোনাম"
-            android:inputType="textCapWords"
-
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    </android.support.design.widget.TextInputLayout>
-
-
-    <android.support.design.widget.TextInputLayout
+    <EditText
+        android:id="@+id/etFeedbackDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="5dp">
+        android:ems="10"
+        android:hint="বিস্তারিত"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/edit_text_background"
+        android:minHeight="40dp"
+        android:padding="5dp"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <EditText
-            android:id="@+id/etFeedbackDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="বিস্তারিত"
-            android:inputType="textMultiLine"
-            android:minLines="3"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-    </android.support.design.widget.TextInputLayout>
-
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
-            android:id="@+id/btnSend"
-            android:text="সাবমিট"/>
-
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        android:text="সাবমিট"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp" />
 
 
 </LinearLayout>

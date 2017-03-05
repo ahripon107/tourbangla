@@ -188,6 +188,10 @@
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/MyMaterialTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.LoginActivity"
+            android:label="Login"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

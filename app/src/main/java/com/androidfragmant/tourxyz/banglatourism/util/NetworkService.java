@@ -26,12 +26,13 @@ public class NetworkService {
         httpClient.get(url, requestParams, new DefaultAsyncHttpResponseHandler(handler));
     }
 
-    public void insertComment(String comment, String name, String url, int id, String timestamp, Handler handler) {
+    public void insertComment(String comment, String name, String url, int id,String imageuri, String timestamp, Handler handler) {
         RequestParams params = new RequestParams();
         params.put(Constants.KEY, Constants.KEY_VALUE);
         params.put("id", String.valueOf(id));
         params.put("name", name);
         params.put("comment", comment);
+        params.put("profileimage",imageuri);
         params.put("timestamp", timestamp);
 
         httpClient.post(url, params, new DefaultAsyncHttpResponseHandler(handler));
@@ -133,13 +134,12 @@ public class NetworkService {
     }
 
     public void insertNewTourBlog(String image, String title, String details,
-                                  String tags, String name, String timestamp, Handler handler) {
+                                  String name, String timestamp, Handler handler) {
         RequestParams params = new RequestParams();
         params.put(Constants.KEY,Constants.KEY_VALUE);
         params.put("image", image);
         params.put("title",title);
         params.put("details",details);
-        params.put("tags",tags);
         params.put("name",name);
         params.put("timestamp",timestamp);
 
@@ -163,12 +163,13 @@ public class NetworkService {
         httpClient.get(Constants.FETCH_FORUM_POST_COMMENTS,requestParams,new DefaultAsyncHttpResponseHandler(handler));
     }
 
-    public void insertForumPostComment(String name, String postid, String comment, String timestamp, Handler handler) {
+    public void insertForumPostComment(String name, String postid, String comment,String profileimage, String timestamp, Handler handler) {
         RequestParams params = new RequestParams();
         params.put(Constants.KEY, Constants.KEY_VALUE);
         params.put("name", name);
         params.put("postid", postid);
         params.put("comment", comment);
+        params.put("profileimage",profileimage);
         params.put("timestamp", timestamp);
 
         httpClient.post(Constants.INSERT_FORUM_POST_COMMENT_URL, params, new DefaultAsyncHttpResponseHandler(handler));
@@ -182,11 +183,12 @@ public class NetworkService {
         httpClient.get(Constants.FETCH_FORUM_POSTS_URL,requestParams,new DefaultAsyncHttpResponseHandler(handler));
     }
 
-    public void insertForumPost(String name, String question, String timestamp, Handler handler) {
+    public void insertForumPost(String name, String question, String profileimage, String timestamp, Handler handler) {
         RequestParams params = new RequestParams();
         params.put(Constants.KEY, Constants.KEY_VALUE);
         params.put("name", name);
         params.put("question", question);
+        params.put("profileimage",profileimage);
         params.put("timestamp", timestamp);
 
         httpClient.post(Constants.INSERT_FORUM_POST_URL, params, new DefaultAsyncHttpResponseHandler(handler));

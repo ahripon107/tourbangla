@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
 
@@ -13,134 +12,109 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="5dp">
 
-            <android.support.design.widget.TextInputLayout
+            <EditText
+                android:id="@+id/etSuggestedPlaceName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                >
-                <EditText
-                    android:id="@+id/etSuggestedPlaceName"
-                    android:layout_width="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
-                    android:hint="জায়গার নাম"/>
-
-            </android.support.design.widget.TextInputLayout>
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_background"
+                android:minHeight="40dp"
+                android:padding="5dp"
+                android:hint="জায়গার নাম"
+                android:inputType="textCapWords"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
-
-            <android.support.design.widget.TextInputLayout
+            <EditText
+                android:id="@+id/etSuggestedPlaceAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                >
-                <EditText
-                    android:id="@+id/etSuggestedPlaceAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:inputType="textMultiLine"
-                    android:hint="ঠিকানা"/>
-            </android.support.design.widget.TextInputLayout>
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edit_text_background"
+                android:minHeight="40dp"
+                android:padding="5dp"
+                android:ems="10"
+                android:hint="ঠিকানা"
+                android:inputType="textMultiLine"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-
-
-            <android.support.design.widget.TextInputLayout
+            <EditText
+                android:id="@+id/etSuggestedPlaceDivision"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                >
-                <EditText
-                    android:id="@+id/etSuggestedPlaceDivision"
-                    android:layout_width="match_parent"
-                    android:inputType="textCapWords"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:hint="বিভাগ"/>
-            </android.support.design.widget.TextInputLayout>
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edit_text_background"
+                android:minHeight="40dp"
+                android:padding="5dp"
+                android:hint="বিভাগ"
+                android:inputType="textCapWords"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <android.support.design.widget.TextInputLayout
+            <EditText
+                android:id="@+id/etSuggestedPlaceDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                >
-                <EditText
-                    android:id="@+id/etSuggestedPlaceDescription"
-                    android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edit_text_background"
+                android:minHeight="40dp"
+                android:padding="5dp"
+                android:minLines="2"
+                android:hint="জায়গার বর্ণনা"
+                android:inputType="textMultiLine"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:inputType="textMultiLine"
-                    android:hint="জায়গার বর্ণনা"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
+            <EditText
+                android:id="@+id/etSuggestedPlaceHowtogo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                >
-                <EditText
-                    android:id="@+id/etSuggestedPlaceHowtogo"
-                    android:layout_width="match_parent"
-                    android:inputType="textMultiLine"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:hint="কিভাবে যেতে হবে"/>
-            </android.support.design.widget.TextInputLayout>
+                android:hint="কিভাবে যেতে হবে"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edit_text_background"
+                android:minHeight="40dp"
+                android:padding="5dp"
+                android:minLines="2"
+                android:inputType="textMultiLine"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-
-            <android.support.design.widget.TextInputLayout
+            <EditText
+                android:id="@+id/etSuggestedPlaceHotels"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                >
-                <EditText
-                    android:id="@+id/etSuggestedPlaceHotels"
-                    android:layout_width="match_parent"
-                    android:inputType="textMultiLine"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:hint="হোটেল/থাকার জায়গা"/>
-            </android.support.design.widget.TextInputLayout>
+                android:hint="হোটেল/থাকার জায়গা"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edit_text_background"
+                android:minHeight="40dp"
+                android:padding="5dp"
+                android:minLines="2"
+                android:inputType="textMultiLine"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <android.support.design.widget.TextInputLayout
+            <EditText
+                android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                >
-                <EditText
-                    android:id="@+id/etEmail"
-                    android:layout_width="match_parent"
-                    android:inputType="textMultiLine"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:hint="আপনার ইমেইল/ফোন"/>
-            </android.support.design.widget.TextInputLayout>
+                android:hint="আপনার ইমেইল/ফোন"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edit_text_background"
+                android:minHeight="40dp"
+                android:padding="5dp"
+                android:inputType="textCapWords"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="20sp"
-                    android:background="@android:color/transparent"
-                    android:layout_margin="5dp"
-                    android:id="@+id/btnDoneSuggest"
-                    android:textColor="@color/colorPrimary"
-                    android:text="সাবমিট"/>
-
+            <Button
+                android:id="@+id/btnDoneSuggest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                android:text="সাবমিট"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp" />
 
         </LinearLayout>
     </ScrollView>

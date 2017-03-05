@@ -40,6 +40,11 @@
             android:title="@string/costcalculator" />
 
         <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/calculator"
+            android:title="@string/loginlogout" />
+
+        <item
             android:id="@+id/nav_rateus"
             android:icon="@drawable/rate"
             android:title="@string/rateus" />

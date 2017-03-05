@@ -25,5 +25,10 @@ public abstract class AbstractListAdapter<X,T extends RecyclerView.ViewHolder> e
     public int getItemCount() {
         return elements.size();
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 }
 

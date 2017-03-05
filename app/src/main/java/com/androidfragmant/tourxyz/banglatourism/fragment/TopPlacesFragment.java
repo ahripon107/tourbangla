@@ -67,6 +67,7 @@ public class TopPlacesFragment extends RoboFragment {
     private Typeface tf;
 
     private TopPlaceAdapter topPlacesListAdapter;
+    private boolean viewShown = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,17 @@ public class TopPlacesFragment extends RoboFragment {
         topPlacesListAdapter = new TopPlaceAdapter(getContext(), places);
 
         loadPlaces();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser && getView() != null) {
+            viewShown = true;
+            exploreMorePlace();
+        }
+
     }
 
     @Nullable
@@ -91,7 +103,8 @@ public class TopPlacesFragment extends RoboFragment {
 
         recyclerView.setAdapter(topPlacesListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        //recyclerView.setNestedScrollingEnabled(false);
+        if(!viewShown)
+            exploreMorePlace();
 
     }
 
@@ -173,10 +186,6 @@ public class TopPlacesFragment extends RoboFragment {
 
             holder.getBackgroundImage().reuse();
 
-            if (position == places.size()-1) {
-                exploreMorePlace();
-            }
-
             holder.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -196,7 +205,7 @@ public class TopPlacesFragment extends RoboFragment {
 
     private void exploreMorePlace() {
         Snackbar snackbar = Snackbar
-                .make(recyclerView, "Explore More Places!", Snackbar.LENGTH_LONG)
+                .make(getView(), "Explore More Places!", Snackbar.LENGTH_INDEFINITE)
                 .setAction("EXPLORE", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

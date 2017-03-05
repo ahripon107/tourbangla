@@ -9,12 +9,14 @@ public class ForumPost implements Serializable {
     private int id;
     private String name;
     private String question;
+    private String profileimage;
     private String timestamp;
 
-    public ForumPost(int id, String name, String question, String timestamp) {
+    public ForumPost(int id, String name, String question, String profileimage, String timestamp) {
         this.id = id;
         this.name = name;
         this.question = question;
+        this.profileimage = profileimage;
         this.timestamp = timestamp;
     }
 
@@ -50,12 +52,21 @@ public class ForumPost implements Serializable {
         this.timestamp = timestamp;
     }
 
+    public String getProfileimage() {
+        return profileimage;
+    }
+
+    public void setProfileimage(String profileimage) {
+        this.profileimage = profileimage;
+    }
+
     @Override
     public String toString() {
         return "ForumPost{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", question='" + question + '\'' +
+                ", profileimage='" + profileimage + '\'' +
                 ", timestamp='" + timestamp + '\'' +
                 '}';
     }

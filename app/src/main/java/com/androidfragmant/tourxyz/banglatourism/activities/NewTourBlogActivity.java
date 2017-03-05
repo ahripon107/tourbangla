@@ -2,6 +2,7 @@ package com.androidfragmant.tourxyz.banglatourism.activities;
 
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -22,7 +23,9 @@ import android.widget.Toast;
 import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
 import com.androidfragmant.tourxyz.banglatourism.util.DefaultMessageHandler;
 import com.androidfragmant.tourxyz.banglatourism.util.NetworkService;
+import com.androidfragmant.tourxyz.banglatourism.util.Utility;
 import com.androidfragmant.tourxyz.banglatourism.util.Validator;
+import com.facebook.Profile;
 import com.google.inject.Inject;
 import com.loopj.android.http.Base64;
 import com.androidfragmant.tourxyz.banglatourism.R;
@@ -52,12 +55,6 @@ public class NewTourBlogActivity extends RoboAppCompatActivity {
     @InjectView(R.id.etBlogDetails)
     private EditText details;
 
-    @InjectView(R.id.etTags)
-    private EditText tags;
-
-    @InjectView(R.id.etBlogWriterName)
-    private EditText writername;
-
     @InjectView(R.id.btnDone)
     private Button done;
 
@@ -71,6 +68,7 @@ public class NewTourBlogActivity extends RoboAppCompatActivity {
     private NetworkService networkService;
 
     private Bitmap bitmap;
+    private Profile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,65 +80,87 @@ public class NewTourBlogActivity extends RoboAppCompatActivity {
         selectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, 1);
+                boolean result=Utility.checkPermission(NewTourBlogActivity.this);
+                if (result)  {
+                    galleryIntent();
+                }
             }
         });
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Validator.validateNotEmpty(writername, "Required") && Validator.validateNotEmpty(title, "Required")
-                        && Validator.validateNotEmpty(details, "Required") && Validator.validateNotEmpty(tags, "Required")) {
+                profile = Profile.getCurrentProfile();
+                if (profile != null) {
+                    if (Validator.validateNotEmpty(title, "Required")
+                            && Validator.validateNotEmpty(details, "Required")) {
 
-                    final String blogTitle = title.getText().toString().trim();
-                    final String blogDetails = details.getText().toString().trim();
-                    final String blogTags = tags.getText().toString().trim();
-                    final String blogWriterName = writername.getText().toString().trim();
+                        final String blogTitle = title.getText().toString().trim();
+                        final String blogDetails = details.getText().toString().trim();
 
-                    byte[] bytes;
+                        byte[] bytes;
 
-                    if (bitmap != null) {
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                        bytes = stream.toByteArray();
-                    } else {
-                        Drawable drawable = getResources().getDrawable(R.drawable.noimage);
-                        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                        bytes = stream.toByteArray();
-                    }
-                    final String encodedImage = Base64.encodeToString(bytes, Base64.DEFAULT);
-                    Log.d(Constants.TAG, encodedImage.getBytes().length + "");
-                    Log.d(Constants.TAG, bytes.length + "");
+                        if (bitmap != null) {
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                            bytes = stream.toByteArray();
+                        } else {
+                            Drawable drawable = getResources().getDrawable(R.drawable.noimage);
+                            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                            bytes = stream.toByteArray();
+                        }
+                        final String encodedImage = Base64.encodeToString(bytes, Base64.DEFAULT);
+                        Log.d(Constants.TAG, encodedImage.getBytes().length + "");
+                        Log.d(Constants.TAG, bytes.length + "");
 
-                    networkService.insertNewTourBlog(encodedImage, blogTitle, blogDetails, blogTags, blogWriterName,
-                            System.currentTimeMillis() + "", new DefaultMessageHandler(NewTourBlogActivity.this, true) {
-                                @Override
-                                public void onSuccess(Message msg) {
-                                    String string = (String) msg.obj;
-                                    try {
-                                        JSONObject response = new JSONObject(string);
-                                        title.getText().clear();
-                                        details.getText().clear();
-                                        tags.getText().clear();
-                                        writername.getText().clear();
-                                        selectedPicture.setText("No Picture Selected");
-                                        Toast.makeText(NewTourBlogActivity.this, "Your Post Added Successfully.", Toast.LENGTH_SHORT).show();
-                                        EventBus.getDefault().post(new BlogPost(blogWriterName, blogTitle, blogDetails, blogTags, encodedImage, System.currentTimeMillis() + ""));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                        networkService.insertNewTourBlog(encodedImage, blogTitle, blogDetails, profile.getName(),
+                                System.currentTimeMillis() + "", new DefaultMessageHandler(NewTourBlogActivity.this, true) {
+                                    @Override
+                                    public void onSuccess(Message msg) {
+                                        String string = (String) msg.obj;
+                                        try {
+                                            JSONObject response = new JSONObject(string);
+                                            title.getText().clear();
+                                            details.getText().clear();
+                                            selectedPicture.setText("No Picture Selected");
+                                            Toast.makeText(NewTourBlogActivity.this, "Your Post Added Successfully.", Toast.LENGTH_SHORT).show();
+                                            EventBus.getDefault().post(new BlogPost(profile.getName(), blogTitle, blogDetails, encodedImage, System.currentTimeMillis() + ""));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                    }
+                } else {
+                    Intent intent = new Intent(NewTourBlogActivity.this,LoginActivity.class);
+                    startActivity(intent);
                 }
+
             }
         });
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    galleryIntent();
+                } else {
+
+                }
+                break;
+        }
+    }
+
+    private void galleryIntent() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

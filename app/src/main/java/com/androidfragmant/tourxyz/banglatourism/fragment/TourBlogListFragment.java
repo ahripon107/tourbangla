@@ -1,11 +1,16 @@
 package com.androidfragmant.tourxyz.banglatourism.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +21,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.androidfragmant.tourxyz.banglatourism.FileProcessor;
+import com.androidfragmant.tourxyz.banglatourism.activities.DivisionListActivity;
 import com.androidfragmant.tourxyz.banglatourism.activities.NewTourBlogActivity;
 import com.androidfragmant.tourxyz.banglatourism.activities.TourBlogDetailsActivity;
 import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
@@ -94,6 +102,7 @@ public class TourBlogListFragment extends RoboFragment {
                         Intent i = new Intent(getActivity(), TourBlogDetailsActivity.class);
                         i.putExtra("post", blogPost);
                         startActivity(i);
+                        getActivity().overridePendingTransition(R.anim.left_in,R.anim.left_out);
                     }
                 });
                 Constants.setLeftInAnimation(holder.cardView,getContext());
@@ -103,6 +112,14 @@ public class TourBlogListFragment extends RoboFragment {
 
         loadPosts();
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser)
+            exploreMorePlace();
     }
 
     @Nullable
@@ -185,6 +202,63 @@ public class TourBlogListFragment extends RoboFragment {
             linearLayout = ViewHolder.get(itemView, R.id.blogPostContainer);
             cardView = ViewHolder.get(itemView,R.id.card_bl);
         }
+    }
+
+    private void exploreMorePlace() {
+        Snackbar snackbar = Snackbar
+                .make(recyclerView, "Explore More Places!", Snackbar.LENGTH_SHORT)
+                .setAction("EXPLORE", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        boolean exists = false;
+                        String[] files = getActivity().fileList();
+                        for (String file : files) {
+                            if (file.equals("data.txt")) {
+                                exists = true;
+                                break;
+                            } else {
+                                exists = false;
+                            }
+                        }
+                        if (!exists && !isNetworkAvailable()) {
+                            Toast.makeText(getContext(), "Please check your internet connection", Toast.LENGTH_LONG).show();
+                        } else if (!exists && isNetworkAvailable()) {
+
+                            networkService.fetchPlaces(new DefaultMessageHandler(getContext(), true) {
+                                @Override
+                                public void onSuccess(Message msg) {
+                                    String response = (String) msg.obj;
+                                    FileProcessor fileProcessor = new FileProcessor(getContext());
+                                    fileProcessor.writeToFile(response);
+                                    Intent i = new Intent(getActivity(), DivisionListActivity.class);
+                                    getActivity().startActivity(i);
+                                    getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
+                                }
+                            });
+                        } else {
+                            FileProcessor fileProcessor = new FileProcessor(getContext());
+                            fileProcessor.readFileAndProcess();
+                            Intent i = new Intent(getActivity(), DivisionListActivity.class);
+                            getActivity().startActivity(i);
+                            getActivity().overridePendingTransition(R.anim.left_in, R.anim.left_out);
+                        }
+                    }
+                });
+
+
+        snackbar.setActionTextColor(Color.RED);
+
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        snackbar.show();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }

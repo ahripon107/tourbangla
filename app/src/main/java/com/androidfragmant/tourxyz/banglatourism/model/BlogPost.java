@@ -11,26 +11,23 @@ public class BlogPost implements Serializable {
     private String name;
     private String title;
     private String details;
-    private String tags;
     private String image;
     private String timestamp;
     private int readtimes;
 
-    public BlogPost(int id, String name, String title, String details, String tags, String image, String timestamp) {
+    public BlogPost(int id, String name, String title, String details, String image, String timestamp) {
         this.id = id;
         this.name = name;
         this.title = title;
         this.details = details;
-        this.tags = tags;
         this.image = image;
         this.timestamp = timestamp;
     }
 
-    public BlogPost(String name, String title, String details, String tags, String image, String timestamp) {
+    public BlogPost(String name, String title, String details, String image, String timestamp) {
         this.name = name;
         this.title = title;
         this.details = details;
-        this.tags = tags;
         this.image = image;
         this.timestamp = timestamp;
         this.readtimes = readtimes;
@@ -69,14 +66,6 @@ public class BlogPost implements Serializable {
         this.details = details;
     }
 
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
-
     public String getImage() {
         return image;
     }
@@ -108,7 +97,6 @@ public class BlogPost implements Serializable {
                 ", name='" + name + '\'' +
                 ", title='" + title + '\'' +
                 ", details='" + details + '\'' +
-                ", tags='" + tags + '\'' +
                 ", image='" + image + '\'' +
                 ", timestamp='" + timestamp + '\'' +
                 ", readtimes=" + readtimes +

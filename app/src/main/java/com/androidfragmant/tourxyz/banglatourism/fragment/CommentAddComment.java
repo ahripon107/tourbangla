@@ -2,6 +2,7 @@ package com.androidfragmant.tourxyz.banglatourism.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Message;
@@ -14,9 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidfragmant.tourxyz.banglatourism.activities.LoginActivity;
 import com.androidfragmant.tourxyz.banglatourism.model.Comment;
 import com.androidfragmant.tourxyz.banglatourism.util.AbstractListAdapter;
 import com.androidfragmant.tourxyz.banglatourism.util.DefaultMessageHandler;
@@ -25,7 +29,9 @@ import com.androidfragmant.tourxyz.banglatourism.util.Validator;
 import com.androidfragmant.tourxyz.banglatourism.util.ViewHolder;
 import com.androidfragmant.tourxyz.banglatourism.R;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.facebook.Profile;
 import com.google.inject.Inject;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,13 +55,18 @@ public class CommentAddComment extends RoboFragment {
     private RecyclerView recyclerView;
 
     @InjectView(R.id.btnSubmitComment)
-    private Button sendComment;
+    private ImageButton sendComment;
+
+    @InjectView(R.id.et_comment)
+    private EditText commentEditText;
 
     @Inject
     protected NetworkService networkService;
 
     private String url;
     private Typeface tf;
+    private Profile profile;
+    private String comment;
 
     @Nullable
     @Override
@@ -85,6 +96,9 @@ public class CommentAddComment extends RoboFragment {
                 holder.commenter.setTypeface(tf);
                 holder.commenter.setText("মন্তব্য করেছেন:  " + comments.get(position).getName());
                 holder.comment.setText(comments.get(position).getComment());
+                if (!comments.get(position).getProfileimage().equals("")) {
+                    Picasso.with(getContext()).load(comments.get(position).getProfileimage()).into(holder.profileImageView);
+                }
                 holder.timestamp.setText(Constants.getTimeAgo(Long.parseLong(comments.get(position).getTimestamp())));
             }
 
@@ -108,8 +122,7 @@ public class CommentAddComment extends RoboFragment {
                         JSONArray jsonArray = response.getJSONArray("content");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            comments.add(new Comment(jsonObject.getString("name"), jsonObject.getString("comment"), jsonObject.getString("timestamp")));
-                            Collections.reverse(comments);
+                            comments.add(new Comment(jsonObject.getString("name"), jsonObject.getString("comment"),jsonObject.getString("profileimage"), jsonObject.getString("timestamp")));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -129,62 +142,55 @@ public class CommentAddComment extends RoboFragment {
         sendComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View promptsView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_new_comment, null, false);
-                final EditText writeComment = (EditText) promptsView.findViewById(R.id.etYourComment);
-                final EditText yourName = (EditText) promptsView.findViewById(R.id.etYourName);
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setView(promptsView);
-                builder.setTitle("মন্তব্য").setPositiveButton("SUBMIT", null).setNegativeButton("CANCEL", null);
+                profile = Profile.getCurrentProfile();
+                if (profile != null) {
+                    comment = commentEditText.getText().toString().trim();
+                    if (!comment.equals("")) {
 
-                final AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-
-                Button okButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-
-                okButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (Validator.validateNotEmpty(yourName, "Required") && Validator.validateNotEmpty(writeComment, "Required")) {
-                            final String comment = writeComment.getText().toString().trim();
-                            final String name = yourName.getText().toString().trim();
-
-                            if (getArguments().getInt("number") == 2) {
-                                url = Constants.INSERT_BLOG_POST_COMMENT_URL;
-                            } else {
-                                url = Constants.INSERT_PLACE_COMMENT_URL;
-                            }
-
-                            networkService.insertComment(comment, name, url, getArguments().getInt("id"), System.currentTimeMillis() + "", new DefaultMessageHandler(getContext(), true, "Posting comment..Please wait...") {
-                                @Override
-                                public void onSuccess(Message msg) {
-
-                                    Toast.makeText(getContext(), "Comment successfully posted", Toast.LENGTH_LONG).show();
-                                    comments.add(0, new Comment(name, comment, System.currentTimeMillis() + ""));
-                                    recyclerView.getAdapter().notifyDataSetChanged();
-                                    if (comments.size() != 0) {
-                                        recyclerView.smoothScrollToPosition(comments.size() - 1);
-                                    }
-                                    Log.d(Constants.TAG, msg.obj.toString());
-                                }
-                            });
-                            alertDialog.dismiss();
+                        if (getArguments().getInt("number") == 2) {
+                            url = Constants.INSERT_BLOG_POST_COMMENT_URL;
+                        } else {
+                            url = Constants.INSERT_PLACE_COMMENT_URL;
                         }
+
+                        networkService.insertComment(comment, profile.getName(), url, getArguments().getInt("id"),profile.getProfilePictureUri(50,50).toString(), System.currentTimeMillis() + "", new DefaultMessageHandler(getContext(), true, "Posting comment..Please wait...") {
+                            @Override
+                            public void onSuccess(Message msg) {
+
+                                Toast.makeText(getContext(), "Comment successfully posted", Toast.LENGTH_LONG).show();
+                                comments.add(new Comment(profile.getName(), comment, profile.getProfilePictureUri(50,50).toString(), System.currentTimeMillis() + ""));
+                                recyclerView.getAdapter().notifyDataSetChanged();
+                                if (comments.size() != 0) {
+                                    recyclerView.smoothScrollToPosition(comments.size() - 1);
+                                }
+                                Log.d(Constants.TAG, msg.obj.toString());
+                            }
+                        });
+                        commentEditText.getText().clear();
                     }
-                });
+                }
+                else {
+                    Intent intent = new Intent(getActivity(),LoginActivity.class);
+                    getActivity().startActivity(intent);
+                }
+
             }
         });
     }
+
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
         protected TextView commenter;
         protected TextView comment;
         protected TextView timestamp;
+        protected ImageView profileImageView;
 
         public CommentViewHolder(View v) {
             super(v);
             commenter = ViewHolder.get(v, R.id.tvName);
             comment = ViewHolder.get(v, R.id.tvComment);
             timestamp = ViewHolder.get(itemView, R.id.tv_time_stamp);
+            profileImageView = ViewHolder.get(itemView,R.id.profile_image);
         }
     }
 }

@@ -40,6 +40,7 @@
         <item>@string/costcalculator</item>
         <item>@string/rateus</item>
         <item>@string/update</item>
+        <item>@string/loginlogout</item>
 
     </string-array>
 
@@ -55,6 +56,7 @@
     <string name="update">Update App</string>
     <string name="updatedatabase">Update Database</string>
     <string name="costcalculator">Tour Cost Calculator</string>
+    <string name="loginlogout">LogIn/LogOut</string>
 
     <!-- Fontello icons -->
     <string name="fontello_logo">&#xe802;</string>

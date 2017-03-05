@@ -3,7 +3,9 @@ package com.androidfragmant.tourxyz.banglatourism.activities;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.androidfragmant.tourxyz.banglatourism.FileProcessor;
@@ -28,8 +32,17 @@ import com.androidfragmant.tourxyz.banglatourism.fragment.ForumPostListFragment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.TopPlacesFragment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.TourBlogListFragment;
 import com.androidfragmant.tourxyz.banglatourism.fragment.TourOperatorOffersListFragment;
+import com.androidfragmant.tourxyz.banglatourism.model.BlogPost;
+import com.androidfragmant.tourxyz.banglatourism.model.LoginEvent;
 import com.androidfragmant.tourxyz.banglatourism.util.Constants;
+import com.androidfragmant.tourxyz.banglatourism.view.RoundedImageView;
 import com.batch.android.Batch;
+import com.facebook.Profile;
+import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -53,7 +66,12 @@ public class MainActivity extends RoboAppCompatActivity
     @InjectView(R.id.home_view_pager)
     private ViewPager viewPager;
 
+    private RoundedImageView imageView;
+    private TextView name;
+    private TextView email;
+
     private SectionPagerAdapter homePagerAdapter;
+    private Profile profile;
 
     String[] titles = {"Top Places","Blog","Forum","Tour Offers","Fare"};
 
@@ -62,6 +80,13 @@ public class MainActivity extends RoboAppCompatActivity
         super.onCreate(savedInstanceState);
 
         setSupportActionBar(toolbar);
+
+        View relativeLayout =  navigationView.getHeaderView(0);
+        imageView = (RoundedImageView) relativeLayout.findViewById(R.id.circleView);
+        name = (TextView) relativeLayout.findViewById(R.id.name);
+        email = (TextView) relativeLayout.findViewById(R.id.email);
+
+        setProfileData();
 
         homePagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(homePagerAdapter);
@@ -87,6 +112,7 @@ public class MainActivity extends RoboAppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        //navigationView.getChildAt(0).setPadding(0, -10, 0, 0);
 
         boolean exists = false;
         String[] files = MainActivity.this.fileList();
@@ -102,8 +128,34 @@ public class MainActivity extends RoboAppCompatActivity
             FileProcessor fileProcessor = new FileProcessor(MainActivity.this);
             fileProcessor.readFileAndProcess();
         }
+
+        EventBus.getDefault().register(this);
     }
 
+    private void setProfileData() {
+        profile = Profile.getCurrentProfile();
+        if (profile != null) {
+            Picasso.with(this).load(profile.getProfilePictureUri(70,70)).into(imageView);
+            name.setText(profile.getName());
+            email.setText("");
+        } else {
+            name.setText("Login");
+            email.setText("");
+            name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+            Picasso.with(this).load(R.drawable.default_image).into(imageView);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginEvent loginEvent) {
+        setProfileData();
+    }
 
     @Override
     protected void onStart() {
@@ -120,6 +172,7 @@ public class MainActivity extends RoboAppCompatActivity
     @Override
     protected void onDestroy() {
         Batch.onDestroy(this);
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -137,24 +190,6 @@ public class MainActivity extends RoboAppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -191,6 +226,10 @@ public class MainActivity extends RoboAppCompatActivity
             overridePendingTransition(R.anim.left_in, R.anim.left_out);
         } else if (id == R.id.nav_costcalculator) {
             Intent intent = new Intent(this, TourCostCalculatorActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.left_in, R.anim.left_out);
+        } else if (id == R.id.nav_login) {
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.left_in, R.anim.left_out);
         } else if (id == R.id.nav_rateus) {

@@ -81,10 +81,6 @@ public class TourBlogDetailsActivity extends RoboAppCompatActivity {
         BlogPost blogPost = (BlogPost) getIntent().getSerializableExtra("post");
         Picasso.with(TourBlogDetailsActivity.this).load(blogPost.getImage()).into(imageView);
 
-        networkService.insertVisitedBlogPost(blogPost,String.valueOf(System.currentTimeMillis()),
-                new DefaultMessageHandler(this));
-
-
         setTitle(blogPost.getTitle());
 
         MyPagerAdapter mAdapter = new MyPagerAdapter(getSupportFragmentManager(), Titles, blogPost);
