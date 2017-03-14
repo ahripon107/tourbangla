@@ -44,14 +44,16 @@ import roboguice.inject.InjectView;
 /**
  * @author Ripon
  */
-@ContentView(R.layout.list_with_fab)
+@ContentView(R.layout.activity_tour_cost_calculator)
 public class TourCostCalculatorActivity extends RoboAppCompatActivity {
 
-    @InjectView(R.id.list)
     private RecyclerView recyclerView;
 
-    @InjectView(R.id.fab)
-    private FloatingActionButton addNewPlace;
+    @InjectView(R.id.new_tour_button)
+    private Button addNewPlace;
+
+    @InjectView(R.id.et_tour_cost_place)
+    private EditText placeName;
 
     @Inject
     private ArrayList<CostPlace> costPlaces;
@@ -69,6 +71,7 @@ public class TourCostCalculatorActivity extends RoboAppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tf = Constants.solaimanLipiFont(this);
+        recyclerView = (RecyclerView) findViewById(R.id.list);
 
         sharedPreferences = getSharedPreferences(Constants.TOUR_COST_PLACE_PREFERENCE_FILE, Context.MODE_PRIVATE);
         idpreference = getSharedPreferences(Constants.COST_PLACE_ID_PREFERENCE_FILE,Context.MODE_PRIVATE);
@@ -85,8 +88,8 @@ public class TourCostCalculatorActivity extends RoboAppCompatActivity {
             costPlaces.add(costPlace);
         }
 
-
         Collections.sort(costPlaces);
+
         recyclerView.setAdapter(new AbstractListAdapter<CostPlace,CostPlaceViewHolder>(costPlaces) {
             @Override
             public CostPlaceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -117,34 +120,18 @@ public class TourCostCalculatorActivity extends RoboAppCompatActivity {
         addNewPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View promptsView = LayoutInflater.from(TourCostCalculatorActivity.this).inflate(R.layout.dialog_insert_cost_place, null,false);
-                final EditText placeName = (EditText) promptsView.findViewById(R.id.et_tour_cost_place);
+                if (Validator.validateNotEmpty(placeName,"Required")) {
+                    id = idpreference.getInt("id", 0);
+                    CostPlace costPlace = new CostPlace(id, 0, placeName.getText().toString().trim());
+                    costPlaces.add(costPlace);
+                    Collections.sort(costPlaces);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(TourCostCalculatorActivity.this);
-                builder.setView(promptsView);
-                builder.setTitle("New Tour Cost Calculator").setPositiveButton("SUBMIT", null).setNegativeButton("CANCEL", null);
-
-                final AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-
-                Button okButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                okButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (Validator.validateNotEmpty(placeName,"Required")) {
-                            id = idpreference.getInt("id", 0);
-                            CostPlace costPlace = new CostPlace(id, 0, placeName.getText().toString());
-                            costPlaces.add(costPlace);
-                            Collections.sort(costPlaces);
-
-                            String json = gson.toJson(costPlace);
-                            sharedPreferences.edit().putString(costPlace.getId()+"", json).apply();
-                            idpreference.edit().putInt("id", id + 1).apply();
-                            recyclerView.getAdapter().notifyDataSetChanged();
-                            alertDialog.dismiss();
-                        }
-                    }
-                });
+                    String json = gson.toJson(costPlace);
+                    sharedPreferences.edit().putString(costPlace.getId()+"", json).apply();
+                    idpreference.edit().putInt("id", id + 1).apply();
+                    recyclerView.getAdapter().notifyDataSetChanged();
+                    placeName.getText().clear();
+                }
             }
         });
 

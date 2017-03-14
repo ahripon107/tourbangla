@@ -49,6 +49,12 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
     @InjectView(R.id.new_cost_item_button)
     private Button addNewCostItem;
 
+    @InjectView(R.id.et_tour_cost_amount)
+    private EditText costAmount;
+
+    @InjectView(R.id.et_tour_cost_purpose)
+    private EditText costPurpose;
+
     @Inject
     private Gson gson;
 
@@ -113,40 +119,22 @@ public class TourCostItemActivity extends RoboAppCompatActivity {
         addNewCostItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View promptsView = LayoutInflater.from(TourCostItemActivity.this).inflate(R.layout.dialog_insert_cost_item, null, false);
-                final EditText costAmount = (EditText) promptsView.findViewById(R.id.et_tour_cost_amount);
-                final EditText costPurpose = (EditText) promptsView.findViewById(R.id.et_tour_cost_purpose);
+                if (Validator.validateNotEmpty(costAmount, "Required") && Validator.validateNotEmpty(costPurpose, "Required")) {
+                    id = sharedPreferencesid.getInt("id", 0);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(TourCostItemActivity.this);
+                    CostItem costItem = new CostItem(id, placeid, Integer.parseInt(costAmount.getText().toString().trim()), costPurpose.getText().toString().trim());
+                    costItems.add(costItem);
 
-                builder.setView(promptsView);
-                builder.setTitle("New Cost Item").setPositiveButton("SUBMIT", null).setNegativeButton("CANCEL", null);
+                    Collections.sort(costItems);
+                    recyclerView.getAdapter().notifyDataSetChanged();
 
-                final AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-
-                Button okButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                okButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (Validator.validateNotEmpty(costAmount, "Required") && Validator.validateNotEmpty(costPurpose, "Required")) {
-
-                            id = sharedPreferencesid.getInt("id", 0);
-
-                            CostItem costItem = new CostItem(id, placeid, Integer.parseInt(costAmount.getText().toString()), costPurpose.getText().toString());
-                            costItems.add(costItem);
-
-                            Collections.sort(costItems);
-                            recyclerView.getAdapter().notifyDataSetChanged();
-
-                            String json = gson.toJson(costItem);
-                            sharedPreferences.edit().putString(id + "", json).apply();
-                            sharedPreferencesid.edit().putInt("id", id + 1).apply();
-                            alertDialog.dismiss();
-                            EventBus.getDefault().post(costItem);
-                        }
-                    }
-                });
+                    String json = gson.toJson(costItem);
+                    sharedPreferences.edit().putString(id + "", json).apply();
+                    sharedPreferencesid.edit().putInt("id", id + 1).apply();
+                    EventBus.getDefault().post(costItem);
+                    costAmount.getText().clear();
+                    costPurpose.getText().clear();
+                }
             }
         });
     }

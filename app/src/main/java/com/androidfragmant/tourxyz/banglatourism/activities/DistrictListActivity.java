@@ -86,8 +86,6 @@ public class DistrictListActivity extends RoboAppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setTitle("Select District");
-
         for (int i=0;i<districts.length;i++) {
             districtNames.add(new DistrictName(districts[i],districtsBangla[i]));
         }
